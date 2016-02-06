@@ -1,0 +1,89 @@
+<?page title="indicadores" contentType="text/html;charset=UTF-8"?>
+<?component name="bandboxSeeker" macroURI="/siis/componentes/bandbox.zul" class="com.siis.viewModel.framework.BandboxSeeker"?>
+<zk>
+	<borderlayout apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') 
+		@init('com.siis.viewModel.IndicadorViewModel')">
+		<west width="10%"></west>
+		<center vflex="true" border="none">
+			<borderlayout width="auto" height="auto">
+				<center border="none" vflex="true" hflex="true">
+					<vlayout height="100%">
+						<tabbox vflex="true" hflex="true">
+							<tabs>
+								<tab label="Indicadores Generales" />
+							</tabs>
+							<tabpanels>
+								<tabpanel vflex="true" hflex="true">
+									<listbox
+										id="idCCTPOCONVBECTABZLbxDetalleTipoConvenioBeca" hflex="true"
+										sizedByContent="true" model="@bind(vm.listaIndicador)"
+										selectedItem="@bind(vm.indicadorSeleccionado)"
+										onSelect="@command('onSeleccionar',objetoSeleccionado=vm.indicadorSeleccionado)">
+										<listhead>
+											<listheader
+												label="Responsable" />
+											<listheader
+												label="Indicador" />
+											<listheader
+												label="Objetivo" />
+											<listheader label="Real" />
+											<listheader
+												label="Desviación" />
+											<listheader
+												label="Unidades" />
+											<listheader
+												label="Acciones" />
+										</listhead>
+										<template name="model">
+
+											<listitem>
+												<listcell>
+													<bandboxSeeker 
+														onCreate="@command('parametrizarBandboxSeeker',banbox=this)"
+														codigo="Identificación" nombre="Nombre"
+														value="@bind(each.usuario.secuencia)" />
+
+												</listcell>
+												<listcell>
+													<textbox
+														value="@bind(each.nombre)" />
+												</listcell>
+												<listcell>
+													<textbox
+														value="@bind(each.objetivoEsperado)" />
+												</listcell>
+												<listcell>
+													<textbox
+														value="@bind(each.objetivoReal)" />
+												</listcell>
+												<listcell>
+													<textbox
+														value="@bind(each.desviacion)" />
+												</listcell>
+												<listcell>
+													<textbox
+														value="@bind(each.unidad.secuenciaUnidad)" />
+												</listcell>
+												<listcell>
+													<button />
+												</listcell>
+											</listitem>
+										</template>
+									</listbox>
+								</tabpanel>
+							</tabpanels>
+						</tabbox>
+					</vlayout>
+				</center>
+				<south>
+					<toolbar>
+						<toolbarbutton label="Filtrar" />
+						<toolbarbutton label="Adiconar"
+							onClick="@command('onAgregar')" />
+					</toolbar>
+				</south>
+			</borderlayout>
+		</center>
+	</borderlayout>
+</zk>
