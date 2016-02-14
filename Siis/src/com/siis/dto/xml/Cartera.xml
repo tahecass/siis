@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CarteraMapper">
+	<resultMap id="resMapCartera" type="CarteraAlias">
+		<result property="secuencia" column="SECUENCIA_CARTERA" />
+		<result property="usuario.secuencia" column="SECUENCIA_USUARIO" />
+		<result property="usuario.cuental" column="CUENTA" />
+		<result property="cliente.secuencia" column="SECUENCIA_PERSONA" />
+		<result property="cliente.nombreRazonSocial" column="NOMBRE_RAZON_SOCIAL" />
+		<result property="fechaPago" column="FECHA_PAGO" />
+		<result property="fechaHoraActualizacion" column="FECHA_HORA_ACTUALIZACION" />
+				
+	</resultMap>	
+ 
+   
+	<select id="guardarCartera" parameterType="CarteraAlias" resultMap="resMapCartera"  > 
+	 
+			  
+			  
+		 INSERT
+			INTO CLIENTES
+			  (
+			    SECUENCIA,
+			    SEC_PERSONA,
+			    NOMBRE_RAZON_SOCIAL,
+			    DIRECCION_CORREO,
+			    TELEFONO,
+			    TIPO,
+			    ESTADO,
+			    NIT
+			  )
+			  VALUES
+			  (
+			   5,
+			   #{persona.secuencia,jdbcType=NUMERIC},
+			   #{nombreRazonSocial,jdbcType=VARCHAR},
+			   #{direccionCorreo,jdbcType=VARCHAR},
+			   #{telefonoContacto,jdbcType=VARCHAR},
+			   #{tipo,jdbcType=VARCHAR},
+			   #{estado,jdbcType=VARCHAR},
+			   #{nit,jdbcType=VARCHAR}
+			  ) 
+		       
+	</select>
+	<select id="listarCarterasPorClientes" parameterType="CarteraAlias" resultMap="resMapCartera"  > 
+		SELECT 
+		  "CARTERA"."SECUENCIA" AS "SECUENCIA_CARTERA", 
+		  "CARTERA"."FECHA_PAGO", 
+		  "CARTERA"."SECUENCIA_USUARIO", 
+		  "CARTERA"."SECUENCIA_CLIENTE", 
+		  "CARTERA"."FECHA_HORA_ACTUALIZACION",
+		  "CLIENTES"."NOMBRE_RAZON_SOCIAL", 
+		  "CLIENTES"."NIT", 
+		  "CLIENTES"."SECUENCIA_PERSONA", 
+		  "USUARIOS"."CUENTA"
+		FROM 
+		  public."CARTERA"
+		  LEFT JOIN  public."CLIENTES" ON "CLIENTES"."SECUENCIA" = "CARTERA"."SECUENCIA_CLIENTE" 
+		  LEFT JOIN  public."USUARIOS" ON "USUARIOS"."SECUENCIA" = "CARTERA"."SECUENCIA_USUARIO"
+		 
+		 WHERE  "CARTERA"."SECUENCIA_CLIENTE"=  #{secuencia,jdbcType=NUMERIC};
+ </select>
+</mapper>
+
+

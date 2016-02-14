@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?component name="bandboxSeeker" macroURI="/componentes/bandbox.zul"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<borderlayout apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') 
+		@init('com.siis.viewModel.NavigationViewModel')">
+		
+		<west width="20%">
+			<div>
+				<navbar id="navbar" orient="vertical"
+					collapsed="false">
+
+					<nav label="Disponible" iconSclass="z-icon-home"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+					<nav label="Cartera" iconSclass="z-icon-home"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+
+					<nav label="Proveedores" iconSclass="z-icon-home"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+					<nav label="Créditos" iconSclass="z-icon-home"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+
+					<nav label="Proyectos" iconSclass="z-icon-home"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+
+					<nav label="Indicadores" iconSclass="z-icon-home"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+
+					<nav label="EFS" iconSclass="z-icon-home"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+					<nav label="Calendario" iconSclass="z-icon-home"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+					<nav label="Notificaciones" iconSclass="z-icon-home"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+					<template name="navitem" var="navigationPage">
+						<navitem label="@load(navigationPage.subTitle)"
+							src="@load(navigationPage.includeUri)"
+							selected="@load(navigationPage.selected)"
+							onClick="@command('onSeleccionarItem',target= navigationPage)" />
+					</template>
+				</navbar>
+
+
+			</div>
+		</west>
+		<center>
+			<tabbox id="tb_tabbox" orient="top" visible="false"
+				hflex="true" vflex="true" />
+		</center>
+	</borderlayout>
+</zk>

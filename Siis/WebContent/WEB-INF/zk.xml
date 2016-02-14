@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Created by ZK Studio -->
+
+<zk>
+	<device-config>
+		<device-type>ajax</device-type>
+		<timeout-uri>/timeout.zul</timeout-uri><!-- An empty URL can cause the 
+			browser to reload the same URL -->
+	</device-config>
+	<library-property>
+		<name>org.zkoss.theme.preferred</name>
+		<value>bootstraptheme</value>
+	</library-property>
+	<!-- Bootstrap -->
+	<library-property>
+		<name>org.zkoss.zul.Button.mold</name>
+		<value>bs</value>
+	</library-property>
+	<library-property>
+		<name>org.zkoss.zul.Menupopup.mold</name>
+		<value>bs</value>
+	</library-property>
+	<library-property>
+		<name>org.zkoss.zul.Paging.mold</name>
+		<value>bs</value>
+	</library-property>
+	<library-property>
+		<name>org.zkoss.zul.Panel.mold</name>
+		<value>bs</value>
+	</library-property>
+	<!-- Fin de Configuración de Bootstrap -->
+</zk>

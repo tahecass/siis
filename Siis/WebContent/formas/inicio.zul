@@ -1,0 +1,39 @@
+<?page title="inicio" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<borderlayout>
+		<center>
+			<borderlayout>
+
+				<west width="35%"></west>
+				<center>
+					<grid hflex="min">
+						<columns>
+							<column />
+							<column />
+						</columns>
+						<rows>
+							<row spans="2" >
+								<textbox rows="20" width="300px" visible="false"/>
+							</row>
+							<row>
+								<label value="Usuario " />
+								<textbox hflex="true" />
+							</row>
+							<row>
+								<label value="Clave de Acceso " />
+								<intbox width="300px" />
+							</row>
+							<row>
+								<label></label>
+								<button />
+
+							</row>
+						</rows>
+					</grid>
+				</center>
+				<east width="30%"></east>
+				<south></south>
+			</borderlayout>
+		</center>
+	</borderlayout>
+</zk>

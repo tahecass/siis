@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ClienteMapper">
+	<resultMap id="resMapCliente" type="ClienteAlias">
+		<result property="secuencia" column="SECUENCIA_CLIENTE" />
+		<result property="persona.secuencia" column="SECUENCIA_PERSONA" />
+		<result property="nombreRazonSocial" column="NOMBRE_RAZON_SOCIAL" />
+		<result property="nit" column="NIT" />		
+	</resultMap>	
+ 
+	<select id="guardarCliente" parameterType="ClienteAlias" resultMap="resMapCliente"  > 
+	 
+			  
+			  
+		 INSERT
+			INTO CLIENTES
+			  (
+			    SECUENCIA,
+			    SEC_PERSONA,
+			    NOMBRE_RAZON_SOCIAL,
+			    DIRECCION_CORREO,
+			    TELEFONO,
+			    TIPO,
+			    ESTADO,
+			    NIT
+			  )
+			  VALUES
+			  (
+			   5,
+			   #{persona.secuencia,jdbcType=NUMERIC},
+			   #{nombreRazonSocial,jdbcType=VARCHAR},
+			   #{direccionCorreo,jdbcType=VARCHAR},
+			   #{telefonoContacto,jdbcType=VARCHAR},
+			   #{tipo,jdbcType=VARCHAR},
+			   #{estado,jdbcType=VARCHAR},
+			   #{nit,jdbcType=VARCHAR}
+			  ) 
+		       
+	</select>
+	<select id="listarClientes" parameterType="ClienteAlias" resultMap="resMapCliente"  > 
+	          SELECT 
+			  "CLIENTES"."SECUENCIA" as "SECUENCIA_CLIENTE", 
+			  "CLIENTES"."NIT", 
+			  "CLIENTES"."NOMBRE_RAZON_SOCIAL", 
+			  "CLIENTES"."SECUENCIA_PERSONA"
+			FROM 
+			  public."CLIENTES";
+	</select>
+</mapper>
+
+

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap.min.css" ?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap.css" ?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap-theme.min.css" ?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap-theme.css" ?>
+<?component name="bandboxSeeker" macroURI="/componentes/bandbox.zul"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<borderlayout apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') 
+		@init('com.siis.viewModel.VistaProveedorViewModel')">
+
+		<center>
+			<vlayout height="100%">
+
+				<grid>
+					<columns>
+						<column hflex="min" />
+						<column />
+					</columns>
+					<rows>
+						<row>
+							<label value="Entidad:" />
+							<combobox model="@bind(vm.listaCliente)"
+								id="cbxEntidad"
+								value="@bind(vm.clienteSeleccionado.nombreRazonSocial)"
+								selectedItem="@bind(vm.clienteSeleccionado)"
+								onOpen="@command('listarClientes')"
+								onSelect="@command('listarDetalleCartera')">
+
+								<template name="model">
+									<comboitem
+										value="@bind(each.nombreRazonSocial)"
+										label="@bind(each.nombreRazonSocial)">
+									</comboitem>
+								</template>
+								<custom-attributes no_empty="true" />
+							</combobox>
+
+
+						</row>
+					</rows>
+				</grid>
+				<hlayout>
+					<image src="/imagenes/botones/buscar.png" />
+				</hlayout>
+				<listbox sizedByContent="true" span="true"
+					model="@bind(vm.listaDetalleCartera)"
+					selectedItem="@bind(vm.detalleSeleccionado)">
+					<listhead sizable="true">
+						<listheader label="Nro Crédito" sort="auto" />
+						<listheader label="Feccha de Crédito"
+							sort="auto" />
+						<listheader label="Valor Inicial" sort="auto" />
+						<listheader label="Valor Próxima Couta"
+							sort="auto" />
+						<listheader label="Fecha Próxima Couta"
+							sort="auto" />
+						<listheader label="Saldo Cantidad" sort="auto" />
+						<listheader label="Fecha Próxima Couta"
+							sort="auto" />
+						<listheader label="Fecha de Vencimiento"
+							sort="auto" />
+						<listheader label="Saldo Crédito" sort="auto" />
+					</listhead>
+					<template name="model">
+
+						<listitem>
+							<listcell>
+								<textbox
+									value="@bind(each.cartera.fechaPago)" />
+							</listcell>
+							<listcell>
+								<textbox
+									value="@bind(each.cartera.fechaPago)" />
+							</listcell>
+							<listcell>
+								<textbox
+									value="@bind(each.cartera.fechaPago)" />
+							</listcell>
+							<listcell>
+								<textbox value="" />
+							</listcell>
+
+							<listcell>
+								<textbox value="" />
+							</listcell>
+
+							<listcell>
+								<textbox value="" />
+							</listcell>
+
+							<listcell>
+								<textbox value="" />
+							</listcell>
+
+							<listcell>
+								<textbox value="" />
+							</listcell>
+						</listitem>
+					</template>
+				</listbox>
+			</vlayout>
+		</center>
+	</borderlayout>
+</zk>
