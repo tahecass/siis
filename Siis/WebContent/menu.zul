@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?component name="bandboxSeeker" macroURI="/componentes/bandbox.zul"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<borderlayout apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') 
+		@init('com.siis.viewModel.NavigationViewModel')">
+		<north id="idMENUZNthNorte">
+			<grid style="border:none;">
+				<columns>
+					<column hflex="min" align="left" />
+					<column align="center" />
+					<column hflex="min" align="right" />
+				</columns>
+				<rows id="idMENUZRowLogo">
+					<row style="border:none;background-color:white;">
+						<hbox />
+						<hbox />
+						<hbox />
+					</row>
+					<row style="border:none;background-color:white;">
+						<hbox style="background-color:white;">
+							<div 	style="background-color:white;">
+								<image src="/imagenes/logoCliente.png"
+									width="264px" height="60px" align="left" />
+							</div>
+						</hbox>
+						<hbox hflex="true"
+							style="background-color:white;">
+							<div hflex="true" align="center"
+								style="background-color:white;">
+								<label
+									value="TÍTULO AQUÍ"
+									style="color:;font-size:25px;font-weight:bold;" />
+							</div>
+						</hbox>
+						<hbox align="center">
+							<hbox style="cursor:pointer;"
+								align="center">
+								<toolbarbutton id="idMENUZTbnFoto"
+									style="color:gray;font-size:12px;text-align: center;"
+									onClick="idMENUZPupPerfil.open(idMENUZTbnFoto)" />
+								<hlayout id="idMENUZHBXFoto" width="50px"
+									height="50px"
+									style="background-color:white;border:double gray;border-style: solid;"
+									visible="false">
+									<image id="idMENUZImgFoto" src="/imagenes/user.png"
+										onClick="idMENUZPupPerfil.open(idMENUZImgFoto)" />
+								</hlayout>
+								<hlayout visible="true" width="55px"
+									height="55px" id="idMENUZHBXFotoPorDefecto"
+									style="background-color:#c5e6ef;border:double gray;border-style: solid;">
+									<image id="idMENUZImgFotoPorDefecto"
+										src="/imagenes/FotoUser.png"
+										onClick="idMENUZPupPerfil.open(idMENUZImgFotoPorDefecto)" />
+								</hlayout>
+
+							</hbox>
+							<div>
+								<menupopup id="idMENUZPupPerfil">
+									<menuitem label="Editar Perfil"
+										image="/imagenes/editar.gif" id="idMENUZMItemPerfil"
+										onClick="idMENUZWinMenu.onEditarPerfil()" />
+									<menuseparator />
+									<menu id="idMENUZMENUGrupo"
+										label="Cambiar de Grupo" image="/imagenes/group.png">
+										<menupopup id="idMENUZPUPGrupo" />
+									</menu>
+									<menuseparator
+										id="idMENUZMENUTipoNominaSeparador" />
+									<menu id="idMENUZMENUTipoNomina"
+										label="Tipo de Nómina" image="/imagenes/tipo_nomina.png">
+										<menupopup
+											id="idMENUZPUPTipoNomina" />
+									</menu>
+									<menuseparator />
+
+									<menuitem label="Salir"
+										image="/imagenes/exit2.png" onClick="idMENUZWinMenu.onSalir()" />
+								</menupopup>
+							</div>
+						</hbox>
+					</row>
+				</rows>
+			</grid>
+		</north>
+		<west width="20%">
+			<div>
+				<navbar id="navbar" orient="vertical"
+					collapsed="false">
+
+					<nav label="Disponible" iconSclass="z-icon-home"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+					<nav label="Cartera" iconSclass="z-icon-home"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+
+					<nav label="Proveedores" iconSclass="z-icon-home"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+					<nav label="Créditos" iconSclass="z-icon-home"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+
+					<nav label="Proyectos" iconSclass="z-icon-home"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+
+					<nav label="Indicadores" iconSclass="z-icon-home"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+
+					<nav label="EFS" iconSclass="z-icon-home"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+					<nav label="Calendario" iconSclass="z-icon-home"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+					<nav label="Notificaciones" iconSclass="z-icon-home"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+					<template name="navitem" var="navigationPage">
+						<navitem label="@load(navigationPage.subTitle)"
+							src="@load(navigationPage.includeUri)"
+							selected="@load(navigationPage.selected)"
+							onClick="@command('onSeleccionarItem',target= navigationPage)" />
+					</template>
+				</navbar>
+
+
+			</div>
+		</west>
+		<center>
+			<tabbox id="tb_tabbox" orient="top" visible="false"
+				hflex="true" vflex="true" />
+		</center>
+	</borderlayout>
+</zk>

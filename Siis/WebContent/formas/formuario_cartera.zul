@@ -16,8 +16,8 @@
 			<vlayout height="100%">
 				<groupbox mold="3d" hflex="true" vflex="true"
 					contentStyle="padding:0px" open="true" closable="false">
-					<caption label=" " style="font-weight: bold" />
-					<grid>
+					 
+					<grid style="border:none">
 						<columns>
 							<column hflex="min" />
 							<column />
@@ -53,7 +53,7 @@
 						<image src="/imagenes/botones/buscar.png" />
 					</hlayout>
 					<listbox
-						id="idCONCPRODZLbxDetalleTarifarioConceptoProd"
+						id="idCARTERAZLbxDetalleCartera"
 						sizedByContent="true" span="true"
 						model="@bind(vm.listaDetalleCartera)"
 						selectedItem="@bind(vm.detalleSeleccionado)">
