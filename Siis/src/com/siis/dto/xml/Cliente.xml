@@ -39,12 +39,12 @@
 	</select>
 	<select id="listarClientes" parameterType="ClienteAlias" resultMap="resMapCliente"  > 
 	          SELECT 
-			  "CLIENTES"."SECUENCIA" as "SECUENCIA_CLIENTE", 
-			  "CLIENTES"."NIT", 
-			  "CLIENTES"."NOMBRE_RAZON_SOCIAL", 
-			  "CLIENTES"."SECUENCIA_PERSONA"
+			  CLIENTES.SECUENCIA as SECUENCIA_CLIENTE, 
+			  CLIENTES.NIT, 
+			  CLIENTES.NOMBRE_RAZON_SOCIAL, 
+			  CLIENTES.SECUENCIA_PERSONA
 			FROM 
-			  public."CLIENTES";
+			  public.CLIENTES;
 	</select>
 </mapper>
 
