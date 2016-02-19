@@ -1,0 +1,57 @@
+<zk>
+	<hlayout  id="contenedor" >
+		<bandbox width="300px" id="bandboxClienteComponent">
+
+			<bandpopup width="400px">
+				<groupbox mold="3d" open="false" closable="false">
+					<caption label="Filtros"></caption>
+				</groupbox>
+
+				<grid sclass="fgrid">
+					<columns>
+						<column hflex="min" />
+						<column />
+					</columns>
+					<rows>
+						<row>
+							<label value="Criterio de Busqueda: " />
+							<combobox id="listboxCriterio"
+								onCreate="self.setSelectedIndex(0)">
+								<comboitem label="Identificación"
+									value="identificacion" />
+								<comboitem label="Nombre ó Razón Social"
+									value="nombreRazonSocial" />
+							</combobox>
+						</row>
+						<row>
+							<label value="Valor de Busqueda: " />
+							<textbox hflex="true" id="textboxBuscar"  />
+						</row>
+						<row>
+							<hlayout />
+							<button label="Buscar" id="botonConsultar" />
+						</row>
+					</rows>
+				</grid>
+				<separator/>
+				<listbox id="listboxCliente" sizedByContent="true"
+					span="true" mold="paging" pageSize="10"
+					emptyMessage="No se han encontrado Registros">
+					<listhead>
+						<listheader label="NIT" />
+						<listheader label="Nombre Razón Social" />
+					</listhead>
+				</listbox>
+			</bandpopup>
+		</bandbox>
+		 
+		<image id="botonLimpiar" src="imagenes/cancel.png" />
+	</hlayout>
+	<style>
+		.GridLayoutNoBorder tr.z-row td.z-row-inner, tr.z-row
+		.z-cell,div.z-grid { border: none; overflow: hidden; zoom: 1;
+		background: white;cursor:pointer }
+
+	</style>
+
+</zk>
