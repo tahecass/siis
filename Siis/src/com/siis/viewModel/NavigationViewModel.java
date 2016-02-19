@@ -95,7 +95,7 @@ public class NavigationViewModel extends Borderlayout {
 		pageMap = new LinkedHashMap<String, Map<String, NavigationPage>>();
 
 		
-		addPage("Cartera", "Cartera", "/formuario_cartera.zul", "form2");
+		addPage("Cartera", "Cartera", "/formulario_cartera.zul", "form2");
 		addPage("Cartera", "Consultas", "/vista_cartera.zul", "form10");
 		
 		addPage("Proveedores", "Proveedores", "/formuario_proveedor.zul",

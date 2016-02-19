@@ -13,52 +13,69 @@
 	</resultMap>	
  
    
-	<select id="guardarCartera" parameterType="CarteraAlias" resultMap="resMapCartera"  > 
-	 
-			  
-			  
-		 INSERT
-			INTO CLIENTES
-			  (
-			    SECUENCIA,
-			    SEC_PERSONA,
-			    NOMBRE_RAZON_SOCIAL,
-			    DIRECCION_CORREO,
-			    TELEFONO,
-			    TIPO,
-			    ESTADO,
-			    NIT
-			  )
-			  VALUES
-			  (
-			   5,
-			   #{persona.secuencia,jdbcType=NUMERIC},
-			   #{nombreRazonSocial,jdbcType=VARCHAR},
-			   #{direccionCorreo,jdbcType=VARCHAR},
-			   #{telefonoContacto,jdbcType=VARCHAR},
-			   #{tipo,jdbcType=VARCHAR},
-			   #{estado,jdbcType=VARCHAR},
-			   #{nit,jdbcType=VARCHAR}
-			  ) 
-		       
+	<select id="guardarCartera" parameterType="CarteraAlias" resultMap="resMapCartera" statementType="CALLABLE" >   
+		{ call
+			DECLARE
+				VAR_SECUENCIA NUMERIC;
+			BEGIN
+				 VAR_SECUENCIA := 5;			
+			     #{secuencia,jdbcType=NUMERIC} := VAR_SECUENCIA;
+				
+				
+				 INSERT
+				   INTO CARTERAS (SECUENCIA, SECUENCIA_USUARIO, SECUENCIA_CLIENTE, FECHA_PAGO, FECHA_HORA_ACTUALIZACION)
+					  VALUES
+					  (VAR_SECUENCIA,
+					   #{usuario.secuencia,jdbcType=NUMERIC},
+					   #{cliente.secuencia,jdbcType=NUMERIC},
+					   #{fechaPago,jdbcType=DATE},
+					   #{fechaHoraActualizacion,jdbcType=DATE}
+					  ) 
+		       	END
+		  }
 	</select>
+	<update id="actualizarConvenio" parameterType="CarteraAlias">
+	  UPDATE CARTERAS 
+	     SET SECUENCIA =[value-1],
+	     SECUENCIA_USUARIO =[value-2],
+	     SECUENCIA_CLIENTE=[value-3],
+	     FECHA_PAGO=[value-4],
+	     FECHA_HORA_ACTUALIZACION= [value-5] 
+	     WHERE 1
+	</update>
 	<select id="listarCarterasPorClientes" parameterType="CarteraAlias" resultMap="resMapCartera"  > 
 		SELECT 
-		  "CARTERA"."SECUENCIA" AS "SECUENCIA_CARTERA", 
-		  "CARTERA"."FECHA_PAGO", 
-		  "CARTERA"."SECUENCIA_USUARIO", 
-		  "CARTERA"."SECUENCIA_CLIENTE", 
-		  "CARTERA"."FECHA_HORA_ACTUALIZACION",
-		  "CLIENTES"."NOMBRE_RAZON_SOCIAL", 
-		  "CLIENTES"."NIT", 
-		  "CLIENTES"."SECUENCIA_PERSONA", 
-		  "USUARIOS"."CUENTA"
+		  CARTERAS.SECUENCIA AS SECUENCIA_CARTERA, 
+		  CARTERAS.FECHA_PAGO, 
+		  CARTERAS.SECUENCIA_USUARIO, 
+		  CARTERAS.SECUENCIA_CLIENTE, 
+		  CARTERAS.FECHA_HORA_ACTUALIZACION,
+		  CLIENTES.NOMBRE_RAZON_SOCIAL, 
+		  CLIENTES.NIT, 
+		  CLIENTES.SECUENCIA_PERSONA, 
+		  USUARIOS.CUENTA
 		FROM 
-		  public."CARTERA"
-		  LEFT JOIN  public."CLIENTES" ON "CLIENTES"."SECUENCIA" = "CARTERA"."SECUENCIA_CLIENTE" 
-		  LEFT JOIN  public."USUARIOS" ON "USUARIOS"."SECUENCIA" = "CARTERA"."SECUENCIA_USUARIO"
-		 
-		 WHERE  "CARTERA"."SECUENCIA_CLIENTE"=  #{secuencia,jdbcType=NUMERIC};
+		  CARTERAS
+		  LEFT JOIN  CLIENTES ON CLIENTES.SECUENCIA = CARTERAS.SECUENCIA_CLIENTE 
+		  LEFT JOIN  USUARIOS ON USUARIOS.SECUENCIA = CARTERAS.SECUENCIA_USUARIO
+	    WHERE CARTERAS.SECUENCIA_CLIENTE=  #{cliente.secuencia,jdbcType=NUMERIC};
+ </select>
+ <select id="obtenerCartera" parameterType="CarteraAlias" resultMap="resMapCartera"  > 
+		SELECT 
+		  CARTERAS.SECUENCIA AS SECUENCIA_CARTERA, 
+		  CARTERAS.FECHA_PAGO, 
+		  CARTERAS.SECUENCIA_USUARIO, 
+		  CARTERAS.SECUENCIA_CLIENTE, 
+		  CARTERAS.FECHA_HORA_ACTUALIZACION,
+		  CLIENTES.NOMBRE_RAZON_SOCIAL, 
+		  CLIENTES.NIT, 
+		  CLIENTES.SECUENCIA_PERSONA, 
+		  USUARIOS.CUENTA
+		FROM 
+		  CARTERAS
+		  LEFT JOIN  CLIENTES ON CLIENTES.SECUENCIA = CARTERAS.SECUENCIA_CLIENTE 
+		  LEFT JOIN  USUARIOS ON USUARIOS.SECUENCIA = CARTERAS.SECUENCIA_USUARIO
+	    WHERE CARTERAS.SECUENCIA=  #{secuencia,jdbcType=NUMERIC};
  </select>
 </mapper>
 

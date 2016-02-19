@@ -14,7 +14,10 @@
 		<result property="cartera.fechaHoraActualizacion" column="FECHA_HORA_ACTUALIZACION" />
 		
 		<result property="nroFactura" column="NRO_FACTURA" />
-		<result property="valorFactura" column="VALOR_FACTURA" />
+		<result property="valor1" column="VALOR_1" />
+		<result property="valor2" column="VALOR_2" />
+		<result property="valor3" column="VALOR_3" />
+		<result property="valor4" column="VALOR_4" />
 		<result property="vencimiento" column="VENCIMIENTO" />
 		<result property="referencia" column="REFERENCIA" /> 
 		
@@ -22,33 +25,20 @@
 	</resultMap>	
 	
   
-	<select id="guardarDetalleCartera" parameterType="DetalleCarteraAlias" resultMap="resMapDetalleCartera"  > 
-	 
-			  
-			  
-		 INSERT
-			INTO CLIENTES
-			  (
-			    SECUENCIA,
-			    SEC_PERSONA,
-			    NOMBRE_RAZON_SOCIAL,
-			    DIRECCION_CORREO,
-			    TELEFONO,
-			    TIPO,
-			    ESTADO,
-			    NIT
-			  )
-			  VALUES
-			  (
-			   5,
-			   #{persona.secuencia,jdbcType=NUMERIC},
-			   #{nombreRazonSocial,jdbcType=VARCHAR},
-			   #{direccionCorreo,jdbcType=VARCHAR},
-			   #{telefonoContacto,jdbcType=VARCHAR},
-			   #{tipo,jdbcType=VARCHAR},
-			   #{estado,jdbcType=VARCHAR},
-			   #{nit,jdbcType=VARCHAR}
-			  ) 
+	<select id="guardarDetalleCartera" parameterType="DetalleCarteraAlias" resultMap="resMapDetalleCartera"  > 			  
+			  INSERT INTO detalle_cartera
+			         ( SECUENCIA, SECUENCIA_CARTERA, VENCIMIENTO, REFERENCIA, NRO_FACTURA, VALOR_FACTURA) 
+			  VALUES (1,
+			         #{cartera.secuencia,jdbcType=NUMERIC},
+			         #{vencimiento,jdbcType=DATE},
+			         #{referencia,jdbcType=VARCHAR},
+			         #{nroFactura,jdbcType=VARCHAR},
+			         #{valor1,jdbcType=NUMERIC},
+			         #{valor2,jdbcType=NUMERIC},
+			         #{valor3,jdbcType=NUMERIC},
+			         #{valor4,jdbcType=NUMERIC}
+			         
+			         )
 		       
 	</select>
 	<select id="listarDetalleCarterasPorClientes" parameterType="Map" resultMap="resMapDetalleCartera"  > 

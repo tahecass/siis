@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<zk>
+	<window id="modalDialog" title="Detalle Cartera" border="normal"
+		width="350px" closable="true" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') 
+		@init('com.siis.viewModel.FormularioCarteraDetalleViewModel')">
+		<vlayout>
+			<grid>
+				<columns>
+					<column hflex="min" />
+					<column />
+				</columns>
+				<rows>
+					<row>
+						<label value="Nro Factura" />
+						<textbox id="idDETCARTERAZTbxNroFactura" />
+					</row>
+					<row>
+						<label value="Vence" />
+						<datebox id="idDETCARTERAZTDbxVencimiento">
+					</row>
+					<row>
+						<label value="Referencia" />
+						<textbox id="idDETCARTERAZTDbxVencimiento" />
+					</row>
+					<row>
+						<label value="30 Dias" />
+						<doublebox id="idDETCARTERAZTDbxValor1" />
+					</row>
+					<row>
+						<label value="60 Dias" />
+						<doublebox  id="idDETCARTERAZTDbxValor2" />
+					</row>
+					<row>
+						<label value="90 Dias" />
+						<doublebox id="idDETCARTERAZTDbxValor3" />
+					</row>
+					<row>
+						<label value="Más de 90 Dias" />
+						<doublebox id="idDETCARTERAZTDbxValor4" />
+					</row>
+				</rows>
+			</grid>
+			<hlayout>
+				<groupbox closable="false" hflex="true">
+					<hlayout>
+						<image src="/imagenes/botones/cargar.png"
+							onClick="@command('guardarDetalleCartera')" />
+					</hlayout>
+				</groupbox>
+			</hlayout>
+		</vlayout>
+	</window>
+</zk>

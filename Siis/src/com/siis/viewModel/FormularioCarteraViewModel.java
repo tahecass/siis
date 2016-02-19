@@ -1,7 +1,6 @@
 package com.siis.viewModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,28 +12,31 @@ import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zul.Combobox;
-import org.zkoss.zul.ListModelList;
-import org.zkoss.zul.Tabpanel;
+import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Datebox;
+import org.zkoss.zul.Window;
 
 import com.siis.configuracion.Conexion;
-import com.siis.dto.Bean;
 import com.siis.dto.Cartera;
 import com.siis.dto.DetalleCartera;
+import com.siis.dto.Usuario;
+import com.siis.viewModel.framework.BandboxCliente;
+import com.siis.viewModel.framework.Utilidades;
 
 public class FormularioCarteraViewModel {
 	public Conexion con;
 	public List<DetalleCartera> listaDetalleCartera;
 	public DetalleCartera detalleSeleccionado;
-	List<Bean> listado;
-	public Bean objetoSeleccionado;
+	public Cartera carteraSeleccionada;
 
-//	@Wire
-//	public Combobox bandboxSeekerClientes;
-	 
+	@Wire
+	private Datebox idFORMCARTERAZDbxFechaHoraAct, idFORMCARTERAZDbxFechaPago;
+	@Wire
+	private BandboxCliente idFORMCARTERAZBbxCliente;
+	@Wire
+	public Borderlayout idWINFORMCARTERAZPrincipal;
 
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
@@ -43,8 +45,7 @@ public class FormularioCarteraViewModel {
 
 		con = new Conexion();
 		listaDetalleCartera = new ArrayList<DetalleCartera>();
-		listado = new ArrayList<Bean>();
-		this.parametrizarBandboxSeeker();
+		idFORMCARTERAZDbxFechaHoraAct.setValue(new Date());
 
 	}
 
@@ -53,45 +54,93 @@ public class FormularioCarteraViewModel {
 	public void onAgregar() {
 		System.out.println(" onAgregar ==> ");
 
-		ListModelList<DetalleCartera> lm = new ListModelList<DetalleCartera>(
-				Arrays.asList(new DetalleCartera(new Cartera(), "", 0.0, new Date(), "")));
+		// ListModelList<DetalleCartera> lm = new ListModelList<DetalleCartera>(
+		// Arrays.asList(new DetalleCartera(new Cartera(), "", 0.0, new Date(),
+		// "")));
+		//
+		// listaDetalleCartera.addAll(lm);
 
-		listaDetalleCartera.addAll(lm);
+		try {
+
+			Map<String, Object> parametros = new HashMap<String, Object>();
+			parametros.put("CARTERA", carteraSeleccionada);
+			parametros.put("OPT", "N");
+			Window win = (Window) Utilidades.onCargarVentana(null, "//formas//formulario_cartera_detalle.zul",
+					parametros);
+
+			win.setHeight("auto");
+			win.setPosition("center,top");
+			win.doModal();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void parametrizarBandboxSeeker() {
-		System.out.println("[ parametrizarBandboxSeeker] ");
-		// bandboxSeekerClientes.setObjeto(new Cliente());
-		// bandboxSeekerClientes.setConsulta("listaClientes");
+	@Command
+	public void guardarCartera() {
+		try {
+			System.out.println("guardar Cartera");
+			Cartera cartera = new Cartera();
+			con = new Conexion();
+			cartera.setCliente(idFORMCARTERAZBbxCliente.getValue());
+			cartera.setUsuario(new Usuario(new Integer(1)));
+			cartera.setFechaHoraActualizacion(idFORMCARTERAZDbxFechaHoraAct.getValue());
+			cartera.setFechaPago(idFORMCARTERAZDbxFechaPago.getValue());
+			System.out.println("CARTERA==> " + cartera.getCliente().getSecuencia());
+			con.guardar("guardarCartera", cartera);
+			System.out.println("CARTERA==> " + cartera.getSecuencia());
 
-//		bandboxSeekerClientes.setDisabled(true);
+			seleccionarCartera(obtenerCartera(cartera));
 
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	}
+
+	private void seleccionarCartera(Cartera cartera) {
+		System.out.println("seleccionarCartera");
+		if (cartera != null) {
+			if (cartera.getFechaHoraActualizacion() != null)
+				idFORMCARTERAZDbxFechaHoraAct.setValue(cartera.getFechaHoraActualizacion());
+			if (cartera.getFechaPago() != null)
+				idFORMCARTERAZDbxFechaPago.setValue(cartera.getFechaPago());
+			if (cartera.getCliente() != null)
+				idFORMCARTERAZBbxCliente.setValue(cartera.getCliente());
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private Cartera obtenerCartera(Cartera cartera) {
+		System.out.println("obtenerCartera");
+		con = new Conexion();
+		Cartera dtoCartera = null;
+		try {
+			dtoCartera = (Cartera) ((List<Cartera>) con.obtenerListado("obtenerCartera", cartera)).get(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dtoCartera;
 	}
 
 	public List<DetalleCartera> getListaDetalleCartera() {
 		return listaDetalleCartera;
 	}
 
-//	@Command
-//	public void onMostrarVentanaConsulta() {
-//		System.out.println("onMostrarVentanaConsulta");
-//
-//		try {
-//			Map<String, Object> parametros = new HashMap<String, Object>();
-//			parametros.put("OBJETO", "");
-//
-//			onCargarVentana(tabPanelConsultas, "//formas//vista_cartera.zul", parametros);
-//
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-
-	public static void onCargarVentana(Tabpanel contenedor, String rutaForma, Map<String, Object> arg)
-			throws Exception {
-		System.out.println("onCargarVentana " + contenedor.getId());
-		Executions.createComponents(rutaForma, contenedor, arg);
-	}
+	// @Command
+	// public void onMostrarVentanaConsulta() {
+	// System.out.println("onMostrarVentanaConsulta");
+	//
+	// try {
+	// Map<String, Object> parametros = new HashMap<String, Object>();
+	// parametros.put("OBJETO", "");
+	//
+	// onCargarVentana(tabPanelConsultas, "//formas//vista_cartera.zul",
+	// parametros);
+	//
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
 
 	public void setListaDetalleCartera(List<DetalleCartera> listaDetalleCartera) {
 		this.listaDetalleCartera = listaDetalleCartera;
@@ -103,22 +152,6 @@ public class FormularioCarteraViewModel {
 
 	public void setDetalleSeleccionado(DetalleCartera detalleSeleccionado) {
 		this.detalleSeleccionado = detalleSeleccionado;
-	}
-
-	public List<Bean> getListado() {
-		return listado;
-	}
-
-	public void setListado(List<Bean> listado) {
-		this.listado = listado;
-	}
-
-	public Bean getObjetoSeleccionado() {
-		return objetoSeleccionado;
-	}
-
-	public void setObjetoSeleccionado(Bean objetoSeleccionado) {
-		this.objetoSeleccionado = objetoSeleccionado;
 	}
 
 }

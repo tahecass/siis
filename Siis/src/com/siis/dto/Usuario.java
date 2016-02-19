@@ -7,17 +7,19 @@ public class Usuario extends Bean {
 	private String tipo;
 	private Persona persona;
 	private String estado;
-	
 
 	public Usuario() {
 
+	}
+
+	public Usuario(Integer secuencia) {
+		this.secuencia = secuencia;
 	}
 
 	public Integer getSecuencia() {
 		return secuencia;
 	}
 
-	
 	public String getEstado() {
 		return estado;
 	}

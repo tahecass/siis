@@ -42,8 +42,7 @@ public class FormularioProveedorViewModel {
 
 		con = new Conexion();
 		listaDetalleCartera = new ArrayList<DetalleCartera>();
-		listado = new ArrayList<Bean>();
-		this.parametrizarBandboxSeeker();
+		 
 
 	}
 
@@ -52,20 +51,13 @@ public class FormularioProveedorViewModel {
 	public void onAgregar() {
 		System.out.println(" onAgregar ==> ");
 
-		ListModelList<DetalleCartera> lm = new ListModelList<DetalleCartera>(
-				Arrays.asList(new DetalleCartera(new Cartera(), "", 0.0, new Date(), "")));
+//		ListModelList<DetalleCartera> lm = new ListModelList<DetalleCartera>(
+//				Arrays.asList(new DetalleCartera(new Cartera(), "", 0.0, new Date(), "")));
 
-		listaDetalleCartera.addAll(lm);
+//		listaDetalleCartera.addAll(lm);
 	}
 
-	public void parametrizarBandboxSeeker() {
-		System.out.println("[ parametrizarBandboxSeeker] ");
-		// bandboxSeekerClientes.setObjeto(new Cliente());
-		// bandboxSeekerClientes.setConsulta("listaClientes");
-
-		bandboxSeekerProveedor.setDisabled(true);
-
-	}
+	 
 
 	public List<DetalleCartera> getListaDetalleCartera() {
 		return listaDetalleCartera;

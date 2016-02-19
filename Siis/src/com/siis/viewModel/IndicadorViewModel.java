@@ -22,8 +22,7 @@ import com.siis.configuracion.Conexion;
 import com.siis.dto.Bean;
 import com.siis.dto.Indicador;
 import com.siis.dto.Unidad;
-import com.siis.dto.Usuario;
-import com.siis.viewModel.framework.BandboxSeeker;
+import com.siis.dto.Usuario; 
 
 public class IndicadorViewModel {
 	public List<Indicador> listaIndicador;
@@ -59,12 +58,7 @@ public class IndicadorViewModel {
 
 	}
 
-	@Command
-	public void parametrizarBandboxSeeker(@BindingParam("banbox") BandboxSeeker idUsBbxSecResponsable) {
-		System.out.println("[ parametrizarBandboxSeeker] ");
-//		idUsBbxSecResponsable.setObjeto(new Indicador());
-//		idUsBbxSecResponsable.setConsulta("listarUsuarios");
-	}
+	 
 
 	@Command
 	public void onSeleccionar(@BindingParam("objetoSeleccionado") Indicador objetoSeleccionado) {

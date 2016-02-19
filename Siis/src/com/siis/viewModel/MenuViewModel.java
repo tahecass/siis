@@ -24,8 +24,7 @@ import org.zkoss.zul.Tabpanels;
 import org.zkoss.zul.Tabs;
 
 import com.siis.configuracion.Conexion;
-import com.siis.dto.Menu;
-import com.siis.viewModel.framework.BandboxSeeker;
+import com.siis.dto.Menu; 
 
 public class MenuViewModel {
 	public Conexion con;

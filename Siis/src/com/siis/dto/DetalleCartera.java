@@ -6,23 +6,28 @@ public class DetalleCartera {
 	private Integer secuencia;
 	private Cartera cartera;
 	private String nroFactura;
-	private Double valorFactura;
+	private Double valor1;
+	private Double valor2;
+	private Double valor3;
+	private Double valor4;
 	private Date vencimiento;
 	private String referencia;
 
-	public DetalleCartera() { 
+	public DetalleCartera() {
 	}
 
-	 
-	public DetalleCartera(Cartera cartera,String nroFactura,Double valorFactura, Date vencimiento, String referencia) {
+	public DetalleCartera(Cartera cartera, String nroFactura, Double valor1, Double valor2, Double valor3,
+			Double valor4, Date vencimiento, String referencia) {
 		super();
 		this.cartera = cartera;
 		this.nroFactura = nroFactura;
-		this.valorFactura = valorFactura;
+		this.valor1 = valor1;
+		this.valor2 = valor2;
+		this.valor3 = valor3;
+		this.valor4 = valor4;
 		this.vencimiento = vencimiento;
 		this.referencia = referencia;
 	}
-
 
 	public Cartera getCartera() {
 		return cartera;
@@ -32,11 +37,9 @@ public class DetalleCartera {
 		return nroFactura;
 	}
 
-
 	public void setNroFactura(String nroFactura) {
 		this.nroFactura = nroFactura;
 	}
-
 
 	public void setCartera(Cartera cartera) {
 		this.cartera = cartera;
@@ -58,25 +61,44 @@ public class DetalleCartera {
 		this.referencia = referencia;
 	}
 
-
-	public Double getValorFactura() {
-		return valorFactura;
-	}
-
-
-	public void setValorFactura(Double valorFactura) {
-		this.valorFactura = valorFactura;
-	}
-
-
 	public Integer getSecuencia() {
 		return secuencia;
 	}
 
-
 	public void setSecuencia(Integer secuencia) {
 		this.secuencia = secuencia;
 	}
-	
+
+	public Double getValor1() {
+		return valor1;
+	}
+
+	public void setValor1(Double valor1) {
+		this.valor1 = valor1;
+	}
+
+	public Double getValor2() {
+		return valor2;
+	}
+
+	public void setValor2(Double valor2) {
+		this.valor2 = valor2;
+	}
+
+	public Double getValor3() {
+		return valor3;
+	}
+
+	public void setValor3(Double valor3) {
+		this.valor3 = valor3;
+	}
+
+	public Double getValor4() {
+		return valor4;
+	}
+
+	public void setValor4(Double valor4) {
+		this.valor4 = valor4;
+	}
 
 }
