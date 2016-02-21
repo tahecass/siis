@@ -1,17 +1,17 @@
 package com.siis.dto;
 
 public class TipoIdentificacion {
-	private Integer secuencia;
+	private Integer sec;
 	private String tipo;
 	private String nombre;
 	private String documentacion;
 
-	public Integer getSecuencia() {
-		return secuencia;
+	public Integer getSec() {
+		return sec;
 	}
 
-	public void setSecuencia(Integer secuencia) {
-		this.secuencia = secuencia;
+	public void setSec(Integer sec) {
+		this.sec = sec;
 	}
 
 	public String getTipo() {
