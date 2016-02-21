@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap.min.css" ?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap.css" ?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap-theme.min.css" ?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap-theme.css" ?>
+<?component name="bandboxSeeker" macroURI="/componentes/bandbox.zul"?>
+
+
+<zk xmlns="http://www.zkoss.org/2005/zul"   
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+
+	<borderlayout apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') 
+		@init('com.siis.viewModel.PersonaViewModel')">
+
+		<center>
+			<vlayout height="100%">
+			<hlayout>
+				<image src="/imagenes/botones/agregar.png"
+					onClick="@command('onAgregar')" />
+				<image src="/imagenes/botones/editar.png" />
+				<image src="/imagenes/botones/borrar.png" onClick="@command('onEliminar')"/>
+				<image src="/imagenes/botones/buscar.png" />
+				<button label="Ver Facturados" />
+				<button label="Ver Amortización Anticipo" />
+			</hlayout>
+			<groupbox mold="3d" hflex="true" vflex="true"
+					contentStyle="padding:0px" open="true" closable="false">
+					<caption label=" " style="font-weight: bold" />
+					<grid>
+						<columns>
+							<column hflex="min" />
+							<column />
+						</columns>
+						<rows>
+							<row>
+								<label value="Tipo de Identificacion:" />
+
+								<intbox value="@bind(vm.persona.tipoIdentificacion.sec)"
+								disabled="@load(vm.habilitarCampo)"/>
+							</row>
+							<row>
+								<label value="Identificacion:" />
+
+								<textbox value="@bind(vm.persona.identificacion)"
+								disabled="@load(vm.habilitarCampo)"/>
+							</row>
+							<row>
+								<label value="Nombre:" />
+
+								<textbox value="@bind(vm.persona.nombres)"
+								disabled="@load(vm.habilitarCampo)"/>
+							</row>
+							<row>
+								<label value="Apellidos:" />
+
+								<textbox value="@bind(vm.persona.apellidos)"
+								disabled="@load(vm.habilitarCampo)"/>
+							</row>
+							<row>
+								<label value="Fecha Nacimiento:" />
+								<datebox value="@bind(vm.persona.fechaNacimiento)"
+								disabled="@load(vm.habilitarCampo)"/>
+							</row>
+
+							<row>
+								<label value="Sexo" />
+								<combobox selectedItem="@bind(vm.persona.sexo)" disabled="@load(vm.habilitarCampo)">
+								<comboitem label="Seleccione"  ></comboitem>
+								<comboitem label="Femenino" value="F"></comboitem>
+								<comboitem label="Masculino" value="M"></comboitem>
+								<comboitem label="Otro" value="otro"></comboitem>
+								</combobox>
+							</row>
+							<row>
+								<label value="Estado Civil" />
+								<textbox value="@bind(vm.persona.estadoCivil)" disabled="@load(vm.habilitarCampo)"/>
+							</row>
+							<row>
+								<label value="Email" />
+								<textbox value="@bind(vm.persona.email)" disabled="@load(vm.habilitarCampo)"/>
+							</row>
+							<row>
+								<label value="Direcciòn:" />
+								<textbox value="@bind(vm.persona.direccion)" disabled="@load(vm.habilitarCampo)"/>
+							</row>
+							<row>
+								<label value="Telefono:" />
+								<textbox value="@bind(vm.persona.telefono)" disabled="@load(vm.habilitarCampo)"/>
+							</row>
+							<row>
+								<label value="Celular:" />
+								<textbox value="@bind(vm.persona.celular)" disabled="@load(vm.habilitarCampo)"/>
+							</row>
+						</rows>
+					</grid>
+
+				</groupbox>
+				<groupbox>
+<!-- 				onSelect="@command('seleccionarObjeto')"  -->
+				<listbox sizedByContent="true" span="true" mold="paging" 
+				
+				pageSize="10"
+				selectedItem="@bind(vm.persona)"
+				model="@load(vm.listaPersona)">
+
+				<listhead>
+					<listheader label="Identificacion" sort="auto(codigo)" />
+					<listheader label="Nombre" sort="auto(nombre)" />
+<!-- 					<listheader label="Estado" sort="auto(estado)" /> -->
+
+				</listhead>
+				<template name="model">
+					<listitem>
+						<listcell label="@bind(each.identificacion)" />
+						<listcell label="@bind(each.nombres)" />
+<!-- 						<listcell -->
+<!-- 							label="@bind(each.estado eq 'A'? 'Activo':'Inactivo')" /> -->
+					</listitem>
+				</template>
+			</listbox>
+			</groupbox>
+			</vlayout>
+		</center>
+
+	</borderlayout>
+
+</zk>
