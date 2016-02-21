@@ -8,12 +8,10 @@
 		<timeout-uri>/timeout.zul</timeout-uri><!-- An empty URL can cause the 
 			browser to reload the same URL -->
 	</device-config>
-	<language-config>
-		<addon-uri>/WEB-INF/lang-addon.xml</addon-uri>
-	</language-config>
+	
 	<library-property>
 		<name>org.zkoss.theme.preferred</name>
-		<value>cerulean</value>
+		<value>sapphire</value>
 	</library-property>
 	<!-- Bootstrap -->
 	<library-property>
