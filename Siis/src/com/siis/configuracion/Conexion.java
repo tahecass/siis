@@ -39,4 +39,16 @@ public class Conexion {
 		}
 
 	}
+	public void actualizar(String nombreConsulta, Object objeto) {
+		if (session != null) {
+			try {
+				session.update(nombreConsulta, objeto);
+				session.commit();
+			} finally {
+				session.close();
+
+			}
+		}
+
+	}
 }
