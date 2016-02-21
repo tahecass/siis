@@ -31,6 +31,7 @@
 		<mapper resource="com/siis/dto/xml/Usuario.xml" />
 	    <mapper resource="com/siis/dto/xml/Cliente.xml" />
 	    <mapper resource="com/siis/dto/xml/Cartera.xml" />
+	    <mapper resource="com/siis/dto/xml/Persona.xml" />
 	    <mapper resource="com/siis/dto/xml/DetalleCartera.xml" />
 	  
 	</mappers>
