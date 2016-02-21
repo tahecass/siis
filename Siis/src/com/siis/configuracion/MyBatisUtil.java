@@ -9,23 +9,25 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 public class MyBatisUtil {
+	/** objeto Singleton */
+	private static MyBatisUtil myBatisUtil = new MyBatisUtil();
 	private String resource = "mybatis-config.xml";
 	private SqlSession session = null;
 
-	public SqlSession getSession() {
-		System.out.println("Ejecutando [getSession]... ");
+	public static MyBatisUtil getInstance() {
+		return myBatisUtil;
+	}
 
+	public SqlSessionFactory getSessionFactory() {
+		System.out.println("Ejecutando [getSession]... ");
+		SqlSessionFactory sqlSessionFactory = null;
 		try {
 			Reader reader = Resources.getResourceAsReader(resource);
-			SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder()
-					.build(reader);
-			session = sqlSessionFactory.openSession();
+			return new SqlSessionFactoryBuilder().build(reader);
 
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-
-		System.out.println("¡¡SqlSession configurado OK!!");
-		return session;
+		} 
+		return sqlSessionFactory;
 	}
 }

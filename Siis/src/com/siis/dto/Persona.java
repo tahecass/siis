@@ -1,31 +1,94 @@
 package com.siis.dto;
 
+import java.util.Date;
+
 public class Persona {
-	
-private Integer secuencia;
-private String nombre;
-private String apellidos;
-private String tipo;
-private String identificacion;
-private TipoIdentificacion tipoId;
-private String correoEletronico;
-private String direccion;
-private String telefono;
-private String celular;
 
+	private Integer sec;
+	private TipoIdentificacion tipoIdentificacion;
+	private String identificacion;
+	private String nombres;
+	private String apellidos;
+	private Date fechaNacimiento;
+	private String sexo;
+	private String estadoCivil;
+	private String email;
+	private String direccion;
+	private String telefono;
+	private String celular;
+	private Date fechaCreacion;
+	private Date fechaActualizacion;
 
-	public Persona() {
-		 
+	public Integer getSec() {
+		return sec;
 	}
 
-	
-
-	public TipoIdentificacion getTipoId() {
-		return tipoId;
+	public void setSec(Integer sec) {
+		this.sec = sec;
 	}
 
-	public void setTipoId(TipoIdentificacion tipoId) {
-		this.tipoId = tipoId;
+	public TipoIdentificacion getTipoIdentificacion() {
+		return tipoIdentificacion;
+	}
+
+	public void setTipoIdentificacion(TipoIdentificacion tipoIdentificacion) {
+		this.tipoIdentificacion = tipoIdentificacion;
+	}
+
+	public String getIdentificacion() {
+		return identificacion;
+	}
+
+	public void setIdentificacion(String identificacion) {
+		this.identificacion = identificacion;
+	}
+
+	public String getNombres() {
+		return nombres;
+	}
+
+	public void setNombres(String nombres) {
+		this.nombres = nombres;
+	}
+
+	public String getApellidos() {
+		return apellidos;
+	}
+
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
+
+	public Date getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public String getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+
+	public String getEstadoCivil() {
+		return estadoCivil;
+	}
+
+	public void setEstadoCivil(String estadoCivil) {
+		this.estadoCivil = estadoCivil;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getTelefono() {
@@ -44,45 +107,20 @@ private String celular;
 		this.celular = celular;
 	}
 
-	public Integer getSecuencia() {
-		return secuencia;
+	public Date getFechaCreacion() {
+		return fechaCreacion;
 	}
 
-	public void setSecuencia(Integer secuencia) {
-		this.secuencia = secuencia;
+	public void setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
 	}
 
-	
-	public String getApellidos() {
-		return apellidos;
+	public Date getFechaActualizacion() {
+		return fechaActualizacion;
 	}
 
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
-	}
-
-	public String getTipo() {
-		return tipo;
-	}
-
-	public String getIdentificacion() {
-		return identificacion;
-	}
-
-	public void setIdentificacion(String identificacion) {
-		this.identificacion = identificacion;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-
-	public String getCorreoEletronico() {
-		return correoEletronico;
-	}
-
-	public void setCorreoEletronico(String correoEletronico) {
-		this.correoEletronico = correoEletronico;
+	public void setFechaActualizacion(Date fechaActualizacion) {
+		this.fechaActualizacion = fechaActualizacion;
 	}
 
 	public String getDireccion() {
@@ -92,19 +130,5 @@ private String celular;
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
-
-
-
-	public String getNombre() {
-		return nombre;
-	}
-
-
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	
-	
 
 }

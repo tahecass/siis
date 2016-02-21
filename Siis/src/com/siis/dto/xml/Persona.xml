@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="PersonaMapper">
+	<resultMap id="resMapPersona" type="PersonaAlias">
+		<result property="sec" column="SEC" />
+		<result property="tipoIdentificacion.sec" column="SEC_TIPO_IDENTIFICACION" />
+		<result property="identificacion" column="IDENTIFICACION" />
+		<result property="nombres" column="NOMBRES" />
+		<result property="apellidos" column="APELLIDOS" />
+		<result property="fechaNacimiento" column="FECHA_NACIMIENTO" />
+		<result property="sexo" column="SEXO" />
+		<result property="estadoCivil" column="ESTADO_CIVIL" />
+		<result property="email" column="EMAIL" />
+		<result property="direccion" column="DIRECCION" />
+		<result property="fechaCreacion" column="FECHA_CREACION" />
+		<result property="fechaActualizacion" column="FECHA_ACTUALIZACION" />
+
+	</resultMap>
+
+
+	<select id="guardarPersonas" parameterType="PersonaAlias"
+		resultMap="resMapPersona"> 
+	 <![CDATA[
+		
+		
+		INSERT
+INTO
+  PERSONAS
+  (
+    SEC,
+    SEC_TIPO_IDENTIFICACION,
+    IDENTIFICACION,
+    NOMBRES,
+    APELLIDOS,
+    FECHA_NACIMIENTO,
+    SEXO,
+    ESTADO_CIVIL,
+    EMAIL,
+    DIRECCION,
+    TELEFONO,
+    CELULAR,
+    FECHA_CREACION,
+    FECHA_ACTUALIZACION
+  )
+  VALUES
+  (
+  #{sec,jdbcType=NUMERIC},
+  #{tipoIdentificacion.sec,jdbcType=NUMERIC},
+  #{identificacion,jdbcType=VARCHAR},
+  #{nombres,jdbcType=VARCHAR},
+  #{apellidos,jdbcType=VARCHAR},	  
+  #{fechaNacimiento,jdbcType=DATE},
+  #{sexo,jdbcType=VARCHAR}, 
+  #{estadoCivil,jdbcType=VARCHAR},
+  #{email,jdbcType=VARCHAR}, 
+  #{direccion,jdbcType=VARCHAR},
+  #{telefono,jdbcType=VARCHAR},
+  #{celular,jdbcType=VARCHAR},
+  #{fechaCreacion,jdbcType=DATE},
+  #{fechaActualizacion,jdbcType=DATE}
+  )
+		
+		]]>
+	</select>
+
+
+
+	<select id="actualizarPersonas" parameterType="PersonaAlias"
+		resultMap="resMapPersona"> 
+	 <![CDATA[
+		
+   UPDATE PERSONAS SET
+   SEC_TIPO_IDENTIFICACION = #{tipoIdentificacion.sec,jdbcType=NUMERIC},
+   IDENTIFICACION=#{identificacion,jdbcType=VARCHAR},
+   NOMBRES=#{nombres,jdbcType=VARCHAR}, 
+   APELLIDOS=#{apellidos,jdbcType=VARCHAR}, 
+   FECHA_NACIMIENTO=#{fechaNacimiento,jdbcType=DATE},
+   SEXO=#{sexo,jdbcType=VARCHAR},
+   ESTADO_CIVIL=#{estadoCivil,jdbcType=VARCHAR}, 
+   EMAIL=#{email,jdbcType=VARCHAR}, 
+   DIRECCION=#{direccion,jdbcType=VARCHAR},
+   TELEFONO=#{telefono,jdbcType=VARCHAR},
+   CELULAR=#{celular,jdbcType=VARCHAR}
+   WHERE SEC=#{sec,jdbcType=NUMERIC}
+		
+		]]>
+	</select>
+
+
+	<select id="listaPersonas" parameterType="PersonaAlias"
+		resultMap="resMapPersona">
+		SELECT SEC,SEC_TIPO_IDENTIFICACION,IDENTIFICACION,
+		NOMBRES,APELLIDOS,FECHA_NACIMIENTO,SEXO,ESTADO_CIVIL,
+		EMAIL,DIRECCION,TELEFONO,CELULAR,ESTADO,FECHA_CREACION,
+		FECHA_ACTUALIZACION FROM PERSONAS
+	</select>
+	<select id="eliminarPersonas" parameterType="PersonaAlias"
+		resultMap="resMapPersona">
+		DELETE FROM PERSONAS WHERE SEC=#{sec,jdbcType=NUMERIC}
+	</select>
+	<select id="siguientePkPersonas" parameterType="PersonaAlias"
+		resultMap="resMapPersona"> 
+	 <![CDATA[
+		
+		select max(secuencia)+1 secuencia  from   personas 
+
+		
+		]]>
+	</select>
+
+</mapper>
+
+	
+
+
+
