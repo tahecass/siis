@@ -19,9 +19,9 @@
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
 				<property name="driver" value="com.mysql.jdbc.Driver" />
-				<property name="url" value="jdbc:mysql://itservice-ch6urhje.cloudapp.net:3306/phpmyadmin/siis" />
-				<property name="username" value="root" />
-				<property name="password" value="abc123$" />
+				<property name="url" value="jdbc:mysql://cuentosinfantiles.com.co:3306/cuentosi_siis" />
+				<property name="username" value="cuentosi_root" />
+				<property name="password" value="abc123.." />
 			</dataSource>
 		</environment>
 	</environments>
