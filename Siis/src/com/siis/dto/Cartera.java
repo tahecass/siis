@@ -7,6 +7,7 @@ private Integer secuencia;
 private Usuario usuario;
 private Cliente cliente;
 private Date fechaPago;
+private Date fechaCreacion;
 private Date fechaHoraActualizacion;
 
 public Cartera() { 
@@ -50,6 +51,14 @@ public Date getFechaHoraActualizacion() {
 
 public void setFechaHoraActualizacion(Date fechaHoraActualizacion) {
 	this.fechaHoraActualizacion = fechaHoraActualizacion;
+}
+
+public Date getFechaCreacion() {
+	return fechaCreacion;
+}
+
+public void setFechaCreacion(Date fechaCreacion) {
+	this.fechaCreacion = fechaCreacion;
 }
 
  

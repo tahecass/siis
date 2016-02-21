@@ -8,6 +8,7 @@
 		<result property="cliente.secuencia" column="SEC_PERSONA" />
 		<result property="cliente.nombreRazonSocial" column="NOMBRE_RAZON_SOCIAL" />
 		<result property="fechaPago" column="FECHA_PAGO" />
+		<result property="fechaCreacion" column="FECHA_CREACION" />
 		<result property="fechaHoraActualizacion" column="FECHA_HORA_ACTUALIZACION" />
 				
 	</resultMap>	
@@ -21,7 +22,7 @@
 					   #{usuario.secuencia,jdbcType=NUMERIC},
 					   #{cliente.secuencia,jdbcType=NUMERIC},
 					   #{fechaPago,jdbcType=DATE},
-					   SYSDATE,
+					   #{fechaCreacion,jdbcType=DATE},
 					   #{fechaHoraActualizacion,jdbcType=DATE}
 					  ) 
 		       

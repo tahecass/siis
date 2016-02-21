@@ -58,8 +58,11 @@
 								</grid>
 								<separator />
 								<toolbar align="start">
-									<toolbarbutton label="Agregar"
+									<toolbarbutton label="Nuevo"
 										sclass="btn-info" tooltiptext="" image="imagenes/add.png"
+										onClick="@command('onNuevo')" />
+										<toolbarbutton label="Guardar"
+										sclass="btn-info" tooltiptext="" image="imagenes/guardar.png"
 										onClick="@command('guardarCartera')" />
 									<toolbarbutton label="Editar" 	onClick="@command('onEditar')"
 										sclass="btn-info" image="imagenes/edit.png" />

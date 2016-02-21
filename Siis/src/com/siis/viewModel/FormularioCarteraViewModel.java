@@ -54,6 +54,7 @@ public class FormularioCarteraViewModel {
 		con = new Conexion();
 		listaDetalleCartera = new ArrayList<DetalleCartera>();
 		listaCartera = new ArrayList<Cartera>();
+		carteraSeleccionada = new Cartera();
 		idFORMCARTERAZDbxFechaHoraAct.setValue(new Date());
 		setDesactivarformulario(true);
 		listarCartera();
@@ -98,8 +99,10 @@ public class FormularioCarteraViewModel {
 			cartera.setUsuario(new Usuario(new Integer(1)));
 			cartera.setFechaHoraActualizacion(idFORMCARTERAZDbxFechaHoraAct.getValue());
 			cartera.setFechaPago(idFORMCARTERAZDbxFechaPago.getValue());
-
+            cartera.setFechaCreacion(new Date());
+            
 			if (accion.equals("I")) {
+				cartera.setSecuencia(10);
 				con.guardar("guardarCartera", cartera);
 				System.out.println("Carteraguardada");
 				Utilidades.mostrarNotificacion(idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
@@ -137,9 +140,10 @@ public class FormularioCarteraViewModel {
 
 	@NotifyChange("*")
 	@Command
-	private void onNuevo() {
+	public void onNuevo() {
 		System.out.println("seleccionar");
 		setDesactivarformulario(false);
+		carteraSeleccionada.setFechaHoraActualizacion(new Date());
 		accion = "I";
 	}
 
