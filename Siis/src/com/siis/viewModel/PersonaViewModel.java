@@ -1,8 +1,10 @@
 package com.siis.viewModel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
@@ -10,7 +12,6 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.Selectors;
-
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Indicador;
 import com.siis.dto.Persona;
@@ -20,19 +21,22 @@ public class PersonaViewModel {
 	private Persona persona;
 	private List listaPersona;
 	private boolean habilitarCampo;
+	protected static Logger log = Logger.getLogger(PersonaViewModel.class);
 
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
+		log.info("Ejecutando metodo.... afterCompose");
 		Selectors.wireComponents(view, this, false);
 		System.out.println(" afterCompose 1");
 		persona = new Persona();
 		persona.setTipoIdentificacion(new TipoIdentificacion());
 		listaPersona = new ArrayList<Persona>();
+		habilitarCampo=true;
 	}
 
 	@NotifyChange("*")
 	public List getListaPersona() {
-		System.out.println("Ejecutando metodo.... getListaPersona");
+		log.info("Ejecutando metodo.... getListaPersona");
 		try {
 			listaPersona = (List) Conexion.getConexion().listar(
 					"listaPersonas", null);
@@ -69,13 +73,26 @@ public class PersonaViewModel {
 
 	}
 
+	@NotifyChange("*")
 	@Command
 	public void onEliminar() {
 		if (persona.getSec() != null)
 			Conexion.getConexion().guardar("eliminarPersonas", persona);
 
 	}
+	@NotifyChange(".")
+	@Command
+	public void onEditar() {
+		System.out.print("Ejecutando metodo... onEditar");
+		habilitarCampo=false;
 
+	}
+	@NotifyChange("*")
+	@Command
+	public void onNuevo() {
+		System.out.println("seleccionar");
+		habilitarCampo=false;
+	}
 	public boolean isHabilitarCampo() {
 		return habilitarCampo;
 	}
