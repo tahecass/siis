@@ -18,19 +18,10 @@
 
 		<center>
 			<vlayout height="100%">
-			<hlayout>
-				<image src="/imagenes/botones/agregar.png"
-					onClick="@command('onAgregar')" />
-				<image src="/imagenes/botones/editar.png" />
-				<image src="/imagenes/botones/borrar.png" onClick="@command('onEliminar')"/>
-				<image src="/imagenes/botones/buscar.png" />
-				<button label="Ver Facturados" />
-				<button label="Ver Amortización Anticipo" />
-			</hlayout>
-			<groupbox mold="3d" hflex="true" vflex="true"
+			<groupbox mold="3d" vflex="true"
 					contentStyle="padding:0px" open="true" closable="false">
 					<caption label=" " style="font-weight: bold" />
-					<grid>
+					<grid vflex="true">
 						<columns>
 							<column hflex="min" />
 							<column />
@@ -40,7 +31,7 @@
 								<label value="Tipo de Identificacion:" />
 
 								<intbox value="@bind(vm.persona.tipoIdentificacion.sec)"
-								disabled="@load(vm.habilitarCampo)"/>
+								disabled="@bind(vm.habilitarCampo)"/>
 							</row>
 							<row>
 								<label value="Identificacion:" />
@@ -97,7 +88,21 @@
 							</row>
 						</rows>
 					</grid>
-
+						<separator />
+								<toolbar align="start">
+									<toolbarbutton label="Nuevo"
+										sclass="btn-info" tooltiptext="" image="imagenes/add.png"
+										onClick="@command('onNuevo')" />
+										<toolbarbutton label="Guardar"
+										sclass="btn-info" tooltiptext="" image="imagenes/guardar.png"
+										onClick="@command('onAgregar')" />
+									<toolbarbutton label="Editar" 	onClick="@command('onEditar')"
+										sclass="btn-info" image="imagenes/edit.png" />
+									<toolbarbutton label="Eliminar" onClick="@command('onEliminar')"
+										sclass="btn-info" image="imagenes/delete.png" />
+									<toolbarbutton label="Consultar"
+										sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
+								</toolbar>
 				</groupbox>
 				<groupbox>
 <!-- 				onSelect="@command('seleccionarObjeto')"  -->
