@@ -3,7 +3,7 @@
 <mapper namespace="ClienteMapper">
 	<resultMap id="resMapCliente" type="ClienteAlias">
 		<result property="secuencia" column="SEC_CLIENTE" />
-		<result property="persona.secuencia" column="SEC_PERSONA" />
+		<result property="persona.sec" column="SEC_PERSONA" />
 		<result property="nombreRazonSocial" column="NOMBRE_RAZON_SOCIAL" />
 		<result property="nit" column="NIT" />		
 	</resultMap>	
@@ -25,7 +25,7 @@
 			  VALUES
 			  (
 			   5,
-			   #{persona.secuencia,jdbcType=NUMERIC},
+			   #{persona.sec,jdbcType=NUMERIC},
 			   #{nombreRazonSocial,jdbcType=VARCHAR},
 			   #{direccionCorreo,jdbcType=VARCHAR},
 			   #{telefonoContacto,jdbcType=VARCHAR},

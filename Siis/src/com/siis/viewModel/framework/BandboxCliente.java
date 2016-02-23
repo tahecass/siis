@@ -21,7 +21,8 @@ import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Textbox;
-  
+
+import com.siis.configuracion.Conexion;
 import com.siis.dto.Cliente;
 
 public class BandboxCliente extends HtmlMacroComponent implements IdSpace {
@@ -117,10 +118,9 @@ public class BandboxCliente extends HtmlMacroComponent implements IdSpace {
 	/**
 	 * @throws Exception
 	 */
-	private void pintarItems() throws Exception {
-		Conexion con = new Conexion();
+	private void pintarItems() throws Exception { 
 
-		listaCLientes = (List<Cliente>) con.listarClientes("listarClientes", clienteSeleccionado);
+		listaCLientes = (List<Cliente>) Conexion.getConexion().listarClientes("listarClientes", clienteSeleccionado);
 
 		listboxCliente.getItems().clear();
 		for (Cliente cliente : listaCLientes) {

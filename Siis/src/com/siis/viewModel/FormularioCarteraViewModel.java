@@ -27,7 +27,7 @@ import com.siis.viewModel.framework.BandboxCliente;
 import com.siis.viewModel.framework.Utilidades;
 
 public class FormularioCarteraViewModel {
-	public Conexion con;
+
 	public List<DetalleCartera> listaDetalleCartera;
 	public List<Cartera> listaCartera;
 	public DetalleCartera detalleSeleccionado;
@@ -52,7 +52,6 @@ public class FormularioCarteraViewModel {
 		Selectors.wireComponents(view, this, false);
 		System.out.println(" afterCompose 1");
 
-		con = new Conexion();
 		listaDetalleCartera = new ArrayList<DetalleCartera>();
 		listaCartera = new ArrayList<Cartera>();
 		carteraSeleccionada = new Cartera();
@@ -100,7 +99,7 @@ public class FormularioCarteraViewModel {
 		try {
 			System.out.println("accion=>> " + accion);
 			Cartera cartera = new Cartera();
-			con = new Conexion();
+
 			cartera.setCliente(idFORMCARTERAZBbxCliente.getValue());
 			cartera.setUsuario(new Usuario(new Integer(1)));
 			cartera.setFechaHoraActualizacion(idFORMCARTERAZDbxFechaHoraAct.getValue());
@@ -109,20 +108,19 @@ public class FormularioCarteraViewModel {
 
 			if (accion.equals("I")) {
 				cartera.setSecuencia(10);
-				con.guardar("guardarCartera", cartera);
+				Conexion.getConexion().guardar("guardarCartera", cartera);
 				System.out.println("Carteraguardada");
 				Utilidades.mostrarNotificacion(idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
 						idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_GUARDAR").toString(), "INFO");
 
 			} else if (accion.equals("U")) {
 				cartera.setSecuencia(carteraSeleccionada.getSecuencia());
-				con.actualizar("actualizarCartera", cartera);
+				Conexion.getConexion().actualizar("actualizarCartera", cartera);
 				System.out.println("CarteraActualizada");
 				Utilidades.mostrarNotificacion(idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
 						idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
 			}
 
-		
 			listarCartera();
 			setDesactivarBtnNuevo(false);
 			setDesactivarBtnEditar(false);
@@ -133,16 +131,15 @@ public class FormularioCarteraViewModel {
 		}
 	}
 
-	
 	@NotifyChange("*")
 	@Command
 	public void onEliminar(@BindingParam("seleccionado") Cartera cartera) {
 		System.out.println("onEliminar");
-		con = new Conexion();
-		con.eliminar("eliminarCartera", cartera);
+
+		Conexion.getConexion().eliminar("eliminarCartera", cartera);
 		Utilidades.mostrarNotificacion(idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
 				idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(), "INFO");
-	
+
 		setDesactivarBtnNuevo(false);
 		setDesactivarBtnEditar(true);
 		setDesactivarBtnGuardar(true);
@@ -192,8 +189,7 @@ public class FormularioCarteraViewModel {
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		setDesactivarformulario(true);
 		try {
-			con = new Conexion();
-			setListaCartera((List<Cartera>) con.obtenerListado("listarCarteras", parametros));
+			setListaCartera((List<Cartera>) Conexion.getConexion().obtenerListado("listarCarteras", parametros));
 		} catch (Exception e) {
 			e.printStackTrace();
 
