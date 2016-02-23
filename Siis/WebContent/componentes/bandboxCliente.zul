@@ -45,7 +45,7 @@
 			</bandpopup>
 		</bandbox>
 		 
-		<image id="botonLimpiar" src="imagenes/cancel.png" />
+		<image id="botonLimpiar" src="imagenes/limpiar.png" />
 	</hlayout>
 	<style>
 		.GridLayoutNoBorder tr.z-row td.z-row-inner, tr.z-row

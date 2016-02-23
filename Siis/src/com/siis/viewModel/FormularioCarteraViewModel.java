@@ -32,7 +32,8 @@ public class FormularioCarteraViewModel {
 	public List<Cartera> listaCartera;
 	public DetalleCartera detalleSeleccionado;
 	public Cartera carteraSeleccionada;
-	private boolean desactivarformulario;
+	private boolean desactivarformulario, desactivarBtnNuevo, desactivarBtnEditar, desactivarBtnEliminar,
+			desactivarBtnGuardar;
 	private String accion;
 
 	@Wire
@@ -60,6 +61,10 @@ public class FormularioCarteraViewModel {
 		listarCartera();
 		accion = new String();
 
+		setDesactivarBtnNuevo(false);
+		setDesactivarBtnEditar(true);
+		setDesactivarBtnGuardar(true);
+		setDesactivarBtnEliminar(true);
 	}
 
 	@NotifyChange("listaDetalleCartera")
@@ -89,6 +94,7 @@ public class FormularioCarteraViewModel {
 		}
 	}
 
+	@NotifyChange("*")
 	@Command
 	public void guardarCartera() {
 		try {
@@ -99,8 +105,8 @@ public class FormularioCarteraViewModel {
 			cartera.setUsuario(new Usuario(new Integer(1)));
 			cartera.setFechaHoraActualizacion(idFORMCARTERAZDbxFechaHoraAct.getValue());
 			cartera.setFechaPago(idFORMCARTERAZDbxFechaPago.getValue());
-            cartera.setFechaCreacion(new Date());
-            
+			cartera.setFechaCreacion(new Date());
+
 			if (accion.equals("I")) {
 				cartera.setSecuencia(10);
 				con.guardar("guardarCartera", cartera);
@@ -116,18 +122,43 @@ public class FormularioCarteraViewModel {
 						idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
 			}
 
+		
 			listarCartera();
+			setDesactivarBtnNuevo(false);
+			setDesactivarBtnEditar(false);
+			setDesactivarBtnGuardar(true);
+			setDesactivarBtnEliminar(false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	
 	@NotifyChange("*")
 	@Command
-	private void onSeleccionar(@BindingParam("seleccionado") Cartera cartera) {
-		System.out.println("seleccionar");
+	public void onEliminar(@BindingParam("seleccionado") Cartera cartera) {
+		System.out.println("onEliminar");
+		con = new Conexion();
+		con.eliminar("eliminarCartera", cartera);
+		Utilidades.mostrarNotificacion(idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
+				idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(), "INFO");
+	
+		setDesactivarBtnNuevo(false);
+		setDesactivarBtnEditar(true);
+		setDesactivarBtnGuardar(true);
+		setDesactivarBtnEliminar(true);
+	}
+
+	@NotifyChange("*")
+	@Command
+	public void onSeleccionar(@BindingParam("seleccionado") Cartera cartera) {
+		System.out.println("onSeleccionar");
 		setCarteraSeleccionada(cartera);
 		accion = "U";
+		setDesactivarBtnNuevo(true);
+		setDesactivarBtnEditar(true);
+		setDesactivarBtnGuardar(true);
+		setDesactivarBtnEliminar(false);
 	}
 
 	@NotifyChange("*")
@@ -145,10 +176,15 @@ public class FormularioCarteraViewModel {
 		setDesactivarformulario(false);
 		carteraSeleccionada.setFechaHoraActualizacion(new Date());
 		accion = "I";
+
+		setDesactivarBtnNuevo(true);
+		setDesactivarBtnEditar(true);
+		setDesactivarBtnGuardar(false);
+		setDesactivarBtnEliminar(true);
 	}
 
 	@SuppressWarnings("unchecked")
-	@NotifyChange("listaCartera,idCARTERAZLbxCartera")
+	@NotifyChange("*")
 	@Command
 	public void listarCartera() {
 		System.out.println(" listarCartera ");
@@ -218,6 +254,38 @@ public class FormularioCarteraViewModel {
 
 	public void setDesactivarformulario(boolean desactivarformulario) {
 		this.desactivarformulario = desactivarformulario;
+	}
+
+	public boolean isDesactivarBtnNuevo() {
+		return desactivarBtnNuevo;
+	}
+
+	public void setDesactivarBtnNuevo(boolean desactivarBtnNuevo) {
+		this.desactivarBtnNuevo = desactivarBtnNuevo;
+	}
+
+	public boolean isDesactivarBtnEditar() {
+		return desactivarBtnEditar;
+	}
+
+	public void setDesactivarBtnEditar(boolean desactivarBtnEditar) {
+		this.desactivarBtnEditar = desactivarBtnEditar;
+	}
+
+	public boolean isDesactivarBtnEliminar() {
+		return desactivarBtnEliminar;
+	}
+
+	public void setDesactivarBtnEliminar(boolean desactivarBtnEliminar) {
+		this.desactivarBtnEliminar = desactivarBtnEliminar;
+	}
+
+	public boolean isDesactivarBtnGuardar() {
+		return desactivarBtnGuardar;
+	}
+
+	public void setDesactivarBtnGuardar(boolean desactivarBtnGuardar) {
+		this.desactivarBtnGuardar = desactivarBtnGuardar;
 	}
 
 }

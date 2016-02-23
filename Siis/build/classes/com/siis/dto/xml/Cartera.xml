@@ -74,6 +74,9 @@
 		  LEFT JOIN  USUARIOS ON USUARIOS.SEC = CARTERAS.SEC_USUARIO
 	    WHERE CARTERAS.SEC=  #{secuencia,jdbcType=NUMERIC};
  </select>
+ <delete id="eliminarCartera" parameterType="CarteraAlias">
+		 DELETE FROM CARTERAS WHERE CARTERAS.SEC=  #{secuencia,jdbcType=NUMERIC};
+ </delete>
 </mapper>
 
 

@@ -35,7 +35,7 @@
 										<row>
 											<label value="Cliente:" />
 											<bandboxCliente
-												disabled="@load(vm.desactivarformulario)" 
+												disabled="@load(vm.desactivarformulario)"
 												value="@load(vm.carteraSeleccionada.cliente)"
 												id="idFORMCARTERAZBbxCliente" />
 										</row>
@@ -60,14 +60,20 @@
 								<toolbar align="start">
 									<toolbarbutton label="Nuevo"
 										sclass="btn-info" tooltiptext="" image="imagenes/add.png"
-										onClick="@command('onNuevo')" />
-										<toolbarbutton label="Guardar"
+										onClick="@command('onNuevo')"
+										disabled="@load(vm.desactivarBtnNuevo)" />
+									<toolbarbutton label="Guardar"
 										sclass="btn-info" tooltiptext="" image="imagenes/guardar.png"
-										onClick="@command('guardarCartera')" />
-									<toolbarbutton label="Editar" 	onClick="@command('onEditar')"
-										sclass="btn-info" image="imagenes/edit.png" />
+										onClick="@command('guardarCartera')"
+										disabled="@load(vm.desactivarBtnGuardar)" />
+									<toolbarbutton label="Editar"
+										onClick="@command('onEditar')" sclass="btn-info"
+										image="imagenes/edit.png"
+										disabled="@load(vm.desactivarBtnEditar)" />
 									<toolbarbutton label="Eliminar"
-										sclass="btn-info" image="imagenes/delete.png" />
+										sclass="btn-info" image="imagenes/delete.png"
+										disabled="@load(vm.desactivarBtnEliminar)"
+										onClick="@command(onEliminar,seleccionado=vm.carteraSeleccionada)" />
 									<toolbarbutton label="Consultar"
 										sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
 								</toolbar>
@@ -180,8 +186,12 @@
 				</groupbox>
 			</vlayout>
 		</center>
-		<custom-attributes MSG_TITULO="Notificación"/>
-		<custom-attributes MSG_MENSAJE_GUARDAR="Se guardó correctamente la información"/>
-			<custom-attributes MSG_MENSAJE_ACTUALIZAR="Se actualizó correctamente la información"/>
+		<custom-attributes MSG_TITULO="Notificación" />
+		<custom-attributes
+			MSG_MENSAJE_GUARDAR="Se guardó correctamente la información" />
+		<custom-attributes
+			MSG_MENSAJE_ACTUALIZAR="Se actualizó correctamente la información" />
+		<custom-attributes
+			MSG_MENSAJE_ELIMINAR="Se eliminó correctamente la información" />
 	</borderlayout>
 </zk>
