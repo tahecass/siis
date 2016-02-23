@@ -73,14 +73,14 @@
 									<toolbarbutton label="Eliminar"
 										sclass="btn-info" image="imagenes/delete.png"
 										disabled="@load(vm.desactivarBtnEliminar)"
-										onClick="@command(onEliminar,seleccionado=vm.carteraSeleccionada)" />
+										onClick="@command('onEliminar',seleccionado=vm.carteraSeleccionada)" />
 									<toolbarbutton label="Consultar"
 										sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
 								</toolbar>
 								<listbox id="idCARTERAZLbxCartera"
 									span="true" model="@bind(vm.listaCartera)"
 									selectedItem="@bind(vm.carteraSeleccionada)"
-									onSelect="@command(onSeleccionar,seleccionado=vm.carteraSeleccionada)">
+									onSelect="@command('onSeleccionar',seleccionado=vm.carteraSeleccionada)">
 									<listhead sizable="true">
 										<listheader label="Cliente"
 											sort="auto" />
@@ -99,11 +99,11 @@
 
 											<listcell>
 												<label
-													value="@bind(each.fechaHoraActualizacion)" />
+													value="@bind(each.fechaHoraActualizacion) @converter('formatedDate', format='dd/MM/yyyy')" />
 											</listcell>
 											<listcell>
 												<label
-													value="@bind(each.fechaPago)" />
+													value="@bind(each.fechaPago) @converter('formatedDate', format='dd/MM/yyyy')" />
 											</listcell>
 										</listitem>
 									</template>

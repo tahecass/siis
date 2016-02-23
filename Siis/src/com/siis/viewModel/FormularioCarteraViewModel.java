@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -17,6 +18,7 @@ import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Datebox;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
 import com.siis.configuracion.Conexion;
@@ -27,7 +29,7 @@ import com.siis.viewModel.framework.BandboxCliente;
 import com.siis.viewModel.framework.Utilidades;
 
 public class FormularioCarteraViewModel {
-
+	protected static Logger log = Logger.getLogger(FormularioCarteraViewModel.class);
 	public List<DetalleCartera> listaDetalleCartera;
 	public List<Cartera> listaCartera;
 	public DetalleCartera detalleSeleccionado;
@@ -48,14 +50,12 @@ public class FormularioCarteraViewModel {
 
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
-		System.out.println("afterCompose.... ");
+
 		Selectors.wireComponents(view, this, false);
-		System.out.println(" afterCompose 1");
 
 		listaDetalleCartera = new ArrayList<DetalleCartera>();
 		listaCartera = new ArrayList<Cartera>();
 		carteraSeleccionada = new Cartera();
-		idFORMCARTERAZDbxFechaHoraAct.setValue(new Date());
 		setDesactivarformulario(true);
 		listarCartera();
 		accion = new String();
@@ -69,7 +69,7 @@ public class FormularioCarteraViewModel {
 	@NotifyChange("listaDetalleCartera")
 	@Command
 	public void onAgregar() {
-		System.out.println(" onAgregar ==> ");
+		log.info(" onAgregar ==> ");
 
 		// ListModelList<DetalleCartera> lm = new ListModelList<DetalleCartera>(
 		// Arrays.asList(new DetalleCartera(new Cartera(), "", 0.0, new Date(),
@@ -97,7 +97,7 @@ public class FormularioCarteraViewModel {
 	@Command
 	public void guardarCartera() {
 		try {
-			System.out.println("accion=>> " + accion);
+			log.info("accion=>> " + accion);
 			Cartera cartera = new Cartera();
 
 			cartera.setCliente(idFORMCARTERAZBbxCliente.getValue());
@@ -109,14 +109,14 @@ public class FormularioCarteraViewModel {
 			if (accion.equals("I")) {
 				cartera.setSecuencia(10);
 				Conexion.getConexion().guardar("guardarCartera", cartera);
-				System.out.println("Carteraguardada");
+				log.info("Carteraguardada");
 				Utilidades.mostrarNotificacion(idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
 						idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_GUARDAR").toString(), "INFO");
 
 			} else if (accion.equals("U")) {
 				cartera.setSecuencia(carteraSeleccionada.getSecuencia());
 				Conexion.getConexion().actualizar("actualizarCartera", cartera);
-				System.out.println("CarteraActualizada");
+				log.info("CarteraActualizada");
 				Utilidades.mostrarNotificacion(idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
 						idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
 			}
@@ -134,26 +134,30 @@ public class FormularioCarteraViewModel {
 	@NotifyChange("*")
 	@Command
 	public void onEliminar(@BindingParam("seleccionado") Cartera cartera) {
-		System.out.println("onEliminar");
+		log.info("onEliminar => " + cartera.getSecuencia());
 
-		Conexion.getConexion().eliminar("eliminarCartera", cartera);
-		Utilidades.mostrarNotificacion(idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
-				idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(), "INFO");
+		if (Messagebox.show("535345", "REETT".toString(), Messagebox.YES | Messagebox.NO,
+				Messagebox.QUESTION) == Messagebox.YES) {
 
-		setDesactivarBtnNuevo(false);
-		setDesactivarBtnEditar(true);
-		setDesactivarBtnGuardar(true);
-		setDesactivarBtnEliminar(true);
+			Conexion.getConexion().eliminar("eliminarCartera", cartera);
+			Utilidades.mostrarNotificacion(idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
+					idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(), "INFO");
+			listarCartera();
+			setDesactivarBtnNuevo(false);
+			setDesactivarBtnEditar(true);
+			setDesactivarBtnGuardar(true);
+			setDesactivarBtnEliminar(true);
+		}
 	}
 
 	@NotifyChange("*")
 	@Command
 	public void onSeleccionar(@BindingParam("seleccionado") Cartera cartera) {
-		System.out.println("onSeleccionar");
+		log.info("onSeleccionar==> ");
 		setCarteraSeleccionada(cartera);
 		accion = "U";
-		setDesactivarBtnNuevo(true);
-		setDesactivarBtnEditar(true);
+		setDesactivarBtnNuevo(false);
+		setDesactivarBtnEditar(false);
 		setDesactivarBtnGuardar(true);
 		setDesactivarBtnEliminar(false);
 	}
@@ -161,16 +165,21 @@ public class FormularioCarteraViewModel {
 	@NotifyChange("*")
 	@Command
 	public void onEditar() {
-		System.out.println("onEditar");
+		log.info("onEditar");
 		setDesactivarformulario(false);
 		accion = "U";
+		setDesactivarBtnNuevo(true);
+		setDesactivarBtnEditar(true);
+		setDesactivarBtnGuardar(false);
+		setDesactivarBtnEliminar(true);
 	}
 
 	@NotifyChange("*")
 	@Command
 	public void onNuevo() {
-		System.out.println("seleccionar");
+		log.info("onNuevo");
 		setDesactivarformulario(false);
+		carteraSeleccionada = new Cartera();
 		carteraSeleccionada.setFechaHoraActualizacion(new Date());
 		accion = "I";
 
@@ -184,7 +193,7 @@ public class FormularioCarteraViewModel {
 	@NotifyChange("*")
 	@Command
 	public void listarCartera() {
-		System.out.println(" listarCartera ");
+		log.info(" listarCartera ");
 		listaCartera = new ArrayList<Cartera>();
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		setDesactivarformulario(true);
@@ -202,7 +211,7 @@ public class FormularioCarteraViewModel {
 
 	// @Command
 	// public void onMostrarVentanaConsulta() {
-	// System.out.println("onMostrarVentanaConsulta");
+	// log.info("onMostrarVentanaConsulta");
 	//
 	// try {
 	// Map<String, Object> parametros = new HashMap<String, Object>();
