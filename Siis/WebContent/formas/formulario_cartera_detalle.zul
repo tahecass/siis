@@ -1,55 +1,154 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
-<zk>
-	<window id="modalDialog" title="Detalle Cartera" border="normal"
-		width="350px" closable="true" apply="org.zkoss.bind.BindComposer"
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap.min.css" ?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap.css" ?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap-theme.min.css" ?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap-theme.css" ?>
+<?component name="bandboxCliente" macroURI="/componentes/bandboxCliente.zul" class="com.siis.viewModel.framework.BandboxCliente"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<borderlayout apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') 
-		@init('com.siis.viewModel.FormularioCarteraDetalleViewModel')">
-		<vlayout>
-			<grid>
-				<columns>
-					<column hflex="min" />
-					<column />
-				</columns>
-				<rows>
-					<row>
-						<label value="Nro Factura" />
-						<textbox id="idDETCARTERAZTbxNroFactura" />
-					</row>
-					<row>
-						<label value="Vence" />
-						<datebox id="idDETCARTERAZTDbxVencimiento">
-					</row>
-					<row>
-						<label value="Referencia" />
-						<textbox id="idDETCARTERAZTDbxVencimiento" />
-					</row>
-					<row>
-						<label value="30 Dias" />
-						<doublebox id="idDETCARTERAZTDbxValor1" />
-					</row>
-					<row>
-						<label value="60 Dias" />
-						<doublebox  id="idDETCARTERAZTDbxValor2" />
-					</row>
-					<row>
-						<label value="90 Dias" />
-						<doublebox id="idDETCARTERAZTDbxValor3" />
-					</row>
-					<row>
-						<label value="Más de 90 Dias" />
-						<doublebox id="idDETCARTERAZTDbxValor4" />
-					</row>
-				</rows>
-			</grid>
-			<hlayout>
-				<groupbox closable="false" hflex="true">
-					<hlayout>
-						<image src="/imagenes/botones/cargar.png"
-							onClick="@command('guardarDetalleCartera')" />
-					</hlayout>
+		@init('com.siis.viewModel.FormularioCarteraDetalleViewModel')"
+		id="idWINFORMDETCARTERAZPrincipal">
+
+		<center>
+			<vlayout height="100%">
+				<groupbox mold="3d" hflex="true" vflex="true"
+					contentStyle="padding:0px" open="true" closable="false">
+					<grid>
+						<columns>
+							<column hflex="min" />
+							<column />
+						</columns>
+						<rows>
+							<row>
+								<label value="Nro Factura" />
+								<textbox
+									id="idWINFORMDETCARTERAZTbxNroFactura" />
+							</row>
+							<row>
+								<label value="Vence" />
+								<datebox
+									id="idWINFORMDETCARTERAZTDbxVencimiento" />
+							</row>
+							<row>
+								<label value="Referencia" />
+								<textbox
+									id="idWINFORMDETCARTERAZTbxReferencia" />
+							</row>
+							<row>
+								<label value="30 Dias" />
+								<doublebox
+									id="idWINFORMDETCARTERAZTDbxValor1" />
+							</row>
+							<row>
+								<label value="60 Dias" />
+								<doublebox
+									id="idWINFORMDETCARTERAZTDbxValor2" />
+							</row>
+							<row>
+								<label value="90 Dias" />
+								<doublebox
+									id="idWINFORMDETCARTERAZTDbxValor3" />
+							</row>
+							<row>
+								<label value="Más de 90 Dias" />
+								<doublebox
+									id="idWINFORMDETCARTERAZTDbxValor4" />
+							</row>
+						</rows>
+					</grid>
+					<separator />
+					<toolbar align="start">
+						<toolbarbutton label="Nuevo" sclass="btn-info"
+							tooltiptext="" image="imagenes/add.png"
+							onClick="@command('onNuevo')"
+							disabled="@load(vm.desactivarBtnNuevo)" />
+						<toolbarbutton label="Guardar" sclass="btn-info"
+							tooltiptext="" image="imagenes/guardar.png"
+							onClick="@command('guardarCartera')"
+							disabled="@load(vm.desactivarBtnGuardar)" />
+						<toolbarbutton label="Editar"
+							onClick="@command('onEditar')" sclass="btn-info"
+							image="imagenes/edit.png"
+							disabled="@load(vm.desactivarBtnEditar)" />
+						<toolbarbutton label="Eliminar"
+							sclass="btn-info" image="imagenes/delete.png"
+							disabled="@load(vm.desactivarBtnEliminar)"
+							onClick="@command('onEliminar',seleccionado=vm.carteraSeleccionada)" />
+						<toolbarbutton label="Consultar"
+							sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
+					</toolbar>
+					<listbox id="idCARTERAZLbxDetalleCartera"
+						sizedByContent="true" span="true"
+						model="@bind(vm.listaDetalleCartera)"
+						selectedItem="@bind(vm.detalleCarteraSeleccionada)">
+
+						<listhead sizable="true">
+
+							<listheader label="Nro Factura" sort="auto" />
+
+							<listheader label="Vence" sort="auto" />
+
+							<listheader label="Referencia" sort="auto" />
+
+							<listheader label="30 Dias" sort="auto" />
+
+							<listheader label="60 Dias" sort="auto" />
+
+							<listheader label="90 Dias" sort="auto" />
+
+							<listheader label="Mas de 90" sort="auto" />
+
+						</listhead>
+						<template name="model">
+							<listitem>
+								<listcell>
+									<textbox
+										value="@bind(each.nroFactura)" />
+								</listcell>
+								<listcell>
+									<datebox
+										value="@bind(each.vencimiento)" />
+								</listcell>
+								<listcell>
+									<textbox
+										value="@bind(each.referencia)" />
+								</listcell>
+								<listcell>
+									<doublebox
+										value="@bind(each.valor1)" />
+								</listcell>
+								<listcell>
+									<doublebox
+										value="@bind(each.valor2)" />
+								</listcell>
+								<listcell>
+									<doublebox
+										value="@bind(each.valor3)" />
+								</listcell>
+								<listcell>
+									<doublebox
+										value="@bind(each.valor4)" />
+								</listcell>
+							</listitem>
+						</template>
+					</listbox>
 				</groupbox>
-			</hlayout>
-		</vlayout>
-	</window>
+			</vlayout>
+		</center>
+		<custom-attributes MSG_TITULO="Notificación" />
+		<custom-attributes
+			MSG_MENSAJE_GUARDAR="Se guardó correctamente la información" />
+		<custom-attributes
+			MSG_MENSAJE_ACTUALIZAR="Se actualizó correctamente la información" />
+		<custom-attributes
+			MSG_MENSAJE_ELIMINAR="Se eliminó correctamente la información" />
+		<custom-attributes
+			MSG_ELIMINAR_CARTERA="¿Desea eliminar eliminar la fila seleccionada?" />
+		<custom-attributes MSG_TITULO_ELIMINAR="Confirmación" />
+	</borderlayout>
 </zk>

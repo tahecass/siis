@@ -22,7 +22,10 @@
 					<tabbox>
 						<tabs>
 							<tab label="Generalidades" />
-							<tab label="Detalle" />
+							<tab label="Detalle"
+								onClick="@command('onMostrarVentanaDetalle')" />
+							<tab label="Consulta"
+								onClick="@command('onMostrarVentanaConsulta')" />
 						</tabs>
 						<tabpanels>
 							<tabpanel>
@@ -109,76 +112,8 @@
 									</template>
 								</listbox>
 							</tabpanel>
-							<tabpanel>
-								<groupbox closable="false"
-									vflex="true">
-									<toolbar align="start">
-										<toolbarbutton label="Agregar"
-											sclass="btn-info" tooltiptext="" image="imagenes/add.png" />
-										<toolbarbutton label="Editar"
-											tooltiptext="" sclass="btn-info" image="imagenes/edit.png" />
-										<toolbarbutton label="Eliminar"
-											sclass="btn-info" image="imagenes/delete.png" />
-										<toolbarbutton label="Consultar"
-											sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
-									</toolbar>
-									<listbox
-										id="idCARTERAZLbxDetalleCartera" sizedByContent="true"
-										span="true" model="@bind(vm.listaDetalleCartera)"
-										selectedItem="@bind(vm.detalleSeleccionado)">
-										<listhead sizable="true">
-											<listheader
-												label="Nro Factura" sort="auto" />
-											<listheader label="Vence"
-												sort="auto" />
-											<listheader
-												label="Referencia" sort="auto" />
-											<listheader label="30 Dias"
-												sort="auto" />
-											<listheader label="60 Dias"
-												sort="auto" />
-											<listheader label="90 Dias"
-												sort="auto" />
-											<listheader
-												label="Mas de 90" sort="auto" />
-										</listhead>
-										<template name="model">
-
-											<listitem>
-												<listcell>
-													<textbox
-														value="@bind(each.nroFactura)" />
-												</listcell>
-												<listcell>
-													<datebox
-														value="@bind(each.vencimiento)" />
-												</listcell>
-												<listcell>
-													<textbox
-														value="@bind(each.referencia)" />
-												</listcell>
-												<listcell>
-													<textbox value="" />
-												</listcell>
-												<listcell>
-													<textbox value="" />
-												</listcell>
-												<listcell>
-													<textbox value="" />
-												</listcell>
-												<listcell>
-													<textbox value="" />
-												</listcell>
-
-												<listcell>
-													<button />
-												</listcell>
-											</listitem>
-										</template>
-									</listbox>
-								</groupbox>
-							</tabpanel>
-
+							<tabpanel id="idCARTERAZTpnDetalleCartera" />
+							<tabpanel id="idCARTERAZTpnConsultaCartera" />
 						</tabpanels>
 
 					</tabbox>
@@ -193,5 +128,8 @@
 			MSG_MENSAJE_ACTUALIZAR="Se actualizó correctamente la información" />
 		<custom-attributes
 			MSG_MENSAJE_ELIMINAR="Se eliminó correctamente la información" />
+		<custom-attributes
+			MSG_ELIMINAR_CARTERA="¿Desea eliminar eliminar la fila seleccionada?" />
+		<custom-attributes MSG_TITULO_ELIMINAR="Confirmación" />
 	</borderlayout>
 </zk>

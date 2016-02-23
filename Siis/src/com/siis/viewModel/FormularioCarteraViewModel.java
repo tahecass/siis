@@ -19,6 +19,7 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Tabpanel;
 import org.zkoss.zul.Window;
 
 import com.siis.configuracion.Conexion;
@@ -47,6 +48,8 @@ public class FormularioCarteraViewModel {
 	private BandboxCliente idFORMCARTERAZBbxCliente;
 	@Wire
 	public Borderlayout idWINFORMCARTERAZPrincipal;
+	@Wire
+	private Tabpanel idCARTERAZTpnDetalleCartera, idCARTERAZTpnConsultaCartera;
 
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
@@ -135,10 +138,11 @@ public class FormularioCarteraViewModel {
 	@Command
 	public void onEliminar(@BindingParam("seleccionado") Cartera cartera) {
 		log.info("onEliminar => " + cartera.getSecuencia());
+		if ((Messagebox.show(idWINFORMCARTERAZPrincipal.getAttribute("MSG_ELIMINAR_CARTERA").toString(),
+				idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+				Messagebox.NO | Messagebox.YES, Messagebox.QUESTION)) == Messagebox.YES) {
 
-		if (Messagebox.show("535345", "REETT".toString(), Messagebox.YES | Messagebox.NO,
-				Messagebox.QUESTION) == Messagebox.YES) {
-
+			log.info("Messagebox.YES => " + cartera.getSecuencia());
 			Conexion.getConexion().eliminar("eliminarCartera", cartera);
 			Utilidades.mostrarNotificacion(idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
 					idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(), "INFO");
@@ -209,21 +213,34 @@ public class FormularioCarteraViewModel {
 		return listaDetalleCartera;
 	}
 
-	// @Command
-	// public void onMostrarVentanaConsulta() {
-	// log.info("onMostrarVentanaConsulta");
-	//
-	// try {
-	// Map<String, Object> parametros = new HashMap<String, Object>();
-	// parametros.put("OBJETO", "");
-	//
-	// onCargarVentana(tabPanelConsultas, "//formas//vista_cartera.zul",
-	// parametros);
-	//
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
+	@Command
+	public void onMostrarVentanaDetalle() {
+		log.info("onMostrarVentanaDetalle");
+
+		try {
+			Map<String, Object> parametros = new HashMap<String, Object>();
+			parametros.put("OBJETO", carteraSeleccionada);
+			Utilidades.onCargarVentana(idCARTERAZTpnConsultaCartera, "//formas//formulario_cartera_detalle.zul",
+					parametros);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Command
+	public void onMostrarVentanaConsulta() {
+		log.info("onMostrarVentanaConsulta");
+
+		try {
+			Map<String, Object> parametros = new HashMap<String, Object>();
+			parametros.put("OBJETO", carteraSeleccionada);
+			Utilidades.onCargarVentana(idCARTERAZTpnDetalleCartera, "//formas//vista_cartera.zul", parametros);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void setListaDetalleCartera(List<DetalleCartera> listaDetalleCartera) {
 		this.listaDetalleCartera = listaDetalleCartera;
