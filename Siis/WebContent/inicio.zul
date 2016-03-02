@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?component name="bandboxSeeker" macroURI="/componentes/bandbox.zul"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<borderlayout apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') 
+		@init('com.siis.viewModel.InicioViewModel')">
+		<north >
+			<grid style="border:none;">
+				<columns>
+					<column hflex="min" align="left" />
+					<column align="center" />
+					<column hflex="min" align="right" />
+				</columns>
+				<rows>
+					<row style="border:none;background-color:white;">
+						<hbox />
+						<hbox />
+						<hbox />
+					</row>
+					<row style="border:none;background-color:white;">
+						<hbox style="background-color:white;">
+							<div style="background-color:white;">
+								<image src="/imagenes/logoCliente.png"
+									width="264px" height="60px" align="left" />
+							</div>
+						</hbox>
+						<hbox hflex="true"
+							style="background-color:white;">
+							<div hflex="true" align="center"
+								style="background-color:white;">
+								<label value="TÍTULO AQUÍ"
+									style="color:;font-size:25px;font-weight:bold;" />
+							</div>
+						</hbox>
+						<hbox align="center">
+							<hbox align="center">
+								<textbox placeholder="Usuario" id="tbxUsuario" constraint="no empty"/>
+								<textbox type="password"
+									placeholder="Clave" id="tbxClave" constraint="no empty" />
+								<toolbarbutton image="/imagenes/in.png" sclass="btn-info"
+									style="cursor:pointer;" label="Iniciar" onClick="@command('iniciar')">
+								</toolbarbutton>
+							</hbox>
+						</hbox>
+					</row>
+				</rows>
+			</grid>
+		</north>
+		<center>
+			<groupbox></groupbox>
+		</center>
+	</borderlayout>
+</zk>

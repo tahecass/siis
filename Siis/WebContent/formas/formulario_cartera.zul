@@ -19,16 +19,16 @@
 				<groupbox mold="3d" hflex="true" vflex="true"
 					contentStyle="padding:0px" open="true" closable="false">
 
-					<tabbox>
+					<tabbox hflex="true" vflex="true">
 						<tabs>
 							<tab label="Generalidades" />
-							<tab label="Detalle"
-								onClick="@command('onMostrarVentanaDetalle')" />
+							<tab label="Detalle"  
+								onClick="@command('onMostrarVentanaDetalle')"  disabled="@load(vm.desactivarTabDetalle)" />
 							<tab label="Consulta"
 								onClick="@command('onMostrarVentanaConsulta')" />
 						</tabs>
-						<tabpanels>
-							<tabpanel>
+						<tabpanels style="overflow:auto" vflex="true">
+							<tabpanel style="overflow:auto" vflex="true">
 								<grid>
 									<columns>
 										<column hflex="min" />
@@ -39,23 +39,22 @@
 											<label value="Cliente:" />
 											<bandboxCliente
 												disabled="@load(vm.desactivarformulario)"
-												value="@load(vm.carteraSeleccionada.cliente)"
+												value="@bind(vm.carteraSeleccionada.cliente)"
 												id="idFORMCARTERAZBbxCliente" />
 										</row>
 										<row>
 											<label
 												value="Fecha y Hora de Actualizacion:" />
 											<datebox disabled="true"
-												value="@load(vm.carteraSeleccionada.fechaHoraActualizacion)"
-												id="idFORMCARTERAZDbxFechaHoraAct" />
+												value="@bind(vm.carteraSeleccionada.fechaHoraActualizacion)"
+											 />
 										</row>
 										<row>
 											<label
 												value="Fecha de Pago:" />
 											<datebox
-												disabled="@load(vm.desactivarformulario)"
-												id="idFORMCARTERAZDbxFechaPago"
-												value="@load(vm.carteraSeleccionada.fechaPago)" />
+												disabled="@load(vm.desactivarformulario)" 
+												value="@bind(vm.carteraSeleccionada.fechaPago)" />
 										</row>
 									</rows>
 								</grid>
@@ -112,8 +111,8 @@
 									</template>
 								</listbox>
 							</tabpanel>
-							<tabpanel id="idCARTERAZTpnDetalleCartera" />
-							<tabpanel id="idCARTERAZTpnConsultaCartera" />
+							<tabpanel id="idCARTERAZTpnDetalleCartera" hflex="true"/>
+							<tabpanel id="idCARTERAZTpnConsultaCartera" hflex="true" />
 						</tabpanels>
 
 					</tabbox>

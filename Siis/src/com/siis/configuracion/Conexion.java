@@ -14,6 +14,18 @@ public class Conexion {
 		return listar(qryName, objeto);
 	}
 
+	public Object obtenerRegistro(String sqlName, Object object) throws Exception {
+		session = new MyBatisUtil().getInstance().getSessionFactory().openSession(true);
+		if (session != null) {
+			try {
+				return session.selectOne(sqlName, object);
+			} finally {
+				session.close();
+			}
+		}
+		return null;
+	}
+
 	public static Conexion getConexion() {
 
 		return conexion;

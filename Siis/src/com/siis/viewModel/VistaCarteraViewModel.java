@@ -17,11 +17,8 @@ import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Tabpanel;
 
 import com.siis.configuracion.Conexion;
-import com.siis.dto.Bean;
-import com.siis.dto.Cartera;
 import com.siis.dto.Cliente;
 import com.siis.dto.DetalleCartera;
-import com.siis.dto.Indicador;
 
 public class VistaCarteraViewModel {
 	public Conexion con;
@@ -29,6 +26,9 @@ public class VistaCarteraViewModel {
 	public List<Cliente> listaCliente;
 	public Cliente clienteSeleccionado;
 	public DetalleCartera detalleSeleccionado;
+	private Double totalCartera;
+	private Double totalCarteraVencida;
+	private Double totalCarteraPorVencer;
 
 	@Wire
 	public Combobox bandboxSeekerClientes;
@@ -49,15 +49,18 @@ public class VistaCarteraViewModel {
 	@Command
 	public void listarDetalleCartera() {
 		System.out.println(" listarDetalleCartera ");
-		 
 
 		Map<String, Object> parametros = new HashMap<String, Object>();
-		parametros.put("SECUENCIA_CLIENTE", clienteSeleccionado.getSecuencia());
+		parametros.put("SEC_CLIENTE", clienteSeleccionado.getSecuencia());
 
 		try {
 			con = new Conexion();
 			setListaDetalleCartera(
 					(List<DetalleCartera>) con.obtenerListado("listarDetalleCarterasPorClientes", parametros));
+			setTotalCartera((Double) con.obtenerRegistro("obtenerTotalCartera", clienteSeleccionado.getSecuencia()));
+			setTotalCarteraVencida(
+					(Double) con.obtenerRegistro("obtenerTotalCarteraVencida", clienteSeleccionado.getSecuencia()));
+
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -111,6 +114,30 @@ public class VistaCarteraViewModel {
 
 	public void setClienteSeleccionado(Cliente clienteSeleccionado) {
 		this.clienteSeleccionado = clienteSeleccionado;
+	}
+
+	public Double getTotalCartera() {
+		return totalCartera;
+	}
+
+	public void setTotalCartera(Double totalCartera) {
+		this.totalCartera = totalCartera;
+	}
+
+	public Double getTotalCarteraVencida() {
+		return totalCarteraVencida;
+	}
+
+	public void setTotalCarteraVencida(Double totalCarteraVencida) {
+		this.totalCarteraVencida = totalCarteraVencida;
+	}
+
+	public Double getTotalCarteraPorVencer() {
+		return totalCarteraPorVencer;
+	}
+
+	public void setTotalCarteraPorVencer(Double totalCarteraPorVencer) {
+		this.totalCarteraPorVencer = totalCarteraPorVencer;
 	}
 
 }

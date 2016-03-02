@@ -20,14 +20,20 @@
 		<result property="valor4" column="VALOR_4" />
 		<result property="vencimiento" column="VENCIMIENTO" />
 		<result property="referencia" column="REFERENCIA" /> 
+		<result property="fechaCreacion" column="FECHA_CREACION" /> 
+		<result property="fechaActualizacion" column="FECHA_ACTUALIZACION" /> 
+		
+		<result property="totalCartera" column="TOTAL_CARTERA" />
+		<result property="totalCarteraVencida" column="TOTAL_CARTERA_VENCIDA" />
+		<result property="totalCarteraPorVencer" column=" " />
 		
 		 		
 	</resultMap>	
 	
   
 	<select id="guardarDetalleCartera" parameterType="DetalleCarteraAlias" resultMap="resMapDetalleCartera"  > 			  
-			  INSERT INTO detalle_cartera
-			         ( SEC, SEC_CARTERA, VENCIMIENTO, REFERENCIA, NRO_FACTURA, VALOR_FACTURA) 
+			  INSERT INTO DETALLE_CARTERA
+			         (`SEC`, `SEC_CARTERA`, `VENCIMIENTO`, `REFERENCIA`, `NRO_FACTURA`, `VALOR_1`, `VALOR_2`, `VALOR_3`, `VALOR_4`, `FECHA_CREACION`, `FECHA_ACTUALIZACION`)
 			  VALUES (1,
 			         #{cartera.secuencia,jdbcType=NUMERIC},
 			         #{vencimiento,jdbcType=DATE},
@@ -36,18 +42,20 @@
 			         #{valor1,jdbcType=NUMERIC},
 			         #{valor2,jdbcType=NUMERIC},
 			         #{valor3,jdbcType=NUMERIC},
-			         #{valor4,jdbcType=NUMERIC}
+			         #{valor4,jdbcType=NUMERIC},
+			         #{fechaCreacion,jdbcType=DATE},
+			         #{fechaActualizacion,jdbcType=DATE}
 			         
 			         )
 		       
 	</select>
 	<select id="listarDetalleCarterasPorClientes" parameterType="Map" resultMap="resMapDetalleCartera"  > 
 		SELECT 
-		   CARTERA.SEC  AS  SEC_CARTERA , 
-		   CARTERA.FECHA_PAGO , 
-		   CARTERA.FECHA_HORA_ACTUALIZACION ,
-		   CARTERA.SEC_USUARIO , 
-		   CARTERA.SEC_CLIENTE , 
+		   CARTERAS.SEC  AS  SEC_CARTERA , 
+		   CARTERAS.FECHA_PAGO , 
+		   CARTERAS.FECHA_HORA_ACTUALIZACION ,
+		   CARTERAS.SEC_USUARIO , 
+		   CARTERAS.SEC_CLIENTE , 
 		   CLIENTES.NOMBRE_RAZON_SOCIAL , 
 		   CLIENTES.NIT , 
 		   CLIENTES.SEC_PERSONA , 
@@ -56,16 +64,62 @@
 		   DETALLE_CARTERA . SEC_CARTERA , 
 		   DETALLE_CARTERA . VENCIMIENTO , 
 		   DETALLE_CARTERA . REFERENCIA , 
-		   DETALLE_CARTERA . NRO_FACTURA , 
-		   DETALLE_CARTERA . VALOR_FACTURA 
+		   DETALLE_CARTERA . NRO_FACTURA,
+		   DETALLE_CARTERA .VALOR_1,
+		   DETALLE_CARTERA .VALOR_4,
+		   DETALLE_CARTERA .VALOR_3,
+		   DETALLE_CARTERA .VALOR_4,
+		   DETALLE_CARTERA .FECHA_CREACION,
+		   DETALLE_CARTERA .FECHA_ACTUALIZACION
 		FROM 
 		  DETALLE_CARTERA 
-		  LEFT JOIN  CARTERA  ON  CARTERA .SEC  =  DETALLE_CARTERA . SEC_CARTERA  
-		  LEFT JOIN  CLIENTES  ON  CLIENTES.SEC  =  CARTERA.SEC_CLIENTE  
-		  LEFT JOIN  USUARIOS  ON  USUARIOS.SEC  =  CARTERA.SEC_USUARIO 
+		  LEFT JOIN  CARTERAS  ON  CARTERAS .SEC  =  DETALLE_CARTERA . SEC_CARTERA  
+		  LEFT JOIN  CLIENTES  ON  CLIENTES.SEC  =  CARTERAS.SEC_CLIENTE  
+		  LEFT JOIN  USUARIOS  ON  USUARIOS.SEC  =  CARTERAS.SEC_USUARIO 
+	
+	 <trim prefix="WHERE" prefixOverrides="AND | OR ">
+		 <if test="SEC_CARTERA != null" >
+		    AND CARTERAS.SEC = #{SEC_CARTERA,jdbcType=NUMERIC};
+		 </if>
+		 <if test="SEC_CLIENTE != null" >
+		    AND CARTERAS.SEC_CLIENTE = #{SEC_CLIENTE,jdbcType=NUMERIC};
+		 </if>
+	</trim>
 		 
-		 WHERE  CARTERA.SEC = #{SEC_CARTERA,jdbcType=NUMERIC};
  </select>
+ <select id="obtenerTotalCartera" parameterType="java.lang.Integer"  resultType="java.lang.Double"> 
+			SELECT 
+		        SUM(DETALLE_CARTERA .VALOR_1) as TOTAL_CARTERA
+						FROM 
+						  DETALLE_CARTERA 
+						  LEFT JOIN  CARTERAS  ON  CARTERAS .SEC  =  DETALLE_CARTERA . SEC_CARTERA  
+		                  LEFT JOIN  CLIENTES  ON  CLIENTES.SEC  =  CARTERAS.SEC_CLIENTE  
+				WHERE CLIENTES.SEC= #{SEC_CLIENTE,jdbcType=NUMERIC};
+ </select>
+  <select id="obtenerTotalCarteraVencida" parameterType="java.lang.Integer"  resultType="java.lang.Double"> 
+		<![CDATA[
+		 SELECT SUM(VALOR_1) AS TOTAL_CARTERA_VENCIDA 
+		  FROM  DETALLE_CARTERA 
+		  LEFT JOIN  CARTERAS  ON  CARTERAS .SEC  =  DETALLE_CARTERA . SEC_CARTERA  
+		  LEFT JOIN  CLIENTES  ON  CLIENTES.SEC  =  CARTERAS.SEC_CLIENTE  
+         WHERE VENCIMIENTO < SYSDATE() AND CLIENTES.SEC= #{SEC_CLIENTE,jdbcType=NUMERIC};
+        ]]>
+ </select>
+ <update id="actualizarDetalleCartera" parameterType="DetalleCarteraAlias">
+	  UPDATE DETALLE_CARTERA 
+	     SET 
+	         VENCIMIENTO = #{vencimiento,jdbcType=DATE},
+	         REFERENCIA  = #{referencia,jdbcType=VARCHAR},
+	         NRO_FACTURA = #{nroFactura,jdbcType=VARCHAR},
+	         VALOR_1  =   #{valor1,jdbcType=NUMERIC},
+	         VALOR_2  =   #{valor2,jdbcType=NUMERIC},
+	         VALOR_3  =   #{valor3,jdbcType=NUMERIC},
+	         VALOR_4  =   #{valor4,jdbcType=NUMERIC}, 
+	         FECHA_ACTUALIZACION =  #{fechaActualizacion,jdbcType=DATE}
+	   WHERE SEC = #{secuencia,jdbcType=NUMERIC} 
+	     AND SEC_CARTERA = #{cartera.secuencia,jdbcType=NUMERIC};
+</update>
+  <delete id="eliminarDetalleCartera" parameterType="DetalleCarteraAlias">
+		 DELETE FROM DETALLE_CARTERA WHERE DETALLE_CARTERA.SEC=  #{secuencia,jdbcType=NUMERIC};
+ </delete>
 </mapper>
-
-

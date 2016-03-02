@@ -11,7 +11,13 @@ public class DetalleCartera {
 	private Double valor3;
 	private Double valor4;
 	private Date vencimiento;
+	private Date fechaCreacion;
+	private Date fechaActualizacion;
 	private String referencia;
+	
+	private Double totalCartera;
+	private Double totalCarteraVencida;
+	private Double totalCarteraPorVencer;
 
 	public DetalleCartera() {
 	}
@@ -99,6 +105,46 @@ public class DetalleCartera {
 
 	public void setValor4(Double valor4) {
 		this.valor4 = valor4;
+	}
+
+	public Date getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+	public void setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
+
+	public Date getFechaActualizacion() {
+		return fechaActualizacion;
+	}
+
+	public void setFechaActualizacion(Date fechaActualizacion) {
+		this.fechaActualizacion = fechaActualizacion;
+	}
+
+	public Double getTotalCartera() {
+		return totalCartera;
+	}
+
+	public void setTotalCartera(Double totalCartera) {
+		this.totalCartera = totalCartera;
+	}
+
+	public Double getTotalCarteraVencida() {
+		return totalCarteraVencida;
+	}
+
+	public void setTotalCarteraVencida(Double totalCarteraVencida) {
+		this.totalCarteraVencida = totalCarteraVencida;
+	}
+
+	public Double getTotalCarteraPorVencer() {
+		return totalCarteraPorVencer;
+	}
+
+	public void setTotalCarteraPorVencer(Double totalCarteraPorVencer) {
+		this.totalCarteraPorVencer = totalCarteraPorVencer;
 	}
 
 }

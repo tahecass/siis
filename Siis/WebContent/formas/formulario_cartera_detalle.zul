@@ -13,7 +13,6 @@
 		viewModel="@id('vm') 
 		@init('com.siis.viewModel.FormularioCarteraDetalleViewModel')"
 		id="idWINFORMDETCARTERAZPrincipal">
-
 		<center>
 			<vlayout height="100%">
 				<groupbox mold="3d" hflex="true" vflex="true"
@@ -26,39 +25,43 @@
 						<rows>
 							<row>
 								<label value="Nro Factura" />
-								<textbox
-									id="idWINFORMDETCARTERAZTbxNroFactura" />
+								<textbox value="@bind(vm.detalleCarteraSeleccionada.nroFactura)"/>
 							</row>
 							<row>
 								<label value="Vence" />
-								<datebox
-									id="idWINFORMDETCARTERAZTDbxVencimiento" />
+								<datebox  value="@bind(vm.detalleCarteraSeleccionada.vencimiento)"/>
 							</row>
 							<row>
 								<label value="Referencia" />
-								<textbox
-									id="idWINFORMDETCARTERAZTbxReferencia" />
+								<textbox  value="@bind(vm.detalleCarteraSeleccionada.referencia)"/>
 							</row>
 							<row>
 								<label value="30 Dias" />
-								<doublebox
-									id="idWINFORMDETCARTERAZTDbxValor1" />
+								<doublebox  value="@bind(vm.detalleCarteraSeleccionada.valor1)" />
 							</row>
 							<row>
 								<label value="60 Dias" />
-								<doublebox
-									id="idWINFORMDETCARTERAZTDbxValor2" />
+								<doublebox  value="@bind(vm.detalleCarteraSeleccionada.valor2)"/>
 							</row>
 							<row>
-								<label value="90 Dias" />
-								<doublebox
-									id="idWINFORMDETCARTERAZTDbxValor3" />
+								<label value="90 Dias"  />
+								<doublebox value="@bind(vm.detalleCarteraSeleccionada.valor3)"/>
 							</row>
 							<row>
 								<label value="Más de 90 Dias" />
-								<doublebox
-									id="idWINFORMDETCARTERAZTDbxValor4" />
+								<doublebox  value="@bind(vm.detalleCarteraSeleccionada.valor4)"/>
 							</row>
+							<row>
+								<label value="Fecha de Creación" />
+								<datebox  value="@bind(vm.detalleCarteraSeleccionada.fechaCreacion)" disabled="true"/>
+							</row>
+							<row>
+								<label value="Fecha de Actualización" />
+								<datebox
+									 value="@bind(vm.detalleCarteraSeleccionada.fechaActualizacion)" disabled="true"/>
+							</row>
+							
+							
 						</rows>
 					</grid>
 					<separator />
@@ -69,7 +72,7 @@
 							disabled="@load(vm.desactivarBtnNuevo)" />
 						<toolbarbutton label="Guardar" sclass="btn-info"
 							tooltiptext="" image="imagenes/guardar.png"
-							onClick="@command('guardarCartera')"
+							onClick="@command('guardarDetalleCartera')"
 							disabled="@load(vm.desactivarBtnGuardar)" />
 						<toolbarbutton label="Editar"
 							onClick="@command('onEditar')" sclass="btn-info"
@@ -83,7 +86,7 @@
 							sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
 					</toolbar>
 					<listbox id="idCARTERAZLbxDetalleCartera"
-						sizedByContent="true" span="true"
+						sizedByContent="true" span="true" vflex="true"
 						model="@bind(vm.listaDetalleCartera)"
 						selectedItem="@bind(vm.detalleCarteraSeleccionada)">
 
@@ -95,45 +98,22 @@
 
 							<listheader label="Referencia" sort="auto" />
 
-							<listheader label="30 Dias" sort="auto" />
-
-							<listheader label="60 Dias" sort="auto" />
-
-							<listheader label="90 Dias" sort="auto" />
-
-							<listheader label="Mas de 90" sort="auto" />
-
 						</listhead>
 						<template name="model">
 							<listitem>
 								<listcell>
-									<textbox
+									<label
 										value="@bind(each.nroFactura)" />
 								</listcell>
 								<listcell>
-									<datebox
-										value="@bind(each.vencimiento)" />
+									<label
+										value="@bind(each.vencimiento) @converter('formatedDate', format='dd/MM/yyyy')" />
 								</listcell>
 								<listcell>
-									<textbox
+									<label
 										value="@bind(each.referencia)" />
 								</listcell>
-								<listcell>
-									<doublebox
-										value="@bind(each.valor1)" />
-								</listcell>
-								<listcell>
-									<doublebox
-										value="@bind(each.valor2)" />
-								</listcell>
-								<listcell>
-									<doublebox
-										value="@bind(each.valor3)" />
-								</listcell>
-								<listcell>
-									<doublebox
-										value="@bind(each.valor4)" />
-								</listcell>
+								 
 							</listitem>
 						</template>
 					</listbox>

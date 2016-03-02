@@ -24,6 +24,10 @@ import org.zkoss.zul.Tabs;
 import com.siis.dto.NavigationPage;
 
 public class NavigationViewModel extends Borderlayout {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8557985725089774850L;
 	NavigationPage currentPage;
 	private Map<String, Map<String, NavigationPage>> pageMap;
 
@@ -95,8 +99,7 @@ public class NavigationViewModel extends Borderlayout {
 		pageMap = new LinkedHashMap<String, Map<String, NavigationPage>>();
 
 		
-		addPage("Cartera", "Cartera", "/formulario_cartera.zul", "form2");
-		addPage("Cartera", "Consultas", "/vista_cartera.zul", "form10");
+		addPage("Cartera", "Cartera", "/formulario_cartera.zul", "form2"); 
 		
 		addPage("Proveedores", "Proveedores", "/formuario_proveedor.zul",
 				"form3");

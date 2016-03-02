@@ -78,5 +78,3 @@
 		 DELETE FROM CARTERAS WHERE CARTERAS.SEC=  #{secuencia,jdbcType=NUMERIC};
  </delete>
 </mapper>
-
-
