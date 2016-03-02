@@ -25,45 +25,65 @@
 						<rows>
 							<row>
 								<label value="Nro Factura" />
-								<textbox value="@bind(vm.detalleCarteraSeleccionada.nroFactura)"/>
+								<textbox
+									value="@bind(vm.detalleCarteraSeleccionada.nroFactura)" />
 							</row>
 							<row>
 								<label value="Vence" />
-								<datebox  value="@bind(vm.detalleCarteraSeleccionada.vencimiento)"/>
+								<datebox
+									value="@bind(vm.detalleCarteraSeleccionada.vencimiento)" />
 							</row>
 							<row>
 								<label value="Referencia" />
-								<textbox  value="@bind(vm.detalleCarteraSeleccionada.referencia)"/>
-							</row>
-							<row>
-								<label value="30 Dias" />
-								<doublebox  value="@bind(vm.detalleCarteraSeleccionada.valor1)" />
-							</row>
-							<row>
-								<label value="60 Dias" />
-								<doublebox  value="@bind(vm.detalleCarteraSeleccionada.valor2)"/>
-							</row>
-							<row>
-								<label value="90 Dias"  />
-								<doublebox value="@bind(vm.detalleCarteraSeleccionada.valor3)"/>
-							</row>
-							<row>
-								<label value="Más de 90 Dias" />
-								<doublebox  value="@bind(vm.detalleCarteraSeleccionada.valor4)"/>
+								<textbox
+									value="@bind(vm.detalleCarteraSeleccionada.referencia)" />
 							</row>
 							<row>
 								<label value="Fecha de Creación" />
-								<datebox  value="@bind(vm.detalleCarteraSeleccionada.fechaCreacion)" disabled="true"/>
+								<datebox
+									value="@bind(vm.detalleCarteraSeleccionada.fechaCreacion)"
+									disabled="true" />
 							</row>
 							<row>
 								<label value="Fecha de Actualización" />
 								<datebox
-									 value="@bind(vm.detalleCarteraSeleccionada.fechaActualizacion)" disabled="true"/>
+									value="@bind(vm.detalleCarteraSeleccionada.fechaActualizacion)"
+									disabled="true" />
 							</row>
-							
-							
 						</rows>
 					</grid>
+					<groupbox mold="3d">
+						<caption label="Valores" />
+						<grid>
+							<columns>
+								<column hflex="min"/>
+								<column />
+							</columns>
+							<rows>
+
+								<row>
+									<label value="30 Dias" />
+									<doublebox
+										value="@bind(vm.detalleCarteraSeleccionada.valor1)" />
+								</row>
+								<row>
+									<label value="60 Dias" />
+									<doublebox
+										value="@bind(vm.detalleCarteraSeleccionada.valor2)" />
+								</row>
+								<row>
+									<label value="90 Dias" />
+									<doublebox
+										value="@bind(vm.detalleCarteraSeleccionada.valor3)" />
+								</row>
+								<row>
+									<label value="Más de 90 Dias" />
+									<doublebox
+										value="@bind(vm.detalleCarteraSeleccionada.valor4)" />
+								</row>
+							</rows>
+						</grid>
+					</groupbox>
 					<separator />
 					<toolbar align="start">
 						<toolbarbutton label="Nuevo" sclass="btn-info"
@@ -113,7 +133,7 @@
 									<label
 										value="@bind(each.referencia)" />
 								</listcell>
-								 
+
 							</listitem>
 						</template>
 					</listbox>
