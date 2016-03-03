@@ -28,7 +28,7 @@
 								id="tbxClave" constraint="no empty" />
 							<space width="5px"/>
 							<button image="/imagenes/next.png" height="25px" 
-								sclass="btn-info" style="cursor:pointer;padding: 0px" label="Iniciar Sesiòn"
+								sclass="btn-info" style="cursor:pointer;padding:0px;padding-right:3px" label="Iniciar Sesiòn"
 								onClick="@command('iniciar')">
 							</button>
 							<space width="5px"/>
