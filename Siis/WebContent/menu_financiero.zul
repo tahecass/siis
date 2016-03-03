@@ -71,7 +71,7 @@
 				<navbar id="navbar" orient="vertical"
 					collapsed="false">
 
-					<nav label="Disponible" iconSclass="z-icon-home"
+					<nav label="Disponible" iconSclass="z-icon-home"  
 						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
 
 					<nav label="Cartera" iconSclass="z-icon-home"
