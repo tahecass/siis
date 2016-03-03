@@ -87,12 +87,17 @@ INTO
 	</select>
 
 
-	<select id="listaPersonas" parameterType="PersonaAlias"
+	<select id="listaPersonas" parameterType="java.lang.String"
 		resultMap="resMapPersona">
 		SELECT SEC,SEC_TIPO_IDENTIFICACION,IDENTIFICACION,
 		NOMBRES,APELLIDOS,FECHA_NACIMIENTO,SEXO,ESTADO_CIVIL,
 		EMAIL,DIRECCION,TELEFONO,CELULAR,ESTADO,FECHA_CREACION,
 		FECHA_ACTUALIZACION FROM PERSONAS
+		 WHERE (UPPER(IDENTIFICACION) LIKE  UPPER(#{valorBusqueda})
+	         or UPPER(NOMBRES) LIKE  UPPER(#{valorBusqueda})
+	         or UPPER(APELLIDOS) LIKE  UPPER(#{valorBusqueda})
+	         );
+	     
 	</select>
 	<select id="eliminarPersonas" parameterType="PersonaAlias"
 		resultMap="resMapPersona">

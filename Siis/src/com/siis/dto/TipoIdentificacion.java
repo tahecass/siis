@@ -6,6 +6,18 @@ public class TipoIdentificacion {
 	private String nombre;
 	private String documentacion;
 
+	
+	public TipoIdentificacion() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public TipoIdentificacion(Integer sec, String nombre) {
+		super();
+		this.sec = sec;
+		this.nombre = nombre;
+	}
+
 	public Integer getSec() {
 		return sec;
 	}
