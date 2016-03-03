@@ -114,29 +114,29 @@
 		<south>
 			<grid>
 				<columns>
-					<column hflex="min"/>
-					<column />
+					<column hflex="min"   />
+					<column  label="Informe Financiero Cartera "    
+						style="color: red;font-weight: bold; "/>
 				</columns>
+			  
+			 
 				<rows>
 					<row>
-					<cell colspan="2">
-						<label value="Informe Financiero Cartera " />
-					</cell>	 
+						<label value="Saldo Total Carteta: " />
+						<label value="@load(vm.totalCartera)" />
 					</row>
 					<row>
-						<label value="Saldo Total Carteta = " />
-						<label value="@load(vm.totalCartera)"/>
+						<label value="Saldo Total Vencida: " />
+						<label value="@load(vm.totalCarteraVencida)" />
 					</row>
 					<row>
-						<label value="Saldo Total Vencida = " />
-						<label  value="@load(vm.totalCarteraVencida)"/>
-					</row>
-					<row>
-						<label value="Saldo Total por Vencer = " />
-						<label />
+						<label value="Saldo Total por Vencer: " />
+						<label value="@load(vm.totalCarteraPorVencer)" />
 					</row>
 				</rows>
 			</grid>
+			
+			
 		</south>
 	</borderlayout>
 </zk>

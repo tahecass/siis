@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap.min.css" ?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap.css" ?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap-theme.min.css" ?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap-theme.css" ?>
+<?component name="bandboxCliente" macroURI="/componentes/bandboxCliente.zul" class="com.siis.viewModel.framework.BandboxCliente"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<borderlayout apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') 
+		@init('com.siis.viewModel.FormularioDisponibleDetalleViewModel')"
+		id="idWINFORMDETCARTERAZPrincipal">
+		<center>
+			<vlayout height="100%">
+				<groupbox mold="3d" hflex="true" vflex="true"
+					contentStyle="padding:0px" open="true" closable="false">
+					<grid>
+						<columns>
+							<column hflex="min" />
+							<column />
+						</columns>
+						<rows>
+							<row>
+								<label value="Beneficiario" />
+								<textbox
+									value="@bind(vm.disponibleBancoSeleccionado.beneficiario)"
+									disabled="@load(vm.desactivarformulario)" />
+							</row>
+							<row>
+								<label value="Nro Cheque" />
+								<textbox
+									value="@bind(vm.disponibleBancoSeleccionado.nroCheque)"
+									disabled="@load(vm.desactivarformulario)" />
+							</row>
+							<row>
+								<label value="Fecha de Giro" />
+								<datebox
+									value="@bind(vm.disponibleBancoSeleccionado.fechaGiro)"
+									disabled="@load(vm.desactivarformulario)" />
+							</row>
+							<row>
+								<label value="Valor" />
+								<doublebox
+									value="@bind(vm.disponibleBancoSeleccionado.valor)"
+									disabled="@load(vm.desactivarformulario)" />
+							</row>
+							<row>
+								<label value="Fecha de Creación" />
+								<datebox
+									value="@bind(vm.disponibleBancoSeleccionado.fechaCreacion)"
+									disabled="true" />
+							</row>
+							<row>
+								<label value="Fecha de Actualización" />
+								<datebox
+									value="@bind(vm.disponibleBancoSeleccionado.fechaHoraActualizacion)"
+									disabled="true" />
+							</row>
+						</rows>
+					</grid>
+					<separator />
+					<toolbar align="start">
+						<toolbarbutton label="Nuevo" sclass="btn-info"
+							tooltiptext="" image="imagenes/add.png"
+							onClick="@command('onNuevo')"
+							disabled="@load(vm.desactivarBtnNuevo)" />
+						<toolbarbutton label="Guardar" sclass="btn-info"
+							tooltiptext="" image="imagenes/guardar.png"
+							onClick="@command('guardarDisponibleBanco')"
+							disabled="@load(vm.desactivarBtnGuardar)" />
+						<toolbarbutton label="Editar"
+							onClick="@command('onEditar')" sclass="btn-info"
+							image="imagenes/edit.png"
+							disabled="@load(vm.desactivarBtnEditar)" />
+						<toolbarbutton label="Eliminar"
+							sclass="btn-info" image="imagenes/delete.png"
+							disabled="@load(vm.desactivarBtnEliminar)"
+							onClick="@command('onEliminar',seleccionado=vm.carteraSeleccionada)" />
+						<toolbarbutton label="Consultar"
+							sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
+					</toolbar>
+					<listbox id="idCARTERAZLbxDetalleDisponibleBanco"
+						sizedByContent="true" span="true" vflex="true"
+						model="@bind(vm.listaDisponibleBanco)"
+						selectedItem="@bind(vm.disponibleBancoSeleccionado)">
+
+						<listhead sizable="true">
+							<listheader label="Beneficiario"
+								sort="auto" />
+							<listheader label="Nro Cheque" sort="auto" />
+
+
+						</listhead>
+						<template name="model">
+							<listitem>
+								<listcell>
+									<label
+										value="@bind(each.beneficiario)" />
+								</listcell>
+								<listcell>
+									<label
+										value="@bind(each.nroCheque)" />
+								</listcell>
+							</listitem>
+						</template>
+					</listbox>
+				</groupbox>
+			</vlayout>
+		</center>
+		<custom-attributes MSG_TITULO="Notificación" />
+		<custom-attributes
+			MSG_MENSAJE_GUARDAR="Se guardó correctamente la información" />
+		<custom-attributes
+			MSG_MENSAJE_ACTUALIZAR="Se actualizó correctamente la información" />
+		<custom-attributes
+			MSG_MENSAJE_ELIMINAR="Se eliminó correctamente la información" />
+		<custom-attributes
+			MSG_ELIMINAR_CARTERA="¿Desea eliminar eliminar la fila seleccionada?" />
+		<custom-attributes MSG_TITULO_ELIMINAR="Confirmación" />
+	</borderlayout>
+</zk>

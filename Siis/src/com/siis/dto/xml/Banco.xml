@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BancoMapper">
+	<resultMap id="resMapBanco" type="BancoAlias">
+		<result property="secuencia" column="SEC" />
+		<result property="nombre" column="NOMBRE" />
+		<result property="codigo" column="CODIGO" /> 
+		<result property="estado" column="ESTADO" /> 
+		<result property="fechaCreacion" column="FECHA_CREACION" />
+		<result property="fechaHoraActualizacion" column="FECHA_HORA_ACTUALIZACION" />
+				
+	</resultMap>	
+ 
+   
+	<select id="guardarBanco" parameterType="BancoAlias" resultMap="resMapBanco" statementType="CALLABLE" >   
+		  INSERT
+				   INTO DISPONIBLES (SEC, SEC_USUARIO, SEC_BANCO, SEC_CUENTA,FECHA_CREACION, FECHA_HORA_ACTUALIZACION)
+					  VALUES
+					  ( #{secuencia,jdbcType=NUMERIC},
+					   #{usuario.secuencia,jdbcType=NUMERIC},
+					   #{banco.secuencia,jdbcType=NUMERIC},
+					   #{cuenta.secuencia,jdbcType=NUMERIC},
+					   #{fechaCreacion,jdbcType=DATE},
+					   #{fechaHoraActualizacion,jdbcType=DATE}
+					  ) 
+		       
+	</select>
+	<update id="actualizarBanco" parameterType="BancoAlias">
+	  UPDATE DISPONIBLES 
+	     SET SEC_USUARIO = #{usuario.secuencia,jdbcType=NUMERIC},
+	         SEC_BANCO = #{banco.secuencia,jdbcType=NUMERIC},
+	         SEC_CUENTA  = #{cuenta.secuencia,jdbcType=NUMERIC},
+	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
+	</update>
+	<select id="listarBancos" parameterType="BancoAlias" resultMap="resMapBanco"  > 
+		SELECT
+			BANCOS.SEC,
+			BANCOS.CODIGO,
+			BANCOS.NOMBRE,
+			BANCOS.ESTADO,
+			BANCOS.FECHA_CREACION,
+			BANCOS.FECHA_HORA_ACTUALIZACION
+		FROM BANCOS
+  <trim prefix="WHERE" prefixOverrides="AND | OR ">
+	<!-- 		<if test="codigo !=null !=null">
+	           AND CODIGO  LIKE  (#{codigo,jdbcType=VARCHAR})   
+	        </if>
+	        <if test="nombre !=null !=null">
+	         AND NOMBRE  LIKE  (#{nombre,jdbcType=VARCHAR})   
+	        </if> -->
+	      </trim>
+ </select>
+
+ <delete id="eliminarBanco" parameterType="BancoAlias">
+		 DELETE FROM BANCOS WHERE DISPONIBLES.SEC=  #{secuencia,jdbcType=NUMERIC};
+ </delete>
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DisponibleBancoMapper">
+	<resultMap id="resMapDisponibleBanco" type="DisponibleBancoAlias">
+		<result property="secuencia" column="SEC" />
+		<result property="beneficiario" column="BENEFICIARIO" />
+		<result property="nroCheque" column="NUMERO_CHEQUE" />
+		<result property="fechaGiro" column="FECHA_GIRO" />
+		<result property="valor" column="VALOR" /> 
+		<result property="fechaCreacion" column="FECHA_CREACION" />
+		<result property="fechaHoraActualizacion" column="FECHA_HORA_ACTUALIZACION" />
+				
+	</resultMap>	
+ 
+   
+	<select id="guardarDisponibleBanco" parameterType="DisponibleBancoAlias" resultMap="resMapDisponibleBanco" statementType="CALLABLE" >   
+		  INSERT
+				   INTO DISPONIBLE_BANCO (SEC, SEC_DISPONIBLE, BENEFICIARIO, NUMERO_CHEQUE,FECHA_GIRO,VALOR,FECHA_CREACION, FECHA_HORA_ACTUALIZACION)
+					  VALUES
+					  ( #{secuencia,jdbcType=NUMERIC},
+					   #{disponible.secuencia,jdbcType=NUMERIC},
+					   #{beneficiario,jdbcType=VARCHAR},
+					   #{nroCheque,jdbcType=VARCHAR},
+					   #{fechaGiro,jdbcType=DATE},
+					   #{valor,jdbcType=NUMERIC},
+					   #{fechaCreacion,jdbcType=DATE},
+					   #{fechaHoraActualizacion,jdbcType=DATE}
+					  ) 
+		       
+	</select>
+	<update id="actualizarDisponibleBanco" parameterType="DisponibleBancoAlias">
+	  UPDATE DISPONIBLE_BANCO 
+	     SET BENEFICIARIO =#{beneficiario,jdbcType=VARCHAR},
+	         NUMERO_CHEQUE = #{nroCheque,jdbcType=VARCHAR},
+	         FECHA_GIRO  = #{fechaGiro,jdbcType=DATE},
+	         VALOR = #{valor,jdbcType=NUMERIC},
+	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
+	</update>
+	<select id="listarDisponibleBancos" parameterType="DisponibleBancoAlias" resultMap="resMapDisponibleBanco"  > 
+		SELECT
+			DISPONIBLE_BANCO.SEC,
+			DISPONIBLE_BANCO.SEC_DISPONIBLE,
+			DISPONIBLE_BANCO.BENEFICIARIO,
+			DISPONIBLE_BANCO.NUMERO_CHEQUE,
+			DISPONIBLE_BANCO.FECHA_GIRO,
+			DISPONIBLE_BANCO.VALOR,
+			DISPONIBLE_BANCO.FECHA_CREACION,
+			DISPONIBLE_BANCO.FECHA_HORA_ACTUALIZACION
+			FROM
+			DISPONIBLE_BANCO
+		  
+		  <trim prefix="WHERE" prefixOverrides="AND | OR ">
+			<if test="disponible !=null and disponible.secuencia !=null">
+	         AND DISPONIBLE_BANCO.SEC_DISPONIBLE =  #{disponible.secuencia,jdbcType=NUMERIC};
+	        </if>
+	      </trim>
+ </select>
+
+ <delete id="eliminarDisponibleBanco" parameterType="DisponibleBancoAlias">
+		 DELETE FROM DISPONIBLES WHERE DISPONIBLES.SEC=  #{secuencia,jdbcType=NUMERIC};
+ </delete>
+</mapper>

@@ -12,6 +12,10 @@
 		<typeAlias alias="CarteraAlias"                 type="com.siis.dto.Cartera" />
 		<typeAlias alias="DetalleCarteraAlias"          type="com.siis.dto.DetalleCartera" />
 		<typeAlias alias="PersonaAlias"                 type="com.siis.dto.Persona" />
+		<typeAlias alias="DisponibleAlias"              type="com.siis.dto.Disponible" />
+		<typeAlias alias="BancoAlias"                   type="com.siis.dto.Banco" />
+		<typeAlias alias="CuentaAlias"                  type="com.siis.dto.Cuenta" />
+		<typeAlias alias="DisponibleBancoAlias"         type="com.siis.dto.DisponibleBanco" />
 	</typeAliases>
 
 	<environments default="development">
@@ -33,6 +37,9 @@
 	    <mapper resource="com/siis/dto/xml/Cartera.xml" />
 	    <mapper resource="com/siis/dto/xml/Persona.xml" />
 	    <mapper resource="com/siis/dto/xml/DetalleCartera.xml" />
-	  
+	    <mapper resource="com/siis/dto/xml/Disponible.xml" />
+	    <mapper resource="com/siis/dto/xml/Banco.xml" />
+	    <mapper resource="com/siis/dto/xml/Cuenta.xml" />
+	    <mapper resource="com/siis/dto/xml/DisponibleBanco.xml" />
 	</mappers>
 </configuration>

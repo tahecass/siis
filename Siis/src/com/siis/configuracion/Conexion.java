@@ -4,7 +4,10 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
+
+import com.siis.dto.Banco;
 import com.siis.dto.Cliente;
+import com.siis.dto.Cuenta;
 
 public class Conexion {
 	private SqlSession session = new MyBatisUtil().getInstance().getSessionFactory().openSession(true);
@@ -53,7 +56,28 @@ public class Conexion {
 		}
 		return null;
 	}
-
+	public List<Banco> listarBancos(String sqlName, Object object) throws Exception {
+		session = new MyBatisUtil().getInstance().getSessionFactory().openSession(true);
+		if (session != null) {
+			try {
+				return session.selectList(sqlName, object);
+			} finally {
+				session.close();
+			}
+		}
+		return null;
+	}
+	public List<Cuenta> listarCuentas(String sqlName, Object object) throws Exception {
+		session = new MyBatisUtil().getInstance().getSessionFactory().openSession(true);
+		if (session != null) {
+			try {
+				return session.selectList(sqlName, object);
+			} finally {
+				session.close();
+			}
+		}
+		return null;
+	}
 	public void guardar(String nombreConsulta, Object objeto) {
 		session = new MyBatisUtil().getInstance().getSessionFactory().openSession(true);
 		if (session != null) {

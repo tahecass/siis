@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DisponibleMapper">
+	<resultMap id="resMapDisponible" type="DisponibleAlias">
+		<result property="secuencia" column="SEC" />
+		<result property="usuario.secuencia" column="SEC_USUARIO" />
+		<result property="usuario.cuenta" column="CUENTA" />
+		<result property="banco.secuencia" column="SEC_BANCO" />
+		<result property="banco.nombre" column="NOMBRE" />
+		<result property="cuenta.secuencia" column="SEC_CUENTA" />
+		<result property="cuenta.numeroCuenta" column="NUMERO" />
+		<result property="cuenta.tipo" column="TIPO" />
+		
+		<result property="fechaCreacion" column="FECHA_CREACION" />
+		<result property="fechaHoraActualizacion" column="FECHA_HORA_ACTUALIZACION" />
+				
+	</resultMap>	
+ 
+   
+	<select id="guardarDisponible" parameterType="DisponibleAlias" resultMap="resMapDisponible" statementType="CALLABLE" >   
+		  INSERT
+				   INTO DISPONIBLES (SEC, SEC_USUARIO, SEC_BANCO, SEC_CUENTA,FECHA_CREACION, FECHA_HORA_ACTUALIZACION)
+					  VALUES
+					  ( #{secuencia,jdbcType=NUMERIC},
+					   #{usuario.secuencia,jdbcType=NUMERIC},
+					   #{banco.secuencia,jdbcType=NUMERIC},
+					   #{cuenta.secuencia,jdbcType=NUMERIC},
+					   #{fechaCreacion,jdbcType=DATE},
+					   #{fechaHoraActualizacion,jdbcType=DATE}
+					  ) 
+		       
+	</select>
+	<update id="actualizarDisponible" parameterType="DisponibleAlias">
+	  UPDATE DISPONIBLES 
+	     SET SEC_USUARIO = #{usuario.secuencia,jdbcType=NUMERIC},
+	         SEC_BANCO = #{banco.secuencia,jdbcType=NUMERIC},
+	         SEC_CUENTA  = #{cuenta.secuencia,jdbcType=NUMERIC},
+	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
+	</update>
+	<select id="listarDisponibles" parameterType="DisponibleAlias" resultMap="resMapDisponible"  > 
+		SELECT
+		DISPONIBLES.SEC,
+		CUENTAS.SEC  SEC_CUENTA,
+		CUENTAS.SEC_BANCO,
+		CUENTAS.RESPONSABLE,
+		CUENTAS.NUMERO,
+		CUENTAS.ESTADO,
+		CUENTAS.TIPO,
+		BANCOS.SEC  SEC_BANCO,
+		BANCOS.CODIGO,
+		BANCOS.NOMBRE,
+		BANCOS.ESTADO,
+		DISPONIBLES.SEC_USUARIO,
+		USUARIOS.SEC_PERSONA,
+		DISPONIBLES.FECHA_CREACION,
+		DISPONIBLES.FECHA_HORA_ACTUALIZACION
+		 
+		FROM DISPONIBLES 
+		LEFT JOIN BANCOS ON BANCOS.SEC = DISPONIBLES .SEC_BANCO 
+	    LEFT JOIN CUENTAS ON CUENTAS.SEC_BANCO = DISPONIBLES.SEC_BANCO 
+		LEFT JOIN USUARIOS ON USUARIOS.SEC = DISPONIBLES.SEC_USUARIO
+
+		  
+		  <trim prefix="WHERE" prefixOverrides="AND | OR ">
+			<if test="banco !=null and banco.secuencia !=null">
+	         AND DISPONIBLES .SEC_BANCO =  #{banco.secuencia,jdbcType=NUMERIC};
+	        </if>
+	      </trim>
+ </select>
+
+ <delete id="eliminarDisponible" parameterType="DisponibleAlias">
+		 DELETE FROM DISPONIBLES WHERE DISPONIBLES.SEC=  #{secuencia,jdbcType=NUMERIC};
+ </delete>
+</mapper>

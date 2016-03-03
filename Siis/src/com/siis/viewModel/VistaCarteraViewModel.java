@@ -60,6 +60,12 @@ public class VistaCarteraViewModel {
 			setTotalCartera((Double) con.obtenerRegistro("obtenerTotalCartera", clienteSeleccionado.getSecuencia()));
 			setTotalCarteraVencida(
 					(Double) con.obtenerRegistro("obtenerTotalCarteraVencida", clienteSeleccionado.getSecuencia()));
+			setTotalCarteraPorVencer(
+					(Double) con.obtenerRegistro("obtenerTotalCarteraPorVencer", clienteSeleccionado.getSecuencia()));
+			
+			
+			
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();

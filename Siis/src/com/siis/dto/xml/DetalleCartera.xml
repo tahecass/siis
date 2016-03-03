@@ -25,7 +25,7 @@
 		
 		<result property="totalCartera" column="TOTAL_CARTERA" />
 		<result property="totalCarteraVencida" column="TOTAL_CARTERA_VENCIDA" />
-		<result property="totalCarteraPorVencer" column=" " />
+		<result property="totalCarteraPorVencer" column="TOTAL_CARTERA_POR_VENCER" />
 		
 		 		
 	</resultMap>	
@@ -103,6 +103,15 @@
 		  LEFT JOIN  CARTERAS  ON  CARTERAS .SEC  =  DETALLE_CARTERA . SEC_CARTERA  
 		  LEFT JOIN  CLIENTES  ON  CLIENTES.SEC  =  CARTERAS.SEC_CLIENTE  
          WHERE VENCIMIENTO < SYSDATE() AND CLIENTES.SEC= #{SEC_CLIENTE,jdbcType=NUMERIC};
+        ]]>
+ </select>
+  <select id="obtenerTotalCarteraPorVencer" parameterType="java.lang.Integer"  resultType="java.lang.Double"> 
+		<![CDATA[
+		 SELECT SUM(VALOR_1) AS TOTAL_CARTERA_POR_VENCER 
+		  FROM  DETALLE_CARTERA 
+		  LEFT JOIN  CARTERAS  ON  CARTERAS .SEC  =  DETALLE_CARTERA . SEC_CARTERA  
+		  LEFT JOIN  CLIENTES  ON  CLIENTES.SEC  =  CARTERAS.SEC_CLIENTE  
+         WHERE VENCIMIENTO > SYSDATE() AND CLIENTES.SEC= #{SEC_CLIENTE,jdbcType=NUMERIC};
         ]]>
  </select>
  <update id="actualizarDetalleCartera" parameterType="DetalleCarteraAlias">
