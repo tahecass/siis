@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap.min.css" ?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap.css" ?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap-theme.min.css" ?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap-theme.css" ?>
+<?component name="bandboxBancos" macroURI="/componentes/bandboxBancos.zul" class="com.siis.viewModel.framework.BandboxBancos"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<borderlayout apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') 
+		@init('com.siis.viewModel.VistaDisponibleViewModel')">
+
+		<center>
+			<vlayout height="100%">
+
+				<grid>
+					<columns>
+						<column hflex="min" />
+						<column />
+					</columns>
+					<rows>
+
+						<row>
+							<label value="Banco:" />
+							<bandboxBancos 
+								value="@bind(vm.detalleSeleccionado.banco)"
+								id="idVISTADISPONIBLEZBbxBanco" />
+						</row>
+					</rows>
+				</grid>
+				<toolbar align="start">
+					<toolbarbutton label="Consultar" sclass="btn-info"
+						tooltiptext="" image="imagenes/search.png"
+						onClick="@command('listarDetalleDisponible')" />
+					<toolbarbutton label="Exportar" sclass="btn-info"
+						tooltiptext="" image="imagenes/add.png" />
+					<toolbarbutton label="Graficas" sclass="btn-info"
+						tooltiptext="" image="imagenes/guardar.png" />
+
+				</toolbar>
+
+				<listbox span="true" vflex="true"
+					model="@bind(vm.listaDisponible)">
+					<listhead sizable="true">
+
+						<listheader label="Cuenta" sort="auto" />
+						<listheader label="Tipo" sort="auto" />
+						<listheader label="Disponible" sort="auto" />
+						<listheader label="Fecha de Actualización"
+							sort="auto" />
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell>
+								<label
+									value="@bind(each.cuenta.numeroCuenta)" />
+							</listcell>
+
+							<listcell>
+								<label value="@bind(each.cuenta.tipo)" />
+							</listcell>
+							<listcell>
+								<label value=" " />
+							</listcell>
+							<listcell>
+								<label
+									value="@bind(each.fechaHoraActualizacion) @converter('formatedDate', format='dd/MM/yyyy')" />
+							</listcell>
+						</listitem>
+					</template>
+				</listbox>
+			</vlayout>
+		</center>
+		<south>
+			<groupbox mold="3d" closable="false">
+				<caption label="Informe Financiero Disponible "
+					style="color: red;font-weight: bold; " />
+
+				<grid>
+					<columns>
+						<column hflex="min" />
+						<column />
+					</columns>
+					<rows>
+						<row>
+							<label value="Saldo Total Disponible: " />
+							<label value=" " />
+						</row>
+						<row>
+							<label value="Saldo Total Ahorros: " />
+							<label value=" " />
+						</row>
+						<row>
+							<label value="Saldo Total Corriente " />
+							<label value=" " />
+						</row>
+					</rows>
+				</grid>
+			</groupbox>
+		</south>
+	</borderlayout>
+</zk>

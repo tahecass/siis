@@ -251,15 +251,15 @@ Conexion con;
 			Map<String, Object> parametros = new HashMap<String, Object>();
 			log.info("Disponoble==> 1"+ disponibleSeleccionada.getSecuencia());
 			parametros.put("DISPONIBLE", disponibleSeleccionada);
-			if (idDISPONIBLEZTpnDetalleDisponible.getChildren().size() == 0) {
-			Utilidades.onCargarVentana(idDISPONIBLEZTpnDetalleDisponible, "//formas//formulario_disponible_detalle.zul",
+			if (idDISPONIBLEZTpnDetalleDisponobleConcepto.getChildren().size() == 0) {
+			Utilidades.onCargarVentana(idDISPONIBLEZTpnDetalleDisponobleConcepto, "//formas//formulario_disponible_detalle_concepto.zul",
 						parametros);
 			} else {
-				FormularioDisponibleDetalleViewModel detalleDisponible= new FormularioDisponibleDetalleViewModel();
+				FormularioDisponibleDetalleConceptoViewModel detalleDisponible= new FormularioDisponibleDetalleConceptoViewModel();
 
 				log.info("Disponoble==> 2"+ disponibleSeleccionada.getSecuencia());
 				detalleDisponible.setDisponible(disponibleSeleccionada);
-				detalleDisponible.listarDisponibleBanco(); 
+				detalleDisponible.listarDisponibleConcepto(); 
 				log.info("1");
 			}
 			

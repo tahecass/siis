@@ -4,11 +4,13 @@ import java.util.Date;
 
 public class DisponibleConcepto {
 private Integer secuencia;
-private Banco banco;
-private Cuenta cuenta;
-private Usuario usuario;
+private Disponible disponible;
+private String concepto;
+private Date fecha;
 private Date fechaCreacion;
 private Date fechaHoraActualizacion;
+private String tipoNota;
+private Double valor;
 
 public DisponibleConcepto() { 
 }
@@ -20,15 +22,7 @@ public Integer getSecuencia() {
 public void setSecuencia(Integer secuencia) {
 	this.secuencia = secuencia;
 }
-
-public Usuario getUsuario() {
-	return usuario;
-}
-
-public void setUsuario(Usuario usuario) {
-	this.usuario = usuario;
-}
-
+ 
 public Date getFechaHoraActualizacion() {
 	return fechaHoraActualizacion;
 }
@@ -44,21 +38,45 @@ public Date getFechaCreacion() {
 public void setFechaCreacion(Date fechaCreacion) {
 	this.fechaCreacion = fechaCreacion;
 }
-
-public Banco getBanco() {
-	return banco;
+ 
+public String getTipoNota() {
+	return tipoNota;
 }
 
-public void setBanco(Banco banco) {
-	this.banco = banco;
+public void setTipoNota(String tipoNota) {
+	this.tipoNota = tipoNota;
 }
 
-public Cuenta getCuenta() {
-	return cuenta;
+public Disponible getDisponible() {
+	return disponible;
 }
 
-public void setCuenta(Cuenta cuenta) {
-	this.cuenta = cuenta;
+public void setDisponible(Disponible disponible) {
+	this.disponible = disponible;
+}
+
+public String getConcepto() {
+	return concepto;
+}
+
+public void setConcepto(String concepto) {
+	this.concepto = concepto;
+}
+
+public Date getFecha() {
+	return fecha;
+}
+
+public void setFecha(Date fecha) {
+	this.fecha = fecha;
+}
+
+public Double getValor() {
+	return valor;
+}
+
+public void setValor(Double valor) {
+	this.valor = valor;
 }
 
  

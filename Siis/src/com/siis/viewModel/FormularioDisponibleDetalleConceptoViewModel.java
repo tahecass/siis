@@ -22,14 +22,15 @@ import org.zkoss.zul.Messagebox;
 
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Disponible;
-import com.siis.dto.DisponibleBanco;
+import com.siis.dto.DisponibleConcepto;
+import com.siis.dto.DisponibleConcepto;
 import com.siis.viewModel.framework.Utilidades;
 
-public class FormularioDisponibleDetalleViewModel {
+public class FormularioDisponibleDetalleConceptoViewModel {
 
 	protected static Logger log = Logger.getLogger(FormularioDisponibleViewModel.class);
-	public List<DisponibleBanco> listaDisponibleBanco;
-	public DisponibleBanco disponibleBancoSeleccionado;
+	public List<DisponibleConcepto> listaDisponibleConcepto;
+	public DisponibleConcepto disponibleConceptoSeleccionado;
 	private boolean desactivarformulario, desactivarBtnNuevo, desactivarBtnEditar, desactivarBtnEliminar,
 			desactivarBtnGuardar;
 	private String accion;
@@ -37,7 +38,7 @@ public class FormularioDisponibleDetalleViewModel {
 	public Disponible disponible;
 
 	@Wire
-	public Borderlayout idWINFORMDETDISPBCOZPrincipal;
+	public Borderlayout idWINFORMDETDISPCONZPrincipal;
 
 	@SuppressWarnings("unchecked")
 	@AfterCompose
@@ -49,10 +50,10 @@ public class FormularioDisponibleDetalleViewModel {
 
 		setDisponible((Disponible) parametros.get("DISPONIBLE"));
 		log.info("disponible ..... " + disponible.getSecuencia());
-		listaDisponibleBanco = new ArrayList<DisponibleBanco>();
-		disponibleBancoSeleccionado = new DisponibleBanco();
+		listaDisponibleConcepto = new ArrayList<DisponibleConcepto>();
+		disponibleConceptoSeleccionado = new DisponibleConcepto();
 		setDesactivarformulario(true);
-		listarDisponibleBanco();
+		listarDisponibleConcepto();
 		accion = new String();
 
 		setDesactivarBtnNuevo(false);
@@ -63,28 +64,28 @@ public class FormularioDisponibleDetalleViewModel {
 
 	@NotifyChange("*")
 	@Command
-	public void guardarDisponibleBanco() {
+	public void guardarDisponibleConcepto() {
 		try {
 			log.info("accion=>> " + accion);
 
-			disponibleBancoSeleccionado.setDisponible(disponible);
+			disponibleConceptoSeleccionado.setDisponible(disponible);
 
 			if (accion.equals("I")) {
-				disponibleBancoSeleccionado.setSecuencia(10);
-				Conexion.getConexion().guardar("guardarDisponibleBanco", disponibleBancoSeleccionado);
+				disponibleConceptoSeleccionado.setSecuencia(10);
+				Conexion.getConexion().guardar("guardarDisponibleConcepto", disponibleConceptoSeleccionado);
 				log.info("Disponibleguardada");
-				Utilidades.mostrarNotificacion(idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO").toString(),
-						idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_MENSAJE_GUARDAR").toString(), "INFO");
+				Utilidades.mostrarNotificacion(idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_TITULO").toString(),
+						idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_MENSAJE_GUARDAR").toString(), "INFO");
 
 			} else if (accion.equals("U")) {
 
-				Conexion.getConexion().actualizar("actualizarDisponibleBanco", disponibleBancoSeleccionado);
+				Conexion.getConexion().actualizar("actualizarDisponibleConcepto", disponibleConceptoSeleccionado);
 				log.info("DisponibleActualizada");
-				Utilidades.mostrarNotificacion(idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO").toString(),
-						idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
+				Utilidades.mostrarNotificacion(idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_TITULO").toString(),
+						idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
 			}
 
-			listarDisponibleBanco();
+			listarDisponibleConcepto();
 			setDesactivarBtnNuevo(false);
 			setDesactivarBtnEditar(false);
 			setDesactivarBtnGuardar(true);
@@ -96,17 +97,17 @@ public class FormularioDisponibleDetalleViewModel {
 
 	@NotifyChange("*")
 	@Command
-	public void onEliminar(@BindingParam("seleccionado") DisponibleBanco detalleDisponible) {
+	public void onEliminar(@BindingParam("seleccionado") DisponibleConcepto detalleDisponible) {
 		log.info("onEliminar => " + detalleDisponible.getSecuencia());
-		if ((Messagebox.show(idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_ELIMINAR_CARTERA").toString(),
-				idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+		if ((Messagebox.show(idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_ELIMINAR_CARTERA").toString(),
+				idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
 				Messagebox.NO | Messagebox.YES, Messagebox.QUESTION)) == Messagebox.YES) {
 
 			log.info("Messagebox.YES => " + detalleDisponible.getSecuencia());
-			Conexion.getConexion().eliminar("eliminarDisponibleBanco", detalleDisponible);
-			Utilidades.mostrarNotificacion(idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO").toString(),
-					idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(), "INFO");
-			listarDisponibleBanco();
+			Conexion.getConexion().eliminar("eliminarDisponibleConcepto", detalleDisponible);
+			Utilidades.mostrarNotificacion(idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_TITULO").toString(),
+					idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(), "INFO");
+			listarDisponibleConcepto();
 			setDesactivarBtnNuevo(false);
 			setDesactivarBtnEditar(true);
 			setDesactivarBtnGuardar(true);
@@ -116,9 +117,9 @@ public class FormularioDisponibleDetalleViewModel {
 
 	@NotifyChange("*")
 	@Command
-	public void onSeleccionar(@BindingParam("seleccionado") DisponibleBanco detalleDisponible) {
+	public void onSeleccionar(@BindingParam("seleccionado") DisponibleConcepto detalleDisponible) {
 		log.info("onSeleccionar==> ");
-		setDisponibleBancoSeleccionado(detalleDisponible);
+		setDisponibleConceptoSeleccionado(detalleDisponible);
 		accion = "U";
 		setDesactivarBtnNuevo(false);
 		setDesactivarBtnEditar(false);
@@ -143,9 +144,10 @@ public class FormularioDisponibleDetalleViewModel {
 	public void onNuevo() {
 		log.info("onNuevo");
 		setDesactivarformulario(false);
-		disponibleBancoSeleccionado = new DisponibleBanco();
-		disponibleBancoSeleccionado.setFechaHoraActualizacion(new Date());
-		disponibleBancoSeleccionado.setFechaCreacion(new Date());
+		disponibleConceptoSeleccionado = new DisponibleConcepto();
+		disponibleConceptoSeleccionado.setFechaHoraActualizacion(new Date());
+		disponibleConceptoSeleccionado.setFechaCreacion(new Date());
+		disponibleConceptoSeleccionado.setTipoNota("C");
 		accion = "I";
 
 		setDesactivarBtnNuevo(true);
@@ -158,33 +160,33 @@ public class FormularioDisponibleDetalleViewModel {
 	@SuppressWarnings("unchecked")
 	@NotifyChange("*")
 	@Command
-	public void listarDisponibleBanco() {
-		log.info(" listarDisponibleBanco ");
-		listaDisponibleBanco = new ArrayList<DisponibleBanco>();
+	public void listarDisponibleConcepto() {
+		log.info(" listarDisponibleConcepto ");
+		listaDisponibleConcepto = new ArrayList<DisponibleConcepto>();
 
 		log.info("SEC_disponible AL LISTAR ==>" + getDisponible().getSecuencia());
-		DisponibleBanco dispoBan = new DisponibleBanco();
+		DisponibleConcepto dispoBan = new DisponibleConcepto();
 		dispoBan.setDisponible(getDisponible());
 
-		listaDisponibleBanco.clear();
+		listaDisponibleConcepto.clear();
 
 		setDesactivarformulario(true);
 		try {
-			setListaDisponibleBanco(
-					(List<DisponibleBanco>) Conexion.getConexion().obtenerListado("listarDisponibleBancos", dispoBan));
+			setListaDisponibleConcepto(
+					(List<DisponibleConcepto>) Conexion.getConexion().obtenerListado("listarDisponibleConceptos", dispoBan));
 		} catch (Exception e) {
 			e.printStackTrace();
 
 		}
 	}
 
-	public List<DisponibleBanco> getListaDisponibleBanco() {
-		return listaDisponibleBanco;
+	public List<DisponibleConcepto> getListaDisponibleConcepto() {
+		return listaDisponibleConcepto;
 	}
 
-	@NotifyChange("listaDisponibleBanco")
-	public void setListaDisponibleBanco(List<DisponibleBanco> listaDisponibleBanco) {
-		this.listaDisponibleBanco = listaDisponibleBanco;
+	@NotifyChange("listaDisponibleConcepto")
+	public void setListaDisponibleConcepto(List<DisponibleConcepto> listaDisponibleConcepto) {
+		this.listaDisponibleConcepto = listaDisponibleConcepto;
 	}
 
 	public boolean isDesactivarformulario() {
@@ -235,13 +237,15 @@ public class FormularioDisponibleDetalleViewModel {
 		this.disponible = disponible;
 	}
 
-	public DisponibleBanco getDisponibleBancoSeleccionado() {
-		return disponibleBancoSeleccionado;
+	public DisponibleConcepto getDisponibleConceptoSeleccionado() {
+		return disponibleConceptoSeleccionado;
 	}
 
-	public void setDisponibleBancoSeleccionado(DisponibleBanco disponibleBancoSeleccionado) {
-		this.disponibleBancoSeleccionado = disponibleBancoSeleccionado;
+	public void setDisponibleConceptoSeleccionado(DisponibleConcepto disponibleConceptoSeleccionado) {
+		this.disponibleConceptoSeleccionado = disponibleConceptoSeleccionado;
 	}
+
+ 
 
 	 
 

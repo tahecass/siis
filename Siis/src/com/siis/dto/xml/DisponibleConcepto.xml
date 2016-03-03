@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DisponibleConceptoMapper">
+	<resultMap id="resMapDisponibleConcepto" type="DisponibleConceptoAlias">
+		<result property="secuencia" column="SEC" />
+		<result property="concepto" column="CONCEPTO" /> 
+		<result property="fecha" column="FECHA" />
+		<result property="valor" column="VALOR" /> 
+		<result property="tipoNota" column="TIPO_NOTA" /> 
+		<result property="fechaCreacion" column="FECHA_CREACION" />
+		<result property="fechaHoraActualizacion" column="FECHA_HORA_ACTUALIZACION" />
+				
+	</resultMap>	
+ 
+   
+	<select id="guardarDisponibleConcepto" parameterType="DisponibleConceptoAlias" resultMap="resMapDisponibleConcepto" statementType="CALLABLE" >   
+		  INSERT
+				   INTO DISPONIBLE_CONCEPTO (SEC, SEC_DISPONIBLE, CONCEPTO, FECHA,VALOR,TIPO_NOTA,FECHA_CREACION, FECHA_HORA_ACTUALIZACION)
+					  VALUES
+					  ( #{secuencia,jdbcType=NUMERIC},
+					   #{disponible.secuencia,jdbcType=NUMERIC},
+					   #{concepto,jdbcType=VARCHAR}, 
+					   #{fecha,jdbcType=DATE},
+					   #{valor,jdbcType=NUMERIC},
+					   #{tipoNota,jdbcType=VARCHAR}, 
+					   #{fechaCreacion,jdbcType=DATE},
+					   #{fechaHoraActualizacion,jdbcType=DATE}
+					  ) 
+		       
+	</select>
+	<update id="actualizarDisponibleConcepto" parameterType="DisponibleConceptoAlias">
+	  UPDATE DISPONIBLE_CONCEPTO 
+	     SET CONCEPTO = #{concepto,jdbcType=VARCHAR}, 
+	         FECHA  = #{fecha,jdbcType=DATE},
+	         VALOR = #{valor,jdbcType=NUMERIC},
+	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
+	</update>
+	<select id="listarDisponibleConceptos" parameterType="DisponibleConceptoAlias" resultMap="resMapDisponibleConcepto"  > 
+		SELECT
+		DISPONIBLE_CONCEPTO.SEC,
+		DISPONIBLE_CONCEPTO.SEC_DISPONIBLE,
+		DISPONIBLE_CONCEPTO.CONCEPTO,
+		DISPONIBLE_CONCEPTO.FECHA,
+		DISPONIBLE_CONCEPTO.VALOR,
+		DISPONIBLE_CONCEPTO.TIPO_NOTA,
+		DISPONIBLE_CONCEPTO.FECHA_CREACION,
+		DISPONIBLE_CONCEPTO.FECHA_HORA_ACTUALIZACION
+		FROM
+		DISPONIBLE_CONCEPTO
+		  
+		  <trim prefix="WHERE" prefixOverrides="AND | OR ">
+			<if test="disponible !=null and disponible.secuencia !=null">
+	         AND DISPONIBLE_CONCEPTO.SEC_DISPONIBLE =  #{disponible.secuencia,jdbcType=NUMERIC};
+	        </if>
+	      </trim>
+ </select>
+
+ <delete id="eliminarDisponibleConcepto" parameterType="DisponibleConceptoAlias">
+		 DELETE FROM DISPONIBLE_CONCEPTO WHERE DISPONIBLES.SEC=  #{secuencia,jdbcType=NUMERIC};
+ </delete>
+</mapper>

@@ -11,8 +11,8 @@
 	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 	<borderlayout apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') 
-		@init('com.siis.viewModel.FormularioDisponibleDetalleViewModel')"
-		id="idWINFORMDETDISPBCOZPrincipal">
+		@init('com.siis.viewModel.FormularioDisponibleDetalleConceptoViewModel')"
+		id="idWINFORMDETDISPCONZPrincipal">
 		<center>
 			<vlayout height="100%">
 				<groupbox mold="3d" hflex="true" vflex="true"
@@ -24,40 +24,31 @@
 						</columns>
 						<rows>
 							<row>
-								<label value="Beneficiario" />
+								<label value="Concepto" />
 								<textbox
-									value="@bind(vm.disponibleBancoSeleccionado.beneficiario)"
+									value="@bind(vm.disponibleConceptoSeleccionado.concepto)"
 									disabled="@load(vm.desactivarformulario)" width="400px" />
 							</row>
 							<row>
-								<label value="Nro Cheque" />
-								<textbox
-									value="@bind(vm.disponibleBancoSeleccionado.nroCheque)"
-									disabled="@load(vm.desactivarformulario)" />
-							</row>
-							<row>
-								<label value="Fecha de Giro" />
+								<label value="Fecha" />
 								<datebox
-									value="@bind(vm.disponibleBancoSeleccionado.fechaGiro)"
+									value="@bind(vm.disponibleConceptoSeleccionado.fecha)"
 									disabled="@load(vm.desactivarformulario)" />
 							</row>
 							<row>
 								<label value="Valor" />
 								<doublebox
-									value="@bind(vm.disponibleBancoSeleccionado.valor)"
+									value="@bind(vm.disponibleConceptoSeleccionado.valor)"
 									disabled="@load(vm.desactivarformulario)" />
 							</row>
 							<row>
-								<label value="Fecha de Creación" />
-								<datebox
-									value="@bind(vm.disponibleBancoSeleccionado.fechaCreacion)"
-									disabled="true" />
-							</row>
-							<row>
-								<label value="Fecha de Actualización" />
-								<datebox
-									value="@bind(vm.disponibleBancoSeleccionado.fechaHoraActualizacion)"
-									disabled="true" />
+								<label value="Tipo de Nota" />
+								<listbox mold="select" 	disabled="@load(vm.desactivarformulario)"
+									selectedItem="@bind(vm.disponibleConceptoSeleccionado.tipoNota)">
+									<listitem label="Crédito" value="C"
+										checkable="true" />
+									<listitem label="Dédito" value="D" />
+								</listbox>
 							</row>
 						</rows>
 					</grid>
@@ -69,7 +60,7 @@
 							disabled="@load(vm.desactivarBtnNuevo)" />
 						<toolbarbutton label="Guardar" sclass="btn-info"
 							tooltiptext="" image="imagenes/guardar.png"
-							onClick="@command('guardarDisponibleBanco')"
+							onClick="@command('guardarDisponibleConcepto')"
 							disabled="@load(vm.desactivarBtnGuardar)" />
 						<toolbarbutton label="Editar"
 							onClick="@command('onEditar')" sclass="btn-info"
@@ -82,27 +73,31 @@
 						<toolbarbutton label="Consultar"
 							sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
 					</toolbar>
-					<listbox id="idCARTERAZLbxDetalleDisponibleBanco"
+					<listbox id="idCARTERAZLbxDetalleDisponibleConcepto"
 						sizedByContent="true" span="true" vflex="true"
-						model="@bind(vm.listaDisponibleBanco)"
-						selectedItem="@bind(vm.disponibleBancoSeleccionado)">
+						model="@bind(vm.listaDisponibleConcepto)"
+						selectedItem="@bind(vm.disponibleConceptoSeleccionado)">
 
 						<listhead sizable="true">
-							<listheader label="Beneficiario"
-								sort="auto" />
-							<listheader label="Nro Cheque" sort="auto" />
-
-
+							<listheader label="Concepto" sort="auto" />
+							<listheader label="Fecha" sort="auto" />
+							<listheader label="Valor" sort="auto" />
+									<listheader label="Tipo" sort="auto" />
 						</listhead>
 						<template name="model">
 							<listitem>
 								<listcell>
-									<label
-										value="@bind(each.beneficiario)" />
+									<label value="@bind(each.concepto)" />
 								</listcell>
 								<listcell>
 									<label
-										value="@bind(each.nroCheque)" />
+										value="@bind(each.fecha)  @converter('formatedDate', format='dd/MM/yyyy')" />
+								</listcell>
+								<listcell>
+									<label value="@bind(each.valor)" />
+								</listcell>
+								<listcell>
+									<label value="@bind(each.tipoNota)" />
 								</listcell>
 							</listitem>
 						</template>
