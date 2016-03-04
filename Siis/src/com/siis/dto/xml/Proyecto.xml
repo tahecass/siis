@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ProyectoMapper">
+	<resultMap id="resMapProyecto" type="ProyectoAlias">
+		<result property="secuencia" column="SEC" />
+		<result property="contrato" column="CONTRATO" />
+		<result property="porcentajeEjecucion" column="PORCENTAJE_EJECUCION" />
+		<result property="entidad.secuencia" column="SEC_BANCO" />
+		<result property="entidad.nombre" column="NOMBRE" />
+		<result property="valorLegalizado" column="VALOR_LEGALIZADO" />
+		<result property="objeto" column="OBJETO" />
+		<result property="fecha" column="FECHA" />
+		<result property="fechaCreacion" column="FECHA_CREACION" />
+		<result property="fechaHoraActualizacion" column="FECHA_HORA_ACTUALIZACION" />
+				
+	</resultMap>	
+   
+	<select id="guardarProyecto" parameterType="ProyectoAlias" resultMap="resMapProyecto" statementType="CALLABLE" >   
+		  INSERT
+				   INTO PROYECTOS (SEC, SEC_BANCO,OBJETO, CONTRATO,PORCENTAJE_EJECUCION,VALOR_LEGALIZADO, FECHA, FECHA_CREACION, FECHA_HORA_ACTUALIZACION)
+					  VALUES
+					  ( #{secuencia,jdbcType=NUMERIC}, 
+					   #{entidad.secuencia,jdbcType=NUMERIC},
+					   #{objeto,jdbcType=VARCHAR},
+					   #{contrato,jdbcType=NUMERIC},
+					   #{porcentajeEjecucion,jdbcType=NUMERIC},
+					   #{valorLegalizado,jdbcType=NUMERIC},
+					   #{fecha,jdbcType=DATE},
+					   #{fechaCreacion,jdbcType=DATE},
+					   #{fechaHoraActualizacion,jdbcType=DATE}
+					  ) 
+		       
+	</select>
+	<update id="actualizarProyecto" parameterType="ProyectoAlias">
+	  UPDATE PROYECTOS 
+	     SET 
+	         SEC_BANCO = #{entidad.secuencia,jdbcType=NUMERIC},
+	         CONTRATO  =  #{contrato,jdbcType=VARCHAR},
+	         OBJETO =   #{objeto,jdbcType=VARCHAR},
+	         PORCENTAJE_EJECUCION   =   #{porcentajeEjecucion,jdbcType=NUMERIC},
+	         VALOR_LEGALIZADO   =    #{valorLegalizado,jdbcType=NUMERIC},
+	         FECHA   =    #{fecha,jdbcType=DATE},
+			 FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
+	</update>
+	<select id="listarProyectos" parameterType="ProyectoAlias" resultMap="resMapProyecto"  > 
+		 SELECT
+			PROYECTOS.SEC,
+			PROYECTOS.SEC_BANCO,
+			PROYECTOS.CONTRATO,
+			PROYECTOS.PORCENTAJE_EJECUCION,
+			PROYECTOS.VALOR_LEGALIZADO,
+			PROYECTOS.FECHA,
+			PROYECTOS.OBJETO,
+			PROYECTOS.FECHA_CREACION,
+			PROYECTOS.FECHA_HORA_ACTUALIZACION,
+			BANCOS.CODIGO,
+			BANCOS.NOMBRE
+			FROM
+			PROYECTOS   
+			LEFT JOIN BANCOS  ON BANCOS.SEC = PROYECTOS.SEC_BANCO
+		 
+		  <trim prefix="WHERE" prefixOverrides="AND | OR ">
+			<if test="entidad !=null and entidad.secuencia !=null">
+	         AND PROYECTOS.SEC_BANCO =  #{entidad.secuencia,jdbcType=NUMERIC};
+	        </if>
+	      </trim>
+ </select>
+
+ <delete id="eliminarProyecto" parameterType="ProyectoAlias">
+		 DELETE FROM PROYECTOS WHERE PROYECTOS.SEC=  #{secuencia,jdbcType=NUMERIC};
+ </delete>
+</mapper>

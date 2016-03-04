@@ -101,7 +101,7 @@ public class NavigationViewModel extends Borderlayout {
 		
 		addPage("Cartera", "Cartera", "/formulario_cartera.zul", "form2"); 
 		
-		addPage("Proveedores", "Proveedores", "/formuario_proveedor.zul",
+		addPage("Proveedores", "Proveedores", "/formulario_proveedor.zul",
 				"form3");
 		addPage("Proveedores", "Consultas", "/vista_proveedor.zul",
 				"form11");
@@ -110,7 +110,7 @@ public class NavigationViewModel extends Borderlayout {
 		addPage("Créditos", "Créditos", "/formulario_credito.zul", "form4");
 		addPage("Créditos", "Consultas", "/vista_credito.zul", "form13");
 		
-		addPage("Proyectos", "Proyectos", "/formuario_proyecto.zul", "form5");
+		addPage("Proyectos", "Proyectos", "/formulario_proyecto.zul", "form5");
 		addPage("Proyectos", "Consultas", "/vista_proyecto.zul", "form14");
 		
 		addPage("Indicadores", "Indicadores", "/formulario_indicador.zul",

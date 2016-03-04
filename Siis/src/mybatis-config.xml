@@ -19,6 +19,8 @@
 		<typeAlias alias="DisponibleConceptoAlias"      type="com.siis.dto.DisponibleConcepto" />
 		<typeAlias alias="CreditoAlias"                 type="com.siis.dto.Credito" />
 		<typeAlias alias="AmortizacionCreditoAlias"     type="com.siis.dto.AmortizacionCredito" />
+		<typeAlias alias="ProyectoAlias"                type="com.siis.dto.Proyecto" />
+		<typeAlias alias="ProyectoValorAlias"                type="com.siis.dto.ProyectoValor" />
 	</typeAliases>
 
 	<environments default="development">
@@ -47,5 +49,7 @@
 	    <mapper resource="com/siis/dto/xml/DisponibleConcepto.xml" />
 	    <mapper resource="com/siis/dto/xml/Credito.xml" />
 	    <mapper resource="com/siis/dto/xml/AmortizacionCredito.xml" />
+	    <mapper resource="com/siis/dto/xml/Proyecto.xml" />
+	      <mapper resource="com/siis/dto/xml/ProyectoValor.xml" />
 	</mappers>
 </configuration>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ProyectoValorMapper">
+	<resultMap id="resMapProyectoValor" type="ProyectoValorAlias">
+		<result property="secuencia" column="SEC" />
+		<result property="valor" column="VALOR" />
+		<result property="plazo" column="PLAZO" />
+		<result property="porcentaje" column="PORCENTAJE" />
+		<result property="proyecto.secuencia" column="SEC_BANCO" />
+		<result property="fechaCreacion" column="FECHA_CREACION" />
+		<result property="fechaHoraActualizacion" column="FECHA_HORA_ACTUALIZACION" />
+				
+	</resultMap>	
+   
+	<select id="guardarProyectoValor" parameterType="ProyectoValorAlias" resultMap="resMapProyectoValor" statementType="CALLABLE" >   
+		  INSERT
+				   INTO PROYECTO_VALOR (SEC, SEC_PROYECTO, VALOR,PORCENTAJE,PLAZO, FECHA_CREACION, FECHA_HORA_ACTUALIZACION)
+					  VALUES
+					  ( #{secuencia,jdbcType=NUMERIC}, 
+					   #{proyecto.secuencia,jdbcType=NUMERIC},
+					   #{valor,jdbcType=NUMERIC},
+					   #{porcentaje,jdbcType=NUMERIC},
+					   #{plazo,jdbcType=NUMERIC},
+					   #{fechaCreacion,jdbcType=DATE},
+					   #{fechaHoraActualizacion,jdbcType=DATE}
+					  ) 
+	</select>
+	<update id="actualizarProyectoValor" parameterType="ProyectoValorAlias">
+	  UPDATE PROYECTO_VALOR 
+	     SET 
+	         SEC_PROYECTO = #{proyecto.secuencia,jdbcType=NUMERIC},
+	         VALOR   =   #{valor,jdbcType=NUMERIC},
+	         PORCENTAJE = 	   #{porcentaje,jdbcType=NUMERIC},
+	         PLAZO   =    #{plazo,jdbcType=NUMERIC},
+			 FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
+	</update>
+	<select id="listarProyectoValor" parameterType="ProyectoValorAlias" resultMap="resMapProyectoValor"  > 
+		 SELECT
+			PROYECTO_VALOR.SEC,
+			PROYECTO_VALOR.SEC_PROYECTO,
+			PROYECTO_VALOR.VALOR,
+			PROYECTO_VALOR.PLAZO,
+			PROYECTO_VALOR.FECHA_CREACION,
+			PROYECTO_VALOR.FECHA_HORA_ACTUALIZACION,
+			PROYECTO_VALOR.PORCENTAJE
+			FROM
+			PROYECTO_VALOR   
+			
+		  <trim prefix="WHERE" prefixOverrides="AND | OR ">
+			<if test="proyecto !=null and proyecto.secuencia !=null">
+	         AND PROYECTO_VALOR.SEC_PROYECTO =  #{proyecto.secuencia,jdbcType=NUMERIC};
+	        </if>
+	      </trim>
+ </select>
+
+ <delete id="eliminarProyectoValor" parameterType="ProyectoValorAlias">
+		 DELETE FROM PROYECTO_VALOR WHERE PROYECTO_VALOR.SEC=  #{secuencia,jdbcType=NUMERIC};
+ </delete>
+</mapper>
