@@ -11,7 +11,7 @@
 	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 	<borderlayout apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') 
-		@init('com.siis.viewModel.FormularioDisponibleDetalleViewModel')"
+		@init('com.siis.viewModel.FormularioCreditoDetalleViewModel')"
 		id="idWINFORMDETDISPBCOZPrincipal">
 		<center>
 			<vlayout height="100%">
@@ -24,27 +24,33 @@
 						</columns>
 						<rows>
 							<row>
-								<label value="Beneficiario" />
-								<textbox
-									value="@bind(vm.amortizacionCreditoSeleccionado.beneficiario)"
-									disabled="@load(vm.desactivarformulario)" width="400px" />
-							</row>
-							<row>
-								<label value="Nro Cheque" />
-								<textbox
-									value="@bind(vm.amortizacionCreditoSeleccionado.nroCheque)"
-									disabled="@load(vm.desactivarformulario)" />
-							</row>
-							<row>
-								<label value="Fecha de Giro" />
-								<datebox
-									value="@bind(vm.amortizacionCreditoSeleccionado.fechaGiro)"
-									disabled="@load(vm.desactivarformulario)" />
-							</row>
-							<row>
-								<label value="Valor" />
+								<label value="Interés" />
 								<doublebox
-									value="@bind(vm.amortizacionCreditoSeleccionado.valor)"
+									value="@bind(vm.amortizacionCreditoSeleccionado.interes)"
+									disabled="@load(vm.desactivarformulario)" />
+							</row>
+							<row>
+								<label value="Capital" />
+								<doublebox
+									value="@bind(vm.amortizacionCreditoSeleccionado.capital)"
+									disabled="@load(vm.desactivarformulario)" />
+							</row>
+							<row>
+								<label value="Saldo" />
+								<doublebox
+									value="@bind(vm.amortizacionCreditoSeleccionado.saldo)"
+									disabled="@load(vm.desactivarformulario)" />
+							</row>
+							<row>
+								<label value="Período" />
+								<textbox
+									value="@bind(vm.amortizacionCreditoSeleccionado.periodo)"
+									disabled="@load(vm.desactivarformulario)" />
+							</row>
+							<row>
+								<label value="Cuota" />
+								<doublebox
+									value="@bind(vm.amortizacionCreditoSeleccionado.cuota)"
 									disabled="@load(vm.desactivarformulario)" />
 							</row>
 							<row>
@@ -78,31 +84,33 @@
 						<toolbarbutton label="Eliminar"
 							sclass="btn-info" image="imagenes/delete.png"
 							disabled="@load(vm.desactivarBtnEliminar)"
-							onClick="@command('onEliminar',seleccionado=vm.carteraSeleccionada)" />
+							onClick="@command('onEliminar',seleccionado=vm.amortizacionCreditoSeleccionado)" />
 						<toolbarbutton label="Consultar"
 							sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
 					</toolbar>
-					<listbox id="idCARTERAZLbxDetalleAmortizacionCredito"
-						sizedByContent="true" span="true" vflex="true"
+					<listbox
+						id="idCARTERAZLbxDetalleAmortizacionCredito" 
+						span="true" vflex="true"
 						model="@bind(vm.listaAmortizacionCredito)"
-						selectedItem="@bind(vm.amortizacionCreditoSeleccionado)">
+						selectedItem="@bind(vm.amortizacionCreditoSeleccionado)"
+						onSelect="@command('onSeleccionar',seleccionado=vm.amortizacionCreditoSeleccionado)">
 
 						<listhead sizable="true">
-							<listheader label="Beneficiario"
-								sort="auto" />
-							<listheader label="Nro Cheque" sort="auto" />
-
+							<listheader label="Interés" sort="auto" />
+							<listheader label="Capital" sort="auto" />
+							<listheader label="Saldo" sort="auto" />
 
 						</listhead>
 						<template name="model">
 							<listitem>
 								<listcell>
-									<label
-										value="@bind(each.beneficiario)" />
+									<label value="@bind(each.interes)" />
 								</listcell>
 								<listcell>
-									<label
-										value="@bind(each.nroCheque)" />
+									<label value="@bind(each.capital)" />
+								</listcell>
+								<listcell>
+									<label value="@bind(each.saldo)" />
 								</listcell>
 							</listitem>
 						</template>

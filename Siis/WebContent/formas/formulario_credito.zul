@@ -82,6 +82,12 @@
 												value="@bind(vm.creditoSeleccionada.fecha)" />
 										</row>
 										<row>
+											<label value="Fecha de Vencimiento:" />
+											<datebox
+												disabled="@load(vm.desactivarformulario)"
+												value="@bind(vm.creditoSeleccionada.fechaVencimiento)" />
+										</row>
+										<row>
 											<label
 												value="Fecha de Creación:" />
 											<datebox disabled="true"
