@@ -10,6 +10,7 @@
 		<result property="capital" column="CAPITAL" />
 		<result property="saldo" column="SALDO" />
 		<result property="fecha" column="FECHA" />
+		<result property="fechaVencimiento" column="FECHA_VENCIMIENTO" />
 		<result property="plazo" column="PLAZO" />
 		<result property="fechaCreacion" column="FECHA_CREACION" />
 		<result property="fechaHoraActualizacion" column="FECHA_HORA_ACTUALIZACION" />
@@ -18,7 +19,7 @@
    
 	<select id="guardarCredito" parameterType="CreditoAlias" resultMap="resMapCredito" statementType="CALLABLE" >   
 		  INSERT
-				   INTO CREDITOS (SEC, SEC_BANCO, NUMERO_PRESTAMO,INTERES,CAPITAL,SALDO, FECHA, PLAZO, FECHA_CREACION, FECHA_HORA_ACTUALIZACION)
+				   INTO CREDITOS (SEC, SEC_BANCO, NUMERO_PRESTAMO,INTERES,CAPITAL,SALDO, FECHA,FECHA_VENCIMIENTO, PLAZO, FECHA_CREACION, FECHA_HORA_ACTUALIZACION)
 					  VALUES
 					  ( #{secuencia,jdbcType=NUMERIC}, 
 					   #{entidad.secuencia,jdbcType=NUMERIC},
@@ -27,6 +28,7 @@
 					   #{capital,jdbcType=NUMERIC},
 					   #{saldo,jdbcType=NUMERIC},
 					   #{fecha,jdbcType=DATE},
+					   #{fechaVencimiento,jdbcType=DATE},
 					   #{plazo,jdbcType=NUMERIC},
 					   #{fechaCreacion,jdbcType=DATE},
 					   #{fechaHoraActualizacion,jdbcType=DATE}
@@ -42,6 +44,7 @@
 	         CAPITAL   =    #{capital,jdbcType=NUMERIC},
 	         SALDO   =   #{saldo,jdbcType=NUMERIC},
 	         FECHA   =    #{fecha,jdbcType=DATE},
+	         FECHA_VENCIMIENTO   =   #{fechaVencimiento,jdbcType=DATE},
 	         PLAZO =  #{plazo,jdbcType=NUMERIC},
 			 FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
 	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
@@ -55,6 +58,7 @@
 			CREDITOS.CAPITAL,
 			CREDITOS.SALDO,
 			CREDITOS.FECHA,
+			CREDITOS.FECHA_VENCIMIENTO,
 			CREDITOS.PLAZO,
 			CREDITOS.FECHA_CREACION,
 			CREDITOS.FECHA_HORA_ACTUALIZACION,

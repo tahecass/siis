@@ -4,6 +4,14 @@
 	<resultMap id="resMapAmortizacionCredito" type="AmortizacionCreditoAlias">
 		<result property="secuencia" column="SEC" /> 
 		<result property="credito.secuencia" column="SEC_CREDITO" />
+		<result property="credito.entidad.secuencia" column="SEC_BANCO" />
+		<result property="credito.entidad.codigo" column="COD_BANCO" />
+		<result property="credito.entidad.nombre" column="NOMBRE_BANCO" />
+		<result property="credito.NroPrestamo" column="NUMERO_PRESTAMO" />
+		<result property="credito.fecha" column="FECHA" />
+		<result property="credito.fechaVencimiento" column="FECHA_VENCIMIENTO" />
+		<result property="credito.capital" column="CAPITAL_CREDITO" /> 
+		<result property="credito.saldo" column="SALDO_CREDITO" /> 
 		<result property="interes" column="INTERES" />
 		<result property="capital" column="CAPITAL" />
 		<result property="saldo" column="SALDO" />
@@ -14,21 +22,7 @@
 				
 	</resultMap>	
    
-   
-   AMORTIZACION_AMORTIZACION_CREDITOS  (
-   SEC  int(11) NOT NULL,
-   SEC_CREDITO  int(11) DEFAULT NULL,
-   PERIODO  VARCHAR(6) DEFAULT NULL,
-   CUOTA  DOUBLE DEFAULT NULL,
-   INTERES  DOUBLE DEFAULT NULL,
-   CAPITAL  DOUBLE DEFAULT NULL,
-   SALDO  DOUBLE DEFAULT NULL,
-   FECHA_CREACION  date DEFAULT NULL,
-   FECHA_HORA_ACTUALIZACION  date DEFAULT NULL
-);
-   
-   
-	<select id="guardarAmortizacionCredito" parameterType="AmortizacionCreditoAlias" resultMap="resMapAmortizacionCredito" statementType="CALLABLE" >   
+<select id="guardarAmortizacionCredito" parameterType="AmortizacionCreditoAlias" resultMap="resMapAmortizacionCredito" statementType="CALLABLE" >   
 		  INSERT
 				   INTO AMORTIZACION_CREDITOS (SEC, SEC_CREDITO, PERIODO,CUOTA, INTERES,CAPITAL,SALDO, FECHA_CREACION, FECHA_HORA_ACTUALIZACION)
 					  VALUES
@@ -57,21 +51,33 @@
 	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
 	</update>
 	<select id="listarAmortizacionCreditos" parameterType="AmortizacionCreditoAlias" resultMap="resMapAmortizacionCredito"  > 
-		 SELECT
-			AMORTIZACION_CREDITOS.SEC,
-			AMORTIZACION_CREDITOS.SEC_CREDITO,
-			AMORTIZACION_CREDITOS.PERIODO,
-			AMORTIZACION_CREDITOS.CUOTA,
-			AMORTIZACION_CREDITOS.INTERES,
-			AMORTIZACION_CREDITOS.CAPITAL,
-			AMORTIZACION_CREDITOS.SALDO,
-			AMORTIZACION_CREDITOS.FECHA_CREACION,
-			AMORTIZACION_CREDITOS.FECHA_HORA_ACTUALIZACION
-		FROM
-			AMORTIZACION_CREDITOS		  
+		SELECT AMORTIZACION_CREDITOS.SEC, 
+			AMORTIZACION_CREDITOS.SEC_CREDITO, 
+			AMORTIZACION_CREDITOS.PERIODO, 
+			AMORTIZACION_CREDITOS.CUOTA, 
+			AMORTIZACION_CREDITOS.INTERES, 
+			AMORTIZACION_CREDITOS.SALDO, 
+			AMORTIZACION_CREDITOS.FECHA_CREACION, 
+			AMORTIZACION_CREDITOS.FECHA_HORA_ACTUALIZACION, 
+			CREDITOS.SEC_BANCO,
+			BANCOS.codigo COD_BANCO,
+	        BANCOS.nombre NOMBRE_BANCO,
+			CREDITOS.NUMERO_PRESTAMO, 
+			CREDITOS.FECHA_VENCIMIENTO, 
+			CREDITOS.FECHA, 
+			CREDITOS.CAPITAL  CAPITAL_CREDITO, 
+			CREDITOS.SALDO  SALDO_CREDITO,
+			AMORTIZACION_CREDITOS.CAPITAL
+		FROM AMORTIZACION_CREDITOS
+		left join CREDITOS  on CREDITOS.sec= AMORTIZACION_CREDITOS.SEC_CREDITO
+		left join BANCOS on BANCOS.SEC = CREDITOS.SEC_BANCO
+		
 		  <trim prefix="WHERE" prefixOverrides="AND | OR ">
 			<if test="credito !=null and credito.secuencia !=null">
-	         AND AMORTIZACION_CREDITOS .SEC_BANCO =  #{credito.secuencia,jdbcType=NUMERIC};
+	         AND AMORTIZACION_CREDITOS .SEC_CREDITO =  #{credito.secuencia,jdbcType=NUMERIC};
+	        </if>
+	        <if test="credito !=null and credito.entidad !=null and credito.entidad.secuencia !=null">
+	         AND CREDITOS.SEC_BANCO =  #{credito.entidad.secuencia,jdbcType=NUMERIC};
 	        </if>
 	      </trim>
  </select>
