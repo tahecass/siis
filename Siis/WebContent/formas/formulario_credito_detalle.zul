@@ -26,37 +26,37 @@
 							<row>
 								<label value="Beneficiario" />
 								<textbox
-									value="@bind(vm.disponibleBancoSeleccionado.beneficiario)"
+									value="@bind(vm.amortizacionCreditoSeleccionado.beneficiario)"
 									disabled="@load(vm.desactivarformulario)" width="400px" />
 							</row>
 							<row>
 								<label value="Nro Cheque" />
 								<textbox
-									value="@bind(vm.disponibleBancoSeleccionado.nroCheque)"
+									value="@bind(vm.amortizacionCreditoSeleccionado.nroCheque)"
 									disabled="@load(vm.desactivarformulario)" />
 							</row>
 							<row>
 								<label value="Fecha de Giro" />
 								<datebox
-									value="@bind(vm.disponibleBancoSeleccionado.fechaGiro)"
+									value="@bind(vm.amortizacionCreditoSeleccionado.fechaGiro)"
 									disabled="@load(vm.desactivarformulario)" />
 							</row>
 							<row>
 								<label value="Valor" />
 								<doublebox
-									value="@bind(vm.disponibleBancoSeleccionado.valor)"
+									value="@bind(vm.amortizacionCreditoSeleccionado.valor)"
 									disabled="@load(vm.desactivarformulario)" />
 							</row>
 							<row>
 								<label value="Fecha de Creación" />
 								<datebox
-									value="@bind(vm.disponibleBancoSeleccionado.fechaCreacion)"
+									value="@bind(vm.amortizacionCreditoSeleccionado.fechaCreacion)"
 									disabled="true" />
 							</row>
 							<row>
 								<label value="Fecha de Actualización" />
 								<datebox
-									value="@bind(vm.disponibleBancoSeleccionado.fechaHoraActualizacion)"
+									value="@bind(vm.amortizacionCreditoSeleccionado.fechaHoraActualizacion)"
 									disabled="true" />
 							</row>
 						</rows>
@@ -69,7 +69,7 @@
 							disabled="@load(vm.desactivarBtnNuevo)" />
 						<toolbarbutton label="Guardar" sclass="btn-info"
 							tooltiptext="" image="imagenes/guardar.png"
-							onClick="@command('guardarDisponibleBanco')"
+							onClick="@command('guardarAmortizacionCredito')"
 							disabled="@load(vm.desactivarBtnGuardar)" />
 						<toolbarbutton label="Editar"
 							onClick="@command('onEditar')" sclass="btn-info"
@@ -82,10 +82,10 @@
 						<toolbarbutton label="Consultar"
 							sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
 					</toolbar>
-					<listbox id="idCARTERAZLbxDetalleDisponibleBanco"
+					<listbox id="idCARTERAZLbxDetalleAmortizacionCredito"
 						sizedByContent="true" span="true" vflex="true"
-						model="@bind(vm.listaDisponibleBanco)"
-						selectedItem="@bind(vm.disponibleBancoSeleccionado)">
+						model="@bind(vm.listaAmortizacionCredito)"
+						selectedItem="@bind(vm.amortizacionCreditoSeleccionado)">
 
 						<listhead sizable="true">
 							<listheader label="Beneficiario"

@@ -17,6 +17,8 @@
 		<typeAlias alias="CuentaAlias"                  type="com.siis.dto.Cuenta" />
 		<typeAlias alias="DisponibleBancoAlias"         type="com.siis.dto.DisponibleBanco" />
 		<typeAlias alias="DisponibleConceptoAlias"      type="com.siis.dto.DisponibleConcepto" />
+		<typeAlias alias="CreditoAlias"                 type="com.siis.dto.Credito" />
+		<typeAlias alias="AmortizacionCreditoAlias"     type="com.siis.dto.AmortizacionCredito" />
 	</typeAliases>
 
 	<environments default="development">
@@ -43,5 +45,7 @@
 	    <mapper resource="com/siis/dto/xml/Cuenta.xml" />
 	    <mapper resource="com/siis/dto/xml/DisponibleBanco.xml" />
 	    <mapper resource="com/siis/dto/xml/DisponibleConcepto.xml" />
+	    <mapper resource="com/siis/dto/xml/Credito.xml" />
+	    <mapper resource="com/siis/dto/xml/AmortizacionCredito.xml" />
 	</mappers>
 </configuration>

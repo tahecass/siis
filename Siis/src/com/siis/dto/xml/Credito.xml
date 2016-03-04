@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CreditoMapper">
+	<resultMap id="resMapCredito" type="CreditoAlias">
+		<result property="secuencia" column="SEC" />
+		<result property="NroPrestamo" column="NUMERO_PRESTAMO" />
+		<result property="interes" column="INTERES" />
+		<result property="entidad.secuencia" column="SEC_BANCO" />
+		<result property="entidad.nombre" column="NOMBRE" />
+		<result property="capital" column="CAPITAL" />
+		<result property="saldo" column="SALDO" />
+		<result property="fecha" column="FECHA" />
+		<result property="plazo" column="PLAZO" />
+		<result property="fechaCreacion" column="FECHA_CREACION" />
+		<result property="fechaHoraActualizacion" column="FECHA_HORA_ACTUALIZACION" />
+				
+	</resultMap>	
+   
+	<select id="guardarCredito" parameterType="CreditoAlias" resultMap="resMapCredito" statementType="CALLABLE" >   
+		  INSERT
+				   INTO CREDITOS (SEC, SEC_BANCO, NUMERO_PRESTAMO,INTERES,CAPITAL,SALDO, FECHA, PLAZO, FECHA_CREACION, FECHA_HORA_ACTUALIZACION)
+					  VALUES
+					  ( #{secuencia,jdbcType=NUMERIC}, 
+					   #{entidad.secuencia,jdbcType=NUMERIC},
+					   #{nroPrestamo,jdbcType=VARCHAR},
+					   #{interes,jdbcType=NUMERIC},
+					   #{capital,jdbcType=NUMERIC},
+					   #{saldo,jdbcType=NUMERIC},
+					   #{fecha,jdbcType=DATE},
+					   #{plazo,jdbcType=NUMERIC},
+					   #{fechaCreacion,jdbcType=DATE},
+					   #{fechaHoraActualizacion,jdbcType=DATE}
+					  ) 
+		       
+	</select>
+	<update id="actualizarCredito" parameterType="CreditoAlias">
+	  UPDATE CREDITOS 
+	     SET 
+	         SEC_BANCO = #{entidad.secuencia,jdbcType=NUMERIC},
+	         NUMERO_PRESTAMO  =   #{nroPrestamo,jdbcType=VARCHAR},
+	         INTERES   =   #{interes,jdbcType=NUMERIC},
+	         CAPITAL   =    #{capital,jdbcType=NUMERIC},
+	         SALDO   =   #{saldo,jdbcType=NUMERIC},
+	         FECHA   =    #{fecha,jdbcType=DATE},
+	         PLAZO =  #{plazo,jdbcType=NUMERIC},
+			 FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
+	</update>
+	<select id="listarCreditos" parameterType="CreditoAlias" resultMap="resMapCredito"  > 
+		 SELECT
+			CREDITOS.SEC,
+			CREDITOS.SEC_BANCO,
+			CREDITOS.NUMERO_PRESTAMO,
+			CREDITOS.INTERES,
+			CREDITOS.CAPITAL,
+			CREDITOS.SALDO,
+			CREDITOS.FECHA,
+			CREDITOS.PLAZO,
+			CREDITOS.FECHA_CREACION,
+			CREDITOS.FECHA_HORA_ACTUALIZACION,
+			BANCOS.CODIGO,
+			BANCOS.NOMBRE
+			FROM
+			CREDITOS   
+			LEFT JOIN BANCOS  ON BANCOS.SEC = CREDITOS.SEC_BANCO
+		 
+
+		  
+		  <trim prefix="WHERE" prefixOverrides="AND | OR ">
+			<if test="entidad !=null and entidad.secuencia !=null">
+	         AND CREDITOS .SEC_BANCO =  #{entidad.secuencia,jdbcType=NUMERIC};
+	        </if>
+	      </trim>
+ </select>
+
+ <delete id="eliminarCredito" parameterType="CreditoAlias">
+		 DELETE FROM CREDITOS WHERE CREDITOS.SEC=  #{secuencia,jdbcType=NUMERIC};
+ </delete>
+</mapper>

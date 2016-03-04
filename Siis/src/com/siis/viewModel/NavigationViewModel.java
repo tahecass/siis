@@ -107,7 +107,7 @@ public class NavigationViewModel extends Borderlayout {
 				"form11");
 		addPage("Disponible", "Disponible", "/formulario_disponible.zul", "form1"); 
 		
-		addPage("Créditos", "Créditos", "/formuario_credito.zul", "form4");
+		addPage("Créditos", "Créditos", "/formulario_credito.zul", "form4");
 		addPage("Créditos", "Consultas", "/vista_credito.zul", "form13");
 		
 		addPage("Proyectos", "Proyectos", "/formuario_proyecto.zul", "form5");

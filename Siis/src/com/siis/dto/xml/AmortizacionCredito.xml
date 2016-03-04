@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AmortizacionCreditoMapper">
+	<resultMap id="resMapAmortizacionCredito" type="AmortizacionCreditoAlias">
+		<result property="secuencia" column="SEC" /> 
+		<result property="credito.secuencia" column="SEC_CREDITO" />
+		<result property="interes" column="INTERES" />
+		<result property="capital" column="CAPITAL" />
+		<result property="saldo" column="SALDO" />
+		<result property="periodo" column="PERIODO" />
+		<result property="cuota" column="CUOTA" />
+		<result property="fechaCreacion" column="FECHA_CREACION" />
+		<result property="fechaHoraActualizacion" column="FECHA_HORA_ACTUALIZACION" />
+				
+	</resultMap>	
+   
+   
+   AMORTIZACION_AMORTIZACION_CREDITOS  (
+   SEC  int(11) NOT NULL,
+   SEC_CREDITO  int(11) DEFAULT NULL,
+   PERIODO  VARCHAR(6) DEFAULT NULL,
+   CUOTA  DOUBLE DEFAULT NULL,
+   INTERES  DOUBLE DEFAULT NULL,
+   CAPITAL  DOUBLE DEFAULT NULL,
+   SALDO  DOUBLE DEFAULT NULL,
+   FECHA_CREACION  date DEFAULT NULL,
+   FECHA_HORA_ACTUALIZACION  date DEFAULT NULL
+);
+   
+   
+	<select id="guardarAmortizacionCredito" parameterType="AmortizacionCreditoAlias" resultMap="resMapAmortizacionCredito" statementType="CALLABLE" >   
+		  INSERT
+				   INTO AMORTIZACION_CREDITOS (SEC, SEC_CREDITO, PERIODO,CUOTA, INTERES,CAPITAL,SALDO, FECHA_CREACION, FECHA_HORA_ACTUALIZACION)
+					  VALUES
+					  ( #{secuencia,jdbcType=NUMERIC}, 
+					   #{credito.secuencia,jdbcType=NUMERIC},
+					   #{periodo,jdbcType=VARCHAR},
+					   #{cuota,jdbcType=NUMERIC},
+					   #{interes,jdbcType=NUMERIC},
+					   #{capital,jdbcType=NUMERIC},
+					   #{saldo,jdbcType=NUMERIC}, 
+					   #{fechaCreacion,jdbcType=DATE},
+					   #{fechaHoraActualizacion,jdbcType=DATE}
+					  ) 
+		       
+	</select>
+	<update id="actualizarAmortizacionCredito" parameterType="AmortizacionCreditoAlias">
+	  UPDATE AMORTIZACION_CREDITOS 
+	     SET 
+	         SEC_CREDITO = #{credito.secuencia,jdbcType=NUMERIC}, 
+	         PERIODO =  #{periodo,jdbcType=VARCHAR},
+			 CUOTA=	   #{cuota,jdbcType=NUMERIC},
+	         INTERES   =   #{interes,jdbcType=NUMERIC},
+	         CAPITAL   =    #{capital,jdbcType=NUMERIC},
+	         SALDO   =   #{saldo,jdbcType=NUMERIC}, 
+			 FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
+	</update>
+	<select id="listarAmortizacionCreditos" parameterType="AmortizacionCreditoAlias" resultMap="resMapAmortizacionCredito"  > 
+		 SELECT
+			AMORTIZACION_CREDITOS.SEC,
+			AMORTIZACION_CREDITOS.SEC_CREDITO,
+			AMORTIZACION_CREDITOS.PERIODO,
+			AMORTIZACION_CREDITOS.CUOTA,
+			AMORTIZACION_CREDITOS.INTERES,
+			AMORTIZACION_CREDITOS.CAPITAL,
+			AMORTIZACION_CREDITOS.SALDO,
+			AMORTIZACION_CREDITOS.FECHA_CREACION,
+			AMORTIZACION_CREDITOS.FECHA_HORA_ACTUALIZACION
+		FROM
+			AMORTIZACION_CREDITOS		  
+		  <trim prefix="WHERE" prefixOverrides="AND | OR ">
+			<if test="credito !=null and credito.secuencia !=null">
+	         AND AMORTIZACION_CREDITOS .SEC_BANCO =  #{credito.secuencia,jdbcType=NUMERIC};
+	        </if>
+	      </trim>
+ </select>
+
+ <delete id="eliminarAmortizacionCredito" parameterType="AmortizacionCreditoAlias">
+		 DELETE FROM AMORTIZACION_CREDITOS WHERE AMORTIZACION_CREDITOS.SEC=  #{secuencia,jdbcType=NUMERIC};
+ </delete>
+</mapper>

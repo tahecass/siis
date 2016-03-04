@@ -11,8 +11,8 @@
 	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 	<borderlayout apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') 
-		@init('com.siis.viewModel.FormularioDisponibleViewModel')"
-		id="idWINFORMDISPONIBLEZPrincipal">
+		@init('com.siis.viewModel.FormularioCreditoViewModel')"
+		id="idWINFORMCREDITOZPrincipal">
 
 		<center>
 			<vlayout height="100%">
@@ -22,11 +22,8 @@
 					<tabbox hflex="true" vflex="true">
 						<tabs>
 							<tab label="Generalidades" />
-							<tab label="Detalle por Banco"
+							<tab label="Tabla de AMortización"
 								onClick="@command('onMostrarVentanaDetalle')"
-								disabled="@load(vm.desactivarTabDetalle)" />
-							<tab label="Detalle por Concepto"
-								onClick="@command('onMostrarVentanaDetalleConcepto')"
 								disabled="@load(vm.desactivarTabDetalle)" />
 							<tab label="Consulta"
 								onClick="@command('onMostrarVentanaConsulta')" />
@@ -41,38 +38,60 @@
 									</columns>
 									<rows>
 										<row>
-											<label value="Banco:" />
+											<label value="Entidad:" />
 											<bandboxBancos
 												disabled="@load(vm.desactivarformulario)"
-												value="@bind(vm.disponibleSeleccionada.banco)"
+												value="@bind(vm.creditoSeleccionada.entidad)"
 												id="idFORMDISPONIBLEZBbxBanco" />
 										</row>
 										<row>
-											<label value="Cuenta:" />
-											<bandboxCuentas
+											<label
+												value="Número de Préstamo: " />
+											<textbox
 												disabled="@load(vm.desactivarformulario)"
-												value="@bind(vm.disponibleSeleccionada.cuenta)"
-												id="idFORMDISPONIBLEZBbxCuenta" />
+												value="@bind(vm.creditoSeleccionada.nroPrestamo)" />
 										</row>
 										<row>
-											<label
-												value="Tipo de Cuenta:" />
-											<textbox
-												value="@bind(vm.disponibleSeleccionada.cuenta.tipo)"
-												disabled="true" />
+											<label value="Interés:" />
+											<doublebox
+												disabled="@load(vm.desactivarformulario)"
+												value="@bind(vm.creditoSeleccionada.interes)" />
+
+										</row>
+										<row>
+											<label value="Capital:" />
+											<doublebox
+												disabled="@load(vm.desactivarformulario)"
+												value="@bind(vm.creditoSeleccionada.capital)" />
+
+										</row>
+										<row>
+											<label value="Plazo:" />
+											<hlayout>
+												<doublebox
+													disabled="@load(vm.desactivarformulario)"
+													value="@bind(vm.creditoSeleccionada.plazo)" />
+												<label value="(Meses)" />
+											</hlayout>
+
+										</row>
+										<row>
+											<label value="Fecha:" />
+											<datebox
+												disabled="@load(vm.desactivarformulario)"
+												value="@bind(vm.creditoSeleccionada.fecha)" />
 										</row>
 										<row>
 											<label
 												value="Fecha de Creación:" />
-											<datebox
-												disabled="true"
-												value="@bind(vm.disponibleSeleccionada.fechaCreacion)" />
+											<datebox disabled="true"
+												value="@bind(vm.creditoSeleccionada.fechaCreacion)" />
 										</row>
 										<row>
 											<label
 												value="Fecha y Hora de Actualizacion:" />
 											<datebox disabled="true"
-												value="@bind(vm.disponibleSeleccionada.fechaHoraActualizacion)" />
+												value="@bind(vm.creditoSeleccionada.fechaHoraActualizacion)" />
 										</row>
 									</rows>
 								</grid>
@@ -84,7 +103,7 @@
 										disabled="@load(vm.desactivarBtnNuevo)" />
 									<toolbarbutton label="Guardar"
 										sclass="btn-info" tooltiptext="" image="imagenes/guardar.png"
-										onClick="@command('guardarDisponible')"
+										onClick="@command('guardarCredito')"
 										disabled="@load(vm.desactivarBtnGuardar)" />
 									<toolbarbutton label="Editar"
 										onClick="@command('onEditar')" sclass="btn-info"
@@ -93,18 +112,20 @@
 									<toolbarbutton label="Eliminar"
 										sclass="btn-info" image="imagenes/delete.png"
 										disabled="@load(vm.desactivarBtnEliminar)"
-										onClick="@command('onEliminar',seleccionado=vm.disponibleSeleccionada)" />
+										onClick="@command('onEliminar',seleccionado=vm.creditoSeleccionada)" />
 									<toolbarbutton label="Consultar"
 										sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
 								</toolbar>
-								<listbox id="idDISPONIBLEZLbxDisponible"  
-									span="true" model="@bind(vm.listaDisponible)"
-									selectedItem="@bind(vm.disponibleSeleccionada)"
-									onSelect="@command('onSeleccionar',seleccionado=vm.disponibleSeleccionada)">
+								<listbox id="idDISPONIBLEZLbxCredito"
+									span="true" model="@bind(vm.listaCredito)"
+									selectedItem="@bind(vm.creditoSeleccionada)"
+									onSelect="@command('onSeleccionar',seleccionado=vm.creditoSeleccionada)">
 									<listhead sizable="true">
-										<listheader label="Banco"
+										<listheader label="Entidad"
 											sort="auto" />
-										<listheader label="Cuenta"
+										<listheader
+											label="Número de Préstamo" sort="auto" />
+										<listheader label="Capital"
 											sort="auto" />
 									</listhead>
 									<template name="model">
@@ -112,23 +133,25 @@
 										<listitem>
 											<listcell>
 												<label
-													value="@bind(each.banco.nombre)" />
+													value="@bind(each.entidad.nombre)" />
 											</listcell>
 
 											<listcell>
 												<label
-													value="@bind(each.cuenta.numeroCuenta)" />
+													value="@bind(each.nroPrestamo)" />
+											</listcell>
+											<listcell>
+												<label
+													value="@bind(each.capital)" />
 											</listcell>
 										</listitem>
 									</template>
 								</listbox>
 							</tabpanel>
 							<tabpanel
-								id="idDISPONIBLEZTpnDetalleDisponible" hflex="true" />
+								id="idDISPONIBLEZTpnDetalleCredito" hflex="true" />
 							<tabpanel
-								id="idDISPONIBLEZTpnDetalleDisponobleConcepto" hflex="true" />
-							<tabpanel
-								id="idDISPONIBLEZTpnConsultaDisponible" hflex="true" />
+								id="idDISPONIBLEZTpnConsultaCredito" hflex="true" />
 						</tabpanels>
 
 					</tabbox>
