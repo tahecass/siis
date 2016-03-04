@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" ?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap.css" ?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css" ?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css" ?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<borderlayout apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') 
+		@init('com.siis.viewModel.FormularioProyectoContratosDetalleViewModel')"
+		id="idWINFORMPROVALORZPrincipal">
+		<center>
+			<vlayout height="100%">
+				<groupbox mold="3d" hflex="true" vflex="true"
+					contentStyle="padding:0px" open="true" closable="false">
+					<grid>
+						<columns>
+							<column hflex="min" />
+							<column />
+						</columns>
+						<rows>
+							<row>
+								<label value="Valor del Anticipo" />
+								<doublebox
+									value="@bind(vm.proyectoValorSeleccionada.valor)"
+									disabled="@load(vm.desactivarformulario)" />
+							</row>
+							<row>
+								<label value="Porcentaje del Anticipo" />
+								<hlayout>
+									<doublebox
+										value="@bind(vm.proyectoValorSeleccionada.porcentaje)"
+										disabled="@load(vm.desactivarformulario)" />
+									
+								</hlayout>
+							</row>
+							<row>
+								<label value="Plazo" />
+								<hlayout>
+									<doublebox
+										value="@bind(vm.proyectoValorSeleccionada.plazo)"
+										disabled="@load(vm.desactivarformulario)" />
+									<label value="(Meses)" />
+								</hlayout>
+							</row>
+							<row>
+								<label value="Fecha del Anticipo" />
+								<datebox
+									value="@bind(vm.proyectoValorSeleccionada.fechaCreacion)"
+									disabled="true" />
+							</row>
+							<row>
+								<label value="Fecha de Actualización" />
+								<datebox
+									value="@bind(vm.proyectoValorSeleccionada.fechaHoraActualizacion)"
+									disabled="true" />
+							</row>
+						</rows>
+					</grid>
+					<separator />
+					<toolbar align="start">
+						<toolbarbutton label="Nuevo" sclass="btn-info"
+							tooltiptext="" image="imagenes/add.png"
+							onClick="@command('onNuevo')"
+							disabled="@load(vm.desactivarBtnNuevo)" />
+						<toolbarbutton label="Guardar" sclass="btn-info"
+							tooltiptext="" image="imagenes/guardar.png"
+							onClick="@command('guardarProyectoValor')"
+							disabled="@load(vm.desactivarBtnGuardar)" />
+						<toolbarbutton label="Editar"
+							onClick="@command('onEditar')" sclass="btn-info"
+							image="imagenes/edit.png"
+							disabled="@load(vm.desactivarBtnEditar)" />
+						<toolbarbutton label="Eliminar"
+							sclass="btn-info" image="imagenes/delete.png"
+							disabled="@load(vm.desactivarBtnEliminar)"
+							onClick="@command('onEliminar',seleccionado=vm.proyectoValorSeleccionada)" />
+						<toolbarbutton label="Consultar"
+							sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
+					</toolbar>
+					<listbox
+						id="idCARTERAZLbxDetalleProyectoValor" span="true"
+						vflex="true" model="@bind(vm.listaProyectoValor)"
+						selectedItem="@bind(vm.proyectoValorSeleccionada)"
+						onSelect="@command('onSeleccionar',seleccionado=vm.proyectoValorSeleccionada)">
+
+						<listhead sizable="true">
+							<listheader label="Valor" sort="auto" />
+							<listheader label="Plazo (Meses)" sort="auto" />
+
+						</listhead>
+						<template name="model">
+							<listitem>
+								<listcell>
+									<label value="@bind(each.valor)" />
+								</listcell>
+								<listcell>
+									<label value="@bind(each.plazo)" />
+								</listcell>
+							</listitem>
+						</template>
+					</listbox>
+				</groupbox>
+			</vlayout>
+		</center>
+		<custom-attributes MSG_TITULO="Notificación" />
+		<custom-attributes
+			MSG_MENSAJE_GUARDAR="Se guardó correctamente la información" />
+		<custom-attributes
+			MSG_MENSAJE_ACTUALIZAR="Se actualizó correctamente la información" />
+		<custom-attributes
+			MSG_MENSAJE_ELIMINAR="Se eliminó correctamente la información" />
+		<custom-attributes
+			MSG_ELIMINAR_CARTERA="¿Desea eliminar eliminar la fila seleccionada?" />
+		<custom-attributes MSG_TITULO_ELIMINAR="Confirmación" />
+	</borderlayout>
+</zk>
