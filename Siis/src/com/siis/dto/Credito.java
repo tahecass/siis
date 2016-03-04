@@ -10,6 +10,7 @@ private Double interes;
 private Double capital;
 private Double saldo;
 private Date fecha;
+private Date fechaVencimiento;
 private Double plazo;
 private Date fechaCreacion;
 private Date fechaHoraActualizacion;
@@ -96,6 +97,14 @@ public Double getPlazo() {
 
 public void setPlazo(Double plazo) {
 	this.plazo = plazo;
+}
+
+public Date getFechaVencimiento() {
+	return fechaVencimiento;
+}
+
+public void setFechaVencimiento(Date fechaVencimiento) {
+	this.fechaVencimiento = fechaVencimiento;
 }
  
 }
