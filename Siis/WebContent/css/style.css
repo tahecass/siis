@@ -7,10 +7,10 @@
 	background-color: white;
 }
 .z-navbar-horizontal li {
- 	min-width: 145px;
+ 	min-width: 300px;
 }	
 .z-navbar-vertical {
-	width: 160px;
+	width: 300px;
 	height: 300px;
 }	
 .z-navbar-vertical.z-navbar-collapsed {
@@ -37,3 +37,22 @@
 .content .subTitle {
 	margin: 0;
 }
+.z-navbar-vertical>ul .z-nav-content, .z-navbar-vertical>ul .z-navitem-content, .z-navbar-vertical>ul .z-navseparator {
+    background: #D7F0FB;
+}
+.z-nav-content, .z-navitem-content {
+    color: #333;
+    display: block;
+    height: 32px;
+    border: 1px solid #8FB9D0;
+    padding: 0 8px;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    line-height: 32px;
+}
+
+.z-navbar>ul ul .z-nav-content, .z-navbar>ul ul .z-navitem-content, .z-navbar>ul ul .z-navseparator {
+    background: rgba(215, 240, 251, 0.28);
+}
+

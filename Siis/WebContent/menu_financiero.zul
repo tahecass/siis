@@ -4,6 +4,7 @@
 	xmlns:h="http://www.w3.org/1999/xhtml"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<style src="/css/style.css"/>
 	<borderlayout apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') 
 		@init('com.siis.viewModel.NavigationViewModel')">
@@ -67,9 +68,10 @@
 			</h:table>
 		</north>
 		<west width="20%">
-			<div>
 				<navbar id="navbar" orient="vertical"
 					collapsed="false">
+					<nav label="Menù" iconSclass="z-icon-home"  style="background-color: white;"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
 
 					<nav label="Disponible" iconSclass="z-icon-home"  
 						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
@@ -110,8 +112,6 @@
 					</template>
 				</navbar>
 
-
-			</div>
 		</west>
 		<center>
 			<tabbox id="tb_tabbox" orient="top" visible="false"
