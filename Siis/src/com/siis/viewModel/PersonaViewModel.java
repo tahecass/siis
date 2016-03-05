@@ -14,6 +14,7 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Tab;
 
 import com.siis.configuracion.Conexion;
@@ -29,7 +30,7 @@ public class PersonaViewModel {
 	private boolean habilitarCampo;
 	private int seleccionarTab;
 	private String valorBusqueda = "";
-	
+
 	@Wire
 	private Tab idClieDatosgenerales;
 	protected static Logger log = Logger.getLogger(PersonaViewModel.class);
@@ -62,7 +63,6 @@ public class PersonaViewModel {
 		this.listaTipoId = listaTipoId;
 	}
 
-	
 	@NotifyChange("*")
 	@Command
 	public void onBuscar() {
@@ -112,16 +112,20 @@ public class PersonaViewModel {
 	@NotifyChange("*")
 	@Command
 	public void onEliminar() {
-		persona = personaSeleccionada;
-		if (persona.getSec() != null) {
-			Conexion.getConexion().guardar("eliminarPersonas", persona);
-			Utilidades.mostrarNotificacion("Persona",
-					"Se elimino correctamente la información", "INFO");
-			persona = new Persona();
-			onBuscar();
+		if ((Messagebox.show("¿Desea eliminar eliminar la fila seleccionada?",
+				"Se eliminó correctamente la información", Messagebox.NO | Messagebox.YES,
+				Messagebox.QUESTION)) == Messagebox.YES) {
+			persona = personaSeleccionada;
+			if (persona.getSec() != null) {
+				Conexion.getConexion().guardar("eliminarPersonas", persona);
+				Utilidades.mostrarNotificacion("Persona",
+						"Se elimino correctamente la información", "INFO");
+				persona = new Persona();
+				onBuscar();
+			}
 		}
 	}
- 
+
 	@NotifyChange(".")
 	@Command
 	public void onEditar() {
