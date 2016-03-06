@@ -70,38 +70,38 @@
 		<west width="20%">
 				<navbar id="navbar" orient="vertical"
 					collapsed="false">
-					<nav label="Menù" iconSclass="z-icon-home"  style="background-color: white;"
+					<nav label="General" iconSclass="z-icon-home"  style="background-color: white;"
 						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
 
-					<nav label="Disponible" iconSclass="z-icon-home"  
+					<nav label="Disponible" iconSclass="z-icon-th-list"  
 						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
 
-					<nav label="Cartera" iconSclass="z-icon-home"
-						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
-
-
-					<nav label="Proveedores" iconSclass="z-icon-home"
-						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
-
-					<nav label="Créditos" iconSclass="z-icon-home"
+					<nav label="Cartera" iconSclass="z-icon-th-list"
 						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
 
 
-					<nav label="Proyectos" iconSclass="z-icon-home"
+					<nav label="Proveedores" iconSclass="z-icon-th-list"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+					<nav label="Créditos" iconSclass="z-icon-th-list"
 						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
 
 
-					<nav label="Indicadores" iconSclass="z-icon-home"
+					<nav label="Proyectos" iconSclass="z-icon-th-list"
 						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
 
 
-					<nav label="EFS" iconSclass="z-icon-home"
+					<nav label="Indicadores" iconSclass="z-icon-th-list"
 						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
 
-					<nav label="Calendario" iconSclass="z-icon-home"
+
+					<nav label="EFS" iconSclass="z-icon-th-list"
 						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
 
-					<nav label="Notificaciones" iconSclass="z-icon-home"
+					<nav label="Calendario" iconSclass="z-icon-th-list"
+						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+					<nav label="Notificaciones" iconSclass="z-icon-th-list"
 						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
 
 					<template name="navitem" var="navigationPage">
