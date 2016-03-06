@@ -22,7 +22,7 @@
 					<rows>
 						<row>
 							<label value="Nombre del Indicador:" />
-							<textbox id="TextboxParamIndicador"/>
+							<textbox id="TextboxParamIndicador" />
 						</row>
 					</rows>
 				</grid>
@@ -61,9 +61,13 @@
 							<listcell>
 								<label value="@bind(each.objetivoReal)" />
 							</listcell>
-							<listcell>
-							<image src="@load(each.estado eq 'CUMPLIDO' ?  'imagenes/add.png' : 'imagenes/cancel.png')"></image>
-								<label value="@bind(each.estado)" />
+							<listcell >
+								<hbox align="center">
+									<image
+										src="@load(each.estado eq 'CUMPLIDO' ?  'imagenes/satisfactorio.png' : 'imagenes/error.png')"
+										tooltiptext="@bind(each.estado)">
+									</image>
+								</hbox>
 							</listcell>
 						</listitem>
 					</template>
