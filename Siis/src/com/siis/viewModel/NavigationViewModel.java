@@ -31,7 +31,6 @@ public class NavigationViewModel extends Borderlayout {
 	NavigationPage currentPage;
 	private Map<String, Map<String, NavigationPage>> pageMap;
 
-	
 	@Wire
 	Tabbox tb_tabbox;
 
@@ -51,9 +50,8 @@ public class NavigationViewModel extends Borderlayout {
 	@Command
 	public void navigatePage(@BindingParam("target") NavigationPage targetPage) {
 		System.out.println("navigatePage ");
-	
-		agregarTab(targetPage.getTitle(), targetPage.getId(),
-				targetPage.getIncludeUri());
+
+		agregarTab(targetPage.getTitle(), targetPage.getId(), targetPage.getIncludeUri());
 	}
 
 	private void agregarTab(String titulo, String id, String zul) {
@@ -98,59 +96,38 @@ public class NavigationViewModel extends Borderlayout {
 	private void initPageMap() {
 		pageMap = new LinkedHashMap<String, Map<String, NavigationPage>>();
 
-		
-		addPage("Cartera", "Cartera", "/formulario_cartera.zul", "form2"); 
-		
-		addPage("Proveedores", "Proveedores", "/formulario_proveedor.zul",
-				"form3");
-		addPage("Proveedores", "Consultas", "/vista_proveedor.zul",
-				"form11");
-		
-		addPage("Disponible", "Disponible", "/formulario_disponible.zul", "form1"); 
-		
+		addPage("Cartera", "Cartera", "/formulario_cartera.zul", "form1");
+
+		addPage("Proveedores", "Proveedores", "/formulario_proveedor.zul", "form2");
+
+		addPage("Disponible", "Disponible", "/formulario_disponible.zul", "form3");
+
 		addPage("Créditos", "Créditos", "/formulario_credito.zul", "form4");
-		addPage("Créditos", "Consultas", "/vista_credito.zul", "form13");
-		
+
 		addPage("Proyectos", "Proyectos", "/formulario_proyecto.zul", "form5");
-		addPage("Proyectos", "Consultas", "/vista_proyecto.zul", "form14");
-		
-		addPage("Indicadores", "Indicadores", "/formulario_indicador.zul",
-				"form6");
-		addPage("Indicadores", "Consultas", "/formulario_indicador.zul",
-				"form15");
+
+		addPage("Indicadores", "Indicadores", "/formulario_indicador.zul", "form6"); 
 		addPage("EFS", "EFS", "/customers/customers.zul", "form7");
-		addPage("EFS", "Consultas", "/customers/customers.zul", "form16");
-		
+
 		addPage("Calendario", "Calendario", "/customers/customers.zul", "form8");
-		addPage("Calendario", "Calendario", "/customers/customers.zul", "form17");
-		
-		addPage("Notificaciones", "Notificaciones", "/formulario_notificacion.zul",
-				"form9");
-		addPage("Notificaciones", "Notificaciones", "/customers/customers.zul",
-				"form18");
-		
-		addPage("General", "Proveedores", "/persona.zul", "form20");
-		addPage("General", "Banco", "/banco.zul", "form20");
-		
-		
+
+		addPage("General", "Proveedores", "/persona.zul", "form9");
+		addPage("General", "Banco", "/banco.zul", "form10");
 
 	}
 
-	private void addPage(String title, String subTitle, String includeUri,
-			String id) {
+	private void addPage(String title, String subTitle, String includeUri, String id) {
 		addPage(title, subTitle, includeUri, null, id);
 	}
 
-	private void addPage(String title, String subTitle, String includeUri,
-			String data, String id) {
+	private void addPage(String title, String subTitle, String includeUri, String data, String id) {
 		String folder = "/formas";
 		Map<String, NavigationPage> subPageMap = pageMap.get(title);
 		if (subPageMap == null) {
 			subPageMap = new LinkedHashMap<String, NavigationPage>();
 			pageMap.put(title, subPageMap);
 		}
-		NavigationPage navigationPage = new NavigationPage(title, subTitle,
-				folder + includeUri, data, id) {
+		NavigationPage navigationPage = new NavigationPage(title, subTitle, folder + includeUri, data, id) {
 			@Override
 			public boolean isSelected() {
 				return currentPage == this;
@@ -160,10 +137,8 @@ public class NavigationViewModel extends Borderlayout {
 	}
 
 	@Command
-	public void onSeleccionarItem(
-			@BindingParam("target") NavigationPage targetPage) {
+	public void onSeleccionarItem(@BindingParam("target") NavigationPage targetPage) {
 		System.out.println("onSeleccionarItem " + targetPage.getIncludeUri());
-		agregarTab(targetPage.getSubTitle(), targetPage.getId(),
-				targetPage.getIncludeUri());
+		agregarTab(targetPage.getSubTitle(), targetPage.getId(), targetPage.getIncludeUri());
 	}
 }
