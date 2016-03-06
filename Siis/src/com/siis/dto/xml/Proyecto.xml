@@ -5,7 +5,7 @@
 		<result property="secuencia" column="SEC" />
 		<result property="contrato" column="CONTRATO" />
 		<result property="porcentajeEjecucion" column="PORCENTAJE_EJECUCION" />
-		<result property="entidad.secuencia" column="SEC_BANCO" />
+		<result property="entidad.sec" column="SEC_BANCO" />
 		<result property="entidad.nombre" column="NOMBRE" />
 		<result property="valorLegalizado" column="VALOR_LEGALIZADO" />
 		<result property="objeto" column="OBJETO" />

@@ -47,7 +47,7 @@ public class VistaCreditoViewModel {
 	@NotifyChange("*")
 	@Command
 	public void listarAmortizacionCredito() {
-		System.out.println(" listarAmortizacionCredito "+idVISTACREDITOZBbxEntidad.getValue().getSecuencia());
+		System.out.println(" listarAmortizacionCredito "+idVISTACREDITOZBbxEntidad.getValue().getSec());
 
 		AmortizacionCredito  amorCred=  new AmortizacionCredito();
 		Credito credito = new Credito();

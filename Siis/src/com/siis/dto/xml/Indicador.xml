@@ -3,32 +3,66 @@
 <mapper namespace="IndicadorMapper">
 	<resultMap id="resMapIndicador" type="IndicadorAlias">
 		<result property="nombre" column="NOMBRE" />
-		<result property="secuenciaIndicador" column="SECUENCIA_INDICADOR" />
-		<result property="usuario.secuencia" column="SECUENCIA_USUARIO" />
+		<result property="secuencia" column="SEC" />
+		<result property="numero" column="NUMERO" />
 		<result property="objetivoEsperado" column="OBJETIVO_ESPERADO" />
 		<result property="objetivoReal" column="OBJETIVO_REAL" />
-		<result property="desviacion" column="DESVIACION" />
-		<result property="unidad.secuenciaUnidad" column="SECUENCA_UNIDAD" />
-		<result property="documentacion" column="DOCUMENTACION" />
-	
+		<result property="nombre" column="NOMBRE" />
+		<result property="fechaCreacion" column="FECHA_CREACION" />
+		<result property="fechaHoraActualizacion" column="FECHA_HORA_ACTUALIZACION" />
+	    <result property="anoMes" column="ANO_MES" />
+	    <result property="estado" column="ESTADO" />
 	</resultMap>
 
-
 	<select id="listarIndicadores" resultMap="resMapIndicador"
-		resultType="java.util.Map">
+		resultType="IndicadorAlias">
 		SELECT 
-		  "INDICADORES"."SECUENCIA_INDICADOR", 
-		  "INDICADORES"."SECUENCIA_USUARIO", 
-		  "INDICADORES"."OBJETIVO_ESPERADO", 
-		  "INDICADORES"."OBJETIVO_REAL", 
-		  "INDICADORES"."DESVIACION", 
-		  "INDICADORES"."SECUENCA_UNIDAD", 
-		  "INDICADORES"."NOMBRE", 
-		  "INDICADORES"."DOCUMENTACION"
-		FROM 
-		  public."INDICADORES"
+		   INDICADORES.SEC , 
+		   INDICADORES.NUMERO , 
+		   INDICADORES.NOMBRE , 
+		   INDICADORES.OBJETIVO_REAL , 
+		   INDICADORES.OBJETIVO_ESPERADO , 
+		   INDICADORES.FECHA_CREACION , 
+		   INDICADORES.NOMBRE , 
+		   INDICADORES.FECHA_HORA_ACTUALIZACION,
+		   INDICADORES.ANO_MES,
+		   CASE WHEN INDICADORES.OBJETIVO_ESPERADO > INDICADORES.OBJETIVO_REAL THEN 'INCUMPLIDO' ELSE 'CUMPLIDO' END AS ESTADO
+		
+		FROM  INDICADORES 
+		 <trim prefix="WHERE" prefixOverrides="AND | OR ">
+			<if test="nombre !=null and nombre !=''">
+	         AND INDICADORES.NOMBRE LIKE  #{nombre,jdbcType=VARCHAR};
+	        </if>
+	      </trim>
 	</select>
 
-
+<select id="guardarIndicador" parameterType="IndicadorAlias" resultMap="resMapIndicador" statementType="CALLABLE" >   
+		  INSERT
+				   INTO INDICADORES (SEC, NUMERO, NOMBRE, OBJETIVO_REAL,ANO_MES,OBJETIVO_ESPERADO,FECHA_CREACION, FECHA_HORA_ACTUALIZACION)
+					  VALUES
+					  ( #{secuencia,jdbcType=NUMERIC},
+					   #{numero,jdbcType=NUMERIC},
+					   #{nombre,jdbcType=VARCHAR},
+					   #{objetivoReal,jdbcType=NUMERIC},
+					   #{anoMes,jdbcType=VARCHAR},
+					   #{objetivoEsperado,jdbcType=NUMERIC},
+					   #{fechaCreacion,jdbcType=DATE},
+					   #{fechaHoraActualizacion,jdbcType=DATE}
+					  ) 
+		       
+	</select>
+	<update id="actualizarIndicador" parameterType="IndicadorAlias">
+	  UPDATE INDICADORES 
+	     SET NUMERO = #{numero,jdbcType=NUMERIC},
+	         NOMBRE = #{nombre,jdbcType=VARCHAR},
+	         OBJETIVO_REAL  =  #{objetivoReal,jdbcType=NUMERIC},
+	         OBJETIVO_ESPERADO = #{objetivoEsperado,jdbcType=NUMERIC},
+	         ANO_MES= #{anoMes,jdbcType=VARCHAR},
+	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
+	</update>
+	 <delete id="eliminarIndicador" parameterType="IndicadorAlias">
+		 DELETE FROM INDICADORES WHERE INDICADORES.SEC=  #{secuencia,jdbcType=NUMERIC};
+ </delete>
 </mapper>
 	

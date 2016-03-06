@@ -5,7 +5,7 @@
 		<result property="secuencia" column="SEC" />
 		<result property="NroPrestamo" column="NUMERO_PRESTAMO" />
 		<result property="interes" column="INTERES" />
-		<result property="entidad.secuencia" column="SEC_BANCO" />
+		<result property="entidad.sec" column="SEC_BANCO" />
 		<result property="entidad.nombre" column="NOMBRE" />
 		<result property="capital" column="CAPITAL" />
 		<result property="saldo" column="SALDO" />

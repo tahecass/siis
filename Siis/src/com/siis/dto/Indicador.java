@@ -1,49 +1,38 @@
 package com.siis.dto;
- 
+
+import java.util.Date;
 
 public class Indicador extends Bean {
 
-	private Integer secuenciaIndicador;
-	private Usuario usuario;
+	private Integer secuencia;
+	private Integer numero;
 	private String nombre;
 	private Long objetivoEsperado;
 	private Long objetivoReal;
-	private Long desviacion;
-	private Unidad unidad;
-	private String documentacion;
-	private Object clase;
+	private String anoMes;
+	private String formula;
+	private Date fechaCreacion;
+	private Date fechaHoraActualizacion;
+	private String estado;
 
 	public Indicador() {
 
 	}
 
-	public Indicador(Integer secuenciaIndicador, Usuario usuario, String nombre, Long objetivoEsperado,
-			Long objetivoReal, Long desviacion, Unidad unidad, String documentacion) {
-		super();
-		this.secuenciaIndicador = secuenciaIndicador;
-		this.usuario = usuario;
-		this.nombre = nombre;
-		this.objetivoEsperado = objetivoEsperado;
-		this.objetivoReal = objetivoReal;
-		this.desviacion = desviacion;
-		this.unidad = unidad;
-		this.documentacion = documentacion;
+	public Integer getSecuencia() {
+		return secuencia;
 	}
 
-	public Integer getSecuenciaIndicador() {
-		return secuenciaIndicador;
+	public void setSecuencia(Integer secuencia) {
+		this.secuencia = secuencia;
 	}
 
-	public void setSecuenciaIndicador(Integer secuenciaIndicador) {
-		this.secuenciaIndicador = secuenciaIndicador;
+	public Integer getNumero() {
+		return numero;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setNumero(Integer numero) {
+		this.numero = numero;
 	}
 
 	public String getNombre() {
@@ -58,14 +47,6 @@ public class Indicador extends Bean {
 		return objetivoEsperado;
 	}
 
-	public Object getClase() {
-		return this.getClase();
-	}
-
-	public void setClase(Object clase) {
-		this.clase = clase;
-	}
-
 	public void setObjetivoEsperado(Long objetivoEsperado) {
 		this.objetivoEsperado = objetivoEsperado;
 	}
@@ -78,28 +59,46 @@ public class Indicador extends Bean {
 		this.objetivoReal = objetivoReal;
 	}
 
-	public Long getDesviacion() {
-		return desviacion;
+	public String getAnoMes() {
+		return anoMes;
 	}
 
-	public void setDesviacion(Long desviacion) {
-		this.desviacion = desviacion;
+	public void setAnoMes(String anoMes) {
+		this.anoMes = anoMes;
 	}
 
-	public Unidad getUnidad() {
-		return unidad;
+	public String getFormula() {
+		return formula;
 	}
 
-	public void setUnidad(Unidad unidad) {
-		this.unidad = unidad;
+	public void setFormula(String formula) {
+		this.formula = formula;
 	}
 
-	public String getDocumentacion() {
-		return documentacion;
+	public Date getFechaCreacion() {
+		return fechaCreacion;
 	}
 
-	public void setDocumentacion(String documentacion) {
-		this.documentacion = documentacion;
+	public void setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
 	}
+
+	public Date getFechaHoraActualizacion() {
+		return fechaHoraActualizacion;
+	}
+
+	public void setFechaHoraActualizacion(Date fechaHoraActualizacion) {
+		this.fechaHoraActualizacion = fechaHoraActualizacion;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	
+	
 
 }

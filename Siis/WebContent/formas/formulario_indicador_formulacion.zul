@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" ?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap.css" ?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css" ?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css" ?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<borderlayout apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') 
+		@init('com.siis.viewModel.FormularioIndicadorFormulacionViewModel')"
+		id="idWINFORMFORMULACIONZPrincipal">
+		<center>
+			<vlayout height="100%">
+				<groupbox mold="3d" hflex="true" vflex="true"
+					contentStyle="padding:0px" open="true" closable="false">
+					<grid>
+						<columns>
+							<column hflex="min" />
+							<column />
+						</columns>
+						<rows>
+
+							<row>
+								<label value="Formulacion" />
+
+								<combobox
+									selectedItem="@bind(vm.formulacionSeleccionado.formulacion)"
+									disabled="@load(vm.desactivarformulario)">
+									<comboitem label="Activo Corriente"
+										value="Activo Corriente" />
+									<comboitem label="Pasivo Corriente"
+										value="Pasivo Corriente" />
+									<comboitem label="Utilidad Bruta"
+										value="Utilidad Bruta" />
+									<comboitem label="Activo Total"
+										value="Activo Total" />
+									<comboitem label="Utilidad Neta"
+										value="Utilidad Neta" />
+									<comboitem label="Patrimonio"
+										value="Patrimonio" />
+									<comboitem
+										label="Pasivo Total con terceros" />
+								</combobox>
+							</row>
+							<row>
+								<label value="Fecha de Creación" />
+								<datebox
+									value="@bind(vm.formulacionSeleccionado.fechaCreacion)"
+									disabled="true" />
+							</row>
+							<row>
+								<label value="Fecha de Actualización" />
+								<datebox
+									value="@bind(vm.formulacionSeleccionado.fechaHoraActualizacion)"
+									disabled="true" />
+							</row>
+						</rows>
+					</grid>
+					<separator />
+					<toolbar align="start">
+						<toolbarbutton label="Nuevo" sclass="btn-info"
+							tooltiptext="" image="imagenes/add.png"
+							onClick="@command('onNuevo')"
+							disabled="@load(vm.desactivarBtnNuevo)" />
+						<toolbarbutton label="Guardar" sclass="btn-info"
+							tooltiptext="" image="imagenes/guardar.png"
+							onClick="@command('guardarFormulacion')"
+							disabled="@load(vm.desactivarBtnGuardar)" />
+						<toolbarbutton label="Editar"
+							onClick="@command('onEditar')" sclass="btn-info"
+							image="imagenes/edit.png"
+							disabled="@load(vm.desactivarBtnEditar)" />
+						<toolbarbutton label="Eliminar"
+							sclass="btn-info" image="imagenes/delete.png"
+							disabled="@load(vm.desactivarBtnEliminar)"
+							onClick="@command('onEliminar',seleccionado=vm.formulacionSeleccionado)" />
+						<toolbarbutton label="Consultar"
+							sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
+					</toolbar>
+					<listbox id="idCARTERAZLbxDetalleFormulacion"
+						sizedByContent="true" span="true" vflex="true"
+						onSelect="@command('onSeleccionar',seleccionado=vm.formulacionSeleccionado)"
+						model="@bind(vm.listaFormulacion)"
+						selectedItem="@bind(vm.formulacionSeleccionado)">
+
+						<listhead sizable="true">
+							<listheader label="Formulación" sort="auto" />
+						</listhead>
+						<template name="model">
+							<listitem>
+								<listcell>
+									<label
+										value="@bind(each.formulacion)" />
+								</listcell>
+							</listitem>
+						</template>
+					</listbox>
+				</groupbox>
+			</vlayout>
+		</center>
+		<custom-attributes MSG_TITULO="Notificación" />
+		<custom-attributes
+			MSG_MENSAJE_GUARDAR="Se guardó correctamente la información" />
+		<custom-attributes
+			MSG_MENSAJE_ACTUALIZAR="Se actualizó correctamente la información" />
+		<custom-attributes
+			MSG_MENSAJE_ELIMINAR="Se eliminó correctamente la información" />
+		<custom-attributes
+			MSG_ELIMINAR_CARTERA="¿Desea eliminar eliminar la fila seleccionada?" />
+		<custom-attributes MSG_TITULO_ELIMINAR="Confirmación" />
+	</borderlayout>
+</zk>

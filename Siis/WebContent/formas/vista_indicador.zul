@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" ?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap.css" ?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css" ?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css" ?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<borderlayout apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') 
+		@init('com.siis.viewModel.VistaIndicadorViewModel')">
+
+		<center>
+			<vlayout height="100%">
+
+				<grid>
+					<columns>
+						<column hflex="min" />
+						<column />
+					</columns>
+					<rows>
+						<row>
+							<label value="Nombre del Indicador:" />
+							<textbox id="TextboxParamIndicador"/>
+						</row>
+					</rows>
+				</grid>
+				<toolbar align="start">
+					<toolbarbutton label="Consultar" sclass="btn-info"
+						tooltiptext="" image="imagenes/search.png"
+						onClick="@command('listarIndicador')" />
+					<toolbarbutton label="Exportar" sclass="btn-info"
+						tooltiptext="" image="imagenes/add.png" />
+					<toolbarbutton label="Graficas" sclass="btn-info"
+						tooltiptext="" image="imagenes/guardar.png" />
+
+				</toolbar>
+
+				<listbox span="true" vflex="true"
+					model="@bind(vm.listaDetalleIndicador)"
+					selectedItem="@bind(vm.detalleSeleccionado)">
+
+					<listhead sizable="true">
+
+						<listheader label="Indicador" sort="auto" />
+						<listheader label="Deseado" sort="auto" />
+						<listheader label="Resultado" sort="auto" />
+						<listheader label="Estado" />
+					</listhead>
+					<template name="model">
+						<listitem>
+							<listcell>
+								<label value="@bind(each.nombre)" />
+							</listcell>
+
+							<listcell>
+								<label
+									value="@bind(each.objetivoEsperado)" />
+							</listcell>
+							<listcell>
+								<label value="@bind(each.objetivoReal)" />
+							</listcell>
+							<listcell>
+								<label value="@bind(each.estado)" />
+							</listcell>
+						</listitem>
+					</template>
+				</listbox>
+			</vlayout>
+		</center>
+	</borderlayout>
+</zk>
