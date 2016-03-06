@@ -9,7 +9,7 @@
 	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 	<borderlayout apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') 
-		@init('com.siis.viewModel.FormularioProyectoContratosDetalleViewModel')"
+		@init('com.siis.viewModel.FormularioProyectoContratosDetalleViewModel2')"
 		id="idWINFORMPROVALORZPrincipal">
 		<center>
 			<vlayout height="100%">
@@ -90,27 +90,16 @@
 					<listbox id="idCARTERAZLbxDetalleProyectoContrato"
 						span="true" vflex="true" model="@bind(vm.listaProyectoContrato)"
 						selectedItem="@bind(vm.detalleProyContSeleccionada)"
-						onSelect="@command('onSeleccionar',seleccionado=vm.detalleProyContSeleccionada)">
-
+						onSelect="@command('onSeleccionar',seleccionado=vm.detalleProyContSeleccionada)"
+						itemRenderer="com.siis.viewModel.ProyectoContratoRenderer"
+						>
+	<custom-attributes org.zkoss.zul.listbox.groupSelect="true" />
 						<listhead sizable="true">
 							<listheader label="Factura" sort="auto" />
 							<listheader label="Valor" sort="auto" />
 							<listheader label="Retegarantía"
 								sort="auto" />
 						</listhead>
-						<template name="model">
-							<listitem>
-							<listcell>
-									<label value="@bind(each.factura)" />
-								</listcell>
-								<listcell>
-									<label value="@bind(each.valor)" />
-								</listcell>
-								<listcell>
-									<label value="@bind(each.retegarantia)" />
-								</listcell>
-							</listitem>
-						</template>
 					</listbox>
 				</groupbox>
 			</vlayout>

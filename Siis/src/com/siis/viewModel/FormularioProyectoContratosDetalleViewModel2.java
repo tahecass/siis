@@ -25,7 +25,7 @@ import com.siis.dto.Proyecto;
 import com.siis.dto.ProyectoContrato;
 import com.siis.viewModel.framework.Utilidades;
 
-public class FormularioProyectoContratosDetalleViewModel {
+public class FormularioProyectoContratosDetalleViewModel2 {
 
 	protected static Logger log = Logger.getLogger(FormularioCarteraViewModel.class);
 	public List<ProyectoContrato> listaProyectoContrato;
@@ -46,13 +46,13 @@ public class FormularioProyectoContratosDetalleViewModel {
 		Selectors.wireComponents(view, this, false);
 
 		this.parametros = (Map<String, Object>) Executions.getCurrent().getArg();
-		
-		setProyecto((Proyecto) parametros.get("PROYECTO"));
-		log.info("proyecto ..... "+proyecto.getSecuencia());
+//		
+//		setProyecto((Proyecto) parametros.get("PROYECTO"));
+//		log.info("proyecto ..... "+proyecto.getSecuencia());
 		listaProyectoContrato = new ArrayList<ProyectoContrato>();
 		detalleProyContSeleccionada = new ProyectoContrato();
 		setDesactivarformulario(true);
-		listarProyectoContrato();
+//		listarProyectoContrato();
 		accion = new String();
 
 		setDesactivarBtnNuevo(false);

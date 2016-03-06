@@ -215,17 +215,17 @@ public class FormularioProyectoViewModel {
 
 		try {
 			Map<String, Object> parametros = new HashMap<String, Object>();
-			log.info("Disponoble==> 1"+ proyectoSeleccionada.getSecuencia());
+			log.info("proyecto==> 1"+ proyectoSeleccionada.getSecuencia());
 			parametros.put("PROYECTO", proyectoSeleccionada);
 			if (idDISPONIBLEZTpnDetalleContrartos.getChildren().size() == 0) {
-			Utilidades.onCargarVentana(idDISPONIBLEZTpnDetalleContrartos, "//formas//formulario_proyecto_valores_detalle.zul",
+			Utilidades.onCargarVentana(idDISPONIBLEZTpnDetalleContrartos, "//formas//formulario_proyecto_contratos_detalle.zul",
 						parametros);
 			} else {
 				FormularioProyectoContratosDetalleViewModel detalleProyectoContratos= new FormularioProyectoContratosDetalleViewModel();
 
-				log.info("Disponoble==> 2"+ proyectoSeleccionada.getSecuencia());
+				log.info("proyecto==> 2"+ proyectoSeleccionada.getSecuencia());
 				detalleProyectoContratos.setProyecto(proyectoSeleccionada);
-				detalleProyectoContratos.listarProyectoValor(); 
+				detalleProyectoContratos.listarProyectoContrato(); 
 				log.info("1");
 			}
 			

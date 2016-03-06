@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ProyectoContratoMapper">
+	<resultMap id="resMapProyectoContrato" type="ProyectoContratoAlias">
+		<result property="secuencia" column="SEC" />
+		<result property="valor" column="VALOR" />
+		<result property="factura" column="FACTURA" />
+		<result property="retegarantia" column="RETEGARANTIA" />
+		<result property="proyecto.secuencia" column="SEC_BANCO" />
+		<result property="fecha" column="FECHA" />
+		<result property="fechaCreacion" column="FECHA_CREACION" />
+		<result property="fechaHoraActualizacion" column="FECHA_HORA_ACTUALIZACION" />
+				
+	</resultMap>	
+   
+	<select id="guardarProyectoContrato" parameterType="ProyectoContratoAlias" resultMap="resMapProyectoContrato" statementType="CALLABLE" >   
+		  INSERT
+				   INTO PROYECTO_CONTRATO (SEC, SEC_PROYECTO, VALOR,RETEGARANTIA,FACTURA,FECHA, FECHA_CREACION, FECHA_HORA_ACTUALIZACION)
+					  VALUES
+					  ( #{secuencia,jdbcType=NUMERIC}, 
+					   #{proyecto.secuencia,jdbcType=NUMERIC},
+					   #{valor,jdbcType=NUMERIC},
+					   #{retegarantia,jdbcType=NUMERIC},
+					   #{factura,jdbcType=VARCHAR},
+					   #{fecha,jdbcType=DATE},
+					   #{fechaCreacion,jdbcType=DATE},
+					   #{fechaHoraActualizacion,jdbcType=DATE}
+					  ) 
+	</select>
+	<update id="actualizarProyectoContrato" parameterType="ProyectoContratoAlias">
+	  UPDATE PROYECTO_CONTRATO 
+	     SET 
+	         SEC_PROYECTO = #{proyecto.secuencia,jdbcType=NUMERIC},
+	         VALOR   =   #{valor,jdbcType=NUMERIC},
+	         RETEGARANTIA = #{retegarantia,jdbcType=NUMERIC},
+	         FACTURA   =    #{factura,jdbcType=VARCHAR},
+	         FECHA=  #{fecha,jdbcType=DATE}
+			 FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
+	</update>
+	<select id="listarProyectoContrato" parameterType="ProyectoContratoAlias" resultMap="resMapProyectoContrato"  > 
+		 SELECT
+			PROYECTO_CONTRATO.SEC,
+			PROYECTO_CONTRATO.SEC_PROYECTO,
+			PROYECTO_CONTRATO.VALOR,
+			PROYECTO_CONTRATO.FACTURA,
+			PROYECTO_CONTRATO.FECHA,
+			PROYECTO_CONTRATO.FECHA_CREACION,
+			PROYECTO_CONTRATO.FECHA_HORA_ACTUALIZACION,
+			PROYECTO_CONTRATO.RETEGARANTIA
+			FROM
+			PROYECTO_CONTRATO   
+			
+		  <trim prefix="WHERE" prefixOverrides="AND | OR ">
+			<if test="proyecto !=null and proyecto.secuencia !=null">
+	         AND PROYECTO_CONTRATO.SEC_PROYECTO =  #{proyecto.secuencia,jdbcType=NUMERIC};
+	        </if>
+	      </trim>
+ </select>
+
+ <delete id="eliminarProyectoContrato" parameterType="ProyectoContratoAlias">
+		 DELETE FROM PROYECTO_CONTRATO WHERE PROYECTO_CONTRATO.SEC=  #{secuencia,jdbcType=NUMERIC};
+ </delete>
+</mapper>
