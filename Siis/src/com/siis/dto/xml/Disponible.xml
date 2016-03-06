@@ -5,7 +5,7 @@
 		<result property="secuencia" column="SEC" />
 		<result property="usuario.secuencia" column="SEC_USUARIO" />
 		<result property="usuario.cuenta" column="CUENTA" />
-		<result property="banco.secuencia" column="SEC_BANCO" />
+		<result property="banco.sec" column="SEC_BANCO" />
 		<result property="banco.nombre" column="NOMBRE" />
 		<result property="cuenta.secuencia" column="SEC_CUENTA" />
 		<result property="cuenta.numeroCuenta" column="NUMERO" />
@@ -23,7 +23,7 @@
 					  VALUES
 					  ( #{secuencia,jdbcType=NUMERIC},
 					   #{usuario.secuencia,jdbcType=NUMERIC},
-					   #{banco.secuencia,jdbcType=NUMERIC},
+					   #{banco.sec,jdbcType=NUMERIC},
 					   #{cuenta.secuencia,jdbcType=NUMERIC},
 					   #{fechaCreacion,jdbcType=DATE},
 					   #{fechaHoraActualizacion,jdbcType=DATE}
@@ -33,7 +33,7 @@
 	<update id="actualizarDisponible" parameterType="DisponibleAlias">
 	  UPDATE DISPONIBLES 
 	     SET SEC_USUARIO = #{usuario.secuencia,jdbcType=NUMERIC},
-	         SEC_BANCO = #{banco.secuencia,jdbcType=NUMERIC},
+	         SEC_BANCO = #{banco.sec,jdbcType=NUMERIC},
 	         SEC_CUENTA  = #{cuenta.secuencia,jdbcType=NUMERIC},
 	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
 	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
@@ -63,8 +63,8 @@
 
 		  
 		  <trim prefix="WHERE" prefixOverrides="AND | OR ">
-			<if test="banco !=null and banco.secuencia !=null">
-	         AND DISPONIBLES .SEC_BANCO =  #{banco.secuencia,jdbcType=NUMERIC};
+			<if test="banco !=null and banco.sec !=null">
+	         AND DISPONIBLES .SEC_BANCO =  #{banco.sec,jdbcType=NUMERIC};
 	        </if>
 	      </trim>
  </select>
