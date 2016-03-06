@@ -5,7 +5,7 @@
 		<result property="secuencia" column="SEC" />
 		<result property="numeroCuenta" column="NUMERO" />
 		<result property="responsable" column="RESPONSABLE" /> 
-		<result property="banco.secuencia" column="SEC_BANCO" /> 
+		<result property="banco.sec" column="SEC_BANCO" /> 
 		<result property="tipo" column="TIPO" /> 
 		<result property="estado" column="ESTADO" /> 
 		<result property="fechaCreacion" column="FECHA_CREACION" />
@@ -20,7 +20,7 @@
 					  VALUES
 					  ( #{secuencia,jdbcType=NUMERIC},
 					   #{usuario.secuencia,jdbcType=NUMERIC},
-					   #{banco.secuencia,jdbcType=NUMERIC},
+					   #{banco.sec,jdbcType=NUMERIC},
 					   #{cuenta.secuencia,jdbcType=NUMERIC},
 					   #{fechaCreacion,jdbcType=DATE},
 					   #{fechaHoraActualizacion,jdbcType=DATE}
@@ -30,7 +30,7 @@
 	<update id="actualizarCuenta" parameterType="CuentaAlias">
 	  UPDATE DISPONIBLES 
 	     SET SEC_USUARIO = #{usuario.secuencia,jdbcType=NUMERIC},
-	         SEC_BANCO = #{banco.secuencia,jdbcType=NUMERIC},
+	         SEC_BANCO = #{banco.sec,jdbcType=NUMERIC},
 	         SEC_CUENTA  = #{cuenta.secuencia,jdbcType=NUMERIC},
 	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
 	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};

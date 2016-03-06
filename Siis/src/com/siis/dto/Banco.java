@@ -3,64 +3,71 @@ package com.siis.dto;
 import java.util.Date;
 
 public class Banco {
-private Integer secuencia;
-private String codigo;
-private String nombre;
-private String estado;
-private Date fechaCreacion;
-private Date fechaHoraActualizacion;
+	private Long sec;
+	private String codigo;
+	private String nombre;
+	private String estado;
+	private Date fechaCreacion;
+	private Date fechaActualizacion;
+	private String descripcion;
 
-public Banco() { 
-}
+	public Banco() {
+	}
 
-public Integer getSecuencia() {
-	return secuencia;
-}
+	public Long getSec() {
+		return sec;
+	}
 
-public void setSecuencia(Integer secuencia) {
-	this.secuencia = secuencia;
-}
+	public void setSec(Long sec) {
+		this.sec = sec;
+	}
 
+	public Date getFechaActualizacion() {
+		return fechaActualizacion;
+	}
 
-public Date getFechaHoraActualizacion() {
-	return fechaHoraActualizacion;
-}
+	public void setFechaActualizacion(Date fechaActualizacion) {
+		this.fechaActualizacion = fechaActualizacion;
+	}
 
-public void setFechaHoraActualizacion(Date fechaHoraActualizacion) {
-	this.fechaHoraActualizacion = fechaHoraActualizacion;
-}
+	public String getDescripcion() {
+		return descripcion;
+	}
 
-public Date getFechaCreacion() {
-	return fechaCreacion;
-}
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 
-public void setFechaCreacion(Date fechaCreacion) {
-	this.fechaCreacion = fechaCreacion;
-}
+	public Date getFechaCreacion() {
+		return fechaCreacion;
+	}
 
-public String getCodigo() {
-	return codigo;
-}
+	public void setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
 
-public void setCodigo(String codigo) {
-	this.codigo = codigo;
-}
+	public String getCodigo() {
+		return codigo;
+	}
 
-public String getNombre() {
-	return nombre;
-}
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
 
-public void setNombre(String nombre) {
-	this.nombre = nombre;
-}
+	public String getNombre() {
+		return nombre;
+	}
 
-public String getEstado() {
-	return estado;
-}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
-public void setEstado(String estado) {
-	this.estado = estado;
-}
+	public String getEstado() {
+		return estado;
+	}
 
- 
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
 }

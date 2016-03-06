@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap.min.css" ?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap.css" ?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap-theme.min.css" ?>
+<?link rel="stylesheet" href="bootstrap-3.3.6/css/bootstrap-theme.css" ?>
+<?component name="bandboxSeeker" macroURI="/componentes/bandbox.zul"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<borderlayout apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') 
+		@init('com.siis.viewModel.BancoViewModel')">
+
+		<center>
+			<vlayout height="100%">
+
+				<grid>
+					<columns>
+						<column hflex="min" />
+						<column />
+					</columns>
+					<rows>
+						<row>
+							<label value="Codigo:" />
+							<textbox constraint="no empty"
+								value="@bind(vm.banco.codigo)"
+								disabled="@load(vm.habilitarCampo)" />
+						</row>
+						<row>
+							<label value="Nombre:" />
+
+							<textbox constraint="no empty"
+								value="@bind(vm.banco.nombre)"
+								disabled="@load(vm.habilitarCampo)" />
+						</row>
+						<row>
+							<label value="Estado" />
+							<combobox
+								selectedItem="@bind(vm.banco.estado)"
+								disabled="@load(vm.habilitarCampo)">
+								<comboitem label="Activo" value="A">
+								</comboitem>
+								<comboitem label="Inactivo" value="I">
+								</comboitem>
+							</combobox>
+						</row>
+						<row>
+							<label value="Descripcion:" />
+
+							<textbox constraint="no empty"
+								value="@bind(vm.banco.descripcion)"
+								disabled="@load(vm.habilitarCampo)" rows="3" />
+						</row>
+
+					</rows>
+				</grid>
+				<toolbar align="start">
+					<toolbarbutton label="Nuevo" sclass="btn-info"
+						tooltiptext="" image="imagenes/add.png"
+						onClick="@command('onNuevo')" />
+					<toolbarbutton label="Guardar"
+						disabled="@load(vm.habilitarCampo)" sclass="btn-info"
+						tooltiptext="" image="imagenes/guardar.png"
+						onClick="@command('onAgregar')" />
+					<toolbarbutton label="Editar"
+						disabled="@load(vm.banco.sec eq null?true:false)"
+						onClick="@command('onEditar')" sclass="btn-info"
+						image="imagenes/edit.png" />
+					<toolbarbutton label="Eliminar"
+						disabled="@load((vm.banco.sec eq null)?true:false)"
+						onClick="@command('onEliminar')" sclass="btn-info"
+						image="imagenes/delete.png" />
+					<toolbarbutton label="Consultar" sclass="btn-info"
+						tooltiptext="" image="imagenes/search.png" />
+				</toolbar>
+				<groupbox>
+					<caption label="Listar" />
+					<vlayout>
+						<hlayout valign="middle">
+							<textbox width="300px"
+								value="@bind(vm.valorBusqueda)"
+								placeholder="Digite Codigo o Nombre" />
+							<toolbar>
+								<toolbarbutton
+									onClick="@command('onBuscar')" label="Consultar"
+									sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
+							</toolbar>
+						</hlayout>
+						<listbox sizedByContent="true" span="true"
+							mold="paging" pageSize="10"
+							selectedItem="@bind(vm.bancoSeleccionada)"
+							model="@load(vm.listaBanco)">
+
+							<listhead>
+								<listheader label="Codigo"
+									sort="auto(codigo)" />
+								<listheader label="Nombre"
+									sort="auto(nombre)" />
+								<listheader label="Estado"
+									sort="auto(estado)" />
+
+								<listheader label="Acciones" />
+								<!-- 					<listheader label="Estado" sort="auto(estado)" /> -->
+
+							</listhead>
+							<template name="model">
+								<listitem>
+									<listcell
+										label="@bind(each.codigo)" />
+									<listcell
+										label="@bind(each.nombre)" />
+									<listcell
+										label="@bind(each.estado)" />
+									<listcell>
+										<hbox>
+											<image
+												src="imagenes/edit.png" onClick="@command('onEditar')" />
+											<image
+												src="imagenes/delete.png" onClick="@command('onEliminar')" />
+										</hbox>
+									</listcell>
+									<!-- 						<listcell -->
+									<!-- 							label="@bind(each.estado eq 'A'? 'Activo':'Inactivo')" /> -->
+								</listitem>
+							</template>
+						</listbox>
+					</vlayout>
+				</groupbox>
+
+			</vlayout>
+		</center>
+
+	</borderlayout>
+</zk>

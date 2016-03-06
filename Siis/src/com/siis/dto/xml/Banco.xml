@@ -2,57 +2,75 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BancoMapper">
 	<resultMap id="resMapBanco" type="BancoAlias">
-		<result property="secuencia" column="SEC" />
+		<result property="sec" column="SEC" />
 		<result property="nombre" column="NOMBRE" />
-		<result property="codigo" column="CODIGO" /> 
-		<result property="estado" column="ESTADO" /> 
+		<result property="codigo" column="CODIGO" />
+		<result property="estado" column="ESTADO" />
+		<result property="descripcion" column="DESCRIPCION" />
 		<result property="fechaCreacion" column="FECHA_CREACION" />
-		<result property="fechaHoraActualizacion" column="FECHA_HORA_ACTUALIZACION" />
-				
-	</resultMap>	
- 
-   
-	<select id="guardarBanco" parameterType="BancoAlias" resultMap="resMapBanco" statementType="CALLABLE" >   
-		  INSERT
-				   INTO DISPONIBLES (SEC, SEC_USUARIO, SEC_BANCO, SEC_CUENTA,FECHA_CREACION, FECHA_HORA_ACTUALIZACION)
-					  VALUES
-					  ( #{secuencia,jdbcType=NUMERIC},
-					   #{usuario.secuencia,jdbcType=NUMERIC},
-					   #{banco.secuencia,jdbcType=NUMERIC},
-					   #{cuenta.secuencia,jdbcType=NUMERIC},
-					   #{fechaCreacion,jdbcType=DATE},
-					   #{fechaHoraActualizacion,jdbcType=DATE}
-					  ) 
-		       
+		<result property="fechaActualizacion" column="FECHA_ACTUALIZACION" />
+
+	</resultMap>
+
+
+	<select id="guardarBanco" parameterType="BancoAlias" resultMap="resMapBanco"
+		statementType="CALLABLE">
+		INSERT
+		INTO BANCOS (SEC, CODIGO, NOMBRE, DESCRIPCION, FECHA_CREACION,
+		FECHA_ACTUALIZACION)
+		VALUES
+		( #{sec,jdbcType=NUMERIC},
+		#{codigo,jdbcType=VARCHAR},
+		#{nombre,jdbcType=VARCHAR},
+		#{descripcion,jdbcType=VARCHAR},
+		#{fechaCreacion,jdbcType=DATE},
+		#{fechaActualizacion,jdbcType=DATE}
+		)
+
 	</select>
 	<update id="actualizarBanco" parameterType="BancoAlias">
-	  UPDATE DISPONIBLES 
-	     SET SEC_USUARIO = #{usuario.secuencia,jdbcType=NUMERIC},
-	         SEC_BANCO = #{banco.secuencia,jdbcType=NUMERIC},
-	         SEC_CUENTA  = #{cuenta.secuencia,jdbcType=NUMERIC},
-	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
-	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
+		UPDATE BANCOS
+		SET CODIGO = #{codigo,jdbcType=NUMERIC},
+		NOMBRE = #{nombre,jdbcType=NUMERIC},
+		DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
+		FECHA_CREACION = #{fechaCreacion,jdbcType=DATE},
+		FECHA_ACTUALIZACION = #{fechaActualizacion,jdbcType=DATE}
+		WHERE SEC = #{sec,jdbcType=NUMERIC};
 	</update>
-	<select id="listarBancos" parameterType="BancoAlias" resultMap="resMapBanco"  > 
+	<select id="listarBancos" parameterType="java.lang.String"
+		resultMap="resMapBanco">
 		SELECT
-			BANCOS.SEC,
-			BANCOS.CODIGO,
-			BANCOS.NOMBRE,
-			BANCOS.ESTADO,
-			BANCOS.FECHA_CREACION,
-			BANCOS.FECHA_HORA_ACTUALIZACION
+		BANCOS.SEC,
+		BANCOS.CODIGO,
+		BANCOS.NOMBRE,
+		BANCOS.ESTADO,
+		BANCOS.DESCRIPCION,
+		BANCOS.FECHA_CREACION,
+		BANCOS.FECHA_ACTUALIZACION
 		FROM BANCOS
-  <trim prefix="WHERE" prefixOverrides="AND | OR ">
-	<!-- 		<if test="codigo !=null !=null">
-	           AND CODIGO  LIKE  (#{codigo,jdbcType=VARCHAR})   
-	        </if>
-	        <if test="nombre !=null !=null">
-	         AND NOMBRE  LIKE  (#{nombre,jdbcType=VARCHAR})   
-	        </if> -->
-	      </trim>
- </select>
+		WHERE (UPPER(CODIGO) LIKE UPPER(#{valorBusqueda})
+		or UPPER(NOMBRE) LIKE UPPER(#{valorBusqueda})
+		);
 
- <delete id="eliminarBanco" parameterType="BancoAlias">
-		 DELETE FROM BANCOS WHERE DISPONIBLES.SEC=  #{secuencia,jdbcType=NUMERIC};
- </delete>
+	</select>
+	
+	<select id="buscarBancos" parameterType="java.lang.String"
+		resultMap="resMapBanco">
+		SELECT
+		BANCOS.SEC,
+		BANCOS.CODIGO,
+		BANCOS.NOMBRE,
+		BANCOS.ESTADO,
+		BANCOS.DESCRIPCION,
+		BANCOS.FECHA_CREACION,
+		BANCOS.FECHA_ACTUALIZACION
+		FROM BANCOS
+		WHERE (UPPER(CODIGO) = UPPER(#{valorBusqueda})
+		);
+
+	</select>
+
+	<delete id="eliminarBanco" parameterType="BancoAlias">
+		DELETE FROM BANCOS WHERE SEC=#{sec,jdbcType=NUMERIC}
+	</delete>
 </mapper>

@@ -105,6 +105,7 @@ public class NavigationViewModel extends Borderlayout {
 				"form3");
 		addPage("Proveedores", "Consultas", "/vista_proveedor.zul",
 				"form11");
+		
 		addPage("Disponible", "Disponible", "/formulario_disponible.zul", "form1"); 
 		
 		addPage("Créditos", "Créditos", "/formulario_credito.zul", "form4");
@@ -127,6 +128,10 @@ public class NavigationViewModel extends Borderlayout {
 				"form9");
 		addPage("Notificaciones", "Notificaciones", "/customers/customers.zul",
 				"form18");
+		
+		addPage("General", "Proveedores", "/persona.zul", "form20");
+		addPage("General", "Banco", "/banco.zul", "form20");
+		
 		
 
 	}
