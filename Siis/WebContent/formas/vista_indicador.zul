@@ -62,6 +62,7 @@
 								<label value="@bind(each.objetivoReal)" />
 							</listcell>
 							<listcell>
+							<image src="@load(each.estado eq 'CUMPLIDO' ?  'imagenes/add.png' : 'imagenes/cancel.png')"></image>
 								<label value="@bind(each.estado)" />
 							</listcell>
 						</listitem>
