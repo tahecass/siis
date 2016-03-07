@@ -24,6 +24,7 @@
 		<typeAlias alias="ProyectoContratoAlias"        type="com.siis.dto.ProyectoContrato" />
 		<typeAlias alias="IndicadorAlias"               type="com.siis.dto.Indicador" />
 		<typeAlias alias="FormulacionAlias"             type="com.siis.dto.Formulacion" />
+		<typeAlias alias="EfsAlias"                     type="com.siis.dto.Efs" />
 	</typeAliases>
 
 	<environments default="development">
@@ -57,5 +58,6 @@
 	    <mapper resource="com/siis/dto/xml/ProyectoContrato.xml" />
 	    <mapper resource="com/siis/dto/xml/Indicador.xml" />
 	    <mapper resource="com/siis/dto/xml/Formulacion.xml" />
+	    <mapper resource="com/siis/dto/xml/Efs.xml" />
 	</mappers>
 </configuration>

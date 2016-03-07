@@ -107,7 +107,7 @@ public class NavigationViewModel extends Borderlayout {
 		addPage("Proyectos", "Proyectos", "/formulario_proyecto.zul", "form5");
 
 		addPage("Indicadores", "Indicadores", "/formulario_indicador.zul", "form6"); 
-		addPage("EFS", "EFS", "/customers/customers.zul", "form7");
+		addPage("EFS", "EFS", "/formulario_efs.zul", "form7");
 
 		addPage("Calendario", "Calendario", "/customers/customers.zul", "form8");
 

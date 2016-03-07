@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" ?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap.css" ?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css" ?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css" ?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<borderlayout apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') 
+		@init('com.siis.viewModel.FormularioEfsViewModel')"
+		id="idWINFORMEFSZPrincipal">
+
+		<center>
+			<vlayout height="100%">
+				<groupbox mold="3d" hflex="true" vflex="true"
+					contentStyle="padding:0px" open="true" closable="false">
+
+					<tabbox hflex="true" vflex="true">
+						<tabs>
+							<tab label="Generalidades" />
+							<tab label="Consulta"
+								onClick="@command('onMostrarVentanaConsulta')" />
+						</tabs>
+						<tabpanels style="overflow:auto" vflex="true">
+							<tabpanel style="overflow:auto"
+								vflex="true">
+								<grid>
+									<columns>
+										<column hflex="min" />
+										<column />
+									</columns>
+									<rows>
+										<row>
+											<label value="Contrato" />
+											<intbox
+												disabled="@load(vm.desactivarformulario)"
+												value="@bind(vm.efSeleccionado.contrato)" />
+										</row>
+										<row>
+											<label value="Archivo" />
+											<hlayout>
+	 
+												<button label="Upload" 
+													upload="true" onUpload="@command('subirArchivo',media =event.media)" />
+												<label
+													id="labelNombreArchivo" />
+											</hlayout>
+										</row>
+
+									</rows>
+								</grid>
+								<separator />
+								<toolbar align="start">
+									<toolbarbutton label="Nuevo"
+										sclass="btn-info" tooltiptext="" image="imagenes/add.png"
+										onClick="@command('onNuevo')"
+										disabled="@load(vm.desactivarBtnNuevo)" />
+									<toolbarbutton label="Guardar"
+										sclass="btn-info" tooltiptext="" image="imagenes/guardar.png"
+										onClick="@command('guardarEfs')"
+										disabled="@load(vm.desactivarBtnGuardar)" />
+									<toolbarbutton label="Editar"
+										onClick="@command('onEditar')" sclass="btn-info"
+										image="imagenes/edit.png"
+										disabled="@load(vm.desactivarBtnEditar)" />
+									<toolbarbutton label="Eliminar"
+										sclass="btn-info" image="imagenes/delete.png"
+										disabled="@load(vm.desactivarBtnEliminar)"
+										onClick="@command('onEliminar',seleccionado=vm.indicadorSeleccionado)" />
+									<toolbarbutton label="Consultar"
+										sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
+								</toolbar>
+								<listbox id="idCARTERAZLbxEfs"
+									span="true" model="@bind(vm.listaEfs)"
+									selectedItem="@bind(vm.efSeleccionado)"
+									onSelect="@command('onSeleccionar',seleccionado=vm.efSeleccionado)">
+									<listhead sizable="true">
+										<listheader label="Contrato"
+											sort="auto" />
+									</listhead>
+									<template name="model">
+
+										<listitem>
+											<listcell>
+												<label
+													value="@bind(each.contrato)" />
+											</listcell>
+										</listitem>
+									</template>
+								</listbox>
+							</tabpanel>
+							<tabpanel id="idCARTERAZTpnConsultaEfs"
+								hflex="true" />
+						</tabpanels>
+
+					</tabbox>
+
+				</groupbox>
+			</vlayout>
+		</center>
+		<custom-attributes MSG_TITULO="Notificación" />
+		<custom-attributes
+			MSG_MENSAJE_GUARDAR="Se guardó correctamente la información" />
+		<custom-attributes
+			MSG_MENSAJE_ACTUALIZAR="Se actualizó correctamente la información" />
+		<custom-attributes
+			MSG_MENSAJE_ELIMINAR="Se eliminó correctamente la información" />
+		<custom-attributes
+			MSG_ELIMINAR_CARTERA="¿Desea eliminar eliminar la fila seleccionada?" />
+		<custom-attributes MSG_TITULO_ELIMINAR="Confirmación" />
+	</borderlayout>
+</zk>
