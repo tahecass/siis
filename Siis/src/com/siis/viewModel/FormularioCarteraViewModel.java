@@ -14,6 +14,7 @@ import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
@@ -23,7 +24,7 @@ import org.zkoss.zul.Window;
 
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Cartera;
-import com.siis.dto.DetalleCartera; 
+import com.siis.dto.DetalleCartera;
 import com.siis.viewModel.framework.BandboxCliente;
 import com.siis.viewModel.framework.Utilidades;
 
@@ -34,9 +35,9 @@ public class FormularioCarteraViewModel {
 	public DetalleCartera detalleSeleccionado;
 	public Cartera carteraSeleccionada;
 	private boolean desactivarformulario, desactivarBtnNuevo, desactivarBtnEditar, desactivarBtnEliminar,
-			desactivarBtnGuardar,desactivarTabDetalle;
+			desactivarBtnGuardar, desactivarTabDetalle;
 	private String accion;
-Conexion con;
+	Conexion con;
 
 	@Wire
 	private BandboxCliente idFORMCARTERAZBbxCliente;
@@ -44,8 +45,6 @@ Conexion con;
 	public Borderlayout idWINFORMCARTERAZPrincipal;
 	@Wire
 	private Tabpanel idCARTERAZTpnDetalleCartera, idCARTERAZTpnConsultaCartera;
-
-	 
 
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
@@ -62,7 +61,7 @@ Conexion con;
 		setDesactivarBtnNuevo(false);
 		setDesactivarBtnEditar(true);
 		setDesactivarBtnGuardar(true);
-		setDesactivarBtnEliminar(true); 
+		setDesactivarBtnEliminar(true);
 		setDesactivarTabDetalle(true);
 	}
 
@@ -98,13 +97,13 @@ Conexion con;
 	public void guardarCartera() {
 		try {
 			log.info("accion=>> " + accion);
-//			Cartera cartera = new Cartera();
-//
+			// Cartera cartera = new Cartera();
+			//
 			carteraSeleccionada.setCliente(idFORMCARTERAZBbxCliente.getValue());
-//			cartera.setUsuario(new Usuario(new Integer(1)));
-//			cartera.setFechaHoraActualizacion(idFORMCARTERAZDbxFechaHoraAct.getValue());
-//			cartera.setFechaPago(idFORMCARTERAZDbxFechaPago.getValue());
-//			cartera.setFechaCreacion(new Date());
+			// cartera.setUsuario(new Usuario(new Integer(1)));
+			// cartera.setFechaHoraActualizacion(idFORMCARTERAZDbxFechaHoraAct.getValue());
+			// cartera.setFechaPago(idFORMCARTERAZDbxFechaPago.getValue());
+			// cartera.setFechaCreacion(new Date());
 
 			if (accion.equals("I")) {
 				carteraSeleccionada.setSecuencia(10);
@@ -130,31 +129,40 @@ Conexion con;
 		}
 	}
 
-	@NotifyChange("*")
 	@Command
-	public void onEliminar(@BindingParam("seleccionado") Cartera cartera) {
+	public void onEliminar(@BindingParam("seleccionado") final Cartera cartera) {
 		log.info("onEliminar => " + cartera.getSecuencia());
-		if ((Messagebox.show(idWINFORMCARTERAZPrincipal.getAttribute("MSG_ELIMINAR_CARTERA").toString(),
-				idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
-				Messagebox.NO | Messagebox.YES, Messagebox.QUESTION)) == Messagebox.YES) {
 
-			log.info("Messagebox.YES => " + cartera.getSecuencia());
-			Conexion.getConexion().eliminar("eliminarCartera", cartera);
-			Utilidades.mostrarNotificacion(idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
-					idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(), "INFO");
-			listarCartera();
-			setDesactivarBtnNuevo(false);
-			setDesactivarBtnEditar(true);
-			setDesactivarBtnGuardar(true);
-			setDesactivarBtnEliminar(true);
-			setDesactivarTabDetalle(true);
-		}
+		Messagebox.show(idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+				idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+				Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event e) throws Exception {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							log.info("CLICK on OK");
+							Conexion.getConexion().eliminar("eliminarCartera", cartera);
+							Utilidades.mostrarNotificacion(
+									idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
+									idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(), "INFO");
+							listarCartera();
+							setDesactivarBtnNuevo(false);
+							setDesactivarBtnEditar(true);
+							setDesactivarBtnGuardar(true);
+							setDesactivarBtnEliminar(true);
+							setDesactivarTabDetalle(true);
+						}
+					}
+
+				});
+
 	}
 
 	@NotifyChange("*")
 	@Command
 	public void onSeleccionar(@BindingParam("seleccionado") Cartera cartera) {
-		log.info("onSeleccionar==> " +cartera.getSecuencia());
+		log.info("onSeleccionar==> " + cartera.getSecuencia());
 		setCarteraSeleccionada(cartera);
 		accion = "U";
 		setDesactivarBtnNuevo(false);
@@ -203,7 +211,9 @@ Conexion con;
 		setDesactivarformulario(true);
 		try {
 			con = new Conexion();
-//			setListaCartera((List<Cartera>) Conexion.getConexion().obtenerListado("listarCarteras", parametros));
+			// setListaCartera((List<Cartera>)
+			// Conexion.getConexion().obtenerListado("listarCarteras",
+			// parametros));
 
 			setListaCartera((List<Cartera>) con.obtenerListado("listarCarteras", parametros));
 		} catch (Exception e) {
@@ -223,20 +233,19 @@ Conexion con;
 
 		try {
 			Map<String, Object> parametros = new HashMap<String, Object>();
-			log.info("Carteta==> 1"+ carteraSeleccionada.getSecuencia());
+			log.info("Carteta==> 1" + carteraSeleccionada.getSecuencia());
 			parametros.put("CARTERA", carteraSeleccionada);
 			if (idCARTERAZTpnDetalleCartera.getChildren().size() == 0) {
-			Utilidades.onCargarVentana(idCARTERAZTpnDetalleCartera, "//formas//formulario_cartera_detalle.zul",
+				Utilidades.onCargarVentana(idCARTERAZTpnDetalleCartera, "//formas//formulario_cartera_detalle.zul",
 						parametros);
 			} else {
-				FormularioCarteraDetalleViewModel detalleCartera= new FormularioCarteraDetalleViewModel();
+				FormularioCarteraDetalleViewModel detalleCartera = new FormularioCarteraDetalleViewModel();
 
-				log.info("Carteta==> 2"+ carteraSeleccionada.getSecuencia());
+				log.info("Carteta==> 2" + carteraSeleccionada.getSecuencia());
 				detalleCartera.setCartera(carteraSeleccionada);
-				detalleCartera.listarDetalleCartera(); 
+				detalleCartera.listarDetalleCartera();
 				log.info("1");
 			}
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -249,16 +258,15 @@ Conexion con;
 
 		try {
 			Map<String, Object> parametros = new HashMap<String, Object>();
-			log.info("CARTERA ENVIADA ==> "+ carteraSeleccionada.getSecuencia());
+			log.info("CARTERA ENVIADA ==> " + carteraSeleccionada.getSecuencia());
 			parametros.put("OBJETO", carteraSeleccionada);
-			 if (idCARTERAZTpnConsultaCartera.getChildren().size() == 0) {
-				Utilidades.onCargarVentana(idCARTERAZTpnConsultaCartera, "//formas//vista_cartera.zul",
-							parametros);
-				} else {
-//					FormularioCarteraDetalleViewModel.ca
-////					detalleCartera.listarDetalleCartera();
-//					log.info("1");
-				}
+			if (idCARTERAZTpnConsultaCartera.getChildren().size() == 0) {
+				Utilidades.onCargarVentana(idCARTERAZTpnConsultaCartera, "//formas//vista_cartera.zul", parametros);
+			} else {
+				// FormularioCarteraDetalleViewModel.ca
+				//// detalleCartera.listarDetalleCartera();
+				// log.info("1");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

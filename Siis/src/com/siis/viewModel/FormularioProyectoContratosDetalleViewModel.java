@@ -15,6 +15,7 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
@@ -46,9 +47,9 @@ public class FormularioProyectoContratosDetalleViewModel {
 		Selectors.wireComponents(view, this, false);
 
 		this.parametros = (Map<String, Object>) Executions.getCurrent().getArg();
-		
+
 		setProyecto((Proyecto) parametros.get("PROYECTO"));
-		log.info("proyecto ..... "+proyecto.getSecuencia());
+		log.info("proyecto ..... " + proyecto.getSecuencia());
 		listaProyectoContrato = new ArrayList<ProyectoContrato>();
 		detalleProyContSeleccionada = new ProyectoContrato();
 		setDesactivarformulario(true);
@@ -67,7 +68,8 @@ public class FormularioProyectoContratosDetalleViewModel {
 		try {
 			log.info("accion=>> " + accion);
 
-			detalleProyContSeleccionada.setProyecto(getProyecto());;
+			detalleProyContSeleccionada.setProyecto(getProyecto());
+			;
 
 			if (accion.equals("I")) {
 				detalleProyContSeleccionada.setSecuencia(10);
@@ -96,22 +98,32 @@ public class FormularioProyectoContratosDetalleViewModel {
 
 	@NotifyChange("*")
 	@Command
-	public void onEliminar(@BindingParam("seleccionado") ProyectoContrato detalleCartera) {
+	public void onEliminar(@BindingParam("seleccionado") final ProyectoContrato detalleCartera) {
 		log.info("onEliminar => " + detalleCartera.getSecuencia());
-		if ((Messagebox.show(idWINFORMPROVALORZPrincipal.getAttribute("MSG_ELIMINAR_CARTERA").toString(),
-				idWINFORMPROVALORZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
-				Messagebox.NO | Messagebox.YES, Messagebox.QUESTION)) == Messagebox.YES) {
 
-			log.info("Messagebox.YES => " + detalleCartera.getSecuencia());
-			Conexion.getConexion().eliminar("eliminarProyectoContrato", detalleCartera);
-			Utilidades.mostrarNotificacion(idWINFORMPROVALORZPrincipal.getAttribute("MSG_TITULO").toString(),
-					idWINFORMPROVALORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(), "INFO");
-			listarProyectoContrato();
-			setDesactivarBtnNuevo(false);
-			setDesactivarBtnEditar(true);
-			setDesactivarBtnGuardar(true);
-			setDesactivarBtnEliminar(true);
-		}
+		Messagebox.show(idWINFORMPROVALORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+				idWINFORMPROVALORZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+				Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event e) throws Exception {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+
+							log.info("Messagebox.YES => " + detalleCartera.getSecuencia());
+							Conexion.getConexion().eliminar("eliminarProyectoContrato", detalleCartera);
+							Utilidades.mostrarNotificacion(
+									idWINFORMPROVALORZPrincipal.getAttribute("MSG_TITULO").toString(),
+									idWINFORMPROVALORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
+									"INFO");
+							listarProyectoContrato();
+							setDesactivarBtnNuevo(false);
+							setDesactivarBtnEditar(true);
+							setDesactivarBtnGuardar(true);
+							setDesactivarBtnEliminar(true);
+						}
+					}
+				});
 	}
 
 	@NotifyChange("*")
@@ -152,7 +164,7 @@ public class FormularioProyectoContratosDetalleViewModel {
 		setDesactivarBtnEditar(true);
 		setDesactivarBtnGuardar(false);
 		setDesactivarBtnEliminar(true);
-		
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -160,19 +172,18 @@ public class FormularioProyectoContratosDetalleViewModel {
 	@Command
 	public void listarProyectoContrato() {
 		log.info(" listarProyectoContrato ");
-		listaProyectoContrato = new ArrayList<ProyectoContrato>(); 
-		
+		listaProyectoContrato = new ArrayList<ProyectoContrato>();
 
-		log.info("SEC_CARTERA AL LISTAR ==>"+ getProyecto().getSecuencia());
-		Map<String,Object> parametros = new HashMap<String,Object>();
+		log.info("SEC_CARTERA AL LISTAR ==>" + getProyecto().getSecuencia());
+		Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("SEC_PROYECTO", getProyecto().getSecuencia());
 
 		listaProyectoContrato.clear();
-		
+
 		setDesactivarformulario(true);
 		try {
-			setListaProyectoContrato(
-					(List<ProyectoContrato>) Conexion.getConexion().obtenerListado("listarProyectoContrato", parametros));
+			setListaProyectoContrato((List<ProyectoContrato>) Conexion.getConexion()
+					.obtenerListado("listarProyectoContrato", parametros));
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -185,10 +196,8 @@ public class FormularioProyectoContratosDetalleViewModel {
 
 	@NotifyChange("listaProyectoContrato")
 	public void setListaProyectoContrato(List<ProyectoContrato> listaProyectoContrato) {
-		this.listaProyectoContrato = listaProyectoContrato; 
+		this.listaProyectoContrato = listaProyectoContrato;
 	}
-
-	 
 
 	public boolean isDesactivarformulario() {
 		return desactivarformulario;
@@ -245,10 +254,5 @@ public class FormularioProyectoContratosDetalleViewModel {
 	public void setDetalleProyContSeleccionada(ProyectoContrato detalleProyContSeleccionada) {
 		this.detalleProyContSeleccionada = detalleProyContSeleccionada;
 	}
-
-
-
-
-	
 
 }

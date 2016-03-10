@@ -26,10 +26,7 @@ import com.siis.dto.DetalleCartera;
 import com.siis.viewModel.framework.Utilidades;
 
 public class FormularioCarteraDetalleViewModel {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 990249641097393259L;
+	 
 	protected static Logger log = Logger.getLogger(FormularioCarteraViewModel.class);
 	public List<DetalleCartera> listaDetalleCartera;
 	public DetalleCartera detalleCarteraSeleccionada;
@@ -49,9 +46,9 @@ public class FormularioCarteraDetalleViewModel {
 		Selectors.wireComponents(view, this, false);
 
 		this.parametros = (Map<String, Object>) Executions.getCurrent().getArg();
-		
+
 		setCartera((Cartera) parametros.get("CARTERA"));
-		log.info("cartera ..... "+cartera.getSecuencia());
+		log.info("cartera ..... " + cartera.getSecuencia());
 		listaDetalleCartera = new ArrayList<DetalleCartera>();
 		detalleCarteraSeleccionada = new DetalleCartera();
 		setDesactivarformulario(true);
@@ -101,14 +98,14 @@ public class FormularioCarteraDetalleViewModel {
 	@Command
 	public void onEliminar(@BindingParam("seleccionado") DetalleCartera detalleCartera) {
 		log.info("onEliminar => " + detalleCartera.getSecuencia());
-		if ((Messagebox.show(idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_ELIMINAR_CARTERA").toString(),
+		if ((Messagebox.show(idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
 				idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
 				Messagebox.NO | Messagebox.YES, Messagebox.QUESTION)) == Messagebox.YES) {
 
 			log.info("Messagebox.YES => " + detalleCartera.getSecuencia());
 			Conexion.getConexion().eliminar("eliminarDetalleCartera", detalleCartera);
 			Utilidades.mostrarNotificacion(idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
-					idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(), "INFO");
+					idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(), "INFO");
 			listarDetalleCartera();
 			setDesactivarBtnNuevo(false);
 			setDesactivarBtnEditar(true);
@@ -155,7 +152,7 @@ public class FormularioCarteraDetalleViewModel {
 		setDesactivarBtnEditar(true);
 		setDesactivarBtnGuardar(false);
 		setDesactivarBtnEliminar(true);
-		
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -163,19 +160,18 @@ public class FormularioCarteraDetalleViewModel {
 	@Command
 	public void listarDetalleCartera() {
 		log.info(" listarDetalleCartera ");
-		listaDetalleCartera = new ArrayList<DetalleCartera>(); 
-		
+		listaDetalleCartera = new ArrayList<DetalleCartera>();
 
-		log.info("SEC_CARTERA AL LISTAR ==>"+ getCartera().getSecuencia());
-		Map<String,Object> parametros = new HashMap<String,Object>();
+		log.info("SEC_CARTERA AL LISTAR ==>" + getCartera().getSecuencia());
+		Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("SEC_CARTERA", getCartera().getSecuencia());
 
 		listaDetalleCartera.clear();
-		
+
 		setDesactivarformulario(true);
 		try {
-			setListaDetalleCartera(
-					(List<DetalleCartera>) Conexion.getConexion().obtenerListado("listarDetalleCarterasPorClientes", parametros));
+			setListaDetalleCartera((List<DetalleCartera>) Conexion.getConexion()
+					.obtenerListado("listarDetalleCarterasPorClientes", parametros));
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -188,7 +184,7 @@ public class FormularioCarteraDetalleViewModel {
 
 	@NotifyChange("listaDetalleCartera")
 	public void setListaDetalleCartera(List<DetalleCartera> listaDetalleCartera) {
-		this.listaDetalleCartera = listaDetalleCartera; 
+		this.listaDetalleCartera = listaDetalleCartera;
 	}
 
 	public DetalleCartera getDetalleCarteraSeleccionada() {
@@ -246,9 +242,5 @@ public class FormularioCarteraDetalleViewModel {
 	public void setCartera(Cartera cartera) {
 		this.cartera = cartera;
 	}
-
-
-
-	
 
 }

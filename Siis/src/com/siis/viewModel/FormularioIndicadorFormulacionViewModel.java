@@ -1,7 +1,7 @@
 package com.siis.viewModel;
 
 import java.util.ArrayList;
-import java.util.Date; 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,12 +14,13 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Messagebox;
-import com.siis.configuracion.Conexion; 
-import com.siis.dto.Formulacion; 
+import com.siis.configuracion.Conexion;
+import com.siis.dto.Formulacion;
 import com.siis.dto.Indicador;
 import com.siis.viewModel.framework.Utilidades;
 
@@ -48,7 +49,7 @@ public class FormularioIndicadorFormulacionViewModel {
 		setIndicador((Indicador) parametros.get("INDICADOR"));
 		log.info("indicador ..... " + indicador.getSecuencia());
 		listaFormulacion = new ArrayList<Formulacion>();
-		formulacionSeleccionado = new  Formulacion();
+		formulacionSeleccionado = new Formulacion();
 		setDesactivarformulario(true);
 		listarFormulacion();
 		accion = new String();
@@ -94,22 +95,32 @@ public class FormularioIndicadorFormulacionViewModel {
 
 	@NotifyChange("*")
 	@Command
-	public void onEliminar(@BindingParam("seleccionado") Formulacion detalleDisponible) {
+	public void onEliminar(@BindingParam("seleccionado") final Formulacion detalleDisponible) {
 		log.info("onEliminar => " + detalleDisponible.getSecuencia());
-		if ((Messagebox.show(idWINFORMFORMULACIONZPrincipal.getAttribute("MSG_ELIMINAR_CARTERA").toString(),
-				idWINFORMFORMULACIONZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
-				Messagebox.NO | Messagebox.YES, Messagebox.QUESTION)) == Messagebox.YES) {
 
-			log.info("Messagebox.YES => " + detalleDisponible.getSecuencia());
-			Conexion.getConexion().eliminar("eliminarFormulacion", detalleDisponible);
-			Utilidades.mostrarNotificacion(idWINFORMFORMULACIONZPrincipal.getAttribute("MSG_TITULO").toString(),
-					idWINFORMFORMULACIONZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(), "INFO");
-			listarFormulacion();
-			setDesactivarBtnNuevo(false);
-			setDesactivarBtnEditar(true);
-			setDesactivarBtnGuardar(true);
-			setDesactivarBtnEliminar(true);
-		}
+		Messagebox.show(idWINFORMFORMULACIONZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+				idWINFORMFORMULACIONZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+				Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event e) throws Exception {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+
+							log.info("Messagebox.YES => " + detalleDisponible.getSecuencia());
+							Conexion.getConexion().eliminar("eliminarFormulacion", detalleDisponible);
+							Utilidades.mostrarNotificacion(
+									idWINFORMFORMULACIONZPrincipal.getAttribute("MSG_TITULO").toString(),
+									idWINFORMFORMULACIONZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
+									"INFO");
+							listarFormulacion();
+							setDesactivarBtnNuevo(false);
+							setDesactivarBtnEditar(true);
+							setDesactivarBtnGuardar(true);
+							setDesactivarBtnEliminar(true);
+						}
+					}
+				});
 	}
 
 	@NotifyChange("*")
@@ -176,8 +187,6 @@ public class FormularioIndicadorFormulacionViewModel {
 		}
 	}
 
-	 
-
 	public boolean isDesactivarformulario() {
 		return desactivarformulario;
 	}
@@ -218,8 +227,6 @@ public class FormularioIndicadorFormulacionViewModel {
 		this.desactivarBtnGuardar = desactivarBtnGuardar;
 	}
 
-	 
-
 	public Indicador getIndicador() {
 		return indicador;
 	}
@@ -243,9 +250,5 @@ public class FormularioIndicadorFormulacionViewModel {
 	public void setFormulacionSeleccionado(Formulacion formulacionSeleccionado) {
 		this.formulacionSeleccionado = formulacionSeleccionado;
 	}
-
-	 
-
-	 
 
 }

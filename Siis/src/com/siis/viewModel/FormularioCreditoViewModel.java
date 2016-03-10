@@ -14,6 +14,7 @@ import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
@@ -22,20 +23,19 @@ import org.zkoss.zul.Tabpanel;
 import org.zkoss.zul.Window;
 
 import com.siis.configuracion.Conexion;
-import com.siis.dto.Credito; 
-import com.siis.viewModel.framework.BandboxBancos; 
+import com.siis.dto.Credito;
+import com.siis.viewModel.framework.BandboxBancos;
 import com.siis.viewModel.framework.BandboxCuentas;
 import com.siis.viewModel.framework.Utilidades;
 
 public class FormularioCreditoViewModel {
 	protected static Logger log = Logger.getLogger(FormularioCreditoViewModel.class);
-	
-	public List<Credito> listaCredito; 
+
+	public List<Credito> listaCredito;
 	public Credito creditoSeleccionada;
 	private boolean desactivarformulario, desactivarBtnNuevo, desactivarBtnEditar, desactivarBtnEliminar,
-			desactivarBtnGuardar,desactivarTabDetalle;
+			desactivarBtnGuardar, desactivarTabDetalle;
 	private String accion;
-
 
 	@Wire
 	private BandboxBancos idFORMDISPONIBLEZBbxBanco;
@@ -46,12 +46,10 @@ public class FormularioCreditoViewModel {
 	@Wire
 	private Tabpanel idDISPONIBLEZTpnDetalleCredito, idDISPONIBLEZTpnConsultaCredito;
 
-	 
-
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
 
-		Selectors.wireComponents(view, this, false); 
+		Selectors.wireComponents(view, this, false);
 		listaCredito = new ArrayList<Credito>();
 		creditoSeleccionada = new Credito();
 		setDesactivarformulario(true);
@@ -61,7 +59,7 @@ public class FormularioCreditoViewModel {
 		setDesactivarBtnNuevo(false);
 		setDesactivarBtnEditar(true);
 		setDesactivarBtnGuardar(true);
-		setDesactivarBtnEliminar(true); 
+		setDesactivarBtnEliminar(true);
 		setDesactivarTabDetalle(true);
 	}
 
@@ -96,10 +94,9 @@ public class FormularioCreditoViewModel {
 	@Command
 	public void guardarCredito() {
 		try {
-			log.info("accion=>> " + accion); 
+			log.info("accion=>> " + accion);
 
-			creditoSeleccionada.setEntidad(idFORMDISPONIBLEZBbxBanco.getValue()); 
-			 
+			creditoSeleccionada.setEntidad(idFORMDISPONIBLEZBbxBanco.getValue());
 
 			if (accion.equals("I")) {
 				creditoSeleccionada.setSecuencia(10);
@@ -127,29 +124,40 @@ public class FormularioCreditoViewModel {
 
 	@NotifyChange("*")
 	@Command
-	public void onEliminar(@BindingParam("seleccionado") Credito credito) {
+	public void onEliminar(@BindingParam("seleccionado") final Credito credito) {
 		log.info("onEliminar => " + credito.getSecuencia());
-		if ((Messagebox.show(idWINFORMCREDITOZPrincipal.getAttribute("MSG_ELIMINAR_DISPONIBLE").toString(),
-				idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
-				Messagebox.NO | Messagebox.YES, Messagebox.QUESTION)) == Messagebox.YES) {
 
-			log.info("Messagebox.YES => " + credito.getSecuencia());
-			Conexion.getConexion().eliminar("eliminarCredito", credito);
-			Utilidades.mostrarNotificacion(idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO").toString(),
-					idWINFORMCREDITOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(), "INFO");
-			listarCredito();
-			setDesactivarBtnNuevo(false);
-			setDesactivarBtnEditar(true);
-			setDesactivarBtnGuardar(true);
-			setDesactivarBtnEliminar(true);
-			setDesactivarTabDetalle(true);
-		}
+		Messagebox.show(idWINFORMCREDITOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+				idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+				Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event e) throws Exception {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							log.info("CLICK on OK");
+							log.info("Messagebox.YES => " + credito.getSecuencia());
+							Conexion.getConexion().eliminar("eliminarCredito", credito);
+							Utilidades.mostrarNotificacion(
+									idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO").toString(),
+									idWINFORMCREDITOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(), "INFO");
+							listarCredito();
+							setDesactivarBtnNuevo(false);
+							setDesactivarBtnEditar(true);
+							setDesactivarBtnGuardar(true);
+							setDesactivarBtnEliminar(true);
+							setDesactivarTabDetalle(true);
+						}
+					}
+
+				});
+
 	}
 
 	@NotifyChange("*")
 	@Command
 	public void onSeleccionar(@BindingParam("seleccionado") Credito credito) {
-		log.info("onSeleccionar==> " +credito.getSecuencia());
+		log.info("onSeleccionar==> " + credito.getSecuencia());
 		setCreditoSeleccionada(credito);
 		accion = "U";
 		setDesactivarBtnNuevo(false);
@@ -199,17 +207,16 @@ public class FormularioCreditoViewModel {
 		Map<String, Object> parametros = new HashMap<String, Object>();
 		setDesactivarformulario(true);
 		try {
-		
-		setListaCredito((List<Credito>) Conexion.getConexion().obtenerListado("listarCreditos", parametros));
 
-//			setListaCredito((List<Credito>) con.obtenerListado("listarCreditos", parametros));
+			setListaCredito((List<Credito>) Conexion.getConexion().obtenerListado("listarCreditos", parametros));
+
+			// setListaCredito((List<Credito>)
+			// con.obtenerListado("listarCreditos", parametros));
 		} catch (Exception e) {
 			e.printStackTrace();
 
 		}
 	}
-
-	 
 
 	@NotifyChange("*")
 	@Command
@@ -218,27 +225,24 @@ public class FormularioCreditoViewModel {
 
 		try {
 			Map<String, Object> parametros = new HashMap<String, Object>();
-			log.info("Disponoble==> 1"+ creditoSeleccionada.getSecuencia());
+			log.info("Disponoble==> 1" + creditoSeleccionada.getSecuencia());
 			parametros.put("CREDITO", creditoSeleccionada);
 			if (idDISPONIBLEZTpnDetalleCredito.getChildren().size() == 0) {
-			Utilidades.onCargarVentana(idDISPONIBLEZTpnDetalleCredito, "//formas//formulario_credito_detalle.zul",
+				Utilidades.onCargarVentana(idDISPONIBLEZTpnDetalleCredito, "//formas//formulario_credito_detalle.zul",
 						parametros);
 			} else {
-				FormularioCreditoDetalleViewModel detalleCredito= new FormularioCreditoDetalleViewModel();
+				FormularioCreditoDetalleViewModel detalleCredito = new FormularioCreditoDetalleViewModel();
 
-				log.info("Disponoble==> 2"+ creditoSeleccionada.getSecuencia());
+				log.info("Disponoble==> 2" + creditoSeleccionada.getSecuencia());
 				detalleCredito.setCredito(creditoSeleccionada);
-				detalleCredito.listarAmortizacionCredito(); 
+				detalleCredito.listarAmortizacionCredito();
 				log.info("1");
 			}
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
- 
 
 	@Command
 	public void onMostrarVentanaConsulta() {
@@ -246,22 +250,19 @@ public class FormularioCreditoViewModel {
 
 		try {
 			Map<String, Object> parametros = new HashMap<String, Object>();
-			log.info("DISPONIBLE ENVIADA ==> "+ creditoSeleccionada.getSecuencia());
+			log.info("DISPONIBLE ENVIADA ==> " + creditoSeleccionada.getSecuencia());
 			parametros.put("OBJETO", creditoSeleccionada);
-			 if (idDISPONIBLEZTpnConsultaCredito.getChildren().size() == 0) {
-				Utilidades.onCargarVentana(idDISPONIBLEZTpnConsultaCredito, "//formas//vista_credito.zul",
-							parametros);
-				} else {
-//					FormularioCreditoDetalleViewModel.ca
-////					detalleCredito.listarDetalleCredito();
-//					log.info("1");
-				}
+			if (idDISPONIBLEZTpnConsultaCredito.getChildren().size() == 0) {
+				Utilidades.onCargarVentana(idDISPONIBLEZTpnConsultaCredito, "//formas//vista_credito.zul", parametros);
+			} else {
+				// FormularioCreditoDetalleViewModel.ca
+				//// detalleCredito.listarDetalleCredito();
+				// log.info("1");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
-	 
 
 	public List<Credito> getListaCredito() {
 		return listaCredito;

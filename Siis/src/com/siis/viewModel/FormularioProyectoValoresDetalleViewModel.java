@@ -15,6 +15,7 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
@@ -46,9 +47,9 @@ public class FormularioProyectoValoresDetalleViewModel {
 		Selectors.wireComponents(view, this, false);
 
 		this.parametros = (Map<String, Object>) Executions.getCurrent().getArg();
-		
+
 		setProyecto((Proyecto) parametros.get("PROYECTO"));
-		log.info("proyecto ..... "+proyecto.getSecuencia());
+		log.info("proyecto ..... " + proyecto.getSecuencia());
 		listaProyectoValor = new ArrayList<ProyectoValor>();
 		detalleCarteraSeleccionada = new ProyectoValor();
 		setDesactivarformulario(true);
@@ -67,7 +68,8 @@ public class FormularioProyectoValoresDetalleViewModel {
 		try {
 			log.info("accion=>> " + accion);
 
-			detalleCarteraSeleccionada.setProyecto(getProyecto());;
+			detalleCarteraSeleccionada.setProyecto(getProyecto());
+			;
 
 			if (accion.equals("I")) {
 				detalleCarteraSeleccionada.setSecuencia(10);
@@ -96,22 +98,32 @@ public class FormularioProyectoValoresDetalleViewModel {
 
 	@NotifyChange("*")
 	@Command
-	public void onEliminar(@BindingParam("seleccionado") ProyectoValor detalleCartera) {
+	public void onEliminar(@BindingParam("seleccionado") final ProyectoValor detalleCartera) {
 		log.info("onEliminar => " + detalleCartera.getSecuencia());
-		if ((Messagebox.show(idWINFORMPROVALORZPrincipal.getAttribute("MSG_ELIMINAR_CARTERA").toString(),
-				idWINFORMPROVALORZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
-				Messagebox.NO | Messagebox.YES, Messagebox.QUESTION)) == Messagebox.YES) {
 
-			log.info("Messagebox.YES => " + detalleCartera.getSecuencia());
-			Conexion.getConexion().eliminar("eliminarProyectoValor", detalleCartera);
-			Utilidades.mostrarNotificacion(idWINFORMPROVALORZPrincipal.getAttribute("MSG_TITULO").toString(),
-					idWINFORMPROVALORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(), "INFO");
-			listarProyectoValor();
-			setDesactivarBtnNuevo(false);
-			setDesactivarBtnEditar(true);
-			setDesactivarBtnGuardar(true);
-			setDesactivarBtnEliminar(true);
-		}
+		Messagebox.show(idWINFORMPROVALORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+				idWINFORMPROVALORZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+				Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event e) throws Exception {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+
+							log.info("Messagebox.YES => " + detalleCartera.getSecuencia());
+							Conexion.getConexion().eliminar("eliminarProyectoValor", detalleCartera);
+							Utilidades.mostrarNotificacion(
+									idWINFORMPROVALORZPrincipal.getAttribute("MSG_TITULO").toString(),
+									idWINFORMPROVALORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
+									"INFO");
+							listarProyectoValor();
+							setDesactivarBtnNuevo(false);
+							setDesactivarBtnEditar(true);
+							setDesactivarBtnGuardar(true);
+							setDesactivarBtnEliminar(true);
+						}
+					}
+				});
 	}
 
 	@NotifyChange("*")
@@ -152,7 +164,7 @@ public class FormularioProyectoValoresDetalleViewModel {
 		setDesactivarBtnEditar(true);
 		setDesactivarBtnGuardar(false);
 		setDesactivarBtnEliminar(true);
-		
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -160,15 +172,14 @@ public class FormularioProyectoValoresDetalleViewModel {
 	@Command
 	public void listarProyectoValor() {
 		log.info(" listarProyectoValor ");
-		listaProyectoValor = new ArrayList<ProyectoValor>(); 
-		
+		listaProyectoValor = new ArrayList<ProyectoValor>();
 
-		log.info("SEC_CARTERA AL LISTAR ==>"+ getProyecto().getSecuencia());
-		Map<String,Object> parametros = new HashMap<String,Object>();
+		log.info("SEC_CARTERA AL LISTAR ==>" + getProyecto().getSecuencia());
+		Map<String, Object> parametros = new HashMap<String, Object>();
 		parametros.put("SEC_PROYECTO", getProyecto().getSecuencia());
 
 		listaProyectoValor.clear();
-		
+
 		setDesactivarformulario(true);
 		try {
 			setListaProyectoValor(
@@ -185,7 +196,7 @@ public class FormularioProyectoValoresDetalleViewModel {
 
 	@NotifyChange("listaProyectoValor")
 	public void setListaProyectoValor(List<ProyectoValor> listaProyectoValor) {
-		this.listaProyectoValor = listaProyectoValor; 
+		this.listaProyectoValor = listaProyectoValor;
 	}
 
 	public ProyectoValor getProyectoValorSeleccionada() {
@@ -243,10 +254,5 @@ public class FormularioProyectoValoresDetalleViewModel {
 	public void setProyecto(Proyecto proyecto) {
 		this.proyecto = proyecto;
 	}
-
-
-
-
-	
 
 }

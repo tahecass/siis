@@ -6,8 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
-import org.jfree.util.Log;
+import org.apache.log4j.Logger; 
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -15,6 +14,7 @@ import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
@@ -25,20 +25,19 @@ import org.zkoss.zul.Window;
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Disponible;
 import com.siis.dto.Usuario;
-import com.siis.viewModel.framework.BandboxBancos;
-import com.siis.viewModel.framework.BandboxCliente;
+import com.siis.viewModel.framework.BandboxBancos; 
 import com.siis.viewModel.framework.BandboxCuentas;
 import com.siis.viewModel.framework.Utilidades;
 
 public class FormularioDisponibleViewModel {
 	protected static Logger log = Logger.getLogger(FormularioDisponibleViewModel.class);
-	
-	public List<Disponible> listaDisponible; 
+
+	public List<Disponible> listaDisponible;
 	public Disponible disponibleSeleccionada;
 	private boolean desactivarformulario, desactivarBtnNuevo, desactivarBtnEditar, desactivarBtnEliminar,
-			desactivarBtnGuardar,desactivarTabDetalle;
+			desactivarBtnGuardar, desactivarTabDetalle;
 	private String accion;
-Conexion con;
+	Conexion con;
 
 	@Wire
 	private BandboxBancos idFORMDISPONIBLEZBbxBanco;
@@ -47,14 +46,13 @@ Conexion con;
 	@Wire
 	public Borderlayout idWINFORMDISPONIBLEZPrincipal;
 	@Wire
-	private Tabpanel idDISPONIBLEZTpnDetalleDisponible, idDISPONIBLEZTpnConsultaDisponible,idDISPONIBLEZTpnDetalleDisponobleConcepto;
-
-	 
+	private Tabpanel idDISPONIBLEZTpnDetalleDisponible, idDISPONIBLEZTpnConsultaDisponible,
+			idDISPONIBLEZTpnDetalleDisponobleConcepto;
 
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
 
-		Selectors.wireComponents(view, this, false); 
+		Selectors.wireComponents(view, this, false);
 		listaDisponible = new ArrayList<Disponible>();
 		disponibleSeleccionada = new Disponible();
 		setDesactivarformulario(true);
@@ -64,7 +62,7 @@ Conexion con;
 		setDesactivarBtnNuevo(false);
 		setDesactivarBtnEditar(true);
 		setDesactivarBtnGuardar(true);
-		setDesactivarBtnEliminar(true); 
+		setDesactivarBtnEliminar(true);
 		setDesactivarTabDetalle(true);
 	}
 
@@ -73,8 +71,10 @@ Conexion con;
 	public void onAgregar() {
 		log.info(" onAgregar ==> ");
 
-		// ListModelList<DetalleDisponible> lm = new ListModelList<DetalleDisponible>(
-		// Arrays.asList(new DetalleDisponible(new Disponible(), "", 0.0, new Date(),
+		// ListModelList<DetalleDisponible> lm = new
+		// ListModelList<DetalleDisponible>(
+		// Arrays.asList(new DetalleDisponible(new Disponible(), "", 0.0, new
+		// Date(),
 		// "")));
 		//
 		// listaDetalleDisponible.addAll(lm);
@@ -99,12 +99,11 @@ Conexion con;
 	@Command
 	public void guardarDisponible() {
 		try {
-			log.info("accion=>> " + accion); 
+			log.info("accion=>> " + accion);
 
 			disponibleSeleccionada.setBanco(idFORMDISPONIBLEZBbxBanco.getValue());
 			disponibleSeleccionada.setUsuario(new Usuario(new Integer(1)));
 			disponibleSeleccionada.setCuenta(idFORMDISPONIBLEZBbxCuenta.getValue());
-			 
 
 			if (accion.equals("I")) {
 				disponibleSeleccionada.setSecuencia(10);
@@ -132,29 +131,39 @@ Conexion con;
 
 	@NotifyChange("*")
 	@Command
-	public void onEliminar(@BindingParam("seleccionado") Disponible disponible) {
+	public void onEliminar(@BindingParam("seleccionado") final Disponible disponible) {
 		log.info("onEliminar => " + disponible.getSecuencia());
-		if ((Messagebox.show(idWINFORMDISPONIBLEZPrincipal.getAttribute("MSG_ELIMINAR_DISPONIBLE").toString(),
-				idWINFORMDISPONIBLEZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
-				Messagebox.NO | Messagebox.YES, Messagebox.QUESTION)) == Messagebox.YES) {
 
-			log.info("Messagebox.YES => " + disponible.getSecuencia());
-			Conexion.getConexion().eliminar("eliminarDisponible", disponible);
-			Utilidades.mostrarNotificacion(idWINFORMDISPONIBLEZPrincipal.getAttribute("MSG_TITULO").toString(),
-					idWINFORMDISPONIBLEZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(), "INFO");
-			listarDisponible();
-			setDesactivarBtnNuevo(false);
-			setDesactivarBtnEditar(true);
-			setDesactivarBtnGuardar(true);
-			setDesactivarBtnEliminar(true);
-			setDesactivarTabDetalle(true);
-		}
+		Messagebox.show(idWINFORMDISPONIBLEZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+				idWINFORMDISPONIBLEZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+				Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event e) throws Exception {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							Conexion.getConexion().eliminar("eliminarDisponible", disponible);
+							Utilidades.mostrarNotificacion(
+									idWINFORMDISPONIBLEZPrincipal.getAttribute("MSG_TITULO").toString(),
+									idWINFORMDISPONIBLEZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
+									"INFO");
+							listarDisponible();
+							setDesactivarBtnNuevo(false);
+							setDesactivarBtnEditar(true);
+							setDesactivarBtnGuardar(true);
+							setDesactivarBtnEliminar(true);
+							setDesactivarTabDetalle(true);
+						}
+					}
+
+				});
+
 	}
 
 	@NotifyChange("*")
 	@Command
 	public void onSeleccionar(@BindingParam("seleccionado") Disponible disponible) {
-		log.info("onSeleccionar==> " +disponible.getSecuencia());
+		log.info("onSeleccionar==> " + disponible.getSecuencia());
 		setDisponibleSeleccionada(disponible);
 		accion = "U";
 		setDesactivarBtnNuevo(false);
@@ -204,7 +213,9 @@ Conexion con;
 		setDesactivarformulario(true);
 		try {
 			con = new Conexion();
-//			setListaDisponible((List<Disponible>) Conexion.getConexion().obtenerListado("listarDisponibles", parametros));
+			// setListaDisponible((List<Disponible>)
+			// Conexion.getConexion().obtenerListado("listarDisponibles",
+			// parametros));
 
 			setListaDisponible((List<Disponible>) con.obtenerListado("listarDisponibles", parametros));
 		} catch (Exception e) {
@@ -213,8 +224,6 @@ Conexion con;
 		}
 	}
 
-	 
-
 	@NotifyChange("*")
 	@Command
 	public void onMostrarVentanaDetalle() {
@@ -222,20 +231,19 @@ Conexion con;
 
 		try {
 			Map<String, Object> parametros = new HashMap<String, Object>();
-			log.info("Disponoble==> 1"+ disponibleSeleccionada.getSecuencia());
+			log.info("Disponoble==> 1" + disponibleSeleccionada.getSecuencia());
 			parametros.put("DISPONIBLE", disponibleSeleccionada);
 			if (idDISPONIBLEZTpnDetalleDisponible.getChildren().size() == 0) {
-			Utilidades.onCargarVentana(idDISPONIBLEZTpnDetalleDisponible, "//formas//formulario_disponible_detalle.zul",
-						parametros);
+				Utilidades.onCargarVentana(idDISPONIBLEZTpnDetalleDisponible,
+						"//formas//formulario_disponible_detalle.zul", parametros);
 			} else {
-				FormularioDisponibleDetalleViewModel detalleDisponible= new FormularioDisponibleDetalleViewModel();
+				FormularioDisponibleDetalleViewModel detalleDisponible = new FormularioDisponibleDetalleViewModel();
 
-				log.info("Disponoble==> 2"+ disponibleSeleccionada.getSecuencia());
+				log.info("Disponoble==> 2" + disponibleSeleccionada.getSecuencia());
 				detalleDisponible.setDisponible(disponibleSeleccionada);
-				detalleDisponible.listarDisponibleBanco(); 
+				detalleDisponible.listarDisponibleBanco();
 				log.info("1");
 			}
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -249,26 +257,24 @@ Conexion con;
 
 		try {
 			Map<String, Object> parametros = new HashMap<String, Object>();
-			log.info("Disponoble==> 1"+ disponibleSeleccionada.getSecuencia());
+			log.info("Disponoble==> 1" + disponibleSeleccionada.getSecuencia());
 			parametros.put("DISPONIBLE", disponibleSeleccionada);
 			if (idDISPONIBLEZTpnDetalleDisponobleConcepto.getChildren().size() == 0) {
-			Utilidades.onCargarVentana(idDISPONIBLEZTpnDetalleDisponobleConcepto, "//formas//formulario_disponible_detalle_concepto.zul",
-						parametros);
+				Utilidades.onCargarVentana(idDISPONIBLEZTpnDetalleDisponobleConcepto,
+						"//formas//formulario_disponible_detalle_concepto.zul", parametros);
 			} else {
-				FormularioDisponibleDetalleConceptoViewModel detalleDisponible= new FormularioDisponibleDetalleConceptoViewModel();
+				FormularioDisponibleDetalleConceptoViewModel detalleDisponible = new FormularioDisponibleDetalleConceptoViewModel();
 
-				log.info("Disponoble==> 2"+ disponibleSeleccionada.getSecuencia());
+				log.info("Disponoble==> 2" + disponibleSeleccionada.getSecuencia());
 				detalleDisponible.setDisponible(disponibleSeleccionada);
-				detalleDisponible.listarDisponibleConcepto(); 
+				detalleDisponible.listarDisponibleConcepto();
 				log.info("1");
 			}
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
 
 	@Command
 	public void onMostrarVentanaConsulta() {
@@ -276,22 +282,20 @@ Conexion con;
 
 		try {
 			Map<String, Object> parametros = new HashMap<String, Object>();
-			log.info("DISPONIBLE ENVIADA ==> "+ disponibleSeleccionada.getSecuencia());
+			log.info("DISPONIBLE ENVIADA ==> " + disponibleSeleccionada.getSecuencia());
 			parametros.put("OBJETO", disponibleSeleccionada);
-			 if (idDISPONIBLEZTpnConsultaDisponible.getChildren().size() == 0) {
+			if (idDISPONIBLEZTpnConsultaDisponible.getChildren().size() == 0) {
 				Utilidades.onCargarVentana(idDISPONIBLEZTpnConsultaDisponible, "//formas//vista_disponible.zul",
-							parametros);
-				} else {
-//					FormularioDisponibleDetalleViewModel.ca
-////					detalleDisponible.listarDetalleDisponible();
-//					log.info("1");
-				}
+						parametros);
+			} else {
+				// FormularioDisponibleDetalleViewModel.ca
+				//// detalleDisponible.listarDetalleDisponible();
+				// log.info("1");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
-	 
 
 	public List<Disponible> getListaDisponible() {
 		return listaDisponible;

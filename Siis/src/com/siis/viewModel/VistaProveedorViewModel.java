@@ -12,16 +12,12 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.Selectors;
-import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zul.Combobox;
+import org.zkoss.zk.ui.select.annotation.Wire; 
 import org.zkoss.zul.Tabpanel;
 
 import com.siis.configuracion.Conexion;
-import com.siis.dto.Bean;
-import com.siis.dto.Cartera;
 import com.siis.dto.Cliente;
-import com.siis.dto.DetalleCartera;
-import com.siis.dto.Indicador;
+import com.siis.dto.DetalleCartera; 
 
 public class VistaProveedorViewModel {
 	public Conexion con;
@@ -44,6 +40,7 @@ public class VistaProveedorViewModel {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@NotifyChange("*")
 	@Command
 	public void listarDetalleCartera() {
@@ -64,6 +61,7 @@ public class VistaProveedorViewModel {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@NotifyChange("*")
 	@Command
 	public void listarClientes() {

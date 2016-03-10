@@ -19,8 +19,7 @@ import org.zkoss.zul.Tabpanel;
 
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Cliente;
-import com.siis.dto.Disponible;
-import com.siis.dto.Disponible;
+import com.siis.dto.Disponible; 
 import com.siis.viewModel.framework.BandboxBancos;
 
 public class VistaDisponibleViewModel {
@@ -70,6 +69,7 @@ public class VistaDisponibleViewModel {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@NotifyChange("*")
 	@Command
 	public void listarClientes() {

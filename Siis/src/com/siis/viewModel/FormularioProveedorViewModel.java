@@ -1,9 +1,6 @@
 package com.siis.viewModel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.ArrayList; 
 import java.util.List;
 import java.util.Map;
 
@@ -16,13 +13,11 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zul.Combobox;
-import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Combobox; 
 import org.zkoss.zul.Tabpanel;
 
 import com.siis.configuracion.Conexion;
-import com.siis.dto.Bean;
-import com.siis.dto.Cartera;
+import com.siis.dto.Bean; 
 import com.siis.dto.DetalleCartera;
 
 public class FormularioProveedorViewModel {

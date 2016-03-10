@@ -2,7 +2,6 @@ package com.siis.viewModel;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,13 +14,13 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Messagebox;
 
 import com.siis.configuracion.Conexion;
-import com.siis.dto.Disponible;
 import com.siis.dto.AmortizacionCredito;
 import com.siis.dto.Credito;
 import com.siis.viewModel.framework.Utilidades;
@@ -97,22 +96,33 @@ public class FormularioCreditoDetalleViewModel {
 
 	@NotifyChange("*")
 	@Command
-	public void onEliminar(@BindingParam("seleccionado") AmortizacionCredito detalleDisponible) {
+	public void onEliminar(@BindingParam("seleccionado") final AmortizacionCredito detalleDisponible) {
 		log.info("onEliminar => " + detalleDisponible.getSecuencia());
-		if ((Messagebox.show(idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_ELIMINAR_CARTERA").toString(),
-				idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
-				Messagebox.NO | Messagebox.YES, Messagebox.QUESTION)) == Messagebox.YES) {
 
-			log.info("Messagebox.YES => " + detalleDisponible.getSecuencia());
-			Conexion.getConexion().eliminar("eliminarAmortizacionCredito", detalleDisponible);
-			Utilidades.mostrarNotificacion(idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO").toString(),
-					idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(), "INFO");
-			listarAmortizacionCredito();
-			setDesactivarBtnNuevo(false);
-			setDesactivarBtnEditar(true);
-			setDesactivarBtnGuardar(true);
-			setDesactivarBtnEliminar(true);
-		}
+		Messagebox.show(idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+				idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+				Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event e) throws Exception {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+							log.info("Messagebox.YES => " + detalleDisponible.getSecuencia());
+							Conexion.getConexion().eliminar("eliminarAmortizacionCredito", detalleDisponible);
+							Utilidades.mostrarNotificacion(
+									idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO").toString(),
+									idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
+									"INFO");
+							listarAmortizacionCredito();
+							setDesactivarBtnNuevo(false);
+							setDesactivarBtnEditar(true);
+							setDesactivarBtnGuardar(true);
+							setDesactivarBtnEliminar(true);
+						}
+					}
+
+				});
+
 	}
 
 	@NotifyChange("*")
@@ -171,8 +181,8 @@ public class FormularioCreditoDetalleViewModel {
 
 		setDesactivarformulario(true);
 		try {
-			setListaAmortizacionCredito(
-					(List<AmortizacionCredito>) Conexion.getConexion().obtenerListado("listarAmortizacionCreditos", dispoBan));
+			setListaAmortizacionCredito((List<AmortizacionCredito>) Conexion.getConexion()
+					.obtenerListado("listarAmortizacionCreditos", dispoBan));
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -228,8 +238,6 @@ public class FormularioCreditoDetalleViewModel {
 		this.desactivarBtnGuardar = desactivarBtnGuardar;
 	}
 
- 
-
 	public Credito getCredito() {
 		return credito;
 	}
@@ -245,7 +253,5 @@ public class FormularioCreditoDetalleViewModel {
 	public void setAmortizacionCreditoSeleccionado(AmortizacionCredito amortizacionCreditoSeleccionado) {
 		this.amortizacionCreditoSeleccionado = amortizacionCreditoSeleccionado;
 	}
-
-	 
 
 }

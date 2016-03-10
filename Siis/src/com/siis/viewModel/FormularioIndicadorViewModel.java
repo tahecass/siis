@@ -14,6 +14,7 @@ import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
@@ -119,23 +120,33 @@ public class FormularioIndicadorViewModel {
 
 	@NotifyChange("*")
 	@Command
-	public void onEliminar(@BindingParam("seleccionado") Indicador cartera) {
+	public void onEliminar(@BindingParam("seleccionado") final Indicador cartera) {
 		log.info("onEliminar => " + cartera.getSecuencia());
-		if ((Messagebox.show(idWINFORMINDICADORZPrincipal.getAttribute("MSG_ELIMINAR_CARTERA").toString(),
-				idWINFORMINDICADORZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
-				Messagebox.NO | Messagebox.YES, Messagebox.QUESTION)) == Messagebox.YES) {
 
-			log.info("Messagebox.YES => " + cartera.getSecuencia());
-			Conexion.getConexion().eliminar("eliminarIndicador", cartera);
-			Utilidades.mostrarNotificacion(idWINFORMINDICADORZPrincipal.getAttribute("MSG_TITULO").toString(),
-					idWINFORMINDICADORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(), "INFO");
-			listarIndicador();
-			setDesactivarBtnNuevo(false);
-			setDesactivarBtnEditar(true);
-			setDesactivarBtnGuardar(true);
-			setDesactivarBtnEliminar(true);
-			setDesactivarTabDetalle(true);
-		}
+		Messagebox.show(idWINFORMINDICADORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+				idWINFORMINDICADORZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+				Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event e) throws Exception {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+
+							log.info("Messagebox.YES => " + cartera.getSecuencia());
+							Conexion.getConexion().eliminar("eliminarIndicador", cartera);
+							Utilidades.mostrarNotificacion(
+									idWINFORMINDICADORZPrincipal.getAttribute("MSG_TITULO").toString(),
+									idWINFORMINDICADORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
+									"INFO");
+							listarIndicador();
+							setDesactivarBtnNuevo(false);
+							setDesactivarBtnEditar(true);
+							setDesactivarBtnGuardar(true);
+							setDesactivarBtnEliminar(true);
+							setDesactivarTabDetalle(true);
+						}
+					}
+				});
 	}
 
 	@NotifyChange("*")
@@ -230,7 +241,7 @@ public class FormularioIndicadorViewModel {
 
 		try {
 			Map<String, Object> parametros = new HashMap<String, Object>();
-		 
+
 			parametros.put("OBJETO", indicadorSeleccionado);
 			if (idCARTERAZTpnConsultaIndicador.getChildren().size() == 0) {
 				Utilidades.onCargarVentana(idCARTERAZTpnConsultaIndicador, "//formas//vista_indicador.zul", parametros);

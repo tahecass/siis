@@ -97,8 +97,8 @@
 									<toolbarbutton label="Consultar"
 										sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
 								</toolbar>
-								<listbox id="idDISPONIBLEZLbxDisponible"  
-									span="true" model="@bind(vm.listaDisponible)"
+								<listbox id="idDISPONIBLEZLbxDisponible" 
+									model="@bind(vm.listaDisponible)"
 									selectedItem="@bind(vm.disponibleSeleccionada)"
 									onSelect="@command('onSeleccionar',seleccionado=vm.disponibleSeleccionada)">
 									<listhead sizable="true">
@@ -142,9 +142,9 @@
 		<custom-attributes
 			MSG_MENSAJE_ACTUALIZAR="Se actualizó correctamente la información" />
 		<custom-attributes
-			MSG_MENSAJE_ELIMINAR="Se eliminó correctamente la información" />
+			MSG_MENSAJE_ELIMINAR_OK="Se eliminó correctamente la información" />
 		<custom-attributes
-			MSG_ELIMINAR_DISPONIBLE="¿Desea eliminar eliminar la fila seleccionada?" />
+			MSG_MENSAJE_ELIMINAR="¿Desea eliminar eliminar la fila seleccionada?" />
 		<custom-attributes MSG_TITULO_ELIMINAR="Confirmación" />
 	</borderlayout>
 </zk>

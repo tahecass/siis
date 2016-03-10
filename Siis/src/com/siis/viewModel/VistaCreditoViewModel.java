@@ -44,6 +44,7 @@ public class VistaCreditoViewModel {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@NotifyChange("*")
 	@Command
 	public void listarAmortizacionCredito() {

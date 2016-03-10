@@ -2,7 +2,6 @@ package com.siis.viewModel;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +16,7 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.util.media.Media;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
@@ -172,23 +172,33 @@ public class FormularioEfsViewModel {
 
 	@NotifyChange("*")
 	@Command
-	public void onEliminar(@BindingParam("seleccionado") Efs cartera) {
+	public void onEliminar(@BindingParam("seleccionado") final Efs cartera) {
 		log.info("onEliminar => " + cartera.getSecuencia());
-		if ((Messagebox.show(idWINFORMEFSZPrincipal.getAttribute("MSG_ELIMINAR_CARTERA").toString(),
-				idWINFORMEFSZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(), Messagebox.NO | Messagebox.YES,
-				Messagebox.QUESTION)) == Messagebox.YES) {
+		 	
+			Messagebox.show(idWINFORMEFSZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+					idWINFORMEFSZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+					Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+					new org.zkoss.zk.ui.event.EventListener<Event>() {
 
+						@Override
+						public void onEvent(Event e) throws Exception {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+
+			
 			log.info("Messagebox.YES => " + cartera.getSecuencia());
 			Conexion.getConexion().eliminar("eliminarEfs", cartera);
 			Utilidades.mostrarNotificacion(idWINFORMEFSZPrincipal.getAttribute("MSG_TITULO").toString(),
-					idWINFORMEFSZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(), "INFO");
+					idWINFORMEFSZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(), "INFO");
 			listarEfs();
 			setDesactivarBtnNuevo(false);
 			setDesactivarBtnEditar(true);
 			setDesactivarBtnGuardar(true);
 			setDesactivarBtnEliminar(true);
 			setDesactivarTabDetalle(true);
-		}
+							}
+						}
+
+					});
 	}
 
 	@NotifyChange("*")

@@ -17,7 +17,6 @@ import org.zkoss.zul.Textbox;
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Indicador;
 
-import com.siis.viewModel.framework.BandboxBancos;
 
 public class VistaIndicadorViewModel {
 	public Conexion con;
@@ -37,6 +36,7 @@ public class VistaIndicadorViewModel {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@NotifyChange("*")
 	@Command
 	public void listarIndicador() {

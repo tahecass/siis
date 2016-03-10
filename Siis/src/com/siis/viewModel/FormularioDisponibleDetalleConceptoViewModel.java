@@ -1,8 +1,7 @@
 package com.siis.viewModel;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.Date; 
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +14,7 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
@@ -22,8 +22,7 @@ import org.zkoss.zul.Messagebox;
 
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Disponible;
-import com.siis.dto.DisponibleConcepto;
-import com.siis.dto.DisponibleConcepto;
+import com.siis.dto.DisponibleConcepto; 
 import com.siis.viewModel.framework.Utilidades;
 
 public class FormularioDisponibleDetalleConceptoViewModel {
@@ -97,21 +96,37 @@ public class FormularioDisponibleDetalleConceptoViewModel {
 
 	@NotifyChange("*")
 	@Command
-	public void onEliminar(@BindingParam("seleccionado") DisponibleConcepto detalleDisponible) {
+	public void onEliminar(@BindingParam("seleccionado") final DisponibleConcepto detalleDisponible) {
 		log.info("onEliminar => " + detalleDisponible.getSecuencia());
 		if ((Messagebox.show(idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_ELIMINAR_CARTERA").toString(),
 				idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
 				Messagebox.NO | Messagebox.YES, Messagebox.QUESTION)) == Messagebox.YES) {
 
-			log.info("Messagebox.YES => " + detalleDisponible.getSecuencia());
-			Conexion.getConexion().eliminar("eliminarDisponibleConcepto", detalleDisponible);
-			Utilidades.mostrarNotificacion(idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_TITULO").toString(),
-					idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(), "INFO");
-			listarDisponibleConcepto();
-			setDesactivarBtnNuevo(false);
-			setDesactivarBtnEditar(true);
-			setDesactivarBtnGuardar(true);
-			setDesactivarBtnEliminar(true);
+			Messagebox.show(idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+					idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+					Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+					new org.zkoss.zk.ui.event.EventListener<Event>() {
+
+						@Override
+						public void onEvent(Event e) throws Exception {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+
+								log.info("Messagebox.YES => " + detalleDisponible.getSecuencia());
+								Conexion.getConexion().eliminar("eliminarDisponibleConcepto", detalleDisponible);
+								Utilidades.mostrarNotificacion(
+										idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_TITULO").toString(),
+										idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK")
+												.toString(),
+										"INFO");
+								listarDisponibleConcepto();
+								setDesactivarBtnNuevo(false);
+								setDesactivarBtnEditar(true);
+								setDesactivarBtnGuardar(true);
+								setDesactivarBtnEliminar(true);
+							}
+						}
+
+					});
 		}
 	}
 
@@ -172,8 +187,8 @@ public class FormularioDisponibleDetalleConceptoViewModel {
 
 		setDesactivarformulario(true);
 		try {
-			setListaDisponibleConcepto(
-					(List<DisponibleConcepto>) Conexion.getConexion().obtenerListado("listarDisponibleConceptos", dispoBan));
+			setListaDisponibleConcepto((List<DisponibleConcepto>) Conexion.getConexion()
+					.obtenerListado("listarDisponibleConceptos", dispoBan));
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -244,9 +259,5 @@ public class FormularioDisponibleDetalleConceptoViewModel {
 	public void setDisponibleConceptoSeleccionado(DisponibleConcepto disponibleConceptoSeleccionado) {
 		this.disponibleConceptoSeleccionado = disponibleConceptoSeleccionado;
 	}
-
- 
-
-	 
 
 }

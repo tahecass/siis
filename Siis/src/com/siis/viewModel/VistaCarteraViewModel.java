@@ -45,6 +45,7 @@ public class VistaCarteraViewModel {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@NotifyChange("*")
 	@Command
 	public void listarDetalleCartera() {
@@ -74,6 +75,7 @@ public class VistaCarteraViewModel {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@NotifyChange("*")
 	@Command
 	public void listarClientes() {
