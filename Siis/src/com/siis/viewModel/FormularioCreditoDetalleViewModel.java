@@ -68,30 +68,47 @@ public class FormularioCreditoDetalleViewModel {
 			log.info("accion=>> " + accion);
 
 			amortizacionCreditoSeleccionado.setCredito(credito);
+			if (esFormularioValido(amortizacionCreditoSeleccionado)) {
 
-			if (accion.equals("I")) {
-				amortizacionCreditoSeleccionado.setSecuencia(10);
-				Conexion.getConexion().guardar("guardarAmortizacionCredito", amortizacionCreditoSeleccionado);
-				log.info("Disponibleguardada");
+				if (accion.equals("I")) {
+					amortizacionCreditoSeleccionado.setSecuencia(10);
+					Conexion.getConexion().guardar("guardarAmortizacionCredito", amortizacionCreditoSeleccionado);
+					log.info("Disponibleguardada");
+					Utilidades.mostrarNotificacion(idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO").toString(),
+							idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_MENSAJE_GUARDAR").toString(), "INFO");
+
+				} else if (accion.equals("U")) {
+
+					Conexion.getConexion().actualizar("actualizarAmortizacionCredito", amortizacionCreditoSeleccionado);
+					log.info("DisponibleActualizada");
+					Utilidades.mostrarNotificacion(idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO").toString(),
+							idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
+				}
+
+				listarAmortizacionCredito();
+				setDesactivarBtnNuevo(false);
+				setDesactivarBtnEditar(false);
+				setDesactivarBtnGuardar(true);
+				setDesactivarBtnEliminar(false);
+			} else {
+
 				Utilidades.mostrarNotificacion(idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO").toString(),
-						idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_MENSAJE_GUARDAR").toString(), "INFO");
+						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
 
-			} else if (accion.equals("U")) {
-
-				Conexion.getConexion().actualizar("actualizarAmortizacionCredito", amortizacionCreditoSeleccionado);
-				log.info("DisponibleActualizada");
-				Utilidades.mostrarNotificacion(idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO").toString(),
-						idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
 			}
-
-			listarAmortizacionCredito();
-			setDesactivarBtnNuevo(false);
-			setDesactivarBtnEditar(false);
-			setDesactivarBtnGuardar(true);
-			setDesactivarBtnEliminar(false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private boolean esFormularioValido(AmortizacionCredito amortizacionCreditoSeleccionado2) {
+		if (amortizacionCreditoSeleccionado2.getCapital() != null && amortizacionCreditoSeleccionado2.getCuota() != null
+				&& amortizacionCreditoSeleccionado2.getInteres() != null
+				&& amortizacionCreditoSeleccionado2.getPeriodo() != null
+				&& amortizacionCreditoSeleccionado2.getSaldo() != null)
+			return true;
+		
+		return false;
 	}
 
 	@NotifyChange("*")

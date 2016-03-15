@@ -98,28 +98,46 @@ public class FormularioCreditoViewModel {
 
 			creditoSeleccionada.setEntidad(idFORMDISPONIBLEZBbxBanco.getValue());
 
-			if (accion.equals("I")) {
-				creditoSeleccionada.setSecuencia(10);
-				Conexion.getConexion().guardar("guardarCredito", creditoSeleccionada);
-				log.info("Creditoguardada");
-				Utilidades.mostrarNotificacion(idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO").toString(),
-						idWINFORMCREDITOZPrincipal.getAttribute("MSG_MENSAJE_GUARDAR").toString(), "INFO");
+			if (esFormularioValido(creditoSeleccionada)) {
 
-			} else if (accion.equals("U")) {
-				Conexion.getConexion().actualizar("actualizarCredito", creditoSeleccionada);
-				log.info("CreditoActualizada");
+				if (accion.equals("I")) {
+					creditoSeleccionada.setSecuencia(10);
+					Conexion.getConexion().guardar("guardarCredito", creditoSeleccionada);
+					log.info("Creditoguardada");
+					Utilidades.mostrarNotificacion(idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO").toString(),
+							idWINFORMCREDITOZPrincipal.getAttribute("MSG_MENSAJE_GUARDAR").toString(), "INFO");
+
+				} else if (accion.equals("U")) {
+					Conexion.getConexion().actualizar("actualizarCredito", creditoSeleccionada);
+					log.info("CreditoActualizada");
+					Utilidades.mostrarNotificacion(idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO").toString(),
+							idWINFORMCREDITOZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
+				}
+
+				listarCredito();
+				setDesactivarBtnNuevo(false);
+				setDesactivarBtnEditar(false);
+				setDesactivarBtnGuardar(true);
+				setDesactivarBtnEliminar(false);
+			} else {
+
 				Utilidades.mostrarNotificacion(idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO").toString(),
-						idWINFORMCREDITOZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
+						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
+
 			}
-
-			listarCredito();
-			setDesactivarBtnNuevo(false);
-			setDesactivarBtnEditar(false);
-			setDesactivarBtnGuardar(true);
-			setDesactivarBtnEliminar(false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private boolean esFormularioValido(Credito creditoSeleccionada2) {
+		if (creditoSeleccionada2.getCapital() != null && creditoSeleccionada2.getEntidad() != null
+				&& creditoSeleccionada2.getFecha() != null && creditoSeleccionada2.getFechaVencimiento() != null
+				&& creditoSeleccionada2.getInteres() != null && creditoSeleccionada2.getNroPrestamo() != null
+				&& creditoSeleccionada2.getPlazo() != null && creditoSeleccionada2.getSaldo() != null )
+			return true;
+
+		return false;
 	}
 
 	@NotifyChange("*")
@@ -140,7 +158,8 @@ public class FormularioCreditoViewModel {
 							Conexion.getConexion().eliminar("eliminarCredito", credito);
 							Utilidades.mostrarNotificacion(
 									idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO").toString(),
-									idWINFORMCREDITOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(), "INFO");
+									idWINFORMCREDITOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
+									"INFO");
 							listarCredito();
 							setDesactivarBtnNuevo(false);
 							setDesactivarBtnEditar(true);

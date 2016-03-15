@@ -97,38 +97,49 @@ public class FormularioCarteraViewModel {
 	public void guardarCartera() {
 		try {
 			log.info("accion=>> " + accion);
-			// Cartera cartera = new Cartera();
-			//
+
 			carteraSeleccionada.setCliente(idFORMCARTERAZBbxCliente.getValue());
-			// cartera.setUsuario(new Usuario(new Integer(1)));
-			// cartera.setFechaHoraActualizacion(idFORMCARTERAZDbxFechaHoraAct.getValue());
-			// cartera.setFechaPago(idFORMCARTERAZDbxFechaPago.getValue());
-			// cartera.setFechaCreacion(new Date());
+			if (esFormularioValido(carteraSeleccionada)) {
 
-			if (accion.equals("I")) {
-				carteraSeleccionada.setSecuencia(10);
-				Conexion.getConexion().guardar("guardarCartera", carteraSeleccionada);
-				log.info("Carteraguardada");
-				Utilidades.mostrarNotificacion(idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
-						idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_GUARDAR").toString(), "INFO");
+				if (accion.equals("I")) {
+					carteraSeleccionada.setSecuencia(10);
+					Conexion.getConexion().guardar("guardarCartera", carteraSeleccionada);
+					log.info("Carteraguardada");
+					Utilidades.mostrarNotificacion(idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
+							idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_GUARDAR").toString(), "INFO");
 
-			} else if (accion.equals("U")) {
-				Conexion.getConexion().actualizar("actualizarCartera", carteraSeleccionada);
-				log.info("CarteraActualizada");
+				} else if (accion.equals("U")) {
+					Conexion.getConexion().actualizar("actualizarCartera", carteraSeleccionada);
+					log.info("CarteraActualizada");
+					Utilidades.mostrarNotificacion(idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
+							idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
+				}
+
+				listarCartera();
+				setDesactivarBtnNuevo(false);
+				setDesactivarBtnEditar(false);
+				setDesactivarBtnGuardar(true);
+				setDesactivarBtnEliminar(false);
+			} else {
+
 				Utilidades.mostrarNotificacion(idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
-						idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
+						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
+
 			}
-
-			listarCartera();
-			setDesactivarBtnNuevo(false);
-			setDesactivarBtnEditar(false);
-			setDesactivarBtnGuardar(true);
-			setDesactivarBtnEliminar(false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	private boolean esFormularioValido(Cartera carteraSeleccionada2) {
+		if (carteraSeleccionada2.getCliente() != null && carteraSeleccionada2.getFechaPago() != null) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@NotifyChange("*")
 	@Command
 	public void onEliminar(@BindingParam("seleccionado") final Cartera cartera) {
 		log.info("onEliminar => " + cartera.getSecuencia());
@@ -145,7 +156,9 @@ public class FormularioCarteraViewModel {
 							Conexion.getConexion().eliminar("eliminarCartera", cartera);
 							Utilidades.mostrarNotificacion(
 									idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
-									idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(), "INFO");
+									idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
+									"INFO");
+
 							listarCartera();
 							setDesactivarBtnNuevo(false);
 							setDesactivarBtnEditar(true);
@@ -201,8 +214,7 @@ public class FormularioCarteraViewModel {
 		setDesactivarTabDetalle(true);
 	}
 
-	@SuppressWarnings("unchecked")
-	@NotifyChange("*")
+	@NotifyChange("listaCartera")
 	@Command
 	public void listarCartera() {
 		log.info(" listarCartera ");
@@ -216,6 +228,8 @@ public class FormularioCarteraViewModel {
 			// parametros));
 
 			setListaCartera((List<Cartera>) con.obtenerListado("listarCarteras", parametros));
+			log.info("REGISTROS ==> " + listaCartera.size());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 

@@ -26,7 +26,7 @@ import com.siis.dto.DetalleCartera;
 import com.siis.viewModel.framework.Utilidades;
 
 public class FormularioCarteraDetalleViewModel {
-	 
+
 	protected static Logger log = Logger.getLogger(FormularioCarteraViewModel.class);
 	public List<DetalleCartera> listaDetalleCartera;
 	public DetalleCartera detalleCarteraSeleccionada;
@@ -68,30 +68,47 @@ public class FormularioCarteraDetalleViewModel {
 			log.info("accion=>> " + accion);
 
 			detalleCarteraSeleccionada.setCartera(cartera);
+			if (esFormularioValido(detalleCarteraSeleccionada)) {
 
-			if (accion.equals("I")) {
-				detalleCarteraSeleccionada.setSecuencia(10);
-				Conexion.getConexion().guardar("guardarDetalleCartera", detalleCarteraSeleccionada);
-				log.info("Carteraguardada");
+				if (accion.equals("I")) {
+					detalleCarteraSeleccionada.setSecuencia(10);
+					Conexion.getConexion().guardar("guardarDetalleCartera", detalleCarteraSeleccionada);
+					log.info("Carteraguardada");
+					Utilidades.mostrarNotificacion(idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
+							idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_MENSAJE_GUARDAR").toString(), "INFO");
+
+				} else if (accion.equals("U")) {
+
+					Conexion.getConexion().actualizar("actualizarDetalleCartera", detalleCarteraSeleccionada);
+					log.info("CarteraActualizada");
+					Utilidades.mostrarNotificacion(idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
+							idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
+				}
+
+				listarDetalleCartera();
+				setDesactivarBtnNuevo(false);
+				setDesactivarBtnEditar(false);
+				setDesactivarBtnGuardar(true);
+				setDesactivarBtnEliminar(false);
+			} else {
+
 				Utilidades.mostrarNotificacion(idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
-						idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_MENSAJE_GUARDAR").toString(), "INFO");
+						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
 
-			} else if (accion.equals("U")) {
-
-				Conexion.getConexion().actualizar("actualizarDetalleCartera", detalleCarteraSeleccionada);
-				log.info("CarteraActualizada");
-				Utilidades.mostrarNotificacion(idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
-						idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
 			}
-
-			listarDetalleCartera();
-			setDesactivarBtnNuevo(false);
-			setDesactivarBtnEditar(false);
-			setDesactivarBtnGuardar(true);
-			setDesactivarBtnEliminar(false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private boolean esFormularioValido(DetalleCartera detalleCarteraSeleccionada2) {
+		if (detalleCarteraSeleccionada2.getNroFactura() != null && detalleCarteraSeleccionada2.getReferencia() != null
+				&& detalleCarteraSeleccionada2.getValor1() != null && detalleCarteraSeleccionada2.getValor2() != null
+				&& detalleCarteraSeleccionada2.getValor3() != null && detalleCarteraSeleccionada2.getValor4() != null
+				&& detalleCarteraSeleccionada2.getVencimiento() != null)
+			return true;
+
+		return false;
 	}
 
 	@NotifyChange("*")

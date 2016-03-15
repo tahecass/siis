@@ -38,64 +38,109 @@
 									</columns>
 									<rows>
 										<row>
-											<label value="Entidad:" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+
+												<label value="Entidad:" />
+											</hlayout>
 											<bandboxBancos
 												disabled="@load(vm.desactivarformulario)"
 												value="@bind(vm.creditoSeleccionada.entidad)"
 												id="idFORMDISPONIBLEZBbxBanco" />
 										</row>
 										<row>
-											<label
-												value="Número de Préstamo: " />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+
+												<label
+													value="Número de Préstamo: " />
+											</hlayout>
 											<textbox
 												disabled="@load(vm.desactivarformulario)"
+												constraint="no empty"
 												value="@bind(vm.creditoSeleccionada.nroPrestamo)" />
 										</row>
 										<row>
-											<label value="Interés:" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label value="Interés:" />
+											</hlayout>
 											<doublebox
 												disabled="@load(vm.desactivarformulario)"
+												constraint="no empty"
 												value="@bind(vm.creditoSeleccionada.interes)" />
 
 										</row>
 										<row>
-											<label value="Capital:" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label value="Capital:" />
+											</hlayout>
 											<doublebox
+												constraint="no empty"
 												disabled="@load(vm.desactivarformulario)"
 												value="@bind(vm.creditoSeleccionada.capital)" />
 
 										</row>
 										<row>
-											<label value="Plazo:" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label value="Plazo:" />
+											</hlayout>
 											<hlayout>
 												<doublebox
 													disabled="@load(vm.desactivarformulario)"
+													constraint="no empty"
 													value="@bind(vm.creditoSeleccionada.plazo)" />
 												<label value="(Meses)" />
 											</hlayout>
 
 										</row>
 										<row>
-											<label value="Fecha:" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label value="Fecha:" />
+											</hlayout>
 											<datebox
+												constraint="no empty"
 												disabled="@load(vm.desactivarformulario)"
 												value="@bind(vm.creditoSeleccionada.fecha)" />
 										</row>
 										<row>
-											<label value="Fecha de Vencimiento:" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label
+													value="Fecha de Vencimiento:" />
+											</hlayout>
 											<datebox
 												disabled="@load(vm.desactivarformulario)"
+												constraint="no empty"
 												value="@bind(vm.creditoSeleccionada.fechaVencimiento)" />
 										</row>
 										<row>
-											<label
-												value="Fecha de Creación:" />
+											<hlayout>
+												<label value="*"
+													style="color:transparent" />
+												<label
+													value="Fecha de Creación:" />
+											</hlayout>
 											<datebox disabled="true"
 												value="@bind(vm.creditoSeleccionada.fechaCreacion)" />
 										</row>
 										<row>
-											<label
-												value="Fecha y Hora de Actualizacion:" />
+											<hlayout>
+												<label value="*"
+													style="color:transparent" />
+												<label
+													value="Fecha y Hora de Actualizacion:" />
+											</hlayout>
 											<datebox disabled="true"
 												value="@bind(vm.creditoSeleccionada.fechaHoraActualizacion)" />
 										</row>

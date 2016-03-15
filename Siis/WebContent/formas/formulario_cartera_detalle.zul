@@ -24,28 +24,49 @@
 						</columns>
 						<rows>
 							<row>
-								<label value="Nro Factura" />
-								<textbox
+								<hlayout>
+									<label value="*" style="color:red" />
+
+									<label value="Nro Factura" />
+								</hlayout>
+								<textbox constraint="no empty"
 									value="@bind(vm.detalleCarteraSeleccionada.nroFactura)" />
 							</row>
 							<row>
-								<label value="Vence" />
-								<datebox
+								<hlayout>
+									<label value="*" style="color:red" />
+
+									<label value="Vence" />
+								</hlayout>
+								<datebox constraint="no empty"
 									value="@bind(vm.detalleCarteraSeleccionada.vencimiento)" />
 							</row>
 							<row>
-								<label value="Referencia" />
-								<textbox
+								<hlayout>
+									<label value="*" style="color:red" />
+
+									<label value="Referencia" />
+								</hlayout>
+								<textbox constraint="no empty"
 									value="@bind(vm.detalleCarteraSeleccionada.referencia)" />
 							</row>
 							<row>
-								<label value="Fecha de Creación" />
+								<hlayout>
+									<label value="*"
+										style="color:transparent" />
+									<label value="Fecha de Creación" />
+								</hlayout>
 								<datebox
 									value="@bind(vm.detalleCarteraSeleccionada.fechaCreacion)"
 									disabled="true" />
 							</row>
 							<row>
-								<label value="Fecha de Actualización" />
+								<hlayout>
+									<label value="*"
+										style="color:transparent" />
+									<label
+										value="Fecha de Actualización" />
+								</hlayout>
 								<datebox
 									value="@bind(vm.detalleCarteraSeleccionada.fechaActualizacion)"
 									disabled="true" />
@@ -56,29 +77,48 @@
 						<caption label="Valores" />
 						<grid>
 							<columns>
-								<column hflex="min"/>
+								<column hflex="min" />
 								<column />
 							</columns>
 							<rows>
 
 								<row>
-									<label value="30 Dias" />
-									<doublebox
+									<hlayout>
+										<label value="*"
+											style="color:red" />
+
+										<label value="30 Dias" />
+									</hlayout>
+									<doublebox constraint="no empty"
 										value="@bind(vm.detalleCarteraSeleccionada.valor1)" />
 								</row>
 								<row>
-									<label value="60 Dias" />
+									<hlayout>
+										<label value="*"
+											style="color:red" />
+										<label value="60 Dias" />
+									</hlayout>
 									<doublebox
-										value="@bind(vm.detalleCarteraSeleccionada.valor2)" />
+										value="@bind(vm.detalleCarteraSeleccionada.valor2)"
+										constraint="no empty" />
 								</row>
 								<row>
-									<label value="90 Dias" />
-									<doublebox
+									<hlayout>
+										<label value="*"
+											style="color:red" />
+
+										<label value="90 Dias" />
+									</hlayout>
+									<doublebox constraint="no empty"
 										value="@bind(vm.detalleCarteraSeleccionada.valor3)" />
 								</row>
 								<row>
-									<label value="Más de 90 Dias" />
-									<doublebox
+									<hlayout>
+										<label value="*"
+											style="color:red" />
+										<label value="Más de 90 Dias" />
+									</hlayout>
+									<doublebox constraint="no empty"
 										value="@bind(vm.detalleCarteraSeleccionada.valor4)" />
 								</row>
 							</rows>

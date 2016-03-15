@@ -24,43 +24,76 @@
 						</columns>
 						<rows>
 							<row>
-								<label value="Interés" />
+								<hlayout>
+									<label value="*" style="color:red" />
+
+									<label value="Interés" />
+								</hlayout>
 								<doublebox
 									value="@bind(vm.amortizacionCreditoSeleccionado.interes)"
-									disabled="@load(vm.desactivarformulario)" />
+									disabled="@load(vm.desactivarformulario)"
+									constraint="no empty" />
 							</row>
 							<row>
-								<label value="Capital" />
+								<hlayout>
+									<label value="*" style="color:red" />
+									<label value="Capital" />
+								</hlayout>
 								<doublebox
 									value="@bind(vm.amortizacionCreditoSeleccionado.capital)"
-									disabled="@load(vm.desactivarformulario)" />
+									disabled="@load(vm.desactivarformulario)"
+									constraint="no empty" />
 							</row>
 							<row>
-								<label value="Saldo" />
+								<hlayout>
+									<label value="*" style="color:red" />
+
+									<label value="Saldo" />
+								</hlayout>
 								<doublebox
 									value="@bind(vm.amortizacionCreditoSeleccionado.saldo)"
-									disabled="@load(vm.desactivarformulario)" />
+									disabled="@load(vm.desactivarformulario)"
+									constraint="no empty" />
 							</row>
 							<row>
-								<label value="Período" />
+								<hlayout>
+									<label value="*" style="color:red" />
+
+									<label value="Período" />
+								</hlayout>
 								<textbox
 									value="@bind(vm.amortizacionCreditoSeleccionado.periodo)"
-									disabled="@load(vm.desactivarformulario)" />
+									disabled="@load(vm.desactivarformulario)"
+									constraint="no empty" />
 							</row>
 							<row>
-								<label value="Cuota" />
-								<doublebox
+								<hlayout>
+									<label value="*" style="color:red" />
+									<label value="Cuota" />
+								</hlayout>
+								<doublebox constraint="no empty"
 									value="@bind(vm.amortizacionCreditoSeleccionado.cuota)"
 									disabled="@load(vm.desactivarformulario)" />
 							</row>
 							<row>
-								<label value="Fecha de Creación" />
+								<hlayout>
+									<label value="*"
+										style="color:transparent" />
+
+									<label value="Fecha de Creación" />
+								</hlayout>
 								<datebox
 									value="@bind(vm.amortizacionCreditoSeleccionado.fechaCreacion)"
 									disabled="true" />
 							</row>
 							<row>
-								<label value="Fecha de Actualización" />
+								<hlayout>
+									<label value="*"
+										style="color:transparent" />
+
+									<label
+										value="Fecha de Actualización" />
+								</hlayout>
 								<datebox
 									value="@bind(vm.amortizacionCreditoSeleccionado.fechaHoraActualizacion)"
 									disabled="true" />
@@ -89,9 +122,8 @@
 							sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
 					</toolbar>
 					<listbox
-						id="idCARTERAZLbxDetalleAmortizacionCredito" 
-						span="true" vflex="true"
-						model="@bind(vm.listaAmortizacionCredito)"
+						id="idCARTERAZLbxDetalleAmortizacionCredito" span="true"
+						vflex="true" model="@bind(vm.listaAmortizacionCredito)"
 						selectedItem="@bind(vm.amortizacionCreditoSeleccionado)"
 						onSelect="@command('onSeleccionar',seleccionado=vm.amortizacionCreditoSeleccionado)">
 
