@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CalendarioMapper">
+	<resultMap id="resMapCalendario" type="CalendarioAlias">
+		<result property="sec" column="SEC" />
+		<result property="fecha_inicio" column="FECHA_INICIO" />
+		<result property="fecha_fin" column="FECHA_FIN" />
+		<result property="color_borde" column="COLOR_BORDE" />
+		<result property="color_content" column="COLOR_CONTENT" />
+		<result property="titulo" column="titulo" />
+
+	</resultMap>
+
+
+	<select id="guardarCalendario" parameterType="CalendarioAlias" resultMap="resMapCalendario"
+		statementType="CALLABLE">
+		INSERT
+		INTO Calendario (SEC, FECHA_INICIO, FECHA_FIN, COLOR_BORDE, COLOR_CONTENT,
+		TITULO)
+		VALUES
+		( #{sec,jdbcType=NUMERIC},
+		#{fecha_inicio,jdbcType=DATE},
+		#{fecha_fin,jdbcType=DATE},
+		#{color_borde,jdbcType=VARCHAR},
+		#{color_content,jdbcType=VARCHAR},
+		#{titulo,jdbcType=VARCHAR}
+		)
+
+	</select>
+	<update id="actualizarCalendario" parameterType="CalendarioAlias">
+		UPDATE CALENDARIO
+		SET TITULO = #{titulo,jdbcType=VARCHAR},
+		FECHA_INICIO = #{fecha_inicio,jdbcType=DATE},
+		FECHA_FIN = #{fecha_fin,jdbcType=DATE},
+		COLOR_BORDE = #{color_borde,jdbcType=VARCHAR},
+		COLOR_CONTENT = #{color_content,jdbcType=VARCHAR}
+		WHERE SEC = #{sec,jdbcType=NUMERIC};
+	</update>
+	<select id="listarCalendario" parameterType="java.lang.String"
+		resultMap="resMapCalendario">
+		SELECT
+			CALENDARIO.SEC,
+			CALENDARIO.FECHA_INICIO,
+			CALENDARIO.FECHA_FIN,
+			CALENDARIO.COLOR_BORDE,
+			CALENDARIO.COLOR_CONTENT,
+			CALENDARIO.TITULO
+		FROM
+			CALENDARIO
+
+	</select>
+	
+	<select id="buscarCalendarios" parameterType="java.lang.String"
+		resultMap="resMapCalendario">
+		SELECT
+			CALENDARIO.SEC,
+			CALENDARIO.FECHA_INICIO,
+			CALENDARIO.FECHA_FIN,
+			CALENDARIO.COLOR_BORDE,
+			CALENDARIO.COLOR_CONTENT,
+			CALENDARIO.TITULO
+		FROM
+			CALENDARIO
+		WHERE SEC = (#{valorBusqueda})
+		);
+
+	</select>
+
+	<delete id="eliminarCalendario" parameterType="CalendarioAlias">
+		DELETE FROM CALENDARIO WHERE SEC=#{sec,jdbcType=NUMERIC}
+	</delete>
+</mapper>
