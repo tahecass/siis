@@ -17,7 +17,7 @@
 			<vlayout height="100%">
 				<groupbox mold="3d" hflex="true" vflex="true"
 					contentStyle="padding:0px" open="true" closable="false">
-					<grid>
+					<grid id="idWINFORMDETDISPBCOZGridPrincipal">
 						<columns>
 							<column hflex="min" />
 							<column />

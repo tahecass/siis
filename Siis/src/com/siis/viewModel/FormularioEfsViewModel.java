@@ -20,6 +20,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Grid;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Tabpanel;
@@ -43,6 +44,8 @@ public class FormularioEfsViewModel {
 	Label labelNombreArchivo;
 	@Wire
 	private Tabpanel idCARTERAZTpnConsultaEfs;
+	@Wire
+	private Grid idWINFORMEFSZGridFormulario;
 
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
@@ -112,8 +115,8 @@ public class FormularioEfsViewModel {
 		try {
 
 			if (!validarSoloExtensio(media.getContentType())) {
-				Messagebox.show("El tipo de Archivo seleccionado, no corresponde a un archivo con formato: "
-						.concat(media.getContentType()), "", Messagebox.ABORT, Messagebox.ERROR);
+				Messagebox.show("El tipo de Archivo seleccionado, no corresponde a un archivo con formato PDF ", "",
+						Messagebox.ABORT, Messagebox.ERROR);
 				return;
 			}
 
@@ -145,7 +148,15 @@ public class FormularioEfsViewModel {
 		try {
 			log.info("accion=>> " + accion);
 
+			if (!Utilidades.validarFormulario(idWINFORMEFSZGridFormulario)) {
+				Utilidades.mostrarNotificacion(idWINFORMEFSZPrincipal.getAttribute("MSG_TITULO").toString(),
+						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
+				return;
+			}
+
 			EfSeleccionado.setSecuencia(10);
+			EfSeleccionado.setNombreArchivo(labelNombreArchivo.getValue());
+
 			if (accion.equals("I")) {
 
 				Conexion.getConexion().guardar("guardarEfs", EfSeleccionado);
@@ -174,31 +185,30 @@ public class FormularioEfsViewModel {
 	@Command
 	public void onEliminar(@BindingParam("seleccionado") final Efs cartera) {
 		log.info("onEliminar => " + cartera.getSecuencia());
-		 	
-			Messagebox.show(idWINFORMEFSZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
-					idWINFORMEFSZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
-					Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-					new org.zkoss.zk.ui.event.EventListener<Event>() {
 
-						@Override
-						public void onEvent(Event e) throws Exception {
-							if (Messagebox.ON_OK.equals(e.getName())) {
+		Messagebox.show(idWINFORMEFSZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+				idWINFORMEFSZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+				Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener<Event>() {
 
-			
-			log.info("Messagebox.YES => " + cartera.getSecuencia());
-			Conexion.getConexion().eliminar("eliminarEfs", cartera);
-			Utilidades.mostrarNotificacion(idWINFORMEFSZPrincipal.getAttribute("MSG_TITULO").toString(),
-					idWINFORMEFSZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(), "INFO");
-			listarEfs();
-			setDesactivarBtnNuevo(false);
-			setDesactivarBtnEditar(true);
-			setDesactivarBtnGuardar(true);
-			setDesactivarBtnEliminar(true);
-			setDesactivarTabDetalle(true);
-							}
+					@Override
+					public void onEvent(Event e) throws Exception {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+
+							log.info("Messagebox.YES => " + cartera.getSecuencia());
+							Conexion.getConexion().eliminar("eliminarEfs", cartera);
+							Utilidades.mostrarNotificacion(idWINFORMEFSZPrincipal.getAttribute("MSG_TITULO").toString(),
+									idWINFORMEFSZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(), "INFO");
+							listarEfs();
+							setDesactivarBtnNuevo(false);
+							setDesactivarBtnEditar(true);
+							setDesactivarBtnGuardar(true);
+							setDesactivarBtnEliminar(true);
+							setDesactivarTabDetalle(true);
 						}
+					}
 
-					});
+				});
 	}
 
 	@NotifyChange("*")

@@ -18,6 +18,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Tabpanel;
 import org.zkoss.zul.Window;
@@ -45,6 +46,8 @@ public class FormularioCreditoViewModel {
 	public Borderlayout idWINFORMCREDITOZPrincipal;
 	@Wire
 	private Tabpanel idDISPONIBLEZTpnDetalleCredito, idDISPONIBLEZTpnConsultaCredito;
+	@Wire
+	private Grid idWINFORMCREDITOZGridFormulario;
 
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
@@ -96,10 +99,15 @@ public class FormularioCreditoViewModel {
 		try {
 			log.info("accion=>> " + accion);
 
+			
+
+			if (!Utilidades.validarFormulario(idWINFORMCREDITOZGridFormulario)) {
+				Utilidades.mostrarNotificacion(idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO").toString(),
+						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
+				return;
+			}
+			
 			creditoSeleccionada.setEntidad(idFORMDISPONIBLEZBbxBanco.getValue());
-
-			if (esFormularioValido(creditoSeleccionada)) {
-
 				if (accion.equals("I")) {
 					creditoSeleccionada.setSecuencia(10);
 					Conexion.getConexion().guardar("guardarCredito", creditoSeleccionada);
@@ -119,26 +127,13 @@ public class FormularioCreditoViewModel {
 				setDesactivarBtnEditar(false);
 				setDesactivarBtnGuardar(true);
 				setDesactivarBtnEliminar(false);
-			} else {
-
-				Utilidades.mostrarNotificacion(idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO").toString(),
-						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
-
-			}
+			 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private boolean esFormularioValido(Credito creditoSeleccionada2) {
-		if (creditoSeleccionada2.getCapital() != null && creditoSeleccionada2.getEntidad() != null
-				&& creditoSeleccionada2.getFecha() != null && creditoSeleccionada2.getFechaVencimiento() != null
-				&& creditoSeleccionada2.getInteres() != null && creditoSeleccionada2.getNroPrestamo() != null
-				&& creditoSeleccionada2.getPlazo() != null && creditoSeleccionada2.getSaldo() != null )
-			return true;
-
-		return false;
-	}
+	
 
 	@NotifyChange("*")
 	@Command

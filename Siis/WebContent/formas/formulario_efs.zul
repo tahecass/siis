@@ -27,7 +27,7 @@
 						<tabpanels style="overflow:auto" vflex="true">
 							<tabpanel style="overflow:auto"
 								vflex="true">
-								<grid>
+								<grid id="idWINFORMEFSZGridFormulario">
 									<columns>
 										<column hflex="min" />
 										<column />
@@ -46,7 +46,7 @@
 												<button label="Upload" 
 													upload="true" onUpload="@command('subirArchivo',media =event.media)" />
 												<label
-													id="labelNombreArchivo" />
+													id="labelNombreArchivo"  value="@bind(vm.efSeleccionado.nombreArchivo)"/>
 											</hlayout>
 										</row>
 

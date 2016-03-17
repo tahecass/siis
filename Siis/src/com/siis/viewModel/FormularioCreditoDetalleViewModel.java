@@ -18,6 +18,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
 
 import com.siis.configuracion.Conexion;
@@ -38,6 +39,8 @@ public class FormularioCreditoDetalleViewModel {
 
 	@Wire
 	public Borderlayout idWINFORMDETDISPBCOZPrincipal;
+	@Wire
+	private Grid idWINFORMDETDISPBCOZGridPrincipal;
 
 	@SuppressWarnings("unchecked")
 	@AfterCompose
@@ -67,50 +70,42 @@ public class FormularioCreditoDetalleViewModel {
 		try {
 			log.info("accion=>> " + accion);
 
-			amortizacionCreditoSeleccionado.setCredito(credito);
-			if (esFormularioValido(amortizacionCreditoSeleccionado)) {
-
-				if (accion.equals("I")) {
-					amortizacionCreditoSeleccionado.setSecuencia(10);
-					Conexion.getConexion().guardar("guardarAmortizacionCredito", amortizacionCreditoSeleccionado);
-					log.info("Disponibleguardada");
-					Utilidades.mostrarNotificacion(idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO").toString(),
-							idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_MENSAJE_GUARDAR").toString(), "INFO");
-
-				} else if (accion.equals("U")) {
-
-					Conexion.getConexion().actualizar("actualizarAmortizacionCredito", amortizacionCreditoSeleccionado);
-					log.info("DisponibleActualizada");
-					Utilidades.mostrarNotificacion(idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO").toString(),
-							idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
-				}
-
-				listarAmortizacionCredito();
-				setDesactivarBtnNuevo(false);
-				setDesactivarBtnEditar(false);
-				setDesactivarBtnGuardar(true);
-				setDesactivarBtnEliminar(false);
-			} else {
-
+		
+			if (!Utilidades.validarFormulario(idWINFORMDETDISPBCOZGridPrincipal)) {
 				Utilidades.mostrarNotificacion(idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO").toString(),
 						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
-
+				return;
 			}
+			
+			amortizacionCreditoSeleccionado.setCredito(credito);
+			
+			if (accion.equals("I")) {
+				amortizacionCreditoSeleccionado.setSecuencia(10);
+				Conexion.getConexion().guardar("guardarAmortizacionCredito", amortizacionCreditoSeleccionado);
+				log.info("Disponibleguardada");
+				Utilidades.mostrarNotificacion(idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO").toString(),
+						idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_MENSAJE_GUARDAR").toString(), "INFO");
+
+			} else if (accion.equals("U")) {
+
+				Conexion.getConexion().actualizar("actualizarAmortizacionCredito", amortizacionCreditoSeleccionado);
+				log.info("DisponibleActualizada");
+				Utilidades.mostrarNotificacion(idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO").toString(),
+						idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
+			}
+
+			listarAmortizacionCredito();
+			setDesactivarBtnNuevo(false);
+			setDesactivarBtnEditar(false);
+			setDesactivarBtnGuardar(true);
+			setDesactivarBtnEliminar(false);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private boolean esFormularioValido(AmortizacionCredito amortizacionCreditoSeleccionado2) {
-		if (amortizacionCreditoSeleccionado2.getCapital() != null && amortizacionCreditoSeleccionado2.getCuota() != null
-				&& amortizacionCreditoSeleccionado2.getInteres() != null
-				&& amortizacionCreditoSeleccionado2.getPeriodo() != null
-				&& amortizacionCreditoSeleccionado2.getSaldo() != null)
-			return true;
-		
-		return false;
-	}
-
+ 
 	@NotifyChange("*")
 	@Command
 	public void onEliminar(@BindingParam("seleccionado") final AmortizacionCredito detalleDisponible) {

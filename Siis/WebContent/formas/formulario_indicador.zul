@@ -28,7 +28,7 @@
 						</tabs>
 						<tabpanels style="overflow:auto" vflex="true">
 							<tabpanel style="overflow:auto" vflex="true">
-								<grid>
+								<grid id="idWINFORMINDICADORZGridFormulario">
 									<columns>
 										<column hflex="min" />
 										<column />

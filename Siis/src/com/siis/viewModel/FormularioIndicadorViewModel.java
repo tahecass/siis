@@ -18,6 +18,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Tabpanel;
 import org.zkoss.zul.Window;
@@ -39,6 +40,8 @@ public class FormularioIndicadorViewModel {
 	public Borderlayout idWINFORMINDICADORZPrincipal;
 	@Wire
 	private Tabpanel idCARTERAZTpnDetalleIndicador, idCARTERAZTpnConsultaIndicador;
+	@Wire
+	private Grid idWINFORMINDICADORZGridFormulario;
 
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
@@ -92,6 +95,12 @@ public class FormularioIndicadorViewModel {
 	public void guardarIndicador() {
 		try {
 			log.info("accion=>> " + accion);
+
+			if (!Utilidades.validarFormulario(idWINFORMINDICADORZGridFormulario)) {
+				Utilidades.mostrarNotificacion(idWINFORMINDICADORZPrincipal.getAttribute("MSG_TITULO").toString(),
+						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
+				return;
+			}
 
 			indicadorSeleccionado.setSecuencia(10);
 			if (accion.equals("I")) {

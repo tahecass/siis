@@ -18,6 +18,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Tabpanel;
 
@@ -39,6 +40,9 @@ public class FormularioProyectoViewModel {
 	private BandboxBancos idFORMPROYECTOZBbxEntidad;
 	@Wire
 	public Borderlayout idWINFORMPROYECTOZPrincipal;
+	@Wire
+	private Grid idWINFORMPROYECTOZGridFormulario;
+	
 	@Wire
 	private Tabpanel idDISPONIBLEZTpnDetalleProyecto, idDISPONIBLEZTpnConsultaProyecto,
 			idDISPONIBLEZTpnDetalleContrartos;
@@ -65,6 +69,12 @@ public class FormularioProyectoViewModel {
 	public void guardarProyecto() {
 		try {
 			log.info("accion=>> " + accion);
+			
+			if (!Utilidades.validarFormulario(idWINFORMPROYECTOZGridFormulario)) {
+				Utilidades.mostrarNotificacion(idWINFORMPROYECTOZPrincipal.getAttribute("MSG_TITULO").toString(),
+						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
+				return;
+			}
 
 			proyectoSeleccionada.setEntidad(idFORMPROYECTOZBbxEntidad.getValue());
 

@@ -34,7 +34,7 @@
 						<tabpanels style="overflow:auto" vflex="true">
 							<tabpanel style="overflow:auto"
 								vflex="true">
-								<grid>
+								<grid id="idWINFORMDISPONIBLEZFormularioPrincipal">
 									<columns>
 										<column hflex="min" />
 										<column />

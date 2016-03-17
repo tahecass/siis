@@ -18,6 +18,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Formulacion;
@@ -37,6 +38,8 @@ public class FormularioIndicadorFormulacionViewModel {
 
 	@Wire
 	public Borderlayout idWINFORMFORMULACIONZPrincipal;
+	@Wire
+	private Grid idWINFORMFORMULACIONZGridFormulario;
 
 	@SuppressWarnings("unchecked")
 	@AfterCompose
@@ -65,6 +68,12 @@ public class FormularioIndicadorFormulacionViewModel {
 	public void guardarFormulacion() {
 		try {
 			log.info("accion=>> " + accion);
+
+			if (!Utilidades.validarFormulario(idWINFORMFORMULACIONZGridFormulario)) {
+				Utilidades.mostrarNotificacion(idWINFORMFORMULACIONZPrincipal.getAttribute("MSG_TITULO").toString(),
+						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
+				return;
+			}
 
 			formulacionSeleccionado.setIndicador(indicador);
 

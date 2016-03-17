@@ -34,52 +34,87 @@
 						<tabpanels style="overflow:auto" vflex="true">
 							<tabpanel style="overflow:auto"
 								vflex="true">
-								<grid>
+								<grid
+									id="idWINFORMPROYECTOZGridFormulario">
 									<columns>
 										<column hflex="min" />
 										<column />
 									</columns>
 									<rows>
 										<row>
-											<label value="Entidad:" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label value="Entidad:" />
+											</hlayout>
 											<bandboxBancos
+												constraint="no empty"
 												disabled="@load(vm.desactivarformulario)"
 												value="@bind(vm.proyectoSeleccionada.entidad)"
 												id="idFORMPROYECTOZBbxEntidad" />
 										</row>
 										<row>
-											<label value="Contrato: " />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label
+													value="Contrato: " />
+											</hlayout>
 											<textbox
 												disabled="@load(vm.desactivarformulario)"
+												constraint="no empty"
 												value="@bind(vm.proyectoSeleccionada.contrato)" />
 										</row>
 										<row>
-											<label
-												value="Valor Legalizado" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+
+												<label
+													value="Valor Legalizado" />
+											</hlayout>
 											<doublebox
 												disabled="@load(vm.desactivarformulario)"
+												constraint="no empty"
 												value="@bind(vm.proyectoSeleccionada.valorLegalizado)" />
 
 										</row>
 										<row>
-											<label
-												value="Porcentaje de Ejecución:" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+
+												<label
+													value="Porcentaje de Ejecución:" />
+											</hlayout>
 											<doublebox
 												disabled="@load(vm.desactivarformulario)"
+												constraint="no empty"
 												value="@bind(vm.proyectoSeleccionada.porcentajeEjecucion)" />
 
 										</row>
 
 										<row>
-											<label value="Fecha:" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+
+												<label value="Fecha:" />
+											</hlayout>
 											<datebox
+												constraint="no empty"
 												disabled="@load(vm.desactivarformulario)"
 												value="@bind(vm.proyectoSeleccionada.fecha)" />
 										</row>
 										<row>
-											<label value="Objeto" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label value="Objeto" />
+											</hlayout>
 											<textbox rows="5"
-												hflex="true" disabled="@load(vm.desactivarformulario)"
+												constraint="no empty" hflex="true"
+												disabled="@load(vm.desactivarformulario)"
 												value="@bind(vm.proyectoSeleccionada.objeto)" />
 										</row>
 										<row>
@@ -151,7 +186,7 @@
 							</tabpanel>
 							<tabpanel
 								id="idDISPONIBLEZTpnDetalleProyecto" hflex="true" />
-								<tabpanel
+							<tabpanel
 								id="idDISPONIBLEZTpnDetalleContrartos" hflex="true" />
 							<tabpanel
 								id="idDISPONIBLEZTpnConsultaProyecto" hflex="true" />

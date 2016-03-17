@@ -5,10 +5,10 @@ import java.util.Date;
 public class Efs {
 	private Integer secuencia;
 	private Integer contrato;
-	 private byte[] contenidoBinarioArchivo;
-
+	private byte[] contenidoBinarioArchivo;
+	private String nombreArchivo;
 	private Date fechaCreacion;
-	private Date fechaActualizacion; 
+	private Date fechaActualizacion;
 
 	public Efs() {
 	}
@@ -53,5 +53,12 @@ public class Efs {
 		this.fechaActualizacion = fechaActualizacion;
 	}
 
- 
+	public String getNombreArchivo() {
+		return nombreArchivo;
+	}
+
+	public void setNombreArchivo(String nombreArchivo) {
+		this.nombreArchivo = nombreArchivo;
+	}
+
 }

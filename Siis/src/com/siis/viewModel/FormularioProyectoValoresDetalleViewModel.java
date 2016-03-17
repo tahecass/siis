@@ -19,6 +19,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
 
 import com.siis.configuracion.Conexion;
@@ -39,6 +40,8 @@ public class FormularioProyectoValoresDetalleViewModel {
 
 	@Wire
 	public Borderlayout idWINFORMPROVALORZPrincipal;
+	@Wire
+	private Grid idWINFORMPROVALORZGridValorFormulario;
 
 	@SuppressWarnings("unchecked")
 	@AfterCompose
@@ -68,8 +71,13 @@ public class FormularioProyectoValoresDetalleViewModel {
 		try {
 			log.info("accion=>> " + accion);
 
+			if (!Utilidades.validarFormulario(idWINFORMPROVALORZGridValorFormulario)) {
+				Utilidades.mostrarNotificacion(idWINFORMPROVALORZPrincipal.getAttribute("MSG_TITULO").toString(),
+						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
+				return;
+			}
+
 			detalleCarteraSeleccionada.setProyecto(getProyecto());
-			;
 
 			if (accion.equals("I")) {
 				detalleCarteraSeleccionada.setSecuencia(10);

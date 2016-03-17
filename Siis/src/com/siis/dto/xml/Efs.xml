@@ -4,41 +4,44 @@
 	<resultMap id="resMapEfs" type="EfsAlias">
 		<result property="secuencia" column="SEC" />
 		<result property="contrato" column="CONTRATO" />
-		<result property="contenidoBinarioArchivo" column="ARCHIVO" /> 
+		<result property="contenidoBinarioArchivo" column="CONTENIDO_ARCHIVO" /> 
+	    <result property="nombreArchivo" column="CONTENIDO_ARCHIVO" /> 
 		<result property="fechaCreacion" column="FECHA_CREACION" />
 		<result property="fechaActualizacion" column="FECHA_ACTUALIZACION" />
-
 	</resultMap>
 
 
 	<select id="guardarEfs" parameterType="EfsAlias" resultMap="resMapEfs"
 		statementType="CALLABLE">
 		INSERT
-		INTO EFS (SEC, CONTRATO, ARCHIVO)
+		INTO EFS (SEC, CONTRATO, CONTENIDO_ARCHIVO,NOMBRE_ARCHIVO)
 		VALUES
-		( #{sec,jdbcType=NUMERIC},
+		( #{secuencia,jdbcType=NUMERIC},
 		#{contrato,jdbcType=NUMERIC},
-		#{contenidoBinarioArchivo,jdbcType=BLOB}
+		#{contenidoBinarioArchivo,jdbcType=BLOB},
+		#{nombreArchivo,jdbcType=VARCHAR}
 		)
 
 	</select>
 	<update id="actualizarEfs" parameterType="EfsAlias">
 		UPDATE EFS
 		SET CONTRATO = #{contrato,jdbcType=NUMERIC},
-		ARCHIVO = #{contenidoBinarioArchivo,jdbcType=BLOB}
-		WHERE SEC = #{sec,jdbcType=NUMERIC};
+		CONTENIDO_ARCHIVO = #{contenidoBinarioArchivo,jdbcType=BLOB},
+		NOMBRE_ARCHIVO = #{nombreArchivo,jdbcType=VARCHAR}
+		WHERE SEC = #{secuencia,jdbcType=NUMERIC};
 	</update>
 	<select id="listarEfs" parameterType="EfsAlias"
 		resultMap="resMapEfs">
 		SELECT
 		EFS.SEC,
 		EFS.CONTRATO, 
-		EFS.ARCHIVO
+		EFS.NOMBRE_ARCHIVO,
+	    EFS.CONTENIDO_ARCHIVO
 		FROM EFS
 	</select>
  
 
 	<delete id="eliminarEfs" parameterType="EfsAlias">
-		DELETE FROM EFS WHERE SEC=#{sec,jdbcType=NUMERIC}
+		DELETE FROM EFS WHERE SEC=#{secuencia,jdbcType=NUMERIC}
 	</delete>
 </mapper>

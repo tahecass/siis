@@ -1,7 +1,7 @@
 package com.siis.viewModel;
 
 import java.util.ArrayList;
-import java.util.Date; 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +18,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
 
 import com.siis.configuracion.Conexion;
@@ -38,6 +39,8 @@ public class FormularioDisponibleDetalleViewModel {
 
 	@Wire
 	public Borderlayout idWINFORMDETDISPBCOZPrincipal;
+	@Wire
+	private Grid idWINFORMDETDISPBCOZGridFormulario;
 
 	@SuppressWarnings("unchecked")
 	@AfterCompose
@@ -66,6 +69,12 @@ public class FormularioDisponibleDetalleViewModel {
 	public void guardarDisponibleBanco() {
 		try {
 			log.info("accion=>> " + accion);
+
+			if (!Utilidades.validarFormulario(idWINFORMDETDISPBCOZGridFormulario)) {
+				Utilidades.mostrarNotificacion(idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO").toString(),
+						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
+				return;
+			}
 
 			disponibleBancoSeleccionado.setDisponible(disponible);
 
@@ -99,34 +108,31 @@ public class FormularioDisponibleDetalleViewModel {
 	public void onEliminar(@BindingParam("seleccionado") final DisponibleBanco detalleDisponible) {
 		log.info("onEliminar => " + detalleDisponible.getSecuencia());
 
-		 
-			Messagebox.show(idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
-					idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
-					Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-					new org.zkoss.zk.ui.event.EventListener<Event>() {
+		Messagebox.show(idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+				idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+				Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener<Event>() {
 
-						@Override
-						public void onEvent(Event e) throws Exception {
-							if (Messagebox.ON_OK.equals(e.getName())) {
+					@Override
+					public void onEvent(Event e) throws Exception {
+						if (Messagebox.ON_OK.equals(e.getName())) {
 
-								log.info("Messagebox.YES => " + detalleDisponible.getSecuencia());
-								Conexion.getConexion().eliminar("eliminarDisponibleBanco", detalleDisponible);
-								Utilidades.mostrarNotificacion(
-										idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO").toString(),
-										idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
-										"INFO");
-								listarDisponibleBanco();
-								setDesactivarBtnNuevo(false);
-								setDesactivarBtnEditar(true);
-								setDesactivarBtnGuardar(true);
-								setDesactivarBtnEliminar(true);
-							}
+							log.info("Messagebox.YES => " + detalleDisponible.getSecuencia());
+							Conexion.getConexion().eliminar("eliminarDisponibleBanco", detalleDisponible);
+							Utilidades.mostrarNotificacion(
+									idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO").toString(),
+									idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
+									"INFO");
+							listarDisponibleBanco();
+							setDesactivarBtnNuevo(false);
+							setDesactivarBtnEditar(true);
+							setDesactivarBtnGuardar(true);
+							setDesactivarBtnEliminar(true);
 						}
+					}
 
-					});
-		}
-
-	
+				});
+	}
 
 	@NotifyChange("*")
 	@Command

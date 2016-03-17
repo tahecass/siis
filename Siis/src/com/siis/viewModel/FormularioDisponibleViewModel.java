@@ -18,6 +18,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Tabpanel;
 import org.zkoss.zul.Window;
@@ -45,6 +46,8 @@ public class FormularioDisponibleViewModel {
 	private BandboxCuentas idFORMDISPONIBLEZBbxCuenta;
 	@Wire
 	public Borderlayout idWINFORMDISPONIBLEZPrincipal;
+	@Wire
+	private Grid idWINFORMDISPONIBLEZFormularioPrincipal;
 	@Wire
 	private Tabpanel idDISPONIBLEZTpnDetalleDisponible, idDISPONIBLEZTpnConsultaDisponible,
 			idDISPONIBLEZTpnDetalleDisponobleConcepto;
@@ -101,6 +104,13 @@ public class FormularioDisponibleViewModel {
 		try {
 			log.info("accion=>> " + accion);
 
+
+			if (!Utilidades.validarFormulario(idWINFORMDISPONIBLEZFormularioPrincipal)) {
+				Utilidades.mostrarNotificacion(idWINFORMDISPONIBLEZPrincipal.getAttribute("MSG_TITULO").toString(),
+						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
+				return;
+			}
+			
 			disponibleSeleccionada.setBanco(idFORMDISPONIBLEZBbxBanco.getValue());
 			disponibleSeleccionada.setUsuario(new Usuario(new Integer(1)));
 			disponibleSeleccionada.setCuenta(idFORMDISPONIBLEZBbxCuenta.getValue());

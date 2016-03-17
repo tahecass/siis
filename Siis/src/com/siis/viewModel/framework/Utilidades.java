@@ -1,13 +1,21 @@
 package com.siis.viewModel.framework;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+import org.zkoss.zk.ui.AbstractComponent;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zul.impl.InputElement;
+ 
 
 import fi.jawsy.jawwa.zk.gritter.Gritter;
 
 public class Utilidades {
+	protected static Logger log = Logger.getLogger(Utilidades.class);
 
 	public static Component onCargarVentana(Component contenedor, String rutaForma, Map<String, Object> arg)
 			throws Exception {
@@ -26,5 +34,77 @@ public class Utilidades {
 		}
 		Gritter.notification().withTitle(titulo).withText(msg).withTime(5000).withImage(urlImage).show();
 
+	}
+
+	public static boolean validarFormulario(AbstractComponent idComponente) {
+		// -validamos el formulario
+		return validarCampos(idComponente, InputElement.class);
+	}
+
+	public static boolean validarCampos(AbstractComponent componentePadre, Class<InputElement> filtro) {
+		// --obtenemos los componentes correspondientes al filtro
+		List<Component> listaComponentes = getComponentes(componentePadre, filtro);
+
+		for (Iterator<Component> iteradorComponentes = listaComponentes.iterator(); iteradorComponentes.hasNext();) {
+			Component componente = iteradorComponentes.next();
+			/*
+			 * si es un componente de tipo entrada de datos entonces se valida
+			 * para otra clase de componentes es necesario imlplementar sus
+			 * respectivas validaociones
+			 */
+			if (componente instanceof InputElement) {
+				InputElement componenteValidar = (InputElement) componente;
+
+				// se verifica su validez...
+				if (!componenteValidar.isValid()) {
+					log.trace("Componente invalido -- " + componenteValidar.getId());
+					componenteValidar.setFocus(true);
+					return false; // --> hubo un error en el formulario
+				}
+			}
+		} // fin for
+		return true;
+	}
+
+	public static List<Component> getComponentes(AbstractComponent componentePadre, Class<?> filtro) {
+		// --obtenemos los componentes correspondientes al filtro
+		return getComponentes(new ArrayList<Component>(), componentePadre, filtro);
+	}
+
+	private static List<Component> getComponentes(List<Component> listaComponentesFiltrada,
+			AbstractComponent componentePadre, Class<?> filtro) {
+
+		List<Component> listaComponentesHijos = componentePadre.getChildren();
+		AbstractComponent componenteHijo = null;
+
+		// -- validamos que la lista no esta vacia
+		if (listaComponentesFiltrada == null)
+			listaComponentesFiltrada = new ArrayList<Component>();
+
+		for (int i = 0; i < listaComponentesHijos.size(); i++) {
+			componenteHijo = (AbstractComponent) listaComponentesHijos.get(i);
+
+			// --si es un componente del tipo del filtro...
+			if (filtro != null && filtro.isInstance(componenteHijo)) {
+				// log.info("hijo " + i + " -> " + componenteHijo.getId() +
+				// " clase: " + componenteHijo.getClass());
+				listaComponentesFiltrada.add(componenteHijo);
+			} else if (filtro == null) // si no hay filtros entonces le mandamos
+			// todos...
+			{
+				// log.info("hijo " + i + " -> " + componenteHijo.getId() +
+				// " clase: " + componenteHijo.getClass());
+				listaComponentesFiltrada.add(componenteHijo);
+			}
+
+			// --si el componente es un contenedor de m�s objetos entonces..
+			// los
+			// invocamos tambien a ellos
+			if (componenteHijo.getChildren().size() != 0) {
+				// CUIDADO!!! recursividad a la vista..
+				getComponentes(listaComponentesFiltrada, componenteHijo, filtro);
+			}
+		} // fin for
+		return listaComponentesFiltrada;
 	}
 }

@@ -18,6 +18,7 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
 
 import com.siis.configuracion.Conexion;
@@ -38,6 +39,8 @@ public class FormularioCarteraDetalleViewModel {
 
 	@Wire
 	public Borderlayout idWINFORMDETCARTERAZPrincipal;
+	@Wire
+	public Grid idWINFORMCARTERAZGRidFormulario;
 
 	@SuppressWarnings("unchecked")
 	@AfterCompose
@@ -68,48 +71,39 @@ public class FormularioCarteraDetalleViewModel {
 			log.info("accion=>> " + accion);
 
 			detalleCarteraSeleccionada.setCartera(cartera);
-			if (esFormularioValido(detalleCarteraSeleccionada)) {
-
-				if (accion.equals("I")) {
-					detalleCarteraSeleccionada.setSecuencia(10);
-					Conexion.getConexion().guardar("guardarDetalleCartera", detalleCarteraSeleccionada);
-					log.info("Carteraguardada");
-					Utilidades.mostrarNotificacion(idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
-							idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_MENSAJE_GUARDAR").toString(), "INFO");
-
-				} else if (accion.equals("U")) {
-
-					Conexion.getConexion().actualizar("actualizarDetalleCartera", detalleCarteraSeleccionada);
-					log.info("CarteraActualizada");
-					Utilidades.mostrarNotificacion(idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
-							idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
-				}
-
-				listarDetalleCartera();
-				setDesactivarBtnNuevo(false);
-				setDesactivarBtnEditar(false);
-				setDesactivarBtnGuardar(true);
-				setDesactivarBtnEliminar(false);
-			} else {
-
+			if (!Utilidades.validarFormulario(idWINFORMCARTERAZGRidFormulario)) {
 				Utilidades.mostrarNotificacion(idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
 						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
-
+				return;
 			}
+
+			if (accion.equals("I")) {
+				detalleCarteraSeleccionada.setSecuencia(10);
+				Conexion.getConexion().guardar("guardarDetalleCartera", detalleCarteraSeleccionada);
+				log.info("Carteraguardada");
+				Utilidades.mostrarNotificacion(idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
+						idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_MENSAJE_GUARDAR").toString(), "INFO");
+
+			} else if (accion.equals("U")) {
+
+				Conexion.getConexion().actualizar("actualizarDetalleCartera", detalleCarteraSeleccionada);
+				log.info("CarteraActualizada");
+				Utilidades.mostrarNotificacion(idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
+						idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
+			}
+
+			listarDetalleCartera();
+			setDesactivarBtnNuevo(false);
+			setDesactivarBtnEditar(false);
+			setDesactivarBtnGuardar(true);
+			setDesactivarBtnEliminar(false);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private boolean esFormularioValido(DetalleCartera detalleCarteraSeleccionada2) {
-		if (detalleCarteraSeleccionada2.getNroFactura() != null && detalleCarteraSeleccionada2.getReferencia() != null
-				&& detalleCarteraSeleccionada2.getValor1() != null && detalleCarteraSeleccionada2.getValor2() != null
-				&& detalleCarteraSeleccionada2.getValor3() != null && detalleCarteraSeleccionada2.getValor4() != null
-				&& detalleCarteraSeleccionada2.getVencimiento() != null)
-			return true;
-
-		return false;
-	}
+	 
 
 	@NotifyChange("*")
 	@Command
