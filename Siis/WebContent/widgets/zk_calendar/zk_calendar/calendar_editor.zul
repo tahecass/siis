@@ -17,7 +17,7 @@
 				</columns>
 				<rows>
 					<row>
-						BeginDate:
+						Fecha inicio:
 						<div>
 							<datebox hflex="true" locale="en" timeZone="GMT+0"
 								format="@load(allDay ? 'long' : 'long+medium')" 
@@ -25,7 +25,7 @@
 						</div>
 					</row>
 					<row>
-						EndDate:
+						Fecha fin:
 						<div>
 							<datebox hflex="true" locale="en" timeZone="GMT+0"
 								format="@load(allDay ? 'long' : 'long+medium')"
@@ -35,15 +35,15 @@
 					<row>
 						Color:
 						<hlayout sclass="z-valign-middle">
-							Border -
+							Borde -
 							<colorbox value="@bind(fx.headerColor)" height="20px" />
-							Content -
+							Texto -
 							<colorbox value="@bind(fx.contentColor)" height="20px" />
 						</hlayout>
 		
 					</row>
 					<row>
-						Title:
+						Titulo:
 						<textbox multiline="true" rows="3" width="97%"
 							value="@bind(fx.content)" />
 					</row>
