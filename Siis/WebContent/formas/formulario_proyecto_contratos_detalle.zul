@@ -10,7 +10,7 @@
 	<borderlayout apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') 
 		@init('com.siis.viewModel.FormularioProyectoContratosDetalleViewModel')"
-		id="idWINFORMPROVALORZPrincipal">
+		id="idWINFORMPROCONTZPrincipal">
 		<center>
 			<vlayout height="100%">
 				<groupbox mold="3d" hflex="true" vflex="true"
@@ -22,23 +22,33 @@
 						</columns>
 						<rows>
 							<row>
-								<label value="Factura" />
 								<hlayout>
-									<doublebox
+									<label value="*" style="color:red" />
+									<label value="Factura" />
+								</hlayout>
+								<hlayout>
+									<doublebox constraint="no empty"
 										value="@bind(vm.detalleProyContSeleccionada.factura)"
 										disabled="@load(vm.desactivarformulario)" />
 
 								</hlayout>
 							</row>
 							<row>
-								<label value="Valor" />
-								<doublebox
+								<hlayout>
+									<label value="*" style="color:red" />
+									<label value="Valor" />
+								</hlayout>
+								<doublebox constraint="no empty"
 									value="@bind(vm.detalleProyContSeleccionada.valor)"
 									disabled="@load(vm.desactivarformulario)" />
 							</row>
 
 							<row>
-								<label value="Retegarantía" />
+								<hlayout>
+									<label value="*"
+										style="color:transparent" />
+									<label value="Retegarantía" />
+								</hlayout>
 								<hlayout>
 									<doublebox
 										value="@bind(vm.detalleProyContSeleccionada.retegarantia)"
@@ -47,19 +57,32 @@
 								</hlayout>
 							</row>
 							<row>
-								<label value="Fecha" />
-								<datebox
+								<hlayout>
+									<label value="*"
+										style="color:transparent" />
+									<label value="Fecha" />
+								</hlayout>
+								<datebox constraint="no empty"
 									value="@bind(vm.detalleProyContSeleccionada.fecha)"
 									disabled="@load(vm.desactivarformulario)" />
 							</row>
 							<row>
-								<label value="Fecha Creación" />
+								<hlayout>
+									<label value="*"
+										style="color:transparent" />
+									<label value="Fecha Creación" />
+								</hlayout>
 								<datebox
 									value="@bind(vm.detalleProyContSeleccionada.fechaCreacion)"
 									disabled="true" />
 							</row>
 							<row>
-								<label value="Fecha de Actualización" />
+								<hlayout>
+									<label value="*"
+										style="color:transparent" />
+									<label
+										value="Fecha de Actualización" />
+								</hlayout>
 								<datebox
 									value="@bind(vm.detalleProyContSeleccionada.fechaHoraActualizacion)"
 									disabled="true" />
@@ -100,14 +123,15 @@
 						</listhead>
 						<template name="model">
 							<listitem>
-							<listcell>
+								<listcell>
 									<label value="@bind(each.factura)" />
 								</listcell>
 								<listcell>
 									<label value="@bind(each.valor)" />
 								</listcell>
 								<listcell>
-									<label value="@bind(each.retegarantia)" />
+									<label
+										value="@bind(each.retegarantia)" />
 								</listcell>
 							</listitem>
 						</template>

@@ -24,26 +24,39 @@
 						</columns>
 						<rows>
 							<row>
-								<label value="Concepto" />
-								<textbox
+								<hlayout>
+									<label value="*" style="color:red" />
+									<label value="Concepto" />
+								</hlayout>
+								<textbox constraint="no empty"
 									value="@bind(vm.disponibleConceptoSeleccionado.concepto)"
 									disabled="@load(vm.desactivarformulario)" width="400px" />
 							</row>
 							<row>
-								<label value="Fecha" />
-								<datebox
+								<hlayout>
+									<label value="*" style="color:red" />
+									<label value="Fecha" />
+								</hlayout>
+								<datebox constraint="no empty"
 									value="@bind(vm.disponibleConceptoSeleccionado.fecha)"
 									disabled="@load(vm.desactivarformulario)" />
 							</row>
 							<row>
-								<label value="Valor" />
-								<doublebox
+								<hlayout>
+									<label value="*" style="color:red" />
+									<label value="Valor" />
+								</hlayout>
+								<doublebox constraint="no empty"
 									value="@bind(vm.disponibleConceptoSeleccionado.valor)"
 									disabled="@load(vm.desactivarformulario)" />
 							</row>
 							<row>
-								<label value="Tipo de Nota" />
-								<listbox mold="select" 	disabled="@load(vm.desactivarformulario)"
+								<hlayout>
+									<label value="*" style="color:red" />
+									<label value="Tipo de Nota" />
+								</hlayout>
+								<listbox mold="select"
+									disabled="@load(vm.desactivarformulario)"
 									selectedItem="@bind(vm.disponibleConceptoSeleccionado.tipoNota)">
 									<listitem label="Crédito" value="C"
 										checkable="true" />
@@ -82,7 +95,7 @@
 							<listheader label="Concepto" sort="auto" />
 							<listheader label="Fecha" sort="auto" />
 							<listheader label="Valor" sort="auto" />
-									<listheader label="Tipo" sort="auto" />
+							<listheader label="Tipo" sort="auto" />
 						</listhead>
 						<template name="model">
 							<listitem>

@@ -22,37 +22,55 @@
 						</columns>
 						<rows>
 							<row>
-								<label value="Valor del Anticipo" />
-								<doublebox
+								<hlayout>
+									<label value="*" style="color:red" />
+									<label value="Valor del Anticipo" />
+								</hlayout>
+								<doublebox constraint="no empty"
 									value="@bind(vm.proyectoValorSeleccionada.valor)"
 									disabled="@load(vm.desactivarformulario)" />
 							</row>
 							<row>
-								<label value="Porcentaje del Anticipo" />
 								<hlayout>
-									<doublebox
+									<label value="*" style="color:red" />
+									<label
+										value="Porcentaje del Anticipo" />
+								</hlayout>
+								<hlayout>
+									<doublebox constraint="no empty"
 										value="@bind(vm.proyectoValorSeleccionada.porcentaje)"
 										disabled="@load(vm.desactivarformulario)" />
-									
+
 								</hlayout>
 							</row>
 							<row>
-								<label value="Plazo" />
 								<hlayout>
-									<doublebox
+									<label value="*" style="color:red" />
+									<label value="Plazo" />
+								</hlayout>
+								<hlayout>
+									<doublebox constraint="no empty"
 										value="@bind(vm.proyectoValorSeleccionada.plazo)"
 										disabled="@load(vm.desactivarformulario)" />
 									<label value="(Meses)" />
 								</hlayout>
 							</row>
 							<row>
-								<label value="Fecha del Anticipo" />
-								<datebox
+								<hlayout>
+									<label value="*" style="color:red" />
+									<label value="Fecha del Anticipo" />
+								</hlayout>
+								<datebox constraint="no empty"
 									value="@bind(vm.proyectoValorSeleccionada.fechaCreacion)"
 									disabled="true" />
 							</row>
 							<row>
-								<label value="Fecha de Actualización" />
+								<hlayout>
+									<label value="*"
+										style="color:transparent" />
+									<label
+										value="Fecha de Actualización" />
+								</hlayout>
 								<datebox
 									value="@bind(vm.proyectoValorSeleccionada.fechaHoraActualizacion)"
 									disabled="true" />
@@ -80,15 +98,15 @@
 						<toolbarbutton label="Consultar"
 							sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
 					</toolbar>
-					<listbox
-						id="idCARTERAZLbxDetalleProyectoValor" span="true"
-						vflex="true" model="@bind(vm.listaProyectoValor)"
+					<listbox id="idCARTERAZLbxDetalleProyectoValor"
+						span="true" vflex="true" model="@bind(vm.listaProyectoValor)"
 						selectedItem="@bind(vm.proyectoValorSeleccionada)"
 						onSelect="@command('onSeleccionar',seleccionado=vm.proyectoValorSeleccionada)">
 
 						<listhead sizable="true">
 							<listheader label="Valor" sort="auto" />
-							<listheader label="Plazo (Meses)" sort="auto" />
+							<listheader label="Plazo (Meses)"
+								sort="auto" />
 
 						</listhead>
 						<template name="model">

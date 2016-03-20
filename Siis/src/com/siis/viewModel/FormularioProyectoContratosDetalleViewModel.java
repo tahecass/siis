@@ -39,7 +39,7 @@ public class FormularioProyectoContratosDetalleViewModel {
 	public Proyecto proyecto;
 
 	@Wire
-	public Borderlayout idWINFORMPROVALORZPrincipal;
+	public Borderlayout idWINFORMPROCONTZPrincipal;
 	@Wire
 	private Grid idWINFORMPROVALORZGridFormulario;
 
@@ -72,7 +72,7 @@ public class FormularioProyectoContratosDetalleViewModel {
 			log.info("accion=>> " + accion);
 
 			if (!Utilidades.validarFormulario(idWINFORMPROVALORZGridFormulario)) {
-				Utilidades.mostrarNotificacion(idWINFORMPROVALORZPrincipal.getAttribute("MSG_TITULO").toString(),
+				Utilidades.mostrarNotificacion(idWINFORMPROCONTZPrincipal.getAttribute("MSG_TITULO").toString(),
 						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
 				return;
 			}
@@ -82,15 +82,15 @@ public class FormularioProyectoContratosDetalleViewModel {
 				detalleProyContSeleccionada.setSecuencia(10);
 				Conexion.getConexion().guardar("guardarProyectoContrato", detalleProyContSeleccionada);
 				log.info("Carteraguardada");
-				Utilidades.mostrarNotificacion(idWINFORMPROVALORZPrincipal.getAttribute("MSG_TITULO").toString(),
-						idWINFORMPROVALORZPrincipal.getAttribute("MSG_MENSAJE_GUARDAR").toString(), "INFO");
+				Utilidades.mostrarNotificacion(idWINFORMPROCONTZPrincipal.getAttribute("MSG_TITULO").toString(),
+						idWINFORMPROCONTZPrincipal.getAttribute("MSG_MENSAJE_GUARDAR").toString(), "INFO");
 
 			} else if (accion.equals("U")) {
 
 				Conexion.getConexion().actualizar("actualizarProyectoContrato", detalleProyContSeleccionada);
 				log.info("CarteraActualizada");
-				Utilidades.mostrarNotificacion(idWINFORMPROVALORZPrincipal.getAttribute("MSG_TITULO").toString(),
-						idWINFORMPROVALORZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
+				Utilidades.mostrarNotificacion(idWINFORMPROCONTZPrincipal.getAttribute("MSG_TITULO").toString(),
+						idWINFORMPROCONTZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
 			}
 
 			listarProyectoContrato();
@@ -108,8 +108,8 @@ public class FormularioProyectoContratosDetalleViewModel {
 	public void onEliminar(@BindingParam("seleccionado") final ProyectoContrato detalleCartera) {
 		log.info("onEliminar => " + detalleCartera.getSecuencia());
 
-		Messagebox.show(idWINFORMPROVALORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
-				idWINFORMPROVALORZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+		Messagebox.show(idWINFORMPROCONTZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+				idWINFORMPROCONTZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
 				Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
 				new org.zkoss.zk.ui.event.EventListener<Event>() {
 
@@ -120,8 +120,8 @@ public class FormularioProyectoContratosDetalleViewModel {
 							log.info("Messagebox.YES => " + detalleCartera.getSecuencia());
 							Conexion.getConexion().eliminar("eliminarProyectoContrato", detalleCartera);
 							Utilidades.mostrarNotificacion(
-									idWINFORMPROVALORZPrincipal.getAttribute("MSG_TITULO").toString(),
-									idWINFORMPROVALORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
+									idWINFORMPROCONTZPrincipal.getAttribute("MSG_TITULO").toString(),
+									idWINFORMPROCONTZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
 									"INFO");
 							listarProyectoContrato();
 							setDesactivarBtnNuevo(false);

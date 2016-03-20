@@ -27,26 +27,38 @@
 						<tabpanels style="overflow:auto" vflex="true">
 							<tabpanel style="overflow:auto"
 								vflex="true">
-								<grid id="idWINFORMEFSZGridFormulario">
+								<grid
+									id="idWINFORMEFSZGridFormulario">
 									<columns>
 										<column hflex="min" />
 										<column />
 									</columns>
 									<rows>
 										<row>
-											<label value="Contrato" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label value="Contrato" />
+											</hlayout>
 											<intbox
+												constraint="no empty"
 												disabled="@load(vm.desactivarformulario)"
 												value="@bind(vm.efSeleccionado.contrato)" />
 										</row>
 										<row>
-											<label value="Archivo" />
 											<hlayout>
-	 
-												<button label="Upload" 
-													upload="true" onUpload="@command('subirArchivo',media =event.media)" />
+												<label value="*"
+													style="color:red" />
+												<label value="Archivo" />
+											</hlayout>
+											<hlayout>
+
+												<button label="Upload"
+													upload="true"
+													onUpload="@command('subirArchivo',media =event.media)" />
 												<label
-													id="labelNombreArchivo"  value="@bind(vm.efSeleccionado.nombreArchivo)"/>
+													id="labelNombreArchivo"
+													value="@bind(vm.efSeleccionado.nombreArchivo)" />
 											</hlayout>
 										</row>
 

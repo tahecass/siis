@@ -3,7 +3,7 @@
 <?link rel="stylesheet" href="bootstrap/css/bootstrap.css" ?>
 <?link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css" ?>
 <?link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css" ?>
- 
+
 <zk xmlns="http://www.zkoss.org/2005/zul"
 	xmlns:h="http://www.w3.org/1999/xhtml"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -21,76 +21,111 @@
 					<tabbox hflex="true" vflex="true">
 						<tabs>
 							<tab label="Generalidades" />
-							<tab label="Formulación"  
-								onClick="@command('onMostrarVentanaDetalle')"  disabled="@load(vm.desactivarTabDetalle)" />
+							<tab label="Formulación"
+								onClick="@command('onMostrarVentanaDetalle')"
+								disabled="@load(vm.desactivarTabDetalle)" />
 							<tab label="Consulta"
 								onClick="@command('onMostrarVentanaConsulta')" />
 						</tabs>
 						<tabpanels style="overflow:auto" vflex="true">
-							<tabpanel style="overflow:auto" vflex="true">
-								<grid id="idWINFORMINDICADORZGridFormulario">
+							<tabpanel style="overflow:auto"
+								vflex="true">
+								<grid
+									id="idWINFORMINDICADORZGridFormulario">
 									<columns>
 										<column hflex="min" />
 										<column />
 									</columns>
 									<rows>
 										<row>
-											<label value="Número" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label value="Número" />
+											</hlayout>
 											<intbox
+												constraint="no empty"
 												disabled="@load(vm.desactivarformulario)"
-												value="@bind(vm.indicadorSeleccionado.numero)"
-												  />
+												value="@bind(vm.indicadorSeleccionado.numero)" />
 										</row>
 										<row>
-											<label value="Nombre" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label value="Nombre" />
+											</hlayout>
 											<textbox
+												constraint="no empty"
 												disabled="@load(vm.desactivarformulario)"
-												value="@bind(vm.indicadorSeleccionado.nombre)"
-												  />
+												value="@bind(vm.indicadorSeleccionado.nombre)" />
 										</row>
 										<row>
-											<label value="Objetivo Esperado" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label
+													value="Objetivo Esperado" />
+											</hlayout>
 											<longbox
+												constraint="no empty"
 												disabled="@load(vm.desactivarformulario)"
-												value="@bind(vm.indicadorSeleccionado.objetivoEsperado)"
-												  />
+												value="@bind(vm.indicadorSeleccionado.objetivoEsperado)" />
 										</row>
 										<row>
-											<label value="Objetivo Alcanzado" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label
+													value="Objetivo Alcanzado" />
+											</hlayout>
 											<longbox
+												constraint="no empty"
 												disabled="@load(vm.desactivarformulario)"
-												value="@bind(vm.indicadorSeleccionado.objetivoReal)"
-												  />
+												value="@bind(vm.indicadorSeleccionado.objetivoReal)" />
 										</row>
 										<row>
-											<label value="Año/mes (AAAAMM)" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label
+													value="Año/mes (AAAAMM)" />
+											</hlayout>
+											<textbox
+												constraint="no empty"
+												disabled="@load(vm.desactivarformulario)"
+												value="@bind(vm.indicadorSeleccionado.anoMes)" />
+										</row>
+										<row>
+											<hlayout>
+												<label value="*"
+													style="color:transparent" />
+												<label value="Fórmula" />
+											</hlayout>
 											<textbox
 												disabled="@load(vm.desactivarformulario)"
-												value="@bind(vm.indicadorSeleccionado.anoMes)"
-												  />
+												value="@bind(vm.indicadorSeleccionado.anoMes)" />
 										</row>
 										<row>
-											<label value="Fórmula" />
-											<textbox
-												disabled="@load(vm.desactivarformulario)"
-												value="@bind(vm.indicadorSeleccionado.anoMes)"
-												  />
-										</row>
-										<row>
-											<label
-												value="Fecha de Creación" />
+											<hlayout>
+												<label value="*"
+													style="color:transparent" />
+												<label
+													value="Fecha de Creación" />
+											</hlayout>
 											<datebox disabled="true"
-												value="@bind(vm.indicadorSeleccionado.fechaCreacion)"
-											 />
+												value="@bind(vm.indicadorSeleccionado.fechaCreacion)" />
 										</row>
 										<row>
-											<label
-												value="Fecha y Hora de Actualizacion:" />
+											<hlayout>
+												<label value="*"
+													style="color:transparent" />
+												<label
+													value="Fecha y Hora de Actualizacion:" />
+											</hlayout>
 											<datebox disabled="true"
-												value="@bind(vm.indicadorSeleccionado.fechaHoraActualizacion)"
-											 />
+												value="@bind(vm.indicadorSeleccionado.fechaHoraActualizacion)" />
 										</row>
-									
+
 									</rows>
 								</grid>
 								<separator />
@@ -121,10 +156,10 @@
 									<listhead sizable="true">
 										<listheader label="Número"
 											sort="auto" />
-										<listheader
-											label="Nombre" sort="auto" />
-										<listheader
-											label="Año/mes" sort="auto" />
+										<listheader label="Nombre"
+											sort="auto" />
+										<listheader label="Año/mes"
+											sort="auto" />
 									</listhead>
 									<template name="model">
 
@@ -146,8 +181,10 @@
 									</template>
 								</listbox>
 							</tabpanel>
-							<tabpanel id="idCARTERAZTpnDetalleIndicador" hflex="true"/>
-							<tabpanel id="idCARTERAZTpnConsultaIndicador" hflex="true" />
+							<tabpanel id="idCARTERAZTpnDetalleIndicador"
+								hflex="true" />
+							<tabpanel
+								id="idCARTERAZTpnConsultaIndicador" hflex="true" />
 						</tabpanels>
 
 					</tabbox>

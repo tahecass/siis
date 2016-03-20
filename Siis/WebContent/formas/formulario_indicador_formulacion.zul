@@ -24,8 +24,10 @@
 						<rows>
 
 							<row>
-								<label value="Formulacion" />
-
+								<hlayout>
+									<label value="*" style="color:red" />
+									<label value="Formulacion" />
+								</hlayout>
 								<combobox
 									selectedItem="@bind(vm.formulacionSeleccionado.formulacion)"
 									disabled="@load(vm.desactivarformulario)">
@@ -46,13 +48,22 @@
 								</combobox>
 							</row>
 							<row>
-								<label value="Fecha de Creación" />
+								<hlayout>
+									<label value="*"
+										style="color:transparent" />
+									<label value="Fecha de Creación" />
+								</hlayout>
 								<datebox
 									value="@bind(vm.formulacionSeleccionado.fechaCreacion)"
 									disabled="true" />
 							</row>
 							<row>
-								<label value="Fecha de Actualización" />
+								<hlayout>
+									<label value="*"
+										style="color:transparent" />
+									<label
+										value="Fecha de Actualización" />
+								</hlayout>
 								<datebox
 									value="@bind(vm.formulacionSeleccionado.fechaHoraActualizacion)"
 									disabled="true" />

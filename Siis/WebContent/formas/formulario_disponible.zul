@@ -34,43 +34,66 @@
 						<tabpanels style="overflow:auto" vflex="true">
 							<tabpanel style="overflow:auto"
 								vflex="true">
-								<grid id="idWINFORMDISPONIBLEZFormularioPrincipal">
+								<grid
+									id="idWINFORMDISPONIBLEZFormularioPrincipal">
 									<columns>
 										<column hflex="min" />
 										<column />
 									</columns>
 									<rows>
 										<row>
-											<label value="Banco:" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label value="Banco:" />
+											</hlayout>
 											<bandboxBancos
+												constraint="no empty"
 												disabled="@load(vm.desactivarformulario)"
 												value="@bind(vm.disponibleSeleccionada.banco)"
 												id="idFORMDISPONIBLEZBbxBanco" />
 										</row>
 										<row>
-											<label value="Cuenta:" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label value="Cuenta:" />
+											</hlayout>
 											<bandboxCuentas
+												constraint="no empty"
 												disabled="@load(vm.desactivarformulario)"
 												value="@bind(vm.disponibleSeleccionada.cuenta)"
 												id="idFORMDISPONIBLEZBbxCuenta" />
 										</row>
 										<row>
-											<label
-												value="Tipo de Cuenta:" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label
+													value="Tipo de Cuenta:" />
+											</hlayout>
 											<textbox
+												constraint="no empty"
 												value="@bind(vm.disponibleSeleccionada.cuenta.tipo)"
 												disabled="true" />
 										</row>
 										<row>
-											<label
-												value="Fecha de Creación:" />
-											<datebox
-												disabled="true"
+											<hlayout>
+												<label value="*"
+													style="color:transparent" />
+												<label
+													value="Fecha de Creación:" />
+											</hlayout>
+											<datebox disabled="true"
 												value="@bind(vm.disponibleSeleccionada.fechaCreacion)" />
 										</row>
 										<row>
-											<label
-												value="Fecha y Hora de Actualizacion:" />
+											<hlayout>
+												<label value="*"
+													style="color:transparent" />
+												<label
+													value="Fecha y Hora de Actualizacion:" />
+											</hlayout>
 											<datebox disabled="true"
 												value="@bind(vm.disponibleSeleccionada.fechaHoraActualizacion)" />
 										</row>
@@ -97,7 +120,7 @@
 									<toolbarbutton label="Consultar"
 										sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
 								</toolbar>
-								<listbox id="idDISPONIBLEZLbxDisponible" 
+								<listbox id="idDISPONIBLEZLbxDisponible"
 									model="@bind(vm.listaDisponible)"
 									selectedItem="@bind(vm.disponibleSeleccionada)"
 									onSelect="@command('onSeleccionar',seleccionado=vm.disponibleSeleccionada)">
