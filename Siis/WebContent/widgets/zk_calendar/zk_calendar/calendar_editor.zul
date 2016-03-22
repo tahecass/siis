@@ -19,7 +19,7 @@
 					<row>
 						Fecha inicio:
 						<div>
-							<datebox hflex="true" locale="en" timeZone="GMT+0"
+							<datebox hflex="true" locale="en" 
 								format="@load(allDay ? 'long' : 'long+medium')" 
 								value="@bind(fx.beginDate)" errorMessage="@load(vmsgs.beginDate)" />
 						</div>
@@ -27,7 +27,7 @@
 					<row>
 						Fecha fin:
 						<div>
-							<datebox hflex="true" locale="en" timeZone="GMT+0"
+							<datebox hflex="true" locale="en" 
 								format="@load(allDay ? 'long' : 'long+medium')"
 								value="@bind(fx.endDate)" errorMessage="@load(vmsgs.endDate)"/>
 						</div>
