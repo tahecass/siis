@@ -15,9 +15,7 @@
 	<select id="guardarCalendario" parameterType="CalendarioAlias" resultMap="resMapCalendario"
 		statementType="CALLABLE">
 		INSERT
-		INTO Calendario (SEC, FECHA_INICIO, FECHA_FIN, COLOR_BORDE, COLOR_CONTENT,
-		TITULO)
-		VALUES
+		INTO CALENDARIO VALUES
 		( #{sec,jdbcType=NUMERIC},
 		#{fecha_inicio,jdbcType=DATE},
 		#{fecha_fin,jdbcType=DATE},

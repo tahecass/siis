@@ -29,8 +29,8 @@ public class DemoCalendarData {
 		try {
 			List<Calendario> listCalendario = (List<Calendario>) Conexion
 					.getConexion().obtenerListado("listarCalendario", null);
-			for (Calendario calendario : listCalendario)
-				calendarEvents.add(new DemoCalendarEvent(calendario.getFecha_inicio(), calendario.getFecha_fin(), calendario.getColor_borde(), calendario.getColor_content(), calendario.getTitulo()));
+			for (Calendario calendario : listCalendario)			
+				calendarEvents.add(new DemoCalendarEvent(calendario.getSec(),calendario.getFecha_inicio(), calendario.getFecha_fin(), calendario.getColor_borde(), calendario.getColor_content(), calendario.getTitulo()));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
