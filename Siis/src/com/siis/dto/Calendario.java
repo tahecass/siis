@@ -10,6 +10,21 @@ public class Calendario {
 	private String color_content;
 	private String titulo;
 
+	public Calendario() {
+
+	}
+
+	public Calendario(Long sec, Date fecha_inicio, Date fecha_fin,
+			String color_borde, String color_content, String titulo) {
+		super();
+		this.sec = sec;
+		this.fecha_inicio = fecha_inicio;
+		this.fecha_fin = fecha_fin;
+		this.color_borde = color_borde;
+		this.color_content = color_content;
+		this.titulo = titulo;
+	}
+
 	public Long getSec() {
 		return sec;
 	}
