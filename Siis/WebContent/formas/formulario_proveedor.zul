@@ -46,7 +46,10 @@
 							onClick="@command('onAgregar')" />
 						<image src="/imagenes/botones/editar.png" />
 						<image src="/imagenes/botones/borrar.png" />
-						<image src="/imagenes/botones/buscar.png" />
+						<toolbarbutton label="Cancelar"
+							onClick="@command('onCancelar')"
+							disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
+							tooltiptext="" image="imagenes/cancelar.png" />
 					</hlayout>
 					<listbox id="idCONCPRODZLbxDetalleProveedor"
 						sizedByContent="true" span="true"

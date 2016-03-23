@@ -200,6 +200,29 @@ public class FormularioCarteraViewModel {
 
 	@NotifyChange("*")
 	@Command
+	public void onCancelar() {
+		log.info("onCancelar");
+		if (!accion.equals("I")) {
+			carteraSeleccionada = obtener(carteraSeleccionada);
+			onSeleccionar(carteraSeleccionada);
+		}
+
+	}
+
+	private Cartera obtener(Cartera cartera) {
+		log.info("Ejecutando el metodo []");
+		Cartera car = null;
+		try {
+			car = (Cartera) Conexion.getConexion().obtenerRegistro("obtenerCartera", cartera);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return car;
+	}
+
+	@NotifyChange("*")
+	@Command
 	public void onNuevo() {
 		log.info("onNuevo");
 		setDesactivarformulario(false);

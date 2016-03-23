@@ -107,8 +107,10 @@
 							sclass="btn-info" image="imagenes/delete.png"
 							disabled="@load(vm.desactivarBtnEliminar)"
 							onClick="@command('onEliminar',seleccionado=vm.detalleProyContSeleccionada)" />
-						<toolbarbutton label="Consultar"
-							sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
+						<toolbarbutton label="Cancelar"
+							onClick="@command('onCancelar')"
+							disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
+							tooltiptext="" image="imagenes/cancelar.png" />
 					</toolbar>
 					<listbox id="idCARTERAZLbxDetalleProyectoContrato"
 						span="true" vflex="true" model="@bind(vm.listaProyectoContrato)"

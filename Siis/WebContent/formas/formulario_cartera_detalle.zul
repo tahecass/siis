@@ -141,13 +141,16 @@
 						<toolbarbutton label="Eliminar"
 							sclass="btn-info" image="imagenes/delete.png"
 							disabled="@load(vm.desactivarBtnEliminar)"
-							onClick="@command('onEliminar',seleccionado=vm.carteraSeleccionada)" />
-						<toolbarbutton label="Consultar"
-							sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
+							onClick="@command('onEliminar',seleccionado=vm.detalleCarteraSeleccionada)" />
+						<toolbarbutton label="Cancelar"
+							onClick="@command('onCancelar')"
+							disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
+							tooltiptext="" image="imagenes/cancelar.png" />
 					</toolbar>
 					<listbox id="idCARTERAZLbxDetalleCartera"
 						sizedByContent="true" span="true" vflex="true"
 						model="@bind(vm.listaDetalleCartera)"
+						onSelect="@command('onSeleccionar',seleccionado=vm.detalleCarteraSeleccionada)"
 						selectedItem="@bind(vm.detalleCarteraSeleccionada)">
 
 						<listhead sizable="true">

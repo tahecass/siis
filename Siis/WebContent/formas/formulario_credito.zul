@@ -31,7 +31,8 @@
 						<tabpanels style="overflow:auto" vflex="true">
 							<tabpanel style="overflow:auto"
 								vflex="true">
-								<grid id="idWINFORMCREDITOZGridFormulario">
+								<grid
+									id="idWINFORMCREDITOZGridFormulario">
 									<columns>
 										<column hflex="min" />
 										<column />
@@ -164,8 +165,10 @@
 										sclass="btn-info" image="imagenes/delete.png"
 										disabled="@load(vm.desactivarBtnEliminar)"
 										onClick="@command('onEliminar',seleccionado=vm.creditoSeleccionada)" />
-									<toolbarbutton label="Consultar"
-										sclass="btn-info" tooltiptext="" image="imagenes/search.png" />
+									<toolbarbutton label="Cancelar"
+										onClick="@command('onCancelar')"
+										disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
+										tooltiptext="" image="imagenes/cancelar.png" />
 								</toolbar>
 								<listbox id="idDISPONIBLEZLbxCredito"
 									span="true" model="@bind(vm.listaCredito)"

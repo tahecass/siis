@@ -139,6 +139,29 @@ public class FormularioCarteraDetalleViewModel {
 
 	@NotifyChange("*")
 	@Command
+	public void onCancelar() {
+		log.info("onCancelar");
+		if (!accion.equals("I")) {
+			detalleCarteraSeleccionada = obtener(detalleCarteraSeleccionada);
+			onSeleccionar(detalleCarteraSeleccionada);
+		}
+
+	}
+	
+	private DetalleCartera obtener(DetalleCartera cartera) {
+		log.info("Ejecutando el metodo []");
+		DetalleCartera car = null;
+		try {
+			car = (DetalleCartera) Conexion.getConexion().obtenerRegistro("obtenerDetalleCarteras", cartera);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return car;
+	}
+	
+	@NotifyChange("*")
+	@Command
 	public void onEditar() {
 		log.info("onEditar");
 		setDesactivarformulario(false);
