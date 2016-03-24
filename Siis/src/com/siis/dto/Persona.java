@@ -6,6 +6,7 @@ public class Persona {
 
 	private Integer sec;
 	private TipoIdentificacion tipoIdentificacion;
+	
 	private String identificacion;
 	private String nombres;
 	private String apellidos;
