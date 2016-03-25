@@ -46,6 +46,11 @@ public class PersonaViewModel {
 		log.info("Ejecutando metodo.... afterCompose");
 		Selectors.wireComponents(view, this, false);
 		System.out.println(" afterCompose 1");
+	init();
+		seleccionarTab = 1;
+	}
+	
+	public void init(){
 		persona = new Persona();
 		TipoIdentificacion tpId = new TipoIdentificacion(null, "Seleccione....");
 		persona.setTipoIdentificacion(tpId);
@@ -57,7 +62,6 @@ public class PersonaViewModel {
 		listaTipoId.add(new TipoIdentificacion(1, "C.C."));
 		listaTipoId.add(new TipoIdentificacion(2, "T.I."));
 		listaTipoId.add(new TipoIdentificacion(3, "OTRO"));
-		seleccionarTab = 1;
 	}
 
 	public List getListaTipoId() {
@@ -114,7 +118,7 @@ public class PersonaViewModel {
 			Utilidades.mostrarNotificacion("Persona",
 					"Se actualizó correctamente la información", "INFO");
 		}
-		persona = new Persona();
+		init();
 		onBuscar();
 
 	}
