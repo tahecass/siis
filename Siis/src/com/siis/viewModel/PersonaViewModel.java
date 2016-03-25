@@ -6,15 +6,19 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.log4j.Logger;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Messagebox.ClickEvent;
 import org.zkoss.zul.Tab;
 
 import com.siis.configuracion.Conexion;
@@ -30,7 +34,8 @@ public class PersonaViewModel {
 	private boolean habilitarCampo;
 	private int seleccionarTab;
 	private String valorBusqueda = "";
-
+	@Wire
+	private Grid idFormPersona;
 	@Wire
 	private Tab idClieDatosgenerales;
 	protected static Logger log = Logger.getLogger(PersonaViewModel.class);
@@ -95,6 +100,11 @@ public class PersonaViewModel {
 	@NotifyChange("*")
 	@Command
 	public void onAgregar() {
+		if (!Utilidades.validarFormulario(idFormPersona)) {
+			Utilidades.mostrarNotificacion("Persona",
+					"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
+			return;
+		}
 		if (persona.getSec() == null) {
 			Conexion.getConexion().guardar("guardarPersonas", persona);
 			Utilidades.mostrarNotificacion("Persona",
@@ -109,21 +119,43 @@ public class PersonaViewModel {
 
 	}
 
-	@NotifyChange("*")
+
 	@Command
 	public void onEliminar() {
-		if ((Messagebox.show("¿Desea eliminar eliminar la fila seleccionada?",
-				"Se eliminó correctamente la información", Messagebox.NO | Messagebox.YES,
-				Messagebox.QUESTION)) == Messagebox.YES) {
-			persona = personaSeleccionada;
-			if (persona.getSec() != null) {
-				Conexion.getConexion().guardar("eliminarPersonas", persona);
-				Utilidades.mostrarNotificacion("Persona",
-						"Se elimino correctamente la información", "INFO");
-				persona = new Persona();
-				onBuscar();
-			}
-		}
+		  Messagebox.show("Question is pressed. Are you sure?", 
+				    "Question", Messagebox.OK | Messagebox.CANCEL,
+				    Messagebox.QUESTION,
+				        new org.zkoss.zk.ui.event.EventListener(){
+				            public void onEvent(Event e){
+				                if("onOK".equals(e.getName())){
+				                	persona = personaSeleccionada;
+				            		if (persona.getSec() != null) {
+				            			Conexion.getConexion().guardar("eliminarPersonas", persona);
+				            			Utilidades.mostrarNotificacion("Persona",
+				            					"Se elimino correctamente la información", "INFO");
+				            			persona = new Persona();
+				            			onBuscar();
+				            			BindUtils.postNotifyChange(null, null, PersonaViewModel.this, "*");
+				            			
+				            		}
+				                }else if("onCancel".equals(e.getName())){
+				                	Messagebox.show("nO");
+				                }
+				                 
+				                /* Event Name Mapping list
+				                Messagebox.YES = "onYes";
+				                Messagebox.NO  = "onNo";
+				                Messagebox.RETRY = "onRetry";
+				                Messagebox.ABORT = "onAbort";
+				                Messagebox.IGNORE = "onIgnore";
+				                Messagebox.CANCEL = "onCancel";
+				                Messagebox.OK = "onOK";
+				                */
+				            }
+				            
+				        }
+				    );
+		  
 	}
 
 	@NotifyChange(".")
