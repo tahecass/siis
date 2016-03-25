@@ -127,9 +127,25 @@
 												<label
 													value="Estado Civil" />
 											</hlayout>
-											<textbox
-												value="@bind(vm.persona.estadoCivil)"
-												disabled="@load(vm.habilitarCampo)" />
+												<combobox
+												selectedItem="@bind(vm.persona.estadoCivil)"
+												disabled="@load(vm.habilitarCampo)">
+												<comboitem
+													label="Seleccione" value="S">
+												</comboitem>
+												<comboitem
+													label="Soltero" value="Soltero">
+												</comboitem>
+												<comboitem
+													label="Casado" value="Casado">
+												</comboitem>
+												<comboitem
+													label="Uniòn libre" value="Union libre">
+												</comboitem>
+												<comboitem label="Otro"
+													value="otro">
+												</comboitem>
+											</combobox>
 										</row>
 										<row>
 											<label value="Email" />
