@@ -20,21 +20,26 @@
 				<groupbox mold="3d" vflex="true"
 					contentStyle="padding:0px" open="true" closable="false">
 					<tabbox>
-						<tabs >
-							<tab label="Datos Generales" id="idClieDatosgenerales" />
+						<tabs>
+							<tab label="Datos Generales"
+								id="idClieDatosgenerales" />
 							<tab label="Listar" />
 						</tabs>
 						<tabpanels>
 							<tabpanel>
-								<grid vflex="true">
+								<grid vflex="true" id="idFormPersona">
 									<columns>
 										<column hflex="min" />
 										<column />
 									</columns>
 									<rows>
 										<row>
-											<label
-												value="Tipo de Identificacion:" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label
+													value="Tipo de Identificacion:" />
+											</hlayout>
 											<combobox
 												selectedItem="@bind(vm.persona.tipoIdentificacion)"
 												model="@load(vm.listaTipoId)"
@@ -48,38 +53,56 @@
 											</combobox>
 										</row>
 										<row>
-											<label
-												value="Identificacion:" />
-
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label
+													value="Identificacion:" />
+											</hlayout>
 											<textbox
 												constraint="no empty"
 												value="@bind(vm.persona.identificacion)"
 												disabled="@load(vm.habilitarCampo)" />
 										</row>
 										<row>
-											<label value="Nombre:" />
-
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label value="Nombre:" />
+											</hlayout>
 											<textbox
 												constraint="no empty" value="@bind(vm.persona.nombres)"
 												disabled="@load(vm.habilitarCampo)" />
 										</row>
 										<row>
-											<label value="Apellidos:" />
-
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label
+													value="Apellidos:" />
+											</hlayout>
 											<textbox
 												constraint="no empty" value="@bind(vm.persona.apellidos)"
 												disabled="@load(vm.habilitarCampo)" />
 										</row>
 										<row>
-											<label
-												value="Fecha Nacimiento:" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label
+													value="Fecha Nacimiento:" />
+											</hlayout>
 											<datebox
 												value="@bind(vm.persona.fechaNacimiento)"
 												disabled="@load(vm.habilitarCampo)" />
 										</row>
 
 										<row>
-											<label value="Sexo" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label value="Sexo" />
+											</hlayout>
 											<combobox
 												selectedItem="@bind(vm.persona.sexo)"
 												disabled="@load(vm.habilitarCampo)">
@@ -98,7 +121,12 @@
 											</combobox>
 										</row>
 										<row>
-											<label value="Estado Civil" />
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label
+													value="Estado Civil" />
+											</hlayout>
 											<textbox
 												value="@bind(vm.persona.estadoCivil)"
 												disabled="@load(vm.habilitarCampo)" />
@@ -134,13 +162,16 @@
 									<toolbarbutton label="Nuevo"
 										sclass="btn-info" tooltiptext="" image="imagenes/add.png"
 										onClick="@command('onNuevo')" />
-									<toolbarbutton label="Guardar" disabled="@load(vm.habilitarCampo)"
-										sclass="btn-info" tooltiptext="" image="imagenes/guardar.png"
+									<toolbarbutton label="Guardar"
+										disabled="@load(vm.habilitarCampo)" sclass="btn-info"
+										tooltiptext="" image="imagenes/guardar.png"
 										onClick="@command('onAgregar')" />
-									<toolbarbutton label="Editar" disabled="@load(vm.persona.sec eq null?true:false)"
+									<toolbarbutton label="Editar"
+										disabled="@load(vm.persona.sec eq null?true:false)"
 										onClick="@command('onEditar')" sclass="btn-info"
 										image="imagenes/edit.png" />
-									<toolbarbutton label="Eliminar" disabled="@load((vm.persona.sec eq null)?true:false)"
+									<toolbarbutton label="Eliminar"
+										disabled="@load((vm.persona.sec eq null)?true:false)"
 										onClick="@command('onEliminar')" sclass="btn-info"
 										image="imagenes/delete.png" />
 									<toolbarbutton label="Consultar"
@@ -196,8 +227,11 @@
 													label="@bind(each.celular)" />
 												<listcell>
 													<hbox>
-													<image src="imagenes/edit.png" onClick="@command('onEditar')"/>
-													<image src="imagenes/delete.png" onClick="@command('onEliminar')"/>
+														<image
+															src="imagenes/edit.png" onClick="@command('onEditar')" />
+														<image
+															src="imagenes/delete.png"
+															onClick="@command('onEliminar')" />
 													</hbox>
 												</listcell>
 												<!-- 						<listcell -->
