@@ -30,6 +30,7 @@
 									<label value="Nro Factura" />
 								</hlayout>
 								<textbox constraint="no empty"
+									disabled="@load(vm.desactivarformulario)"
 									value="@bind(vm.detalleCarteraSeleccionada.nroFactura)" />
 							</row>
 							<row>
@@ -39,6 +40,7 @@
 									<label value="Vence" />
 								</hlayout>
 								<datebox constraint="no empty"
+									disabled="@load(vm.desactivarformulario)"
 									value="@bind(vm.detalleCarteraSeleccionada.vencimiento)" />
 							</row>
 							<row>
@@ -48,6 +50,7 @@
 									<label value="Referencia" />
 								</hlayout>
 								<textbox constraint="no empty"
+									disabled="@load(vm.desactivarformulario)"
 									value="@bind(vm.detalleCarteraSeleccionada.referencia)" />
 							</row>
 							<row>
@@ -90,6 +93,7 @@
 										<label value="30 Dias" />
 									</hlayout>
 									<doublebox constraint="no empty"
+										disabled="@load(vm.desactivarformulario)"
 										value="@bind(vm.detalleCarteraSeleccionada.valor1)" />
 								</row>
 								<row>
@@ -99,6 +103,7 @@
 										<label value="60 Dias" />
 									</hlayout>
 									<doublebox
+										disabled="@load(vm.desactivarformulario)"
 										value="@bind(vm.detalleCarteraSeleccionada.valor2)"
 										constraint="no empty" />
 								</row>
@@ -110,6 +115,7 @@
 										<label value="90 Dias" />
 									</hlayout>
 									<doublebox constraint="no empty"
+										disabled="@load(vm.desactivarformulario)"
 										value="@bind(vm.detalleCarteraSeleccionada.valor3)" />
 								</row>
 								<row>
@@ -119,6 +125,7 @@
 										<label value="Más de 90 Dias" />
 									</hlayout>
 									<doublebox constraint="no empty"
+										disabled="@load(vm.desactivarformulario)"
 										value="@bind(vm.detalleCarteraSeleccionada.valor4)" />
 								</row>
 							</rows>

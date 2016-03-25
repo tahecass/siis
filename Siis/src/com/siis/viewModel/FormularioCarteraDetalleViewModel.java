@@ -51,7 +51,6 @@ public class FormularioCarteraDetalleViewModel {
 		this.parametros = (Map<String, Object>) Executions.getCurrent().getArg();
 
 		setCartera((Cartera) parametros.get("CARTERA"));
-		log.info("cartera ..... " + cartera.getSecuencia());
 		listaDetalleCartera = new ArrayList<DetalleCartera>();
 		detalleCarteraSeleccionada = new DetalleCartera();
 		setDesactivarformulario(true);
@@ -103,8 +102,6 @@ public class FormularioCarteraDetalleViewModel {
 		}
 	}
 
-	 
-
 	@NotifyChange("*")
 	@Command
 	public void onEliminar(@BindingParam("seleccionado") DetalleCartera detalleCartera) {
@@ -135,31 +132,35 @@ public class FormularioCarteraDetalleViewModel {
 		setDesactivarBtnEditar(false);
 		setDesactivarBtnGuardar(true);
 		setDesactivarBtnEliminar(false);
+		setDesactivarformulario(true);
 	}
 
 	@NotifyChange("*")
 	@Command
 	public void onCancelar() {
-		log.info("onCancelar");
+		log.info("onCancelar=> " + detalleCarteraSeleccionada.getSecuencia());
 		if (!accion.equals("I")) {
 			detalleCarteraSeleccionada = obtener(detalleCarteraSeleccionada);
 			onSeleccionar(detalleCarteraSeleccionada);
+			desactivarformulario=true;
+		}else{
+			onNuevo();
 		}
 
 	}
-	
-	private DetalleCartera obtener(DetalleCartera cartera) {
-		log.info("Ejecutando el metodo []");
+
+	private DetalleCartera obtener(DetalleCartera detCartera) {
+		log.info("Ejecutando el metodo [obtener]");
 		DetalleCartera car = null;
 		try {
-			car = (DetalleCartera) Conexion.getConexion().obtenerRegistro("obtenerDetalleCarteras", cartera);
+			car = (DetalleCartera) Conexion.getConexion().obtenerRegistro("obtenerDetalleCarteras", detCartera);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return car;
 	}
-	
+
 	@NotifyChange("*")
 	@Command
 	public void onEditar() {

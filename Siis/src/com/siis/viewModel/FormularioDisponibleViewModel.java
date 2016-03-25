@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger; 
+import org.apache.log4j.Logger;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -25,8 +25,9 @@ import org.zkoss.zul.Window;
 
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Disponible;
+import com.siis.dto.DisponibleBanco;
 import com.siis.dto.Usuario;
-import com.siis.viewModel.framework.BandboxBancos; 
+import com.siis.viewModel.framework.BandboxBancos;
 import com.siis.viewModel.framework.BandboxCuentas;
 import com.siis.viewModel.framework.Utilidades;
 
@@ -104,13 +105,12 @@ public class FormularioDisponibleViewModel {
 		try {
 			log.info("accion=>> " + accion);
 
-
 			if (!Utilidades.validarFormulario(idWINFORMDISPONIBLEZFormularioPrincipal)) {
 				Utilidades.mostrarNotificacion(idWINFORMDISPONIBLEZPrincipal.getAttribute("MSG_TITULO").toString(),
 						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
 				return;
 			}
-			
+
 			disponibleSeleccionada.setBanco(idFORMDISPONIBLEZBbxBanco.getValue());
 			disponibleSeleccionada.setUsuario(new Usuario(new Integer(1)));
 			disponibleSeleccionada.setCuenta(idFORMDISPONIBLEZBbxCuenta.getValue());
@@ -181,6 +181,7 @@ public class FormularioDisponibleViewModel {
 		setDesactivarBtnGuardar(true);
 		setDesactivarBtnEliminar(false);
 		setDesactivarTabDetalle(false);
+		setDesactivarformulario(true);
 	}
 
 	@NotifyChange("*")
@@ -211,6 +212,32 @@ public class FormularioDisponibleViewModel {
 		setDesactivarBtnGuardar(false);
 		setDesactivarBtnEliminar(true);
 		setDesactivarTabDetalle(true);
+	}
+
+	@NotifyChange("*")
+	@Command
+	public void onCancelar() {
+
+		if (!accion.equals("I")) {
+			disponibleSeleccionada = obtener(disponibleSeleccionada);
+			onSeleccionar(disponibleSeleccionada);
+			desactivarformulario = true;
+		} else {
+			onNuevo();
+		}
+
+	}
+
+	private Disponible obtener(Disponible dispCon) {
+		log.info("Ejecutando el metodo [obtener]");
+		Disponible dc = null;
+		try {
+			dc = (Disponible) Conexion.getConexion().obtenerRegistro("obtenerDisponible", dispCon);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dc;
 	}
 
 	@SuppressWarnings("unchecked")

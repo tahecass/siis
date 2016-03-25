@@ -24,6 +24,7 @@ import org.zkoss.zul.Messagebox;
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Disponible;
 import com.siis.dto.DisponibleBanco;
+import com.siis.dto.DisponibleConcepto;
 import com.siis.viewModel.framework.Utilidades;
 
 public class FormularioDisponibleDetalleViewModel {
@@ -144,6 +145,7 @@ public class FormularioDisponibleDetalleViewModel {
 		setDesactivarBtnEditar(false);
 		setDesactivarBtnGuardar(true);
 		setDesactivarBtnEliminar(false);
+		setDesactivarformulario(true);
 	}
 
 	@NotifyChange("*")
@@ -156,6 +158,32 @@ public class FormularioDisponibleDetalleViewModel {
 		setDesactivarBtnEditar(true);
 		setDesactivarBtnGuardar(false);
 		setDesactivarBtnEliminar(true);
+	}
+
+	@NotifyChange("*")
+	@Command
+	public void onCancelar() {
+
+		if (!accion.equals("I")) {
+			disponibleBancoSeleccionado = obtener(disponibleBancoSeleccionado);
+			onSeleccionar(disponibleBancoSeleccionado);
+			desactivarformulario = true;
+		} else {
+			onNuevo();
+		}
+
+	}
+
+	private DisponibleBanco obtener(DisponibleBanco dispCon) {
+		log.info("Ejecutando el metodo [obtener]");
+		DisponibleBanco dc = null;
+		try {
+			dc = (DisponibleBanco) Conexion.getConexion().obtenerRegistro("obtenerDisponibleBanco", dispCon);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dc;
 	}
 
 	@NotifyChange("*")

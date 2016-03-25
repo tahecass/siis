@@ -127,7 +127,6 @@ public class FormularioEfsViewModel {
 			blob = IOUtils.toByteArray(media.getStreamData());
 
 			if (blob.length > 0) {
-				boolean sw = false;
 
 				EfSeleccionado.setContenidoBinarioArchivo(blob);
 				labelNombreArchivo.setValue(media.getName());
@@ -148,7 +147,7 @@ public class FormularioEfsViewModel {
 		try {
 			log.info("accion=>> " + accion);
 
-			if (!Utilidades.validarFormulario(idWINFORMEFSZGridFormulario)) {
+			if (!Utilidades.validarFormulario(idWINFORMEFSZGridFormulario) || labelNombreArchivo.getValue().isEmpty()) {
 				Utilidades.mostrarNotificacion(idWINFORMEFSZPrincipal.getAttribute("MSG_TITULO").toString(),
 						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
 				return;
@@ -222,6 +221,7 @@ public class FormularioEfsViewModel {
 		setDesactivarBtnGuardar(true);
 		setDesactivarBtnEliminar(false);
 		setDesactivarTabDetalle(false);
+		setDesactivarformulario(true);
 	}
 
 	@NotifyChange("*")
@@ -243,7 +243,7 @@ public class FormularioEfsViewModel {
 		log.info("onNuevo");
 		setDesactivarformulario(false);
 		EfSeleccionado = new Efs();
-
+		labelNombreArchivo.setValue("");
 		accion = "I";
 
 		setDesactivarBtnNuevo(true);
@@ -278,7 +278,7 @@ public class FormularioEfsViewModel {
 
 			parametros.put("OBJETO", EfSeleccionado);
 			if (idCARTERAZTpnConsultaEfs.getChildren().size() == 0) {
-				Utilidades.onCargarVentana(idCARTERAZTpnConsultaEfs, "//formas//vista_indicador.zul", parametros);
+				Utilidades.onCargarVentana(idCARTERAZTpnConsultaEfs, "//formas//vista_efs.zul", parametros);
 			} else {
 				// VistaEfsViewModel detalleEfs = new VistaEfsViewModel();
 				// detalleEfs.listarEfs();
@@ -287,6 +287,31 @@ public class FormularioEfsViewModel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@NotifyChange("*")
+	@Command
+	public void onCancelar() {
+		if (!accion.equals("I")) {
+			EfSeleccionado = obtener(EfSeleccionado);
+			onSeleccionar(EfSeleccionado);
+			desactivarformulario = true;
+		} else {
+			onNuevo();
+		}
+
+	}
+
+	private Efs obtener(Efs estf) {
+		log.info("Ejecutando el metodo [obtener]");
+		Efs est = null;
+		try {
+			est = (Efs) Conexion.getConexion().obtenerRegistro("obtenertEfs", estf);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return est;
 	}
 
 	public List<Efs> getListaEfs() {

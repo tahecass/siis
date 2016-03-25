@@ -99,7 +99,8 @@
 					<listbox id="idCARTERAZLbxDetalleDisponibleBanco"
 						sizedByContent="true" span="true" vflex="true"
 						model="@bind(vm.listaDisponibleBanco)"
-						selectedItem="@bind(vm.disponibleBancoSeleccionado)">
+						selectedItem="@bind(vm.disponibleBancoSeleccionado)"
+						onSelect="@command('onSeleccionar',seleccionado=vm.disponibleBancoSeleccionado)">
 
 						<listhead sizable="true">
 							<listheader label="Beneficiario"

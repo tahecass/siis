@@ -54,7 +54,7 @@
 											<hlayout>
 
 												<button label="Upload"
-													upload="true"
+													upload="true" disabled="@load(vm.desactivarformulario)"
 													onUpload="@command('subirArchivo',media =event.media)" />
 												<label
 													id="labelNombreArchivo"
@@ -81,7 +81,7 @@
 									<toolbarbutton label="Eliminar"
 										sclass="btn-info" image="imagenes/delete.png"
 										disabled="@load(vm.desactivarBtnEliminar)"
-										onClick="@command('onEliminar',seleccionado=vm.indicadorSeleccionado)" />
+										onClick="@command('onEliminar',seleccionado=vm.efSeleccionado)" />
 									<toolbarbutton label="Cancelar"
 										onClick="@command('onCancelar')"
 										disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"

@@ -4,7 +4,7 @@
 	<resultMap id="resMapAmortizacionCredito" type="AmortizacionCreditoAlias">
 		<result property="secuencia" column="SEC" /> 
 		<result property="credito.secuencia" column="SEC_CREDITO" />
-		<result property="credito.entidad.secuencia" column="SEC_BANCO" />
+		<result property="credito.entidad.sec" column="SEC_BANCO" />
 		<result property="credito.entidad.codigo" column="COD_BANCO" />
 		<result property="credito.entidad.nombre" column="NOMBRE_BANCO" />
 		<result property="credito.NroPrestamo" column="NUMERO_PRESTAMO" />
@@ -73,13 +73,27 @@
 		left join BANCOS on BANCOS.SEC = CREDITOS.SEC_BANCO
 		
 		  <trim prefix="WHERE" prefixOverrides="AND | OR ">
-			<if test="credito !=null and credito.secuencia !=null">
-	         AND AMORTIZACION_CREDITOS .SEC_CREDITO =  #{credito.secuencia,jdbcType=NUMERIC};
-	        </if>
-	        <if test="credito !=null and credito.entidad !=null and credito.entidad.secuencia !=null">
-	         AND CREDITOS.SEC_BANCO =  #{credito.entidad.secuencia,jdbcType=NUMERIC};
-	        </if>
+				<if test="credito !=null and credito.secuencia !=null">
+		         AND AMORTIZACION_CREDITOS.SEC_CREDITO =  #{credito.secuencia,jdbcType=NUMERIC}
+		        </if>
+		        <if test="credito !=null and credito.entidad !=null and credito.entidad.sec !=null">
+		         AND CREDITOS.SEC_BANCO =  #{credito.entidad.sec,jdbcType=NUMERIC}
+		        </if>
 	      </trim>
+ </select>
+<select id="obtenerAmortizacionCredito" parameterType="AmortizacionCreditoAlias" resultMap="resMapAmortizacionCredito"  > 
+		SELECT AMORTIZACION_CREDITOS.SEC, 
+			AMORTIZACION_CREDITOS.SEC_CREDITO, 
+			AMORTIZACION_CREDITOS.PERIODO, 
+			AMORTIZACION_CREDITOS.CUOTA, 
+			AMORTIZACION_CREDITOS.INTERES, 
+			AMORTIZACION_CREDITOS.SALDO, 
+			AMORTIZACION_CREDITOS.FECHA_CREACION, 
+			AMORTIZACION_CREDITOS.FECHA_HORA_ACTUALIZACION, 
+			AMORTIZACION_CREDITOS.CAPITAL
+		FROM AMORTIZACION_CREDITOS
+		     WHERE AMORTIZACION_CREDITOS .SEC=  #{secuencia,jdbcType=NUMERIC};
+	        
  </select>
 
  <delete id="eliminarAmortizacionCredito" parameterType="AmortizacionCreditoAlias">

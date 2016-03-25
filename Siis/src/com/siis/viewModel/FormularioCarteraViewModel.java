@@ -183,6 +183,7 @@ public class FormularioCarteraViewModel {
 		setDesactivarBtnGuardar(true);
 		setDesactivarBtnEliminar(false);
 		setDesactivarTabDetalle(false);
+		setDesactivarformulario(true);
 	}
 
 	@NotifyChange("*")
@@ -205,6 +206,9 @@ public class FormularioCarteraViewModel {
 		if (!accion.equals("I")) {
 			carteraSeleccionada = obtener(carteraSeleccionada);
 			onSeleccionar(carteraSeleccionada);
+			desactivarformulario=true;
+		}else{
+			onNuevo();
 		}
 
 	}

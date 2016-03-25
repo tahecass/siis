@@ -5,7 +5,7 @@
 		<result property="secuencia" column="SEC" />
 		<result property="contrato" column="CONTRATO" />
 		<result property="contenidoBinarioArchivo" column="CONTENIDO_ARCHIVO" /> 
-	    <result property="nombreArchivo" column="CONTENIDO_ARCHIVO" /> 
+	    <result property="nombreArchivo" column="NOMBRE_ARCHIVO" /> 
 		<result property="fechaCreacion" column="FECHA_CREACION" />
 		<result property="fechaActualizacion" column="FECHA_ACTUALIZACION" />
 	</resultMap>
@@ -38,8 +38,22 @@
 		EFS.NOMBRE_ARCHIVO,
 	    EFS.CONTENIDO_ARCHIVO
 		FROM EFS
+		<trim prefix="WHERE" prefixOverrides="AND | OR ">
+			<if test="contrato !=null">
+			 AND EFS.CONTRATO = #{contrato,jdbcType=NUMERIC}
+	       </if>
+	    </trim>
 	</select>
- 
+ 	<select id="obtenertEfs" parameterType="EfsAlias"
+		resultMap="resMapEfs">
+		SELECT
+		EFS.SEC,
+		EFS.CONTRATO, 
+		EFS.NOMBRE_ARCHIVO,
+	    EFS.CONTENIDO_ARCHIVO
+		FROM EFS
+		where efs.sec= #{secuencia,jdbcType=NUMERIC};
+	</select>
 
 	<delete id="eliminarEfs" parameterType="EfsAlias">
 		DELETE FROM EFS WHERE SEC=#{secuencia,jdbcType=NUMERIC}

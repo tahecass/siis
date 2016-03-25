@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" ?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap.css" ?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css" ?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css" ?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<borderlayout apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') 
+		@init('com.siis.viewModel.VistaEfsViewModel')">
+
+		<center>
+			<vlayout height="100%">
+				<tabbox mold="accordion" hflex="true">
+					<tabs>
+						<tab label="Consulta" id="tabConsulta" />
+						<tab label="Visualización"
+							id="tabVisualizacion" />
+					</tabs>
+					<tabpanels hflex="true" style="overflow:auto">
+						<tabpanel hflex="true" vflex="true">
+							<grid>
+								<columns>
+									<column hflex="min" />
+									<column />
+								</columns>
+								<rows>
+									<row>
+										<label value="Contrato:" />
+										<intbox
+											id="TextboxParamContrato" />
+									</row>
+								</rows>
+							</grid>
+							<toolbar align="start">
+								<toolbarbutton label="Consultar"
+									sclass="btn-info" tooltiptext="" image="imagenes/search.png"
+									onClick="@command('listarEfs')" />
+								<toolbarbutton label="Visualizar"
+									sclass="btn-info" tooltiptext="" image="imagenes/ef.png"
+									onClick="@command('visualizar',seleccionado=vm.detalleSeleccionado)" />
+							</toolbar>
+							<separator />
+							<listbox span="true"
+								model="@bind(vm.listaEfs)" hflex="true"
+								selectedItem="@bind(vm.detalleSeleccionado)">
+
+								<listhead sizable="true">
+
+									<listheader label="Contrato"
+										sort="auto" />
+									<listheader label="Archivo"
+										sort="auto" />
+								</listhead>
+								<template name="model">
+									<listitem>
+										<listcell>
+											<label
+												value="@bind(each.contrato)" />
+										</listcell>
+
+										<listcell>
+											<label
+												value="@bind(each.nombreArchivo)" />
+										</listcell>
+									</listitem>
+								</template>
+							</listbox>
+						</tabpanel>
+						<tabpanel hflex="true">
+							<iframe id="iframeVisualizacion"
+								height="400px" hflex="true" style="border: 1px solid gray" />
+						</tabpanel>
+					</tabpanels>
+				</tabbox>
+			</vlayout>
+		</center>
+		<south>
+			<window xmlns="http://www.zkoss.org/2005/zul"
+				xmlns:h="http://www.w3.org/1999/xhtml"
+				xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd"
+				id="WinVisualizacion" border="normal" visible="false" hflex="min"
+				title="" closable="true">
+				<iframe id="iframeVisualizacion" />
+			</window>
+		</south>
+	</borderlayout>
+</zk>

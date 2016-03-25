@@ -76,6 +76,27 @@
 	        </if>
 	      </trim>
  </select>
+<select id="obtenerCredito" parameterType="CreditoAlias" resultMap="resMapCredito"  > 
+		 SELECT
+			CREDITOS.SEC,
+			CREDITOS.SEC_BANCO,
+			CREDITOS.NUMERO_PRESTAMO,
+			CREDITOS.INTERES,
+			CREDITOS.CAPITAL,
+			CREDITOS.SALDO,
+			CREDITOS.FECHA,
+			CREDITOS.FECHA_VENCIMIENTO,
+			CREDITOS.PLAZO,
+			CREDITOS.FECHA_CREACION,
+			CREDITOS.FECHA_HORA_ACTUALIZACION,
+			BANCOS.CODIGO,
+			BANCOS.NOMBRE
+			FROM
+			CREDITOS   
+			LEFT JOIN BANCOS  ON BANCOS.SEC = CREDITOS.SEC_BANCO
+		     AND CREDITOS .SEC =  #{secuencia,jdbcType=NUMERIC};
+	      
+ </select>
 
  <delete id="eliminarCredito" parameterType="CreditoAlias">
 		 DELETE FROM CREDITOS WHERE CREDITOS.SEC=  #{secuencia,jdbcType=NUMERIC};

@@ -55,6 +55,22 @@
 	        </if>
 	      </trim>
  </select>
+ <select id="obtenerDisponibleConcepto" parameterType="DisponibleConceptoAlias" resultMap="resMapDisponibleConcepto"  > 
+		SELECT
+		DISPONIBLE_CONCEPTO.SEC,
+		DISPONIBLE_CONCEPTO.SEC_DISPONIBLE,
+		DISPONIBLE_CONCEPTO.CONCEPTO,
+		DISPONIBLE_CONCEPTO.FECHA,
+		DISPONIBLE_CONCEPTO.VALOR,
+		DISPONIBLE_CONCEPTO.TIPO_NOTA,
+		DISPONIBLE_CONCEPTO.FECHA_CREACION,
+		DISPONIBLE_CONCEPTO.FECHA_HORA_ACTUALIZACION
+		FROM
+		DISPONIBLE_CONCEPTO
+		where DISPONIBLE_CONCEPTO.SEC =  #{secuencia,jdbcType=NUMERIC};
+	       
+ </select>
+ 
 
  <delete id="eliminarDisponibleConcepto" parameterType="DisponibleConceptoAlias">
 		 DELETE FROM DISPONIBLE_CONCEPTO WHERE DISPONIBLES.SEC=  #{secuencia,jdbcType=NUMERIC};

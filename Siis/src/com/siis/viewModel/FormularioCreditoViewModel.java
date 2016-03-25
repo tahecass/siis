@@ -25,6 +25,7 @@ import org.zkoss.zul.Window;
 
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Credito;
+import com.siis.dto.DetalleCartera;
 import com.siis.viewModel.framework.BandboxBancos;
 import com.siis.viewModel.framework.BandboxCuentas;
 import com.siis.viewModel.framework.Utilidades;
@@ -179,6 +180,7 @@ public class FormularioCreditoViewModel {
 		setDesactivarBtnGuardar(true);
 		setDesactivarBtnEliminar(false);
 		setDesactivarTabDetalle(false);
+		setDesactivarformulario(true);
 	}
 
 	@NotifyChange("*")
@@ -193,7 +195,32 @@ public class FormularioCreditoViewModel {
 		setDesactivarBtnEliminar(true);
 		setDesactivarTabDetalle(true);
 	}
+	
+	@NotifyChange("*")
+	@Command
+	public void onCancelar() {
+	 
+		if (!accion.equals("I")) {
+			creditoSeleccionada = obtener(creditoSeleccionada);
+			onSeleccionar(creditoSeleccionada);
+			desactivarformulario=true;
+		}else{
+			onNuevo();
+		}
 
+	}
+
+	private Credito obtener(Credito credito) {
+		log.info("Ejecutando el metodo [obtener]");
+		Credito cred = null;
+		try {
+			cred = (Credito) Conexion.getConexion().obtenerRegistro("obtenerCredito", credito);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cred;
+	}
 	@NotifyChange("*")
 	@Command
 	public void onNuevo() {

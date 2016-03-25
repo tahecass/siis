@@ -57,7 +57,9 @@
 								</hlayout>
 								<listbox mold="select"
 									disabled="@load(vm.desactivarformulario)"
-									selectedItem="@bind(vm.disponibleConceptoSeleccionado.tipoNota)">
+									selectedItem="@bind(vm.disponibleConceptoSeleccionado.tipoNota)"
+								onSelect="@command('onSeleccionar',seleccionado=vm.disponibleConceptoSeleccionado)">
+
 									<listitem label="Crédito" value="C"
 										checkable="true" />
 									<listitem label="Dédito" value="D" />

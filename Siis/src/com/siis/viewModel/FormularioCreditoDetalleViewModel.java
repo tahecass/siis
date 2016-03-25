@@ -24,6 +24,7 @@ import org.zkoss.zul.Messagebox;
 import com.siis.configuracion.Conexion;
 import com.siis.dto.AmortizacionCredito;
 import com.siis.dto.Credito;
+import com.siis.dto.DetalleCartera;
 import com.siis.viewModel.framework.Utilidades;
 
 public class FormularioCreditoDetalleViewModel {
@@ -70,15 +71,14 @@ public class FormularioCreditoDetalleViewModel {
 		try {
 			log.info("accion=>> " + accion);
 
-		
 			if (!Utilidades.validarFormulario(idWINFORMDETDISPBCOZGridPrincipal)) {
 				Utilidades.mostrarNotificacion(idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO").toString(),
 						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
 				return;
 			}
-			
+
 			amortizacionCreditoSeleccionado.setCredito(credito);
-			
+
 			if (accion.equals("I")) {
 				amortizacionCreditoSeleccionado.setSecuencia(10);
 				Conexion.getConexion().guardar("guardarAmortizacionCredito", amortizacionCreditoSeleccionado);
@@ -105,7 +105,6 @@ public class FormularioCreditoDetalleViewModel {
 		}
 	}
 
- 
 	@NotifyChange("*")
 	@Command
 	public void onEliminar(@BindingParam("seleccionado") final AmortizacionCredito detalleDisponible) {
@@ -147,6 +146,7 @@ public class FormularioCreditoDetalleViewModel {
 		setDesactivarBtnEditar(false);
 		setDesactivarBtnGuardar(true);
 		setDesactivarBtnEliminar(false);
+		setDesactivarformulario(true);
 	}
 
 	@NotifyChange("*")
@@ -159,6 +159,33 @@ public class FormularioCreditoDetalleViewModel {
 		setDesactivarBtnEditar(true);
 		setDesactivarBtnGuardar(false);
 		setDesactivarBtnEliminar(true);
+	}
+
+	@NotifyChange("*")
+	@Command
+	public void onCancelar() {
+
+		if (!accion.equals("I")) {
+			amortizacionCreditoSeleccionado = obtener(amortizacionCreditoSeleccionado);
+			onSeleccionar(amortizacionCreditoSeleccionado);
+			desactivarformulario=true;
+		} else {
+			onNuevo();
+		}
+
+	}
+
+	private AmortizacionCredito obtener(AmortizacionCredito amortiCred) {
+		log.info("Ejecutando el metodo [obtener]");
+		AmortizacionCredito aCred = null;
+		try {
+			aCred = (AmortizacionCredito) Conexion.getConexion().obtenerRegistro("obtenerAmortizacionCredito",
+					amortiCred);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return aCred;
 	}
 
 	@NotifyChange("*")

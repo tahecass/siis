@@ -56,6 +56,21 @@
 	        </if>
 	      </trim>
  </select>
+ <select id="obtenerDisponibleBanco" parameterType="DisponibleBancoAlias" resultMap="resMapDisponibleBanco"  > 
+		SELECT
+			DISPONIBLE_BANCO.SEC,
+			DISPONIBLE_BANCO.SEC_DISPONIBLE,
+			DISPONIBLE_BANCO.BENEFICIARIO,
+			DISPONIBLE_BANCO.NUMERO_CHEQUE,
+			DISPONIBLE_BANCO.FECHA_GIRO,
+			DISPONIBLE_BANCO.VALOR,
+			DISPONIBLE_BANCO.FECHA_CREACION,
+			DISPONIBLE_BANCO.FECHA_HORA_ACTUALIZACION
+			FROM
+			DISPONIBLE_BANCO
+		     where DISPONIBLE_BANCO.SEC=  #{secuencia,jdbcType=NUMERIC};
+	      
+ </select>
 
  <delete id="eliminarDisponibleBanco" parameterType="DisponibleBancoAlias">
 		 DELETE FROM DISPONIBLES WHERE DISPONIBLES.SEC=  #{secuencia,jdbcType=NUMERIC};

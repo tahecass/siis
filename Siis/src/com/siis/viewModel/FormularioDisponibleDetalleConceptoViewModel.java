@@ -1,7 +1,7 @@
 package com.siis.viewModel;
 
 import java.util.ArrayList;
-import java.util.Date; 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,8 +22,9 @@ import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
 
 import com.siis.configuracion.Conexion;
+import com.siis.dto.Credito;
 import com.siis.dto.Disponible;
-import com.siis.dto.DisponibleConcepto; 
+import com.siis.dto.DisponibleConcepto;
 import com.siis.viewModel.framework.Utilidades;
 
 public class FormularioDisponibleDetalleConceptoViewModel {
@@ -41,7 +42,6 @@ public class FormularioDisponibleDetalleConceptoViewModel {
 	public Borderlayout idWINFORMDETDISPCONZPrincipal;
 	@Wire
 	private Grid idWINFORMDETDISPCONZGridFormulario;
-	
 
 	@SuppressWarnings("unchecked")
 	@AfterCompose
@@ -71,13 +71,12 @@ public class FormularioDisponibleDetalleConceptoViewModel {
 		try {
 			log.info("accion=>> " + accion);
 
-			
 			if (!Utilidades.validarFormulario(idWINFORMDETDISPCONZGridFormulario)) {
 				Utilidades.mostrarNotificacion(idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_TITULO").toString(),
 						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
 				return;
 			}
-			
+
 			disponibleConceptoSeleccionado.setDisponible(disponible);
 
 			if (accion.equals("I")) {
@@ -103,6 +102,32 @@ public class FormularioDisponibleDetalleConceptoViewModel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@NotifyChange("*")
+	@Command
+	public void onCancelar() {
+
+		if (!accion.equals("I")) {
+			disponibleConceptoSeleccionado = obtener(disponibleConceptoSeleccionado);
+			onSeleccionar(disponibleConceptoSeleccionado);
+			desactivarformulario = true;
+		} else {
+			onNuevo();
+		}
+
+	}
+
+	private DisponibleConcepto obtener(DisponibleConcepto dispCon) {
+		log.info("Ejecutando el metodo [obtener]");
+		DisponibleConcepto dc = null;
+		try {
+			dc = (DisponibleConcepto) Conexion.getConexion().obtenerRegistro("obtenerDisponibleConcepto", dispCon);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return dc;
 	}
 
 	@NotifyChange("*")
@@ -151,6 +176,7 @@ public class FormularioDisponibleDetalleConceptoViewModel {
 		setDesactivarBtnEditar(false);
 		setDesactivarBtnGuardar(true);
 		setDesactivarBtnEliminar(false);
+		setDesactivarformulario(true);
 	}
 
 	@NotifyChange("*")
