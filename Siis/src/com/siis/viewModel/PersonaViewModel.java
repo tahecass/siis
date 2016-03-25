@@ -55,6 +55,7 @@ public class PersonaViewModel {
 		TipoIdentificacion tpId = new TipoIdentificacion(null, "Seleccione....");
 		persona.setTipoIdentificacion(tpId);
 		persona.setSexo("S");
+		persona.setEstadoCivil("S");
 		listaPersona = new ArrayList<Persona>();
 		habilitarCampo = true;
 		listaTipoId = new ArrayList<TipoIdentificacion>();

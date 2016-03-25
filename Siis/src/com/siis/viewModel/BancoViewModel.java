@@ -110,7 +110,13 @@ public class BancoViewModel {
 				Utilidades.mostrarNotificacion("Banco",
 						"Se elimino correctamente la información", "INFO");
 				banco = new Banco();
-				onBuscar();
+				try {
+					listaBanco = (List) Conexion.getConexion().listar(
+							"listarBancos", "%" + valorBusqueda + "%");
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
