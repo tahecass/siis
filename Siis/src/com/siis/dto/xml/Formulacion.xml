@@ -20,6 +20,18 @@
 			FROM
 	   FORMULACIONES
 	</select>
+	<select id="obtenerFormulacion" resultMap="resMapFormulacion"
+		resultType="FormulacionAlias">
+		SELECT
+			FORMULACIONES.SEC,
+			FORMULACIONES.SEC_INDICADOR,
+			FORMULACIONES.FORMULACION,
+			FORMULACIONES.FECHA_CREACION,
+			FORMULACIONES.FECHA_HORA_ACTUALIZACION
+			FROM
+	   FORMULACIONES
+	   WHERE 	FORMULACIONES.SEC= #{secuencia,jdbcType=NUMERIC}
+	</select>
 
 <select id="guardarFormulacion" parameterType="FormulacionAlias" resultMap="resMapFormulacion" statementType="CALLABLE" >   
 		  INSERT

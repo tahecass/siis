@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -157,6 +158,7 @@ public class FormularioDisponibleViewModel {
 									idWINFORMDISPONIBLEZPrincipal.getAttribute("MSG_TITULO").toString(),
 									idWINFORMDISPONIBLEZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
 									"INFO");
+							BindUtils.postNotifyChange(null, null, FormularioDisponibleViewModel.this, "*");
 							listarDisponible();
 							setDesactivarBtnNuevo(false);
 							setDesactivarBtnEditar(true);
@@ -267,20 +269,26 @@ public class FormularioDisponibleViewModel {
 		log.info("onMostrarVentanaDetalle");
 
 		try {
+			
 			Map<String, Object> parametros = new HashMap<String, Object>();
-			log.info("Disponoble==> 1" + disponibleSeleccionada.getSecuencia());
 			parametros.put("DISPONIBLE", disponibleSeleccionada);
+			log.info("idDISPONIBLEZTpnDetalleDisponible.getChildren().size() ==> "
+					+ idDISPONIBLEZTpnDetalleDisponible.getChildren().size());
 			if (idDISPONIBLEZTpnDetalleDisponible.getChildren().size() == 0) {
+
+				log.info("Disponoble==> primera: " + disponibleSeleccionada.getSecuencia());
 				Utilidades.onCargarVentana(idDISPONIBLEZTpnDetalleDisponible,
 						"//formas//formulario_disponible_detalle.zul", parametros);
 			} else {
 				FormularioDisponibleDetalleViewModel detalleDisponible = new FormularioDisponibleDetalleViewModel();
 
-				log.info("Disponoble==> 2" + disponibleSeleccionada.getSecuencia());
+				log.info("Disponoble==> segunda: " + disponibleSeleccionada.getSecuencia());
 				detalleDisponible.setDisponible(disponibleSeleccionada);
 				detalleDisponible.listarDisponibleBanco();
 				log.info("1");
 			}
+			
+			 
 
 		} catch (Exception e) {
 			e.printStackTrace();

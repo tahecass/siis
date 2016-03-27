@@ -44,7 +44,7 @@
 							</toolbar>
 							<separator />
 							<listbox span="true"
-								model="@bind(vm.listaEfs)" hflex="true"
+								model="@bind(vm.listaEfs)"
 								selectedItem="@bind(vm.detalleSeleccionado)">
 
 								<listhead sizable="true">

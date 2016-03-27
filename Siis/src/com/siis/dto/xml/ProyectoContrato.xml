@@ -34,7 +34,7 @@
 	         VALOR   =   #{valor,jdbcType=NUMERIC},
 	         RETEGARANTIA = #{retegarantia,jdbcType=NUMERIC},
 	         FACTURA   =    #{factura,jdbcType=VARCHAR},
-	         FECHA=  #{fecha,jdbcType=DATE}
+	         FECHA=  #{fecha,jdbcType=DATE},
 			 FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
 	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
 	</update>
@@ -56,6 +56,20 @@
 	         AND PROYECTO_CONTRATO.SEC_PROYECTO =  #{proyecto.secuencia,jdbcType=NUMERIC};
 	        </if>
 	      </trim>
+ </select>
+ <select id="obtenerProyectoContrato" parameterType="ProyectoContratoAlias" resultMap="resMapProyectoContrato"  > 
+		 SELECT
+			PROYECTO_CONTRATO.SEC,
+			PROYECTO_CONTRATO.SEC_PROYECTO,
+			PROYECTO_CONTRATO.VALOR,
+			PROYECTO_CONTRATO.FACTURA,
+			PROYECTO_CONTRATO.FECHA,
+			PROYECTO_CONTRATO.FECHA_CREACION,
+			PROYECTO_CONTRATO.FECHA_HORA_ACTUALIZACION,
+			PROYECTO_CONTRATO.RETEGARANTIA
+			FROM
+			PROYECTO_CONTRATO   
+			where PROYECTO_CONTRATO.SEC =  #{secuencia,jdbcType=NUMERIC};
  </select>
 
  <delete id="eliminarProyectoContrato" parameterType="ProyectoContratoAlias">

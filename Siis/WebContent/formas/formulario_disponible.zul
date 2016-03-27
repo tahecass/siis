@@ -75,7 +75,7 @@
 											<textbox
 												constraint="no empty"
 												value="@bind(vm.disponibleSeleccionada.cuenta.tipo)"
-												disabled="true" />
+											 />
 										</row>
 										<row>
 											<hlayout>

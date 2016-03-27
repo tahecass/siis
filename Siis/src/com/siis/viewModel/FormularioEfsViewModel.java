@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.util.IOUtils;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -198,6 +199,7 @@ public class FormularioEfsViewModel {
 							Conexion.getConexion().eliminar("eliminarEfs", cartera);
 							Utilidades.mostrarNotificacion(idWINFORMEFSZPrincipal.getAttribute("MSG_TITULO").toString(),
 									idWINFORMEFSZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(), "INFO");
+							BindUtils.postNotifyChange(null, null, FormularioEfsViewModel.this, "*");
 							listarEfs();
 							setDesactivarBtnNuevo(false);
 							setDesactivarBtnEditar(true);

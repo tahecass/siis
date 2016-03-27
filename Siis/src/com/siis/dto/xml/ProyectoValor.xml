@@ -52,7 +52,23 @@
 	         AND PROYECTO_VALOR.SEC_PROYECTO =  #{proyecto.secuencia,jdbcType=NUMERIC};
 	        </if>
 	      </trim>
- </select>
+  </select>
+  <select id="obtenerProyectoValor" parameterType="ProyectoValorAlias" resultMap="resMapProyectoValor"  > 
+		 SELECT
+			PROYECTO_VALOR.SEC,
+			PROYECTO_VALOR.SEC_PROYECTO,
+			PROYECTO_VALOR.VALOR,
+			PROYECTO_VALOR.PLAZO,
+			PROYECTO_VALOR.FECHA_CREACION,
+			PROYECTO_VALOR.FECHA_HORA_ACTUALIZACION,
+			PROYECTO_VALOR.PORCENTAJE
+			FROM
+			PROYECTO_VALOR   
+			
+		   WHERE 
+	           PROYECTO_VALOR.SEC =  #{secuencia,jdbcType=NUMERIC};
+	      
+  </select>
 
  <delete id="eliminarProyectoValor" parameterType="ProyectoValorAlias">
 		 DELETE FROM PROYECTO_VALOR WHERE PROYECTO_VALOR.SEC=  #{secuencia,jdbcType=NUMERIC};

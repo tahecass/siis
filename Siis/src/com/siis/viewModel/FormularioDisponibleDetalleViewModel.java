@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -56,6 +57,7 @@ public class FormularioDisponibleDetalleViewModel {
 		listaDisponibleBanco = new ArrayList<DisponibleBanco>();
 		disponibleBancoSeleccionado = new DisponibleBanco();
 		setDesactivarformulario(true);
+		BindUtils.postNotifyChange(null, null, FormularioDisponibleDetalleViewModel.this, "*");
 		listarDisponibleBanco();
 		accion = new String();
 
@@ -124,6 +126,7 @@ public class FormularioDisponibleDetalleViewModel {
 									idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO").toString(),
 									idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
 									"INFO");
+							BindUtils.postNotifyChange(null, null, FormularioDisponibleDetalleViewModel.this, "*");
 							listarDisponibleBanco();
 							setDesactivarBtnNuevo(false);
 							setDesactivarBtnEditar(true);
@@ -217,9 +220,11 @@ public class FormularioDisponibleDetalleViewModel {
 		listaDisponibleBanco.clear();
 
 		setDesactivarformulario(true);
+
 		try {
 			setListaDisponibleBanco(
 					(List<DisponibleBanco>) Conexion.getConexion().obtenerListado("listarDisponibleBancos", dispoBan));
+			 
 		} catch (Exception e) {
 			e.printStackTrace();
 

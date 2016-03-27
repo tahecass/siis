@@ -35,6 +35,23 @@
 	        </if>
 	      </trim>
 	</select>
+	<select id="obtenerIndicador" resultMap="resMapIndicador"
+		resultType="IndicadorAlias">
+		SELECT 
+		   INDICADORES.SEC , 
+		   INDICADORES.NUMERO , 
+		   INDICADORES.NOMBRE , 
+		   INDICADORES.OBJETIVO_REAL , 
+		   INDICADORES.OBJETIVO_ESPERADO , 
+		   INDICADORES.FECHA_CREACION , 
+		   INDICADORES.NOMBRE , 
+		   INDICADORES.FECHA_HORA_ACTUALIZACION,
+		   INDICADORES.ANO_MES,
+		   CASE WHEN INDICADORES.OBJETIVO_ESPERADO > INDICADORES.OBJETIVO_REAL THEN 'INCUMPLIDO' ELSE 'CUMPLIDO' END AS ESTADO
+		
+		FROM  INDICADORES 
+		where  INDICADORES.SEC =  #{secuencia,jdbcType=NUMERIC}
+	</select>
 
 <select id="guardarIndicador" parameterType="IndicadorAlias" resultMap="resMapIndicador" statementType="CALLABLE" >   
 		  INSERT

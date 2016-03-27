@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -24,7 +25,6 @@ import org.zkoss.zul.Messagebox;
 import com.siis.configuracion.Conexion;
 import com.siis.dto.AmortizacionCredito;
 import com.siis.dto.Credito;
-import com.siis.dto.DetalleCartera;
 import com.siis.viewModel.framework.Utilidades;
 
 public class FormularioCreditoDetalleViewModel {
@@ -124,6 +124,7 @@ public class FormularioCreditoDetalleViewModel {
 									idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_TITULO").toString(),
 									idWINFORMDETDISPBCOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
 									"INFO");
+							BindUtils.postNotifyChange(null, null, FormularioCreditoDetalleViewModel.this, "*");
 							listarAmortizacionCredito();
 							setDesactivarBtnNuevo(false);
 							setDesactivarBtnEditar(true);

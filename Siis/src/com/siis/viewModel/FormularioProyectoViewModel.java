@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -23,7 +24,7 @@ import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Tabpanel;
 
 import com.siis.configuracion.Conexion;
-import com.siis.dto.Proyecto;
+import com.siis.dto.Proyecto; 
 import com.siis.viewModel.framework.BandboxBancos;
 import com.siis.viewModel.framework.Utilidades;
 
@@ -121,6 +122,7 @@ public class FormularioProyectoViewModel {
 									idWINFORMPROYECTOZPrincipal.getAttribute("MSG_TITULO").toString(),
 									idWINFORMPROYECTOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
 									"INFO");
+							BindUtils.postNotifyChange(null, null, FormularioProyectoViewModel.this, "*");
 							listarProyecto();
 							setDesactivarBtnNuevo(false);
 							setDesactivarBtnEditar(true);
@@ -134,6 +136,32 @@ public class FormularioProyectoViewModel {
 
 	@NotifyChange("*")
 	@Command
+	public void onCancelar() {
+
+		if (!accion.equals("I")) {
+			proyectoSeleccionada = obtener(proyectoSeleccionada);
+			onSeleccionar(proyectoSeleccionada);
+			desactivarformulario = true;
+		} else {
+			onNuevo();
+		}
+
+	}
+	
+	private Proyecto obtener(Proyecto form) {
+		log.info("Ejecutando el metodo [obtener]");
+		Proyecto est = null;
+		try {
+			est = (Proyecto) Conexion.getConexion().obtenerRegistro("obtenerProyecto", form);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return est;
+	}
+
+	@NotifyChange("*")
+	@Command
 	public void onSeleccionar(@BindingParam("seleccionado") Proyecto proyecto) {
 		log.info("onSeleccionar==> " + proyecto.getSecuencia());
 		setProyectoSeleccionada(proyecto);
@@ -143,6 +171,7 @@ public class FormularioProyectoViewModel {
 		setDesactivarBtnGuardar(true);
 		setDesactivarBtnEliminar(false);
 		setDesactivarTabDetalle(false);
+		setDesactivarformulario(true);
 	}
 
 	@NotifyChange("*")

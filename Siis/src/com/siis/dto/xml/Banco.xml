@@ -48,10 +48,13 @@
 		BANCOS.FECHA_CREACION,
 		BANCOS.FECHA_ACTUALIZACION
 		FROM BANCOS
-		WHERE (UPPER(CODIGO) LIKE UPPER(#{valorBusqueda})
-		or UPPER(NOMBRE) LIKE UPPER(#{valorBusqueda})
-		);
-
+		<trim prefix="WHERE" prefixOverrides="AND | OR ">
+			<if test="valorBusqueda !=null and valorBusqueda !=''">
+				      (UPPER(CODIGO) LIKE UPPER(#{valorBusqueda})
+					or UPPER(NOMBRE) LIKE UPPER(#{valorBusqueda})
+					);
+			</if>
+		</trim>
 	</select>
 	
 	<select id="buscarBancos" parameterType="java.lang.String"

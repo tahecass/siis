@@ -27,7 +27,7 @@
 									<label value="Factura" />
 								</hlayout>
 								<hlayout>
-									<doublebox constraint="no empty"
+									<textbox constraint="no empty"
 										value="@bind(vm.detalleProyContSeleccionada.factura)"
 										disabled="@load(vm.desactivarformulario)" />
 

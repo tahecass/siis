@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -158,7 +159,7 @@ public class FormularioCarteraViewModel {
 									idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
 									idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
 									"INFO");
-
+							BindUtils.postNotifyChange(null, null, FormularioCarteraViewModel.this, "*");
 							listarCartera();
 							setDesactivarBtnNuevo(false);
 							setDesactivarBtnEditar(true);

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -156,6 +157,7 @@ public class FormularioCreditoViewModel {
 									idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO").toString(),
 									idWINFORMCREDITOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
 									"INFO");
+							BindUtils.postNotifyChange(null, null, FormularioCreditoViewModel.this, "*");
 							listarCredito();
 							setDesactivarBtnNuevo(false);
 							setDesactivarBtnEditar(true);

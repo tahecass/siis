@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -23,7 +24,7 @@ import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Tabpanel;
 import org.zkoss.zul.Window;
 
-import com.siis.configuracion.Conexion;
+import com.siis.configuracion.Conexion; 
 import com.siis.dto.Indicador;
 import com.siis.viewModel.framework.Utilidades;
 
@@ -147,6 +148,7 @@ public class FormularioIndicadorViewModel {
 									idWINFORMINDICADORZPrincipal.getAttribute("MSG_TITULO").toString(),
 									idWINFORMINDICADORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
 									"INFO");
+							BindUtils.postNotifyChange(null, null, FormularioIndicadorViewModel.this, "*");
 							listarIndicador();
 							setDesactivarBtnNuevo(false);
 							setDesactivarBtnEditar(true);
@@ -158,6 +160,32 @@ public class FormularioIndicadorViewModel {
 				});
 	}
 
+	
+	@NotifyChange("*")
+	@Command
+	public void onCancelar() {
+
+		if (!accion.equals("I")) {
+			indicadorSeleccionado = obtener(indicadorSeleccionado);
+			onSeleccionar(indicadorSeleccionado);
+			desactivarformulario = true;
+		} else {
+			onNuevo();
+		}
+
+	}
+	
+	private Indicador obtener(Indicador form) {
+		log.info("Ejecutando el metodo [obtener]");
+		Indicador est = null;
+		try {
+			est = (Indicador) Conexion.getConexion().obtenerRegistro("obtenerIndicador", form);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return est;
+	}
 	@NotifyChange("*")
 	@Command
 	public void onSeleccionar(@BindingParam("seleccionado") Indicador cartera) {
@@ -169,6 +197,7 @@ public class FormularioIndicadorViewModel {
 		setDesactivarBtnGuardar(true);
 		setDesactivarBtnEliminar(false);
 		setDesactivarTabDetalle(false);
+		setDesactivarformulario(true);
 	}
 
 	@NotifyChange("*")

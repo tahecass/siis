@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -22,7 +23,7 @@ import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
 
-import com.siis.configuracion.Conexion;
+import com.siis.configuracion.Conexion; 
 import com.siis.dto.Proyecto;
 import com.siis.dto.ProyectoContrato;
 import com.siis.viewModel.framework.Utilidades;
@@ -123,6 +124,7 @@ public class FormularioProyectoContratosDetalleViewModel {
 									idWINFORMPROCONTZPrincipal.getAttribute("MSG_TITULO").toString(),
 									idWINFORMPROCONTZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
 									"INFO");
+							BindUtils.postNotifyChange(null, null, FormularioProyectoContratosDetalleViewModel.this, "*");
 							listarProyectoContrato();
 							setDesactivarBtnNuevo(false);
 							setDesactivarBtnEditar(true);
@@ -143,6 +145,33 @@ public class FormularioProyectoContratosDetalleViewModel {
 		setDesactivarBtnEditar(false);
 		setDesactivarBtnGuardar(true);
 		setDesactivarBtnEliminar(false);
+		setDesactivarformulario(true);
+	}
+	
+	@NotifyChange("*")
+	@Command
+	public void onCancelar() {
+
+		if (!accion.equals("I")) {
+			detalleProyContSeleccionada = obtener(detalleProyContSeleccionada);
+			onSeleccionar(detalleProyContSeleccionada);
+			desactivarformulario = true;
+		} else {
+			onNuevo();
+		}
+
+	}
+	
+	private ProyectoContrato obtener(ProyectoContrato form) {
+		log.info("Ejecutando el metodo [obtener]");
+		ProyectoContrato est = null;
+		try {
+			est = (ProyectoContrato) Conexion.getConexion().obtenerRegistro("obtenerProyectoContrato", form);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return est;
 	}
 
 	@NotifyChange("*")

@@ -20,7 +20,7 @@
 				   INTO PROYECTOS (SEC, SEC_BANCO,OBJETO, CONTRATO,PORCENTAJE_EJECUCION,VALOR_LEGALIZADO, FECHA, FECHA_CREACION, FECHA_HORA_ACTUALIZACION)
 					  VALUES
 					  ( #{secuencia,jdbcType=NUMERIC}, 
-					   #{entidad.secuencia,jdbcType=NUMERIC},
+					   #{entidad.sec,jdbcType=NUMERIC},
 					   #{objeto,jdbcType=VARCHAR},
 					   #{contrato,jdbcType=NUMERIC},
 					   #{porcentajeEjecucion,jdbcType=NUMERIC},
@@ -34,7 +34,7 @@
 	<update id="actualizarProyecto" parameterType="ProyectoAlias">
 	  UPDATE PROYECTOS 
 	     SET 
-	         SEC_BANCO = #{entidad.secuencia,jdbcType=NUMERIC},
+	         SEC_BANCO = #{entidad.sec,jdbcType=NUMERIC},
 	         CONTRATO  =  #{contrato,jdbcType=VARCHAR},
 	         OBJETO =   #{objeto,jdbcType=VARCHAR},
 	         PORCENTAJE_EJECUCION   =   #{porcentajeEjecucion,jdbcType=NUMERIC},
@@ -61,10 +61,30 @@
 			LEFT JOIN BANCOS  ON BANCOS.SEC = PROYECTOS.SEC_BANCO
 		 
 		  <trim prefix="WHERE" prefixOverrides="AND | OR ">
-			<if test="entidad !=null and entidad.secuencia !=null">
-	         AND PROYECTOS.SEC_BANCO =  #{entidad.secuencia,jdbcType=NUMERIC};
+			<if test="entidad !=null and entidad.sec !=null">
+	         AND PROYECTOS.SEC_BANCO =  #{entidad.sec,jdbcType=NUMERIC};
 	        </if>
 	      </trim>
+ </select>
+ <select id="obtenerProyecto" parameterType="ProyectoAlias" resultMap="resMapProyecto"  > 
+		 SELECT
+			PROYECTOS.SEC,
+			PROYECTOS.SEC_BANCO,
+			PROYECTOS.CONTRATO,
+			PROYECTOS.PORCENTAJE_EJECUCION,
+			PROYECTOS.VALOR_LEGALIZADO,
+			PROYECTOS.FECHA,
+			PROYECTOS.OBJETO,
+			PROYECTOS.FECHA_CREACION,
+			PROYECTOS.FECHA_HORA_ACTUALIZACION,
+			BANCOS.CODIGO,
+			BANCOS.NOMBRE
+			FROM
+			PROYECTOS   
+			LEFT JOIN BANCOS  ON BANCOS.SEC = PROYECTOS.SEC_BANCO
+		 
+		 WHERE   PROYECTOS.SEC=  #{secuencia,jdbcType=NUMERIC};
+	  
  </select>
 
  <delete id="eliminarProyecto" parameterType="ProyectoAlias">
