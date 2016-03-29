@@ -19,7 +19,7 @@
 					<row>
 						Fecha inicio:
 						<div>
-							<datebox hflex="true" locale="en" 
+							<datebox hflex="true" locale="en" onChange="@command('setterCalendarI', fecha=self.value)"
 								format="@load(allDay ? 'long' : 'long+medium')" 
 								value="@bind(fx.beginDate)" errorMessage="@load(vmsgs.beginDate)" />
 						</div>
@@ -27,7 +27,7 @@
 					<row>
 						Fecha fin:
 						<div>
-							<datebox hflex="true" locale="en" 
+							<datebox hflex="true" locale="en" onChange="@command('setterCalendarF', fecha=self.value)"
 								format="@load(allDay ? 'long' : 'long+medium')"
 								value="@bind(fx.endDate)" errorMessage="@load(vmsgs.endDate)"/>
 						</div>

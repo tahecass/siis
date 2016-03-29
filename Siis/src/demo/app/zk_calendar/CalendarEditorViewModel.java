@@ -8,6 +8,7 @@ import org.zkoss.bind.BindUtils;
 import org.zkoss.bind.Property;
 import org.zkoss.bind.ValidationContext;
 import org.zkoss.bind.Validator;
+import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
@@ -18,11 +19,14 @@ import com.siis.configuracion.Conexion;
 import com.siis.dto.Calendario;
 
 public class CalendarEditorViewModel {
-	
+
 	private DemoCalendarEvent calendarEventData = new DemoCalendarEvent();
-	
+
 	private boolean visible = false;
 
+	private Date fechaInicio;
+	private Date fechaFin;
+	
 	public DemoCalendarEvent getCalendarEvent() {
 		return calendarEventData;
 	}
@@ -37,39 +41,53 @@ public class CalendarEditorViewModel {
 
 	@Init
 	public void init() {
-		//subscribe a queue, listen to other controller
+		// subscribe a queue, listen to other controller
 		QueueUtil.lookupQueue().subscribe(new QueueListener());
 	}
 
 	private void startEditing(DemoCalendarEvent calendarEventData) {
 		this.calendarEventData = calendarEventData;
 		visible = true;
-		
-		//reload entire view-model data when going to edit
+
+		// reload entire view-model data when going to edit
 		BindUtils.postNotifyChange(null, null, this, "*");
 	}
-	
 
-	public boolean isAllDay(Date beginDate,Date endDate) {
-		int M_IN_DAY = 1000 * 60 * 60 * 24; 
+	@Command
+	public void setterCalendarI(@BindingParam("fecha") Date fecha) {
+		fechaInicio = (fecha);
+		System.out.println("F.I" + fechaInicio);
+	}
+
+	@Command
+	public void setterCalendarF(@BindingParam("fecha") Date fecha) {
+		fechaFin = (fecha);
+		System.out.println("F.F" + fechaFin);
+	}
+
+	public boolean isAllDay(Date beginDate, Date endDate) {
+		int M_IN_DAY = 1000 * 60 * 60 * 24;
 		boolean allDay = false;
-		
-		if(beginDate != null && endDate != null) {
+
+		if (beginDate != null && endDate != null) {
 			long between = endDate.getTime() - beginDate.getTime();
 			allDay = between > M_IN_DAY;
 		}
 		return allDay;
 	}
-	
-	public Validator getDateValidator(){
-		return new AbstractValidator(){
+
+	public Validator getDateValidator() {
+		return new AbstractValidator() {
 			@Override
 			public void validate(ValidationContext ctx) {
-				Map<String,Property> formData = ctx.getProperties(ctx.getProperty().getValue());
-				Date beginDate = (Date) formData.get("beginDate").getValue();
-				Date endDate = (Date) formData.get("endDate").getValue();
-				System.out.println("F.I: "+ beginDate);
-				System.out.println("F.F: "+ endDate);
+				Map<String, Property> formData = ctx.getProperties(ctx
+						.getProperty().getValue());
+//				Date beginDate = (Date) formData.get("beginDate").getValue();
+				Date beginDate = fechaInicio;
+//				Date endDate = (Date) formData.get("endDate").getValue();
+				Date endDate = fechaFin;
+				System.out.println("F.I: " + beginDate);
+				System.out.println("F.F: " + endDate);
 				if (beginDate == null) {
 					addInvalidMessage(ctx, "beginDate", "Begin date is empty");
 				}
@@ -96,36 +114,45 @@ public class CalendarEditorViewModel {
 	@Command
 	@NotifyChange("visible")
 	public void delete() {
-		QueueMessage message = new QueueMessage(QueueMessage.Type.DELETE, calendarEventData);
+		QueueMessage message = new QueueMessage(QueueMessage.Type.DELETE,
+				calendarEventData);
 		QueueUtil.lookupQueue().publish(message);
 		this.visible = false;
 	}
-	
-	//827F4B501D945ED7
+
+	// 827F4B501D945ED7
 
 	@Command
 	@NotifyChange("visible")
 	public void ok() {
-		Calendario calendario= new Calendario(null,calendarEventData.getBeginDate(), calendarEventData.getEndDate(), calendarEventData.getHeaderColor(),calendarEventData.getContentColor(), calendarEventData.getContent());
-		if (calendarEventData.getSec()!=null){
-			System.out.print("VAlor...."+ calendarEventData.getSec());
-			Conexion.getConexion().actualizar("actualizarCalendario", calendario);
-		}else{
-		
-		Conexion.getConexion().guardar("guardarCalendario", calendario);
+		Calendario calendario = new Calendario(null,
+				fechaInicio,
+				fechaFin,
+				calendarEventData.getHeaderColor(),
+				calendarEventData.getContentColor(),
+				calendarEventData.getContent());
+		System.out.println("F.I: " + calendario.getFecha_inicio());
+		System.out.println("F.F: " + calendario.getFecha_fin());
+		if (calendarEventData.getSec() != null) {
+			System.out.print("VAlor...." + calendarEventData.getSec());
+			Conexion.getConexion().actualizar("actualizarCalendario",
+					calendario);
+		} else {
+
+			Conexion.getConexion().guardar("guardarCalendario", calendario);
 		}
-		QueueMessage message = new QueueMessage(QueueMessage.Type.OK, calendarEventData);
+		QueueMessage message = new QueueMessage(QueueMessage.Type.OK,
+				calendarEventData);
 		QueueUtil.lookupQueue().publish(message);
 		this.visible = false;
 	}
 
-	private class QueueListener implements
-			EventListener<QueueMessage> {
+	private class QueueListener implements EventListener<QueueMessage> {
 		@Override
-		public void onEvent(QueueMessage message)
-				throws Exception {
-			if (QueueMessage.Type.EDIT.equals(message.getType())){
-				CalendarEditorViewModel.this.startEditing((DemoCalendarEvent)message.getData());
+		public void onEvent(QueueMessage message) throws Exception {
+			if (QueueMessage.Type.EDIT.equals(message.getType())) {
+				CalendarEditorViewModel.this
+						.startEditing((DemoCalendarEvent) message.getData());
 			}
 		}
 	}
