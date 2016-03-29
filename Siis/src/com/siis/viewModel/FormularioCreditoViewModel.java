@@ -101,41 +101,45 @@ public class FormularioCreditoViewModel {
 		try {
 			log.info("accion=>> " + accion);
 
-			
-
 			if (!Utilidades.validarFormulario(idWINFORMCREDITOZGridFormulario)) {
 				Utilidades.mostrarNotificacion(idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO").toString(),
 						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
 				return;
 			}
-			
+
 			creditoSeleccionada.setEntidad(idFORMDISPONIBLEZBbxBanco.getValue());
-				if (accion.equals("I")) {
-					creditoSeleccionada.setSecuencia(10);
-					Conexion.getConexion().guardar("guardarCredito", creditoSeleccionada);
-					log.info("Creditoguardada");
-					Utilidades.mostrarNotificacion(idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO").toString(),
-							idWINFORMCREDITOZPrincipal.getAttribute("MSG_MENSAJE_GUARDAR").toString(), "INFO");
+			if (accion.equals("I")) {
+				HashMap<String, Object> par = new HashMap<String, Object>();
+				par.put("NOMBRE_TABLA", "CREDITOS");
+				Integer sigSec = (Integer) Conexion.getConexion().obtenerRegistro("obtenerSeigSecuencia", par);
 
-				} else if (accion.equals("U")) {
-					Conexion.getConexion().actualizar("actualizarCredito", creditoSeleccionada);
-					log.info("CreditoActualizada");
-					Utilidades.mostrarNotificacion(idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO").toString(),
-							idWINFORMCREDITOZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
-				}
+				if (sigSec != null)
+					creditoSeleccionada.setSecuencia(sigSec);
+				else
+					creditoSeleccionada.setSecuencia(1);
 
-				listarCredito();
-				setDesactivarBtnNuevo(false);
-				setDesactivarBtnEditar(false);
-				setDesactivarBtnGuardar(true);
-				setDesactivarBtnEliminar(false);
-			 
+				Conexion.getConexion().guardar("guardarCredito", creditoSeleccionada);
+				log.info("Creditoguardada");
+				Utilidades.mostrarNotificacion(idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO").toString(),
+						idWINFORMCREDITOZPrincipal.getAttribute("MSG_MENSAJE_GUARDAR").toString(), "INFO");
+
+			} else if (accion.equals("U")) {
+				Conexion.getConexion().actualizar("actualizarCredito", creditoSeleccionada);
+				log.info("CreditoActualizada");
+				Utilidades.mostrarNotificacion(idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO").toString(),
+						idWINFORMCREDITOZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
+			}
+
+			listarCredito();
+			setDesactivarBtnNuevo(false);
+			setDesactivarBtnEditar(false);
+			setDesactivarBtnGuardar(true);
+			setDesactivarBtnEliminar(false);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
-	
 
 	@NotifyChange("*")
 	@Command
@@ -197,16 +201,16 @@ public class FormularioCreditoViewModel {
 		setDesactivarBtnEliminar(true);
 		setDesactivarTabDetalle(true);
 	}
-	
+
 	@NotifyChange("*")
 	@Command
 	public void onCancelar() {
-	 
+
 		if (!accion.equals("I")) {
 			creditoSeleccionada = obtener(creditoSeleccionada);
 			onSeleccionar(creditoSeleccionada);
-			desactivarformulario=true;
-		}else{
+			desactivarformulario = true;
+		} else {
 			onNuevo();
 		}
 
@@ -223,6 +227,7 @@ public class FormularioCreditoViewModel {
 		}
 		return cred;
 	}
+
 	@NotifyChange("*")
 	@Command
 	public void onNuevo() {

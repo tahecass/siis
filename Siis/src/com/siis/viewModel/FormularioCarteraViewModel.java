@@ -103,7 +103,15 @@ public class FormularioCarteraViewModel {
 			if (esFormularioValido(carteraSeleccionada)) {
 
 				if (accion.equals("I")) {
-					carteraSeleccionada.setSecuencia(10);
+					HashMap<String, Object> par = new HashMap<String, Object>();
+					par.put("NOMBRE_TABLA", "CARTERAS");
+					Integer sigSec = (Integer) Conexion.getConexion().obtenerRegistro("obtenerSeigSecuencia", par);
+
+					if (sigSec != null)
+						carteraSeleccionada.setSecuencia(sigSec);
+					else
+						carteraSeleccionada.setSecuencia(1);
+
 					Conexion.getConexion().guardar("guardarCartera", carteraSeleccionada);
 					log.info("Carteraguardada");
 					Utilidades.mostrarNotificacion(idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
@@ -207,8 +215,8 @@ public class FormularioCarteraViewModel {
 		if (!accion.equals("I")) {
 			carteraSeleccionada = obtener(carteraSeleccionada);
 			onSeleccionar(carteraSeleccionada);
-			desactivarformulario=true;
-		}else{
+			desactivarformulario = true;
+		} else {
 			onNuevo();
 		}
 

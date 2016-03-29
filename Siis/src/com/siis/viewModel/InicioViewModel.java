@@ -36,7 +36,7 @@ public class InicioViewModel extends Borderlayout {
 
 	public void cargarSiguientePagina() {
 		log.info("Ejecutando [ cargarSiguientePagina() ]...");
-//		Component miPage = this.getParent();
+		// Component miPage = this.getParent();
 		this.detach();
 		String urlPagina = "", tipoUsuario = "FINANCIERO";
 
@@ -52,7 +52,6 @@ public class InicioViewModel extends Borderlayout {
 		}
 
 		Executions.sendRedirect(urlPagina);
-		
 
 	}
 }

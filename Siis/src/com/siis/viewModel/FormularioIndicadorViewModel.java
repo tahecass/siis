@@ -102,9 +102,17 @@ public class FormularioIndicadorViewModel {
 						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
 				return;
 			}
-
-			indicadorSeleccionado.setSecuencia(10);
+ 
 			if (accion.equals("I")) {
+
+				HashMap<String, Object> par = new HashMap<String, Object>();
+				par.put("NOMBRE_TABLA", "INDICADORES");
+				Integer sigSec = (Integer) Conexion.getConexion().obtenerRegistro("obtenerSeigSecuencia", par);
+
+				if (sigSec != null)
+					indicadorSeleccionado.setSecuencia(sigSec);
+				else
+					indicadorSeleccionado.setSecuencia(1);
 
 				Conexion.getConexion().guardar("guardarIndicador", indicadorSeleccionado);
 				log.info("Indicadorguardada");

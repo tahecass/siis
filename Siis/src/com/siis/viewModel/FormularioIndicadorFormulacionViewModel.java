@@ -2,6 +2,7 @@ package com.siis.viewModel;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -79,7 +80,15 @@ public class FormularioIndicadorFormulacionViewModel {
 			formulacionSeleccionado.setIndicador(indicador);
 
 			if (accion.equals("I")) {
-				formulacionSeleccionado.setSecuencia(10);
+				HashMap<String, Object> par = new HashMap<String, Object>();
+				par.put("NOMBRE_TABLA", "FORMULACIONES");
+				Integer sigSec = (Integer) Conexion.getConexion().obtenerRegistro("obtenerSeigSecuencia", par);
+
+				if (sigSec != null)
+					formulacionSeleccionado.setSecuencia(sigSec);
+				else
+					formulacionSeleccionado.setSecuencia(1);
+ 
 				Conexion.getConexion().guardar("guardarFormulacion", formulacionSeleccionado);
 				log.info("Disponibleguardada");
 				Utilidades.mostrarNotificacion(idWINFORMFORMULACIONZPrincipal.getAttribute("MSG_TITULO").toString(),

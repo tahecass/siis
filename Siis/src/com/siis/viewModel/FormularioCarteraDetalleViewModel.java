@@ -78,7 +78,16 @@ public class FormularioCarteraDetalleViewModel {
 			}
 
 			if (accion.equals("I")) {
-				detalleCarteraSeleccionada.setSecuencia(10);
+				
+				HashMap<String, Object> par = new HashMap<String, Object>();
+				par.put("NOMBRE_TABLA", "DETALLE_CARTERA");
+				Integer sigSec = (Integer) Conexion.getConexion().obtenerRegistro("obtenerSeigSecuencia", par);
+
+				if (sigSec != null)
+					detalleCarteraSeleccionada.setSecuencia(sigSec);
+				else
+					detalleCarteraSeleccionada.setSecuencia(1);
+ 
 				Conexion.getConexion().guardar("guardarDetalleCartera", detalleCarteraSeleccionada);
 				log.info("Carteraguardada");
 				Utilidades.mostrarNotificacion(idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),

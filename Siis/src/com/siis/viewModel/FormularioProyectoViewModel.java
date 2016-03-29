@@ -80,7 +80,15 @@ public class FormularioProyectoViewModel {
 			proyectoSeleccionada.setEntidad(idFORMPROYECTOZBbxEntidad.getValue());
 
 			if (accion.equals("I")) {
-				proyectoSeleccionada.setSecuencia(10);
+				HashMap<String, Object> par = new HashMap<String, Object>();
+				par.put("NOMBRE_TABLA", "PROYECTOS");
+				Integer sigSec = (Integer) Conexion.getConexion().obtenerRegistro("obtenerSeigSecuencia", par);
+
+				if (sigSec != null)
+					proyectoSeleccionada.setSecuencia(sigSec);
+				else
+					proyectoSeleccionada.setSecuencia(1);
+ 
 				Conexion.getConexion().guardar("guardarProyecto", proyectoSeleccionada);
 				log.info("Proyectoguardada");
 				Utilidades.mostrarNotificacion(idWINFORMPROYECTOZPrincipal.getAttribute("MSG_TITULO").toString(),

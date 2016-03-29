@@ -153,12 +153,19 @@ public class FormularioEfsViewModel {
 						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
 				return;
 			}
-
-			EfSeleccionado.setSecuencia(10);
+ 
 			EfSeleccionado.setNombreArchivo(labelNombreArchivo.getValue());
 
 			if (accion.equals("I")) {
+				HashMap<String, Object> par = new HashMap<String, Object>();
+				par.put("NOMBRE_TABLA", "EFS");
+				Integer sigSec = (Integer) Conexion.getConexion().obtenerRegistro("obtenerSeigSecuencia", par);
 
+				if (sigSec != null)
+					EfSeleccionado.setSecuencia(sigSec);
+				else
+					EfSeleccionado.setSecuencia(1);
+				
 				Conexion.getConexion().guardar("guardarEfs", EfSeleccionado);
 				log.info("Efsguardada");
 				Utilidades.mostrarNotificacion(idWINFORMEFSZPrincipal.getAttribute("MSG_TITULO").toString(),

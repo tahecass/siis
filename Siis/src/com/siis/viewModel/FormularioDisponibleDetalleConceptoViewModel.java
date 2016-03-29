@@ -2,6 +2,7 @@ package com.siis.viewModel;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -81,7 +82,16 @@ public class FormularioDisponibleDetalleConceptoViewModel {
 			disponibleConceptoSeleccionado.setDisponible(disponible);
 
 			if (accion.equals("I")) {
-				disponibleConceptoSeleccionado.setSecuencia(10);
+				
+				HashMap<String, Object> par = new HashMap<String, Object>();
+				par.put("NOMBRE_TABLA", "DISPONIBLE_CONCEPTO");
+				Integer sigSec = (Integer) Conexion.getConexion().obtenerRegistro("obtenerSeigSecuencia", par);
+
+				if (sigSec != null)
+					disponibleConceptoSeleccionado.setSecuencia(sigSec);
+				else
+					disponibleConceptoSeleccionado.setSecuencia(1);
+				 
 				Conexion.getConexion().guardar("guardarDisponibleConcepto", disponibleConceptoSeleccionado);
 				log.info("Disponibleguardada");
 				Utilidades.mostrarNotificacion(idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_TITULO").toString(),

@@ -24,7 +24,7 @@ import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
 
 import com.siis.configuracion.Conexion;
-import com.siis.dto.Proyecto; 
+import com.siis.dto.Proyecto;
 import com.siis.dto.ProyectoValor;
 import com.siis.viewModel.framework.Utilidades;
 
@@ -81,7 +81,15 @@ public class FormularioProyectoValoresDetalleViewModel {
 			detalleCarteraSeleccionada.setProyecto(getProyecto());
 
 			if (accion.equals("I")) {
-				detalleCarteraSeleccionada.setSecuencia(10);
+				HashMap<String, Object> par = new HashMap<String, Object>();
+				par.put("NOMBRE_TABLA", "PROYECTO_VALOR");
+				Integer sigSec = (Integer) Conexion.getConexion().obtenerRegistro("obtenerSeigSecuencia", par);
+
+				if (sigSec != null)
+					detalleCarteraSeleccionada.setSecuencia(sigSec);
+				else
+					detalleCarteraSeleccionada.setSecuencia(1);
+
 				Conexion.getConexion().guardar("guardarProyectoValor", detalleCarteraSeleccionada);
 				log.info("Carteraguardada");
 				Utilidades.mostrarNotificacion(idWINFORMPROVALORZPrincipal.getAttribute("MSG_TITULO").toString(),
@@ -135,12 +143,13 @@ public class FormularioProyectoValoresDetalleViewModel {
 					}
 				});
 	}
+
 	@NotifyChange("*")
 	@Command
 	public void onCancelar() {
 
 		if (!accion.equals("I")) {
-			detalleCarteraSeleccionada= obtener(detalleCarteraSeleccionada);
+			detalleCarteraSeleccionada = obtener(detalleCarteraSeleccionada);
 			onSeleccionar(detalleCarteraSeleccionada);
 			desactivarformulario = true;
 		} else {
@@ -148,7 +157,7 @@ public class FormularioProyectoValoresDetalleViewModel {
 		}
 
 	}
-	
+
 	private ProyectoValor obtener(ProyectoValor form) {
 		log.info("Ejecutando el metodo [obtener]");
 		ProyectoValor est = null;

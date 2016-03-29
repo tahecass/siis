@@ -117,7 +117,16 @@ public class FormularioDisponibleViewModel {
 			disponibleSeleccionada.setCuenta(idFORMDISPONIBLEZBbxCuenta.getValue());
 
 			if (accion.equals("I")) {
-				disponibleSeleccionada.setSecuencia(10);
+
+				HashMap<String, Object> par = new HashMap<String, Object>();
+				par.put("NOMBRE_TABLA", "DISPONIBLES");
+				Integer sigSec = (Integer) Conexion.getConexion().obtenerRegistro("obtenerSeigSecuencia", par);
+
+				if (sigSec != null)
+					disponibleSeleccionada.setSecuencia(sigSec);
+				else
+					disponibleSeleccionada.setSecuencia(1);
+
 				Conexion.getConexion().guardar("guardarDisponible", disponibleSeleccionada);
 				log.info("Disponibleguardada");
 				Utilidades.mostrarNotificacion(idWINFORMDISPONIBLEZPrincipal.getAttribute("MSG_TITULO").toString(),
@@ -269,7 +278,7 @@ public class FormularioDisponibleViewModel {
 		log.info("onMostrarVentanaDetalle");
 
 		try {
-			
+
 			Map<String, Object> parametros = new HashMap<String, Object>();
 			parametros.put("DISPONIBLE", disponibleSeleccionada);
 			log.info("idDISPONIBLEZTpnDetalleDisponible.getChildren().size() ==> "
@@ -287,8 +296,6 @@ public class FormularioDisponibleViewModel {
 				detalleDisponible.listarDisponibleBanco();
 				log.info("1");
 			}
-			
-			 
 
 		} catch (Exception e) {
 			e.printStackTrace();

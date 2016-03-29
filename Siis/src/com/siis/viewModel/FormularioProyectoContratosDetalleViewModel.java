@@ -23,7 +23,7 @@ import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
 
-import com.siis.configuracion.Conexion; 
+import com.siis.configuracion.Conexion;
 import com.siis.dto.Proyecto;
 import com.siis.dto.ProyectoContrato;
 import com.siis.viewModel.framework.Utilidades;
@@ -80,7 +80,16 @@ public class FormularioProyectoContratosDetalleViewModel {
 			detalleProyContSeleccionada.setProyecto(getProyecto());
 
 			if (accion.equals("I")) {
-				detalleProyContSeleccionada.setSecuencia(10);
+
+				HashMap<String, Object> par = new HashMap<String, Object>();
+				par.put("NOMBRE_TABLA", "PROYECTO_CONTRATO");
+				Integer sigSec = (Integer) Conexion.getConexion().obtenerRegistro("obtenerSeigSecuencia", par);
+
+				if (sigSec != null)
+					detalleProyContSeleccionada.setSecuencia(sigSec);
+				else
+					detalleProyContSeleccionada.setSecuencia(1);
+
 				Conexion.getConexion().guardar("guardarProyectoContrato", detalleProyContSeleccionada);
 				log.info("Carteraguardada");
 				Utilidades.mostrarNotificacion(idWINFORMPROCONTZPrincipal.getAttribute("MSG_TITULO").toString(),
@@ -124,7 +133,8 @@ public class FormularioProyectoContratosDetalleViewModel {
 									idWINFORMPROCONTZPrincipal.getAttribute("MSG_TITULO").toString(),
 									idWINFORMPROCONTZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
 									"INFO");
-							BindUtils.postNotifyChange(null, null, FormularioProyectoContratosDetalleViewModel.this, "*");
+							BindUtils.postNotifyChange(null, null, FormularioProyectoContratosDetalleViewModel.this,
+									"*");
 							listarProyectoContrato();
 							setDesactivarBtnNuevo(false);
 							setDesactivarBtnEditar(true);
@@ -147,7 +157,7 @@ public class FormularioProyectoContratosDetalleViewModel {
 		setDesactivarBtnEliminar(false);
 		setDesactivarformulario(true);
 	}
-	
+
 	@NotifyChange("*")
 	@Command
 	public void onCancelar() {
@@ -161,7 +171,7 @@ public class FormularioProyectoContratosDetalleViewModel {
 		}
 
 	}
-	
+
 	private ProyectoContrato obtener(ProyectoContrato form) {
 		log.info("Ejecutando el metodo [obtener]");
 		ProyectoContrato est = null;
