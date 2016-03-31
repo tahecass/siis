@@ -17,8 +17,8 @@
 		INSERT
 		INTO CALENDARIO VALUES
 		( #{sec,jdbcType=NUMERIC},
-		#{fecha_inicio,jdbcType=DATE},
-		#{fecha_fin,jdbcType=DATE},
+		#{fecha_inicio},
+		#{fecha_fin},
 		#{color_borde,jdbcType=VARCHAR},
 		#{color_content,jdbcType=VARCHAR},
 		#{titulo,jdbcType=VARCHAR}
@@ -28,11 +28,11 @@
 	<update id="actualizarCalendario" parameterType="CalendarioAlias">
 		UPDATE CALENDARIO
 		SET TITULO = #{titulo,jdbcType=VARCHAR},
-		FECHA_INICIO = #{fecha_inicio,jdbcType=DATE},
-		FECHA_FIN = #{fecha_fin,jdbcType=DATE},
+		FECHA_INICIO = #{fecha_inicio},
+		FECHA_FIN = #{fecha_fin},
 		COLOR_BORDE = #{color_borde,jdbcType=VARCHAR},
 		COLOR_CONTENT = #{color_content,jdbcType=VARCHAR}
-		WHERE SEC = #{sec,jdbcType=NUMERIC};
+		WHERE SEC = #{sec};
 	</update>
 	<select id="listarCalendario" parameterType="java.lang.String"
 		resultMap="resMapCalendario">
