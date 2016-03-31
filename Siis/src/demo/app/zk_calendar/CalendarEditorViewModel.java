@@ -47,6 +47,8 @@ public class CalendarEditorViewModel {
 
 	private void startEditing(DemoCalendarEvent calendarEventData) {
 		this.calendarEventData = calendarEventData;
+		fechaInicio=calendarEventData.getBeginDate();
+		fechaFin=calendarEventData.getEndDate();
 		visible = true;
 
 		// reload entire view-model data when going to edit
@@ -117,6 +119,10 @@ public class CalendarEditorViewModel {
 		QueueMessage message = new QueueMessage(QueueMessage.Type.DELETE,
 				calendarEventData);
 		QueueUtil.lookupQueue().publish(message);
+		Calendario calendario = new Calendario();
+		calendario.setSec(calendarEventData.getSec());
+		Conexion.getConexion().actualizar("eliminarCalendario",
+				calendario);
 		this.visible = false;
 	}
 
@@ -134,6 +140,7 @@ public class CalendarEditorViewModel {
 		System.out.println("F.I: " + calendario.getFecha_inicio());
 		System.out.println("F.F: " + calendario.getFecha_fin());
 		if (calendarEventData.getSec() != null) {
+			calendario.setSec(calendarEventData.getSec());
 			System.out.print("VAlor...." + calendarEventData.getSec());
 			Conexion.getConexion().actualizar("actualizarCalendario",
 					calendario);
