@@ -21,7 +21,7 @@
 			<separator bar="true" height="20px"/>
 		
 			<calendars id="calendars" firstDayOfWeek="Sunday" height="600px" 
-				timeZone="Main=GMT+0" mold="month"/>
+				 mold="month"/>
 		</div>
 
 		<!-- Create/Update Event Popup -->
