@@ -3,109 +3,159 @@
 <?link rel="stylesheet" href="bootstrap/css/bootstrap.css" ?>
 <?link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css" ?>
 <?link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css" ?>
-<?component name="bandboxSeeker" macroURI="/componentes/bandbox.zul"?>
+<?component name="bandboxCliente" macroURI="/componentes/bandboxCliente.zul" class="com.siis.viewModel.framework.BandboxCliente"?>
+
 <zk xmlns="http://www.zkoss.org/2005/zul"
 	xmlns:h="http://www.w3.org/1999/xhtml"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
 	<borderlayout apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') 
-		@init('com.siis.viewModel.FormularioProveedorViewModel')">
+		@init('com.siis.viewModel.FormularioProveedorViewModel')"
+		id="idWINFORMPROVEEDORZPrincipal">
 
 		<center>
 			<vlayout height="100%">
 				<groupbox mold="3d" hflex="true" vflex="true"
 					contentStyle="padding:0px" open="true" closable="false">
-					<caption label=" " style="font-weight: bold" />
-					<grid>
-						<columns>
-							<column hflex="min" />
-							<column />
-						</columns>
-						<rows>
-							<row>
-								<label
-									value="Fecha y Hora de Actualizacion:" />
-								<datebox />
-							</row>
-							<row>
-								<label value="Usuario:" />
-								<textbox></textbox>
-							</row>
 
-							<row>
-								<label value="Proveedor:" />
+					<tabbox hflex="true" vflex="true">
+						<tabs>
+							<tab label="Generalidades" />
+							<tab label="Detalle"
+								onClick="@command('onMostrarVentanaDetalle')"
+								disabled="@load(vm.desactivarTabDetalle)" />
+							<tab label="Consulta"
+								onClick="@command('onMostrarVentanaConsulta')" />
+						</tabs>
+						<tabpanels style="overflow:auto" vflex="true">
+							<tabpanel style="overflow:auto"
+								vflex="true">
+								<grid
+									id="idWINFORMPROVEEDORZGRidFormulario">
+									<columns>
+										<column hflex="min" />
+										<column />
+									</columns>
+									<rows>
+										<row>
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label
+													value="Proveedor:" />
+											</hlayout>
+											<textbox
+												constraint="no empty" hflex="true"
+												disabled="@load(vm.desactivarformulario)"
+												value="@bind(vm.proveedorSeleccionada.proveedor)"
+												id="idFORMPROVEEDORZBbxCliente" />
+										</row>
+										<row>
+											<hlayout>
+												<label value="*"
+													style="color:transparent" />
+													<label
+														value="Fecha y Hora de Actualizacion:" />
+											</hlayout>
+											<datebox disabled="true"
+												value="@bind(vm.proveedorSeleccionada.fechaHoraActualizacion)" />
+										</row>
+										<row>
+											<hlayout>
+												<label value="*"
+													style="color:red" />
+												<label
+													value="Fecha de Pago:" />
+											</hlayout>
+											<datebox
+												constraint="no past,no empty"
+												disabled="@load(vm.desactivarformulario)"
+												value="@bind(vm.proveedorSeleccionada.fechaPago)" />
+										</row>
+									</rows>
+								</grid>
+								<separator />
+								<toolbar align="start">
+									<toolbarbutton label="Nuevo"
+										sclass="btn-info" tooltiptext="" image="imagenes/add.png"
+										onClick="@command('onNuevo')"
+										disabled="@load(vm.desactivarBtnNuevo)" />
+									<toolbarbutton label="Guardar"
+										sclass="btn-info" tooltiptext="" image="imagenes/guardar.png"
+										onClick="@command('guardarProveedor')"
+										disabled="@load(vm.desactivarBtnGuardar)" />
+									<toolbarbutton label="Editar"
+										onClick="@command('onEditar')" sclass="btn-info"
+										image="imagenes/edit.png"
+										disabled="@load(vm.desactivarBtnEditar)" />
+									<toolbarbutton label="Eliminar"
+										sclass="btn-info" image="imagenes/delete.png"
+										disabled="@load(vm.desactivarBtnEliminar)"
+										onClick="@command('onEliminar',seleccionado=vm.proveedorSeleccionada)" />
+									<toolbarbutton label="Cancelar"
+										onClick="@command('onCancelar')"
+										disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
+										tooltiptext="" image="imagenes/cancelar.png" />
+									<toolbarbutton label="Cargar"
+										onClick="@command('onCargaEmergente')" sclass="btn-info"
+										tooltiptext="" image="imagenes/subir.png" />
+									<toolbarbutton label="Refrescar"
+										onClick="@command('listarProveedor')" sclass="btn-info"
+										tooltiptext="" image="imagenes/refrescar.png" />
+								</toolbar>
+								<listbox id="idPROVEEDORZLbxProveedor"
+									span="true" model="@bind(vm.listaProveedor)"
+									selectedItem="@bind(vm.proveedorSeleccionada)"
+									onSelect="@command('onSeleccionar',seleccionado=vm.proveedorSeleccionada)">
+									<listhead sizable="true">
+										<listheader label="Proveedor"
+											sort="auto" />
+										<listheader
+											label="Fecha y Hora de Actualización" sort="auto" />
+										<listheader
+											label="Fecha de Pago" sort="auto" />
+									</listhead>
+									<template name="model">
 
-								<combobox id="bandboxSeekerProveedor">
-								</combobox>
-							</row>
-						</rows>
-					</grid>
-					<hlayout>
-						<image src="/imagenes/botones/agregar.png"
-							onClick="@command('onAgregar')" />
-						<image src="/imagenes/botones/editar.png" />
-						<image src="/imagenes/botones/borrar.png" />
-						<toolbarbutton label="Cancelar"
-							onClick="@command('onCancelar')"
-							disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
-							tooltiptext="" image="imagenes/cancelar.png" />
-					</hlayout>
-					<listbox id="idCONCPRODZLbxDetalleProveedor"
-						sizedByContent="true" span="true"
-						model="@bind(vm.listaDetalleCartera)"
-						selectedItem="@bind(vm.detalleSeleccionado)">
-						<listhead sizable="true">
-							<listheader label="Nro Factura" sort="auto" />
-							<listheader label="Valor Factura"
-								sort="auto" />
-							<listheader label="Vence" sort="auto" />
-							<listheader label="Referencia" sort="auto" />
-							<listheader label="30 Dias" sort="auto" />
-							<listheader label="60 Dias" sort="auto" />
-							<listheader label="90 Dias" sort="auto" />
-							<listheader label="Mas de 90" sort="auto" />
-						</listhead>
-						<template name="model">
+										<listitem>
+											<listcell>
+												<label
+													value="@bind(each.proveedor)" />
+											</listcell>
 
-							<listitem>
-								<listcell>
-									<textbox
-										value="@bind(each.nroFactura)" />
-								</listcell>
-								<listcell>
-									<textbox
-										value="@bind(each.valorFactura)" />
-								</listcell>
-								<listcell>
-									<datebox
-										value="@bind(each.vencimiento)" />
-								</listcell>
-								<listcell>
-									<textbox
-										value="@bind(each.referencia)" />
-								</listcell>
-								<listcell>
-									<textbox value="" />
-								</listcell>
-								<listcell>
-									<textbox value="" />
-								</listcell>
-								<listcell>
-									<textbox value="" />
-								</listcell>
-								<listcell>
-									<textbox value="" />
-								</listcell>
-								<listcell>
-									<button />
-								</listcell>
-							</listitem>
-						</template>
-					</listbox>
+											<listcell>
+												<label
+													value="@bind(each.fechaHoraActualizacion) @converter('formatedDate', format='dd/MM/yyyy')" />
+											</listcell>
+											<listcell>
+												<label
+													value="@bind(each.fechaPago) @converter('formatedDate', format='dd/MM/yyyy')" />
+											</listcell>
+										</listitem>
+									</template>
+								</listbox>
+							</tabpanel>
+							<tabpanel
+								id="idPROVEEDORZTpnDetalleProveedor" hflex="true" />
+							<tabpanel
+								id="idPROVEEDORZTpnConsultaProveedor" hflex="true" />
+						</tabpanels>
+
+					</tabbox>
 
 				</groupbox>
 			</vlayout>
 		</center>
+		<custom-attributes MSG_TITULO="Notificación" />
+		<custom-attributes
+			MSG_MENSAJE_GUARDAR="Se guardó correctamente la información" />
+		<custom-attributes
+			MSG_MENSAJE_ACTUALIZAR="Se actualizó correctamente la información" />
+		<custom-attributes
+			MSG_MENSAJE_ELIMINAR_OK="Se eliminó correctamente la información" />
+		<custom-attributes
+			MSG_MENSAJE_ELIMINAR="¿Desea eliminar la fila seleccionada?" />
+		<custom-attributes MSG_TITULO_ELIMINAR="Confirmación" />
 	</borderlayout>
 </zk>

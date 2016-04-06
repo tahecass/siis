@@ -23,67 +23,122 @@
 					<rows>
 						<row>
 							<label value="Proveedor:" />
-							<combobox model="@bind(vm.listaCliente)"
-								id="cbxProveedor"
-								value="@bind(vm.clienteSeleccionado.nombreRazonSocial)"
-								selectedItem="@bind(vm.clienteSeleccionado)"
-								onOpen="@command('listarClientes')"
-								onSelect="@command('listarDetalleCartera')">
+							<combobox model="@bind(vm.listaProveedor)"
+								id="cbxCliente"
+								value="@bind(vm.proveedorSeleccionado.proveedor)"
+								selectedItem="@bind(vm.proveedorSeleccionado)"
+								onOpen="@command('listarProveedor')"
+								>
 
 								<template name="model">
 									<comboitem
-										value="@bind(each.nombreRazonSocial)"
-										label="@bind(each.nombreRazonSocial)">
+										value="@bind(each.proveedor)"
+										label="@bind(each.proveedor)">
 									</comboitem>
 								</template>
 								<custom-attributes no_empty="true" />
 							</combobox>
+							 
 
 
 						</row>
 					</rows>
 				</grid>
-				<hlayout>
-					<image src="/imagenes/botones/buscar.png" />
-				</hlayout>
-				<listbox sizedByContent="true" span="true"
-					model="@bind(vm.listaDetalleCartera)"
+				<toolbar align="start">
+					<toolbarbutton label="Consultar" sclass="btn-info" onClick="@command('listarDetalleProveedor')"
+						tooltiptext="" image="imagenes/search.png" />
+					<toolbarbutton label="Exportar" sclass="btn-info"
+						tooltiptext="" image="imagenes/add.png" />
+					<toolbarbutton label="Graficas" sclass="btn-info"
+						tooltiptext="" image="imagenes/guardar.png" />
+
+				</toolbar>
+
+				<listbox span="true" vflex="true"
+					model="@bind(vm.listaDetalleProveedor)"
 					selectedItem="@bind(vm.detalleSeleccionado)">
+					<auxhead>
+						<auxheader colspan="3" />
+						<auxheader label="Valores" align="center"
+							colspan="4" />
+						<auxheader align="center" colspan="1" />
+					</auxhead>
 					<listhead sizable="true">
-						<listheader label="Prox Feccha de Pago"
+
+						<listheader label="Nro Factura" sort="auto" />
+						<listheader label="Referencia" sort="auto" />
+						<listheader label="Prox Fecha de Pago"
 							sort="auto" />
-						<listheader
-							label="Feccha y Hora de Actualización" sort="auto" />
-						<listheader label="Cartera Vencida" sort="auto" />
-						<listheader label="Cartera por Vencer"
+						<listheader label="A 30 días " sort="auto" />
+						<listheader label="A 60 días" sort="auto" />
+						<listheader label="A 90 días" sort="auto" />
+						<listheader label="A mas de 90 días"
 							sort="auto" />
-						<listheader label="Total Cartera" sort="auto" />
+						<listheader label="Fecha de Actualización"
+							sort="auto" />
 					</listhead>
 					<template name="model">
-
 						<listitem>
 							<listcell>
-								<textbox
-									value="@bind(each.cartera.fechaPago)" />
-							</listcell>
-							<listcell>
-								<datebox
-									value="@bind(each.cartera.fechaHoraActualizacion)" />
-							</listcell>
-							<listcell>
-								<datebox />
-							</listcell>
-							<listcell>
-								<textbox value="" />
+								<label value="@bind(each.nroFactura)" />
 							</listcell>
 
 							<listcell>
-								<textbox value="" />
+								<label value="@bind(each.referencia)" />
+							</listcell>
+
+							<listcell>
+								<label
+									value="@bind(each.proveedor.fechaPago) @converter('formatedDate', format='dd/MM/yyyy')" />
+							</listcell>
+							<listcell>
+								<label value="@bind(each.valor1)" />
+							</listcell>
+							<listcell>
+								<label value="@bind(each.valor2)" />
+							</listcell>
+							<listcell>
+								<label value="@bind(each.valor3)" />
+							</listcell>
+							<listcell>
+								<label value="@bind(each.valor4)" />
+							</listcell>
+							<listcell>
+								<label
+									value="@bind(each.proveedor.fechaHoraActualizacion) @converter('formatedDate', format='dd/MM/yyyy')" />
 							</listcell>
 						</listitem>
 					</template>
 				</listbox>
 			</vlayout>
 		</center>
+		<south>
+			<groupbox mold="3d" closable="false">
+				<caption label="Informe Financiero Cartera "
+					style="color: red;font-weight: bold; " />
+				<grid>
+					<columns>
+						<column hflex="min" />
+						<column />
+					</columns>
+					<rows>
+						<row>
+							<label value="Saldo Total Carteta: " />
+							<label value="@load(vm.totalCartera)" />
+						</row>
+						<row>
+							<label value="Saldo Total Vencida: " />
+							<label
+								value="@load(vm.totalCarteraVencida)" />
+						</row>
+						<row>
+							<label value="Saldo Total por Vencer: " />
+							<label
+								value="@load(vm.totalCarteraPorVencer)" />
+						</row>
+					</rows>
+				</grid>
+			</groupbox>
+		</south>
 	</borderlayout>
 </zk>

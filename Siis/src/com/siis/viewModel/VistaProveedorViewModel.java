@@ -12,21 +12,25 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.Selectors;
-import org.zkoss.zk.ui.select.annotation.Wire; 
+import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Tabpanel;
+import org.zkoss.zul.Textbox;
 
 import com.siis.configuracion.Conexion;
-import com.siis.dto.Cliente;
-import com.siis.dto.DetalleCartera; 
+import com.siis.dto.Proveedor;
+import com.siis.dto.DetalleProveedor;
 
 public class VistaProveedorViewModel {
-	public Conexion con;
-	public List<DetalleCartera> listaDetalleCartera;
-	public List<Cliente> listaCliente;
-	public Cliente clienteSeleccionado;
-	public DetalleCartera detalleSeleccionado;
+	public List<DetalleProveedor> listaDetalleProveedor;
+	public List<Proveedor> listaProveedor;
+	public Proveedor proveedorSeleccionado;
+	public DetalleProveedor detalleSeleccionado;
+	private Double totalCartera;
+	private Double totalCarteraVencida;
+	private Double totalCarteraPorVencer;
 
-	 
+	@Wire
+	public Textbox CriterioBusqProveedor;
 	@Wire
 	Tabpanel tabPanelConsultas;
 
@@ -35,25 +39,31 @@ public class VistaProveedorViewModel {
 		Selectors.wireComponents(view, this, false);
 		System.out.println(" afterCompose 1");
 
-		listaDetalleCartera = new ArrayList<DetalleCartera>();
-		listaCliente = new ArrayList<Cliente>();
+		listaDetalleProveedor = new ArrayList<DetalleProveedor>();
+		listaProveedor = new ArrayList<Proveedor>();
 
 	}
 
 	@SuppressWarnings("unchecked")
 	@NotifyChange("*")
 	@Command
-	public void listarDetalleCartera() {
-		System.out.println(" listarDetalleCartera ");
-		 
+	public void listarDetalleProveedor() {
+		System.out.println(" listarDetalleProveedor ");
 
 		Map<String, Object> parametros = new HashMap<String, Object>();
-		parametros.put("SECUENCIA_CLIENTE", clienteSeleccionado.getSecuencia());
+		parametros.put("SEC_PROVEEDOR", proveedorSeleccionado.getSecuencia());
 
 		try {
-			con = new Conexion();
-			setListaDetalleCartera(
-					(List<DetalleCartera>) con.obtenerListado("listarDetalleCarterasPorClientes", parametros));
+
+			setListaDetalleProveedor((List<DetalleProveedor>) Conexion.getConexion()
+					.obtenerListado("listarDetalleProveedorsPorProveedor", parametros));
+			setTotalCartera((Double) Conexion.getConexion().obtenerRegistro("obtenerTotalProveedor",
+					proveedorSeleccionado.getSecuencia()));
+			setTotalCarteraVencida((Double) Conexion.getConexion().obtenerRegistro("obtenerTotalProveedorVencida",
+					proveedorSeleccionado.getSecuencia()));
+			setTotalCarteraPorVencer((Double) Conexion.getConexion().obtenerRegistro("obtenerTotalProveedorPorVencer",
+					proveedorSeleccionado.getSecuencia()));
+
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -64,12 +74,12 @@ public class VistaProveedorViewModel {
 	@SuppressWarnings("unchecked")
 	@NotifyChange("*")
 	@Command
-	public void listarClientes() {
-		System.out.println(" listarClientes ");
-		Map<String, Object> parametros = new HashMap<String, Object>();
-		con = new Conexion();
+	public void listarProveedor() {
+
 		try {
-			setListaCliente((List<Cliente>) con.obtenerListado("listarClientes", parametros));
+			setListaProveedor(
+					(List<Proveedor>) Conexion.getConexion().obtenerListado("listarProveedores", new Proveedor()));
+
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -77,37 +87,61 @@ public class VistaProveedorViewModel {
 
 	}
 
-	public List<DetalleCartera> getListaDetalleCartera() {
-		return listaDetalleCartera;
+	public List<DetalleProveedor> getListaDetalleProveedor() {
+		return listaDetalleProveedor;
 	}
 
-	public List<Cliente> getListaCliente() {
-		return listaCliente;
+	public List<Proveedor> getListaProveedor() {
+		return listaProveedor;
 	}
 
-	public void setListaCliente(List<Cliente> listaCliente) {
-		System.out.println(" listaCliente.size() " + listaCliente.size());
-		this.listaCliente = listaCliente;
+	public void setListaProveedor(List<Proveedor> listaProveedor) {
+		System.out.println(" listaProveedor.size() " + listaProveedor.size());
+		this.listaProveedor = listaProveedor;
 	}
 
-	public void setListaDetalleCartera(List<DetalleCartera> listaDetalleCartera) {
-		this.listaDetalleCartera = listaDetalleCartera;
+	public void setListaDetalleProveedor(List<DetalleProveedor> listaDetalleProveedor) {
+		this.listaDetalleProveedor = listaDetalleProveedor;
 	}
 
-	public DetalleCartera getDetalleSeleccionado() {
+	public DetalleProveedor getDetalleSeleccionado() {
 		return detalleSeleccionado;
 	}
 
-	public void setDetalleSeleccionado(DetalleCartera detalleSeleccionado) {
+	public void setDetalleSeleccionado(DetalleProveedor detalleSeleccionado) {
 		this.detalleSeleccionado = detalleSeleccionado;
 	}
 
-	public Cliente getClienteSeleccionado() {
-		return clienteSeleccionado;
+	public Proveedor getProveedorSeleccionado() {
+		return proveedorSeleccionado;
 	}
 
-	public void setClienteSeleccionado(Cliente clienteSeleccionado) {
-		this.clienteSeleccionado = clienteSeleccionado;
+	public void setProveedorSeleccionado(Proveedor proveedorSeleccionado) {
+		this.proveedorSeleccionado = proveedorSeleccionado;
+	}
+
+	public Double getTotalCartera() {
+		return totalCartera;
+	}
+
+	public void setTotalCartera(Double totalCartera) {
+		this.totalCartera = totalCartera;
+	}
+
+	public Double getTotalCarteraVencida() {
+		return totalCarteraVencida;
+	}
+
+	public void setTotalCarteraVencida(Double totalCarteraVencida) {
+		this.totalCarteraVencida = totalCarteraVencida;
+	}
+
+	public Double getTotalCarteraPorVencer() {
+		return totalCarteraPorVencer;
+	}
+
+	public void setTotalCarteraPorVencer(Double totalCarteraPorVencer) {
+		this.totalCarteraPorVencer = totalCarteraPorVencer;
 	}
 
 }

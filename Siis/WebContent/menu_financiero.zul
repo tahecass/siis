@@ -101,9 +101,7 @@
 					<nav label="Calendario" iconSclass="z-icon-th-list"
 						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
 
-					<nav label="Notificaciones" iconSclass="z-icon-th-list"
-						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
-
+					 
 					<template name="navitem" var="navigationPage">
 						<navitem label="@load(navigationPage.subTitle)"
 							src="@load(navigationPage.includeUri)"

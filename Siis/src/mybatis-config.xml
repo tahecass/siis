@@ -10,6 +10,8 @@
 		<typeAlias alias="UsuarioAlias"                 type="com.siis.dto.Usuario" />
 		<typeAlias alias="ClienteAlias"                 type="com.siis.dto.Cliente" />
 		<typeAlias alias="CarteraAlias"                 type="com.siis.dto.Cartera" />
+		<typeAlias alias="ProveedorAlias"               type="com.siis.dto.Proveedor" />
+		<typeAlias alias="DetalleProveedorAlias"        type="com.siis.dto.DetalleProveedor" />
 		<typeAlias alias="DetalleCarteraAlias"          type="com.siis.dto.DetalleCartera" />
 		<typeAlias alias="PersonaAlias"                 type="com.siis.dto.Persona" />
 		<typeAlias alias="DisponibleAlias"              type="com.siis.dto.Disponible" />
@@ -45,8 +47,10 @@
 		<mapper resource="com/siis/dto/xml/Usuario.xml" />
 	    <mapper resource="com/siis/dto/xml/Cliente.xml" />
 	    <mapper resource="com/siis/dto/xml/Cartera.xml" />
+	    <mapper resource="com/siis/dto/xml/Proveedor.xml" />
 	    <mapper resource="com/siis/dto/xml/Persona.xml" />
 	    <mapper resource="com/siis/dto/xml/DetalleCartera.xml" />
+	    <mapper resource="com/siis/dto/xml/DetalleProveedor.xml" />
 	    <mapper resource="com/siis/dto/xml/Disponible.xml" />
 	    <mapper resource="com/siis/dto/xml/Banco.xml" />
 	    <mapper resource="com/siis/dto/xml/Cuenta.xml" />

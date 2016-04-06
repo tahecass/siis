@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="DetalleProveedorMapper">
+	<resultMap id="resMapDetalleProveedor" type="DetalleProveedorAlias">
+		<result property="secuencia" column="SEC" />
+		<result property="proveedor.secuencia" column="SEC_PROVEEDOR" />
+		<result property="proveedor.usuario.secuencia" column="SEC_USUARIO" />
+		<result property="proveedor.usuario.cuenta" column="CUENTA" />
+		<result property="proveedor.proveedor" column="PROVEEDOR" />
+		<result property="proveedor.fechaPago" column="FECHA_PAGO" />
+		<result property="proveedor.fechaHoraActualizacion" column="FECHA_HORA_ACTUALIZACION" />
+		
+		<result property="nroFactura" column="NRO_FACTURA" />
+		<result property="valor1" column="VALOR_1" />
+		<result property="valor2" column="VALOR_2" />
+		<result property="valor3" column="VALOR_3" />
+		<result property="valor4" column="VALOR_4" />
+		<result property="vencimiento" column="VENCIMIENTO" />
+		<result property="referencia" column="REFERENCIA" /> 
+		<result property="fechaCreacion" column="FECHA_CREACION" /> 
+		<result property="fechaActualizacion" column="FECHA_ACTUALIZACION" /> 
+		
+		<result property="totalProveedor" column="TOTAL_PROVEEDOR" />
+		<result property="totalProveedorVencida" column="TOTAL_PROVEEDOR_VENCIDA" />
+		<result property="totalProveedorPorVencer" column="TOTAL_PROVEEDOR_POR_VENCER" />
+		
+		 		
+	</resultMap>	
+	
+  
+	<select id="guardarDetalleProveedor" parameterType="DetalleProveedorAlias" resultMap="resMapDetalleProveedor"  > 			  
+			  INSERT INTO DETALLE_PROVEEDOR
+			         (`SEC`, `SEC_PROVEEDOR`, `VENCIMIENTO`, `REFERENCIA`, `NRO_FACTURA`, `VALOR_1`, `VALOR_2`, `VALOR_3`, `VALOR_4`, `FECHA_CREACION`, `FECHA_ACTUALIZACION`)
+			  VALUES (#{secuencia,jdbcType=NUMERIC},
+			         #{proveedor.secuencia,jdbcType=NUMERIC},
+			         #{vencimiento,jdbcType=DATE},
+			         #{referencia,jdbcType=VARCHAR},
+			         #{nroFactura,jdbcType=VARCHAR},
+			         #{valor1,jdbcType=NUMERIC},
+			         #{valor2,jdbcType=NUMERIC},
+			         #{valor3,jdbcType=NUMERIC},
+			         #{valor4,jdbcType=NUMERIC},
+			         #{fechaCreacion,jdbcType=DATE},
+			         #{fechaActualizacion,jdbcType=DATE}
+			         
+			         )
+		       
+	</select>
+	<select id="obtenerDetalleProveedors" parameterType="DetalleProveedorAlias" resultMap="resMapDetalleProveedor"  > 
+		SELECT 
+		    
+		   DETALLE_PROVEEDOR . SEC  AS  SEC , 
+		   DETALLE_PROVEEDOR . SEC_PROVEEDOR , 
+		   DETALLE_PROVEEDOR . VENCIMIENTO , 
+		   DETALLE_PROVEEDOR . REFERENCIA , 
+		   DETALLE_PROVEEDOR . NRO_FACTURA,
+		   DETALLE_PROVEEDOR .VALOR_1,
+		   DETALLE_PROVEEDOR .VALOR_4,
+		   DETALLE_PROVEEDOR .VALOR_3,
+		   DETALLE_PROVEEDOR .VALOR_4,
+		   DETALLE_PROVEEDOR .FECHA_CREACION,
+		   DETALLE_PROVEEDOR .FECHA_ACTUALIZACION
+		FROM 
+		  DETALLE_PROVEEDOR 
+		  WHERE  DETALLE_PROVEEDOR.SEC = #{secuencia,jdbcType=NUMERIC};
+		 
+		 
+ </select>
+	<select id="listarDetalleProveedorsPorProveedor" parameterType="Map" resultMap="resMapDetalleProveedor"  > 
+		SELECT 
+		   PROVEEDORES.SEC  AS  SEC_PROVEEDOR , 
+		   PROVEEDORES.FECHA_PAGO , 
+		   PROVEEDORES.FECHA_HORA_ACTUALIZACION ,
+		   PROVEEDORES.SEC_USUARIO , 
+		   PROVEEDORES.PROVEEDOR , 
+		   USUARIOS.CUENTA , 
+		   DETALLE_PROVEEDOR . SEC  AS  SEC , 
+		   DETALLE_PROVEEDOR . SEC_PROVEEDOR , 
+		   DETALLE_PROVEEDOR . VENCIMIENTO , 
+		   DETALLE_PROVEEDOR . REFERENCIA , 
+		   DETALLE_PROVEEDOR . NRO_FACTURA,
+		   DETALLE_PROVEEDOR .VALOR_1,
+		   DETALLE_PROVEEDOR .VALOR_4,
+		   DETALLE_PROVEEDOR .VALOR_3,
+		   DETALLE_PROVEEDOR .VALOR_4,
+		   DETALLE_PROVEEDOR .FECHA_CREACION,
+		   DETALLE_PROVEEDOR .FECHA_ACTUALIZACION
+		FROM 
+		  DETALLE_PROVEEDOR 
+		  LEFT JOIN  PROVEEDORES  ON  PROVEEDORES .SEC  =  DETALLE_PROVEEDOR . SEC_PROVEEDOR  
+		  LEFT JOIN  USUARIOS  ON  USUARIOS.SEC  =  PROVEEDORES.SEC_USUARIO 
+	
+	 <trim prefix="WHERE" prefixOverrides="AND | OR ">
+		 <if test="SEC_PROVEEDOR != null" >
+		    AND PROVEEDORES.SEC = #{SEC_PROVEEDOR,jdbcType=NUMERIC};
+		 </if>
+		 <if test="proveedor != null" >
+		    AND PROVEEDORES.PROVEEDOR = #{proveedor,jdbcType=VARCHAR};
+		 </if>
+	</trim>
+		 
+ </select>
+ <select id="obtenerTotalProveedor" parameterType="java.lang.Integer"  resultType="java.lang.Double"> 
+			SELECT 
+		        SUM(DETALLE_PROVEEDOR .VALOR_1) as TOTAL_PROVEEDOR
+						FROM 
+						  DETALLE_PROVEEDOR 
+						  LEFT JOIN  PROVEEDORES  ON  PROVEEDORES .SEC  =  DETALLE_PROVEEDOR . SEC_PROVEEDOR  
+				WHERE PROVEEDORES.SEC= #{SEC_PROVEEDOR,jdbcType=NUMERIC};
+ </select>
+  <select id="obtenerTotalProveedorVencida" parameterType="java.lang.Integer"  resultType="java.lang.Double"> 
+		<![CDATA[
+		 SELECT SUM(VALOR_1) AS TOTAL_PROVEEDOR_VENCIDA 
+		  FROM  DETALLE_PROVEEDOR 
+		   JOIN  PROVEEDORES  ON  PROVEEDORES .SEC  =  DETALLE_PROVEEDOR . SEC_PROVEEDOR  
+         WHERE VENCIMIENTO < SYSDATE() AND PROVEEDORES.SEC= #{SEC_PROVEEDOR,jdbcType=NUMERIC};
+        ]]>
+ </select>
+  <select id="obtenerTotalProveedorPorVencer" parameterType="java.lang.Integer"  resultType="java.lang.Double"> 
+		<![CDATA[
+		 SELECT SUM(VALOR_1) AS TOTAL_PROVEEDOR_POR_VENCER 
+		  FROM  DETALLE_PROVEEDOR 
+		  LEFT JOIN  PROVEEDORES  ON  PROVEEDORES .SEC  =  DETALLE_PROVEEDOR . SEC_PROVEEDOR  
+		  LEFT JOIN  CLIENTES  ON  CLIENTES.SEC  =  PROVEEDORES.SEC_CLIENTE  
+         WHERE VENCIMIENTO > SYSDATE() AND CLIENTES.SEC= #{SEC_CLIENTE,jdbcType=NUMERIC};
+        ]]>
+ </select>
+ <update id="actualizarDetalleProveedor" parameterType="DetalleProveedorAlias">
+	  UPDATE DETALLE_PROVEEDOR 
+	     SET 
+	         VENCIMIENTO = #{vencimiento,jdbcType=DATE},
+	         REFERENCIA  = #{referencia,jdbcType=VARCHAR},
+	         NRO_FACTURA = #{nroFactura,jdbcType=VARCHAR},
+	         VALOR_1  =   #{valor1,jdbcType=NUMERIC},
+	         VALOR_2  =   #{valor2,jdbcType=NUMERIC},
+	         VALOR_3  =   #{valor3,jdbcType=NUMERIC},
+	         VALOR_4  =   #{valor4,jdbcType=NUMERIC}, 
+	         FECHA_ACTUALIZACION =  #{fechaActualizacion,jdbcType=DATE}
+	   WHERE SEC = #{secuencia,jdbcType=NUMERIC} 
+	     AND SEC_PROVEEDOR = #{proveedor.secuencia,jdbcType=NUMERIC};
+</update>
+  <delete id="eliminarDetalleProveedor" parameterType="DetalleProveedorAlias">
+		 DELETE FROM DETALLE_PROVEEDOR WHERE DETALLE_PROVEEDOR.SEC=  #{secuencia,jdbcType=NUMERIC};
+ </delete>
+</mapper>
