@@ -44,6 +44,20 @@
 			FROM 
 			  CLIENTES;
 	</select>
+		<select id="obtenerCliente" parameterType="ClienteAlias" resultMap="resMapCliente"  > 
+	          SELECT 
+			  CLIENTES.SEC as SEC_CLIENTE, 
+			  CLIENTES.NIT, 
+			  CLIENTES.NOMBRE_RAZON_SOCIAL, 
+			  CLIENTES.SEC_PERSONA
+			FROM 
+			  CLIENTES
+			  <trim prefix="WHERE" prefixOverrides="AND | OR ">
+					<if test="nit !=null and nit !=''">
+					     CLIENTES.NIT =  #{nit,jdbcType=VARCHAR}
+					</if>
+			  </trim>
+	</select>
 </mapper>
 
 

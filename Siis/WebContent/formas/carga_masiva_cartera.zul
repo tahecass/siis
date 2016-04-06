@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" ?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap.css" ?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css" ?>
+<?link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css" ?>
+
+<zk>
+	<window title="Carga Masiva de Carteras" width="600px"
+		height="600px" closable="true" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') 
+		@init('com.siis.viewModel.CargaMasivaCarteraViewModel')">
+		<toolbar align="start">
+			 	<toolbarbutton label="Upload" upload="true"
+				image="imagenes/subir.png"
+				onUpload="@command('subirArchivo',media =event.media)" />
+
+		</toolbar>
+		<grid>
+			<columns>
+				<column hflex="min" />
+				<column  />
+			</columns>
+			<rows>
+				<row>
+					<hlayout>
+						<label value="*" style="color:red" />
+						<label value="Fecha de Pago" />
+					</hlayout>
+					<hlayout>
+						<datebox constraint="no past,no empty" disabled="true"
+							value="@bind(vm.cartera.fechaPago)" />
+					</hlayout>
+				</row>
+				<row>
+					<hlayout>
+						<label value="*" style="color:red" />
+						<label value="Cliente" />
+					</hlayout>
+					<hlayout>
+						<label
+							value="@bind(vm.cliente.nombreRazonSocial)" />
+					</hlayout>
+				</row>
+			</rows>
+		</grid>
+		<separator />
+		<listbox sizedByContent="true" vflex="true"
+			model="@bind(vm.lista)">
+			<listhead sizable="true">
+				<listheader label="Nro Factura" sort="auto" />
+				<listheader label="Vence" sort="auto" />
+				<listheader label="Referencia" sort="auto" />
+
+				<listheader label="A 30 días " sort="auto" />
+				<listheader label="A 60 días" sort="auto" />
+				<listheader label="A 90 días" sort="auto" />
+				<listheader label="A mas de 90 días" sort="auto" />
+			</listhead>
+			<template name="model">
+				<listitem>
+					<listcell>
+						<label value="@bind(each.nroFactura)" />
+					</listcell>
+					<listcell>
+						<label
+							value="@bind(each.vencimiento) @converter('formatedDate', format='dd/MM/yyyy')" />
+					</listcell>
+					<listcell>
+						<label value="@bind(each.referencia)" />
+					</listcell>
+
+					<listcell>
+						<label
+							value="@bind(each.totalCarteraPorVencer)" />
+					</listcell>
+					<listcell>
+						<label value="@bind(each.valor1)" />
+					</listcell>
+					<listcell>
+						<label value="@bind(each.valor2)" />
+					</listcell>
+					<listcell>
+						<label value="@bind(each.valor3)" />
+					</listcell>
+					<listcell>
+						<label value="@bind(each.valor4)" />
+					</listcell>
+					<listcell>
+						<label
+							value="@bind(each.cartera.fechaHoraActualizacion) @converter('formatedDate', format='dd/MM/yyyy')" />
+					</listcell>
+				</listitem>
+			</template>
+		</listbox>
+	</window>
+</zk>

@@ -92,6 +92,12 @@
 										onClick="@command('onCancelar')"
 										disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
 										tooltiptext="" image="imagenes/cancelar.png" />
+									<toolbarbutton label="Cargar"
+										onClick="@command('onCargaEmergente')" sclass="btn-info"
+										tooltiptext="" image="imagenes/subir.png" />
+										<toolbarbutton label="Refrescar"
+										onClick="@command('listarCartera')" sclass="btn-info"
+										tooltiptext="" image="imagenes/refrescar.png" />
 								</toolbar>
 								<listbox id="idCARTERAZLbxCartera"
 									span="true" model="@bind(vm.listaCartera)"
@@ -144,7 +150,7 @@
 		<custom-attributes
 			MSG_MENSAJE_ELIMINAR_OK="Se eliminó correctamente la información" />
 		<custom-attributes
-			MSG_MENSAJE_ELIMINAR="¿Desea eliminar eliminar la fila seleccionada?" />
+			MSG_MENSAJE_ELIMINAR="¿Desea eliminar la fila seleccionada?" />
 		<custom-attributes MSG_TITULO_ELIMINAR="Confirmación" />
 	</borderlayout>
 </zk>

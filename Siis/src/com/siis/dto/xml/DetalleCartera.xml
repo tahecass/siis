@@ -34,7 +34,7 @@
 	<select id="guardarDetalleCartera" parameterType="DetalleCarteraAlias" resultMap="resMapDetalleCartera"  > 			  
 			  INSERT INTO DETALLE_CARTERA
 			         (`SEC`, `SEC_CARTERA`, `VENCIMIENTO`, `REFERENCIA`, `NRO_FACTURA`, `VALOR_1`, `VALOR_2`, `VALOR_3`, `VALOR_4`, `FECHA_CREACION`, `FECHA_ACTUALIZACION`)
-			  VALUES (1,
+			  VALUES (#{secuencia,jdbcType=NUMERIC},
 			         #{cartera.secuencia,jdbcType=NUMERIC},
 			         #{vencimiento,jdbcType=DATE},
 			         #{referencia,jdbcType=VARCHAR},
@@ -49,6 +49,26 @@
 			         )
 		       
 	</select>
+	<insert id="guardarMasivoDetalleCartera" parameterType="java.util.Map" >        
+	    	<foreach collection="LISTA_DETALLE" index="index" item="item">
+		      INSERT INTO DETALLE_CARTERA  (SEC, SEC_CARTERA, VENCIMIENTO, REFERENCIA, NRO_FACTURA, VALOR_1, VALOR_2, VALOR_3,VALOR_4, FECHA_CREACION, FECHA_ACTUALIZACION)
+			  VALUES (1,
+			         #{SEC_CARTERA,jdbcType=NUMERIC},
+			         #{item.vencimiento,jdbcType=DATE},
+			         #{item.referencia,jdbcType=VARCHAR},
+			         #{item.nroFactura,jdbcType=VARCHAR},
+			         #{item.valor1,jdbcType=NUMERIC},
+			         #{item.valor2,jdbcType=NUMERIC},
+			         #{item.valor3,jdbcType=NUMERIC},
+			         #{item.valor4,jdbcType=NUMERIC},
+			         SYSDATE,
+			         SYSDATE
+			         );
+			</foreach>
+		 
+	</insert>
+	
+	
 		<select id="obtenerDetalleCarteras" parameterType="DetalleCarteraAlias" resultMap="resMapDetalleCartera"  > 
 		SELECT 
 		    

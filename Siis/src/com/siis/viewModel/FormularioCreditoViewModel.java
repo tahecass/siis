@@ -41,7 +41,7 @@ public class FormularioCreditoViewModel {
 	private String accion;
 
 	@Wire
-	private BandboxBancos idFORMDISPONIBLEZBbxBanco;
+	private BandboxBancos idFORMCREDITOZBbxBanco;
 	@Wire
 	private BandboxCuentas idFORMDISPONIBLEZBbxCuenta;
 	@Wire
@@ -107,7 +107,7 @@ public class FormularioCreditoViewModel {
 				return;
 			}
 
-			creditoSeleccionada.setEntidad(idFORMDISPONIBLEZBbxBanco.getValue());
+			creditoSeleccionada.setEntidad(idFORMCREDITOZBbxBanco.getValue());
 			if (accion.equals("I")) {
 				HashMap<String, Object> par = new HashMap<String, Object>();
 				par.put("NOMBRE_TABLA", "CREDITOS");

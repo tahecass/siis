@@ -1,5 +1,5 @@
 package com.siis.viewModel;
-
+ 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -135,6 +135,7 @@ public class FormularioCarteraViewModel {
 						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
 
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -222,6 +223,24 @@ public class FormularioCarteraViewModel {
 
 	}
 
+	@NotifyChange("*")
+	@Command
+	public void onCargaEmergente() {
+		log.info("onCargarDetalle");
+
+		try {
+
+			Map<String, Object> parametros = new HashMap<String, Object>();
+
+			Window wind = (Window) Utilidades.onCargarVentana(null, "//formas//carga_masiva_cartera.zul", parametros);
+			wind.setPosition("center");
+			wind.doModal();
+	
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	private Cartera obtener(Cartera cartera) {
 		log.info("Ejecutando el metodo []");
 		Cartera car = null;
@@ -250,6 +269,7 @@ public class FormularioCarteraViewModel {
 		setDesactivarTabDetalle(true);
 	}
 
+	@SuppressWarnings("unchecked")
 	@NotifyChange("listaCartera")
 	@Command
 	public void listarCartera() {
@@ -259,10 +279,6 @@ public class FormularioCarteraViewModel {
 		setDesactivarformulario(true);
 		try {
 			con = new Conexion();
-			// setListaCartera((List<Cartera>)
-			// Conexion.getConexion().obtenerListado("listarCarteras",
-			// parametros));
-
 			setListaCartera((List<Cartera>) con.obtenerListado("listarCarteras", parametros));
 			log.info("REGISTROS ==> " + listaCartera.size());
 

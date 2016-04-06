@@ -302,27 +302,7 @@ public class FormularioDisponibleViewModel {
 		}
 	}
 
-	@NotifyChange("*")
-	@Command
-	public void onCargaEmergente() {
-		log.info("onCargarDetalle");
-
-		try {
-
-			Map<String, Object> parametros = new HashMap<String, Object>();
-			parametros.put("DISPONIBLE", disponibleSeleccionada);
-			 
-			Window wind = (Window) Utilidades.onCargarVentana(null,
-					"//formas//carga_masiva_disponible.zul", parametros);
-			wind.setPosition("center");
-			wind.doModal();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	@NotifyChange("*")
+		@NotifyChange("*")
 	@Command
 	public void onMostrarVentanaDetalleConcepto() {
 		log.info("onMostrarVentanaDetalle");

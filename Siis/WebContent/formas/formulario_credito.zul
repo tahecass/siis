@@ -48,7 +48,7 @@
 											<bandboxBancos
 												disabled="@load(vm.desactivarformulario)"
 												value="@bind(vm.creditoSeleccionada.entidad)"
-												id="idFORMDISPONIBLEZBbxBanco" />
+												id="idFORMCREDITOZBbxBanco" />
 										</row>
 										<row>
 											<hlayout>
@@ -221,7 +221,7 @@
 		<custom-attributes
 			MSG_MENSAJE_ELIMINAR="Se eliminó correctamente la información" />
 		<custom-attributes
-			MSG_ELIMINAR_CREDITO="¿Desea eliminar eliminar la fila seleccionada?" />
+			MSG_ELIMINAR_CREDITO="¿Desea eliminar la fila seleccionada?" />
 		<custom-attributes MSG_TITULO_ELIMINAR="Confirmación" />
 	</borderlayout>
 </zk>
