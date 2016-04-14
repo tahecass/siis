@@ -28,6 +28,7 @@ import com.siis.dto.Disponible;
 import com.siis.dto.DisponibleBanco;
 import com.siis.dto.DisponibleConcepto;
 import com.siis.viewModel.framework.Utilidades;
+import com.sun.org.apache.xerces.internal.dom.PSVIElementNSImpl;
 
 public class FormularioDisponibleDetalleViewModel {
 
@@ -38,7 +39,7 @@ public class FormularioDisponibleDetalleViewModel {
 			desactivarBtnGuardar;
 	private String accion;
 	private Map<String, Object> parametros;
-	public Disponible disponible;
+	private Disponible disponible;
 
 	@Wire
 	public Borderlayout idWINFORMDETDISPBCOZPrincipal;
@@ -50,16 +51,22 @@ public class FormularioDisponibleDetalleViewModel {
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
 
 		Selectors.wireComponents(view, this, false);
-
 		this.parametros = (Map<String, Object>) Executions.getCurrent().getArg();
+		disponible = (Disponible) parametros.get("DISPONIBLE");
+		init();
+		listarDisponibleBanco();
+	}
 
-		setDisponible((Disponible) parametros.get("DISPONIBLE"));
-		log.info("disponible ..... " + disponible.getSecuencia());
+	@SuppressWarnings("unchecked")
+	public void init() {
+		log.info("INIT()");
+		
+		
 		listaDisponibleBanco = new ArrayList<DisponibleBanco>();
 		disponibleBancoSeleccionado = new DisponibleBanco();
 		setDesactivarformulario(true);
-		BindUtils.postNotifyChange(null, null, FormularioDisponibleDetalleViewModel.this, "*");
-		listarDisponibleBanco();
+		
+
 		accion = new String();
 
 		setDesactivarBtnNuevo(false);
@@ -79,13 +86,12 @@ public class FormularioDisponibleDetalleViewModel {
 						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
 				return;
 			}
-
 			disponibleBancoSeleccionado.setDisponible(disponible);
-
+			log.info("DISPONIBLE ==> " + disponible.getSecuencia());
 			if (accion.equals("I")) {
 
 				HashMap<String, Object> par = new HashMap<String, Object>();
-				par.put("NOMBRE_TABLA", "DISPONIBLE_CONCEPTO");
+				par.put("NOMBRE_TABLA", "DISPONIBLE_BANCO");
 				Integer sigSec = (Integer) Conexion.getConexion().obtenerRegistro("obtenerSeigSecuencia", par);
 
 				if (sigSec != null)
@@ -217,24 +223,24 @@ public class FormularioDisponibleDetalleViewModel {
 	}
 
 	@SuppressWarnings("unchecked")
-	@NotifyChange("*")
+	@NotifyChange
 	@Command
 	public void listarDisponibleBanco() {
-		log.info(" listarDisponibleBanco ");
+ 
+		log.info(" listarDisponibleBanco " + disponible.getSecuencia());
 		listaDisponibleBanco = new ArrayList<DisponibleBanco>();
 
-		log.info("SEC_disponible AL LISTAR ==>" + getDisponible().getSecuencia());
 		DisponibleBanco dispoBan = new DisponibleBanco();
-		dispoBan.setDisponible(getDisponible());
-
-		listaDisponibleBanco.clear();
+		dispoBan.setDisponible(disponible);
+ 
 
 		setDesactivarformulario(true);
 
 		try {
 			setListaDisponibleBanco(
 					(List<DisponibleBanco>) Conexion.getConexion().obtenerListado("listarDisponibleBancos", dispoBan));
-
+			log.info("==> "+getListaDisponibleBanco().get(0).getBeneficiario());
+			BindUtils.postNotifyChange(null, null, FormularioDisponibleDetalleViewModel.this, "*");
 		} catch (Exception e) {
 			e.printStackTrace();
 
@@ -290,20 +296,24 @@ public class FormularioDisponibleDetalleViewModel {
 		this.desactivarBtnGuardar = desactivarBtnGuardar;
 	}
 
-	public Disponible getDisponible() {
-		return disponible;
-	}
-
-	public void setDisponible(Disponible disponible) {
-		this.disponible = disponible;
-	}
-
 	public DisponibleBanco getDisponibleBancoSeleccionado() {
 		return disponibleBancoSeleccionado;
 	}
 
 	public void setDisponibleBancoSeleccionado(DisponibleBanco disponibleBancoSeleccionado) {
 		this.disponibleBancoSeleccionado = disponibleBancoSeleccionado;
+	}
+
+	 
+
+	public void setDisponible(Disponible disponible) {
+		this.disponible = disponible;
+	log.info("disponible.getSecuencia() ==> "+disponible.getSecuencia());
+
+	}
+
+	public Disponible getDisponible() {
+		return disponible;
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.siis.dto;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Disponible {
@@ -8,7 +9,7 @@ private Banco banco;
 private Cuenta cuenta;
 private Usuario usuario;
 private Date fechaCreacion;
-private Date fechaHoraActualizacion;
+private Timestamp fechaHoraActualizacion;
 
 public Disponible() { 
 }
@@ -33,7 +34,7 @@ public Date getFechaHoraActualizacion() {
 	return fechaHoraActualizacion;
 }
 
-public void setFechaHoraActualizacion(Date fechaHoraActualizacion) {
+public void setFechaHoraActualizacion(Timestamp fechaHoraActualizacion) {
 	this.fechaHoraActualizacion = fechaHoraActualizacion;
 }
 

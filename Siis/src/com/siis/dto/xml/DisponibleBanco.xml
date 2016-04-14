@@ -71,8 +71,15 @@
 		     where DISPONIBLE_BANCO.SEC=  #{secuencia,jdbcType=NUMERIC};
 	      
  </select>
-
+ <select id="contarDisponibleBancoPorDisponible" parameterType="Integer" resultType="Integer"  > 
+		SELECT
+		   COUNT(*)
+		  FROM
+	      DISPONIBLE_BANCO
+		  where DISPONIBLE_BANCO.SEC_DISPONIBLE=  #{secuencia,jdbcType=NUMERIC};
+	      
+ </select>
  <delete id="eliminarDisponibleBanco" parameterType="DisponibleBancoAlias">
-		 DELETE FROM DISPONIBLES WHERE DISPONIBLES.SEC=  #{secuencia,jdbcType=NUMERIC};
+		 DELETE FROM DISPONIBLE_BANCO WHERE DISPONIBLE_BANCO.SEC=  #{secuencia,jdbcType=NUMERIC};
  </delete>
 </mapper>

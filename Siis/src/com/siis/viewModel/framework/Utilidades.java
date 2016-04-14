@@ -1,6 +1,8 @@
 package com.siis.viewModel.framework;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.zkoss.zk.ui.AbstractComponent;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zul.Window;
 import org.zkoss.zul.impl.InputElement;
  
 
@@ -106,5 +109,30 @@ public class Utilidades {
 			}
 		} // fin for
 		return listaComponentesFiltrada;
+	}
+
+	public static void onCargaEmergente(String ruta, Map<String, Object> parametros) {
+		log.info("onCargarDetalle");
+
+		try {
+
+			Window wind = (Window) Utilidades.onCargarVentana(null, ruta, parametros);
+			wind.setPosition("center");
+			wind.doModal();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static String formatFecha(Date date, String formato) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat();
+		dateFormat.applyPattern(formato);
+
+		if (date != null) {
+			return dateFormat.format(date);
+		}
+
+		return "";
 	}
 }

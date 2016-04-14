@@ -70,9 +70,16 @@
 		where DISPONIBLE_CONCEPTO.SEC =  #{secuencia,jdbcType=NUMERIC};
 	       
  </select>
- 
+  <select id="contarDisponibleConceptoPorDisponible" parameterType="Integer" resultType="Integer"  > 
+		SELECT
+			COUNT(*)
+		  FROM
+	      DISPONIBLE_CONCEPTO
+		  where DISPONIBLE_CONCEPTO.SEC_DISPONIBLE=  #{secuencia,jdbcType=NUMERIC};
+	      
+ </select>
 
  <delete id="eliminarDisponibleConcepto" parameterType="DisponibleConceptoAlias">
-		 DELETE FROM DISPONIBLE_CONCEPTO WHERE DISPONIBLES.SEC=  #{secuencia,jdbcType=NUMERIC};
+		 DELETE FROM DISPONIBLE_CONCEPTO WHERE DISPONIBLE_CONCEPTO.SEC=  #{secuencia,jdbcType=NUMERIC};
  </delete>
 </mapper>

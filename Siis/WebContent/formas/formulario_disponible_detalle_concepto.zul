@@ -9,128 +9,144 @@
 	xmlns:h="http://www.w3.org/1999/xhtml"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
-	<borderlayout apply="org.zkoss.bind.BindComposer"
+	<window title="Detalle Concepto" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') 
 		@init('com.siis.viewModel.FormularioDisponibleDetalleConceptoViewModel')"
-		id="idWINFORMDETDISPCONZPrincipal">
-		<center>
-			<vlayout height="100%">
-				<groupbox mold="3d" hflex="true" vflex="true"
-					contentStyle="padding:0px" open="true" closable="false">
-					<grid id="idWINFORMDETDISPCONZGridFormulario">
-						<columns>
-							<column hflex="min" />
-							<column />
-						</columns>
-						<rows>
-							<row>
-								<hlayout>
-									<label value="*" style="color:red" />
-									<label value="Concepto" />
-								</hlayout>
-								<textbox constraint="no empty"
-									value="@bind(vm.disponibleConceptoSeleccionado.concepto)"
-									disabled="@load(vm.desactivarformulario)" width="400px" />
-							</row>
-							<row>
-								<hlayout>
-									<label value="*" style="color:red" />
-									<label value="Fecha" />
-								</hlayout>
-								<datebox constraint="no empty"
-									value="@bind(vm.disponibleConceptoSeleccionado.fecha)"
-									disabled="@load(vm.desactivarformulario)" />
-							</row>
-							<row>
-								<hlayout>
-									<label value="*" style="color:red" />
-									<label value="Valor" />
-								</hlayout>
-								<doublebox constraint="no empty"
-									value="@bind(vm.disponibleConceptoSeleccionado.valor)"
-									disabled="@load(vm.desactivarformulario)" />
-							</row>
-							<row>
-								<hlayout>
-									<label value="*" style="color:red" />
-									<label value="Tipo de Nota" />
-								</hlayout>
-								<listbox mold="select"
-									disabled="@load(vm.desactivarformulario)"
-									selectedItem="@bind(vm.disponibleConceptoSeleccionado.tipoNota)"
-								onSelect="@command('onSeleccionar',seleccionado=vm.disponibleConceptoSeleccionado)">
+		width="500px" height="500px" closable="true">
 
-									<listitem label="Crédito" value="C"
-										checkable="true" />
-									<listitem label="Dédito" value="D" />
-								</listbox>
-							</row>
-						</rows>
-					</grid>
-					<separator />
-					<toolbar align="start">
-						<toolbarbutton label="Nuevo" sclass="btn-info"
-							tooltiptext="" image="imagenes/add.png"
-							onClick="@command('onNuevo')"
-							disabled="@load(vm.desactivarBtnNuevo)" />
-						<toolbarbutton label="Guardar" sclass="btn-info"
-							tooltiptext="" image="imagenes/guardar.png"
-							onClick="@command('guardarDisponibleConcepto')"
-							disabled="@load(vm.desactivarBtnGuardar)" />
-						<toolbarbutton label="Editar"
-							onClick="@command('onEditar')" sclass="btn-info"
-							image="imagenes/edit.png"
-							disabled="@load(vm.desactivarBtnEditar)" />
-						<toolbarbutton label="Eliminar"
-							sclass="btn-info" image="imagenes/delete.png"
-							disabled="@load(vm.desactivarBtnEliminar)"
-							onClick="@command('onEliminar',seleccionado=vm.carteraSeleccionada)" />
-						<toolbarbutton label="Cancelar"
-							onClick="@command('onCancelar')"
-							disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
-							tooltiptext="" image="imagenes/cancelar.png" />
-					</toolbar>
-					<listbox id="idCARTERAZLbxDetalleDisponibleConcepto"
-						sizedByContent="true" span="true" vflex="true"
-						model="@bind(vm.listaDisponibleConcepto)"
-						selectedItem="@bind(vm.disponibleConceptoSeleccionado)">
+		<borderlayout id="idWINFORMDETDISPCONZPrincipal">
+			<center>
+				<vlayout height="100%">
+					<groupbox mold="3d" hflex="true" vflex="true"
+						contentStyle="padding:0px" open="true" closable="false">
+						<grid id="idWINFORMDETDISPCONZGridFormulario">
+							<columns>
+								<column hflex="min" />
+								<column />
+							</columns>
+							<rows>
+								<row>
+									<hlayout>
+										<label value="*"
+											style="color:red" />
+										<label value="Concepto" />
+									</hlayout>
+									<textbox constraint="no empty"
+										value="@bind(vm.disponibleConceptoSeleccionado.concepto)"
+										disabled="@load(vm.desactivarformulario)" width="400px" />
+								</row>
+								<row>
+									<hlayout>
+										<label value="*"
+											style="color:red" />
+										<label value="Fecha" />
+									</hlayout>
+									<datebox constraint="no empty"
+										value="@bind(vm.disponibleConceptoSeleccionado.fecha)"
+										disabled="@load(vm.desactivarformulario)" />
+								</row>
+								<row>
+									<hlayout>
+										<label value="*"
+											style="color:red" />
+										<label value="Valor" />
+									</hlayout>
+									<doublebox constraint="no empty"
+										value="@bind(vm.disponibleConceptoSeleccionado.valor)"
+										disabled="@load(vm.desactivarformulario)" />
+								</row>
+								<row>
+									<hlayout>
+										<label value="*"
+											style="color:red" />
+										<label value="Tipo de Nota" />
+									</hlayout>
+									<listbox mold="select"
+										disabled="@load(vm.desactivarformulario)"
+										selectedItem="@bind(vm.disponibleConceptoSeleccionado.tipoNota)"
+										onSelect="@command('onSeleccionar',seleccionado=vm.disponibleConceptoSeleccionado)">
 
-						<listhead sizable="true">
-							<listheader label="Concepto" sort="auto" />
-							<listheader label="Fecha" sort="auto" />
-							<listheader label="Valor" sort="auto" />
-							<listheader label="Tipo" sort="auto" />
-						</listhead>
-						<template name="model">
-							<listitem>
-								<listcell>
-									<label value="@bind(each.concepto)" />
-								</listcell>
-								<listcell>
-									<label
-										value="@bind(each.fecha)  @converter('formatedDate', format='dd/MM/yyyy')" />
-								</listcell>
-								<listcell>
-									<label value="@bind(each.valor)" />
-								</listcell>
-								<listcell>
-									<label value="@bind(each.tipoNota)" />
-								</listcell>
-							</listitem>
-						</template>
-					</listbox>
-				</groupbox>
-			</vlayout>
-		</center>
-		<custom-attributes MSG_TITULO="Notificación" />
-		<custom-attributes
-			MSG_MENSAJE_GUARDAR="Se guardó correctamente la información" />
-		<custom-attributes
-			MSG_MENSAJE_ACTUALIZAR="Se actualizó correctamente la información" />
-		<custom-attributes
-			MSG_MENSAJE_ELIMINAR_OK="Se eliminó correctamente la información" />
-		<custom-attributes
-			MSG_MENSAJE_ELIMINAR="¿Desea eliminar la fila seleccionada?" />
-		<custom-attributes MSG_TITULO_ELIMINAR="Confirmación" />
-	</borderlayout>
+										<listitem label="Crédito"
+											value="C" checkable="true" />
+										<listitem label="Dédito"
+											value="D" />
+									</listbox>
+								</row>
+							</rows>
+						</grid>
+						<separator />
+						<toolbar align="start">
+							<toolbarbutton label="Nuevo"
+								sclass="btn-info" tooltiptext="" image="imagenes/add.png"
+								onClick="@command('onNuevo')"
+								disabled="@load(vm.desactivarBtnNuevo)" />
+							<toolbarbutton label="Guardar"
+								sclass="btn-info" tooltiptext="" image="imagenes/guardar.png"
+								onClick="@command('guardarDisponibleConcepto')"
+								disabled="@load(vm.desactivarBtnGuardar)" />
+							<toolbarbutton label="Editar"
+								onClick="@command('onEditar')" sclass="btn-info"
+								image="imagenes/edit.png"
+								disabled="@load(vm.desactivarBtnEditar)" />
+							<toolbarbutton label="Eliminar"
+								sclass="btn-info" image="imagenes/delete.png"
+								disabled="@load(vm.desactivarBtnEliminar)"
+								onClick="@command('onEliminar',seleccionado=vm.disponibleConceptoSeleccionado)" />
+							<toolbarbutton label="Cancelar"
+								onClick="@command('onCancelar')"
+								disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
+								tooltiptext="" image="imagenes/cancelar.png" />
+						</toolbar>
+						<listbox
+							id="idCARTERAZLbxDetalleDisponibleConcepto" sizedByContent="true"
+							span="true" vflex="true"
+							model="@bind(vm.listaDisponibleConcepto)"
+							selectedItem="@bind(vm.disponibleConceptoSeleccionado)"
+							onSelect="@command('onSeleccionar',seleccionado=vm.disponibleConceptoSeleccionado)" 
+							>
+
+							<listhead sizable="true">
+								<listheader label="Concepto"
+									sort="auto" />
+								<listheader label="Fecha" sort="auto" />
+								<listheader label="Valor" sort="auto" />
+								<listheader label="Tipo" sort="auto" />
+							</listhead>
+							<template name="model">
+								<listitem>
+									<listcell>
+										<label
+											value="@bind(each.concepto)" />
+									</listcell>
+									<listcell>
+										<label
+											value="@bind(each.fecha)  @converter('formatedDate', format='dd/MM/yyyy')" />
+									</listcell>
+									<listcell>
+										<label
+											value="@bind(each.valor)" />
+									</listcell>
+									<listcell>
+										<label
+											value="@bind(each.tipoNota)" />
+									</listcell>
+								</listitem>
+							</template>
+						</listbox>
+					</groupbox>
+				</vlayout>
+			</center>
+			<custom-attributes MSG_TITULO="Notificación" />
+			<custom-attributes
+				MSG_MENSAJE_GUARDAR="Se guardó correctamente la información" />
+			<custom-attributes
+				MSG_MENSAJE_ACTUALIZAR="Se actualizó correctamente la información" />
+			<custom-attributes
+				MSG_MENSAJE_ELIMINAR_OK="Se eliminó correctamente la información" />
+			<custom-attributes
+				MSG_MENSAJE_ELIMINAR="¿Desea eliminar la fila seleccionada?" />
+			<custom-attributes MSG_TITULO_ELIMINAR="Confirmación" />
+		</borderlayout>
+
+	</window>
 </zk>

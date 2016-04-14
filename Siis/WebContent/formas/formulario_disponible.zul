@@ -5,6 +5,7 @@
 <?link rel="stylesheet" href="bootstrap/css/bootstrap-theme.css" ?>
 <?component name="bandboxBancos" macroURI="/componentes/bandboxBancos.zul" class="com.siis.viewModel.framework.BandboxBancos"?>
 <?component name="bandboxCuentas" macroURI="/componentes/bandboxCuentas.zul" class="com.siis.viewModel.framework.BandboxCuentas"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
 <zk xmlns="http://www.zkoss.org/2005/zul"
 	xmlns:h="http://www.w3.org/1999/xhtml"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -22,12 +23,6 @@
 					<tabbox hflex="true" vflex="true">
 						<tabs>
 							<tab label="Generalidades" />
-							<tab label="Detalle por Banco"
-								onClick="@command('onMostrarVentanaDetalle')"
-								disabled="@load(vm.desactivarTabDetalle)" />
-							<tab label="Detalle por Concepto"
-								onClick="@command('onMostrarVentanaDetalleConcepto')"
-								disabled="@load(vm.desactivarTabDetalle)" />
 							<tab label="Consulta"
 								onClick="@command('onMostrarVentanaConsulta')" />
 						</tabs>
@@ -68,18 +63,6 @@
 										<row>
 											<hlayout>
 												<label value="*"
-													style="color:red" />
-												<label
-													value="Tipo de Cuenta:" />
-											</hlayout>
-											<textbox
-												constraint="no empty"
-												value="@bind(vm.disponibleSeleccionada.cuenta.tipo)"
-											 />
-										</row>
-										<row>
-											<hlayout>
-												<label value="*"
 													style="color:transparent" />
 												<label
 													value="Fecha de Creación:" />
@@ -94,7 +77,7 @@
 												<label
 													value="Fecha y Hora de Actualizacion:" />
 											</hlayout>
-											<datebox disabled="true"
+											<datebox disabled="true" format="dd-MM-yyyy hh:mm:ss"
 												value="@bind(vm.disponibleSeleccionada.fechaHoraActualizacion)" />
 										</row>
 									</rows>
@@ -121,7 +104,17 @@
 										onClick="@command('onCancelar')"
 										disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
 										tooltiptext="" image="imagenes/cancelar.png" />
-										
+									<toolbarbutton label="Detalle Banco"
+										sclass="btn-info" image="imagenes/peso.png"
+										onClick="@command('onMostrarVentanaDetalle')"
+										disabled="@load(vm.desactivarTabDetalle)" />
+									<toolbarbutton
+										label="Detalle Conceptos" sclass="btn-info"
+										disabled="@load(vm.desactivarTabDetalle)"
+										image="imagenes/item.png"
+										onClick="@command('onMostrarVentanaDetalleConcepto')" />
+
+
 								</toolbar>
 								<listbox id="idDISPONIBLEZLbxDisponible"
 									model="@bind(vm.listaDisponible)"
@@ -149,10 +142,6 @@
 									</template>
 								</listbox>
 							</tabpanel>
-							<tabpanel
-								id="idDISPONIBLEZTpnDetalleDisponible" hflex="true" />
-							<tabpanel
-								id="idDISPONIBLEZTpnDetalleDisponobleConcepto" hflex="true" />
 							<tabpanel
 								id="idDISPONIBLEZTpnConsultaDisponible" hflex="true" />
 						</tabpanels>

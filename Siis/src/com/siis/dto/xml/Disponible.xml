@@ -26,7 +26,7 @@
 					   #{banco.sec,jdbcType=NUMERIC},
 					   #{cuenta.secuencia,jdbcType=NUMERIC},
 					   #{fechaCreacion,jdbcType=DATE},
-					   #{fechaHoraActualizacion,jdbcType=DATE}
+					   #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 					  ) 
 		       
 	</select>
@@ -35,14 +35,13 @@
 	     SET SEC_USUARIO = #{usuario.secuencia,jdbcType=NUMERIC},
 	         SEC_BANCO = #{banco.sec,jdbcType=NUMERIC},
 	         SEC_CUENTA  = #{cuenta.secuencia,jdbcType=NUMERIC},
-	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
 	</update>
 	<select id="listarDisponibles" parameterType="DisponibleAlias" resultMap="resMapDisponible"  > 
 		SELECT
 		DISPONIBLES.SEC,
-		CUENTAS.SEC  SEC_CUENTA,
-		CUENTAS.SEC_BANCO,
+		CUENTAS.SEC  SEC_CUENTA, 
 		CUENTAS.RESPONSABLE,
 		CUENTAS.NUMERO,
 		CUENTAS.ESTADO,
@@ -58,7 +57,7 @@
 		 
 		FROM DISPONIBLES 
 		  JOIN BANCOS ON BANCOS.SEC = DISPONIBLES .SEC_BANCO 
-	      JOIN CUENTAS ON CUENTAS.SEC_BANCO = DISPONIBLES.SEC_BANCO 
+	      JOIN CUENTAS ON CUENTAS.SEC  = DISPONIBLES.SEC_CUENTA
 		  JOIN USUARIOS ON USUARIOS.SEC = DISPONIBLES.SEC_USUARIO
 
 		  

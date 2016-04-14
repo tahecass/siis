@@ -22,6 +22,7 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Window;
 
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Credito;
@@ -29,8 +30,12 @@ import com.siis.dto.Disponible;
 import com.siis.dto.DisponibleConcepto;
 import com.siis.viewModel.framework.Utilidades;
 
-public class FormularioDisponibleDetalleConceptoViewModel {
+public class FormularioDisponibleDetalleConceptoViewModel extends Window{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5456428346149507721L;
 	protected static Logger log = Logger.getLogger(FormularioDisponibleViewModel.class);
 	public List<DisponibleConcepto> listaDisponibleConcepto;
 	public DisponibleConcepto disponibleConceptoSeleccionado;
@@ -143,12 +148,10 @@ public class FormularioDisponibleDetalleConceptoViewModel {
 
 	@NotifyChange("*")
 	@Command
-	public void onEliminar(@BindingParam("seleccionado") final DisponibleConcepto detalleDisponible) {
-		log.info("onEliminar => " + detalleDisponible.getSecuencia());
-		if ((Messagebox.show(idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_ELIMINAR_CARTERA").toString(),
-				idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
-				Messagebox.NO | Messagebox.YES, Messagebox.QUESTION)) == Messagebox.YES) {
-
+	public void onEliminar(@BindingParam("seleccionado") final DisponibleConcepto disponible) {
+		log.info("onEliminar => " + disponible.getSecuencia());
+ 
+			 
 			Messagebox.show(idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
 					idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
 					Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
@@ -158,8 +161,7 @@ public class FormularioDisponibleDetalleConceptoViewModel {
 						public void onEvent(Event e) throws Exception {
 							if (Messagebox.ON_OK.equals(e.getName())) {
 
-								log.info("Messagebox.YES => " + detalleDisponible.getSecuencia());
-								Conexion.getConexion().eliminar("eliminarDisponibleConcepto", detalleDisponible);
+								Conexion.getConexion().eliminar("eliminarDisponibleConcepto", disponible);
 								Utilidades.mostrarNotificacion(
 										idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_TITULO").toString(),
 										idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK")
@@ -171,11 +173,13 @@ public class FormularioDisponibleDetalleConceptoViewModel {
 								setDesactivarBtnEditar(true);
 								setDesactivarBtnGuardar(true);
 								setDesactivarBtnEliminar(true);
+								 
 							}
 						}
 
 					});
-		}
+	 
+
 	}
 
 	@NotifyChange("*")
