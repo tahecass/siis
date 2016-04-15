@@ -61,7 +61,7 @@
 									<menuseparator />
 
 									<menuitem label="Salir"
-										image="/imagenes/exit2.png" onClick="idMENUZWinMenu.onSalir()" />
+										image="/imagenes/exit2.png" onClick="@command('salir')" />
 								</menupopup>
 					</h:td>
 				</h:tr>

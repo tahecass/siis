@@ -21,10 +21,10 @@
 					</h:td>
 					<h:td width="30%">
 						<hbox>
-							<textbox placeholder="Usuario"
+							<textbox placeholder="Usuario" value="@bind(vm.usuario.cuenta)"
 								id="tbxUsuario" constraint="no empty" />
 								<space width="2px"/>
-							<textbox type="password" placeholder="Clave"
+							<textbox type="password" placeholder="Clave" value="@bind(vm.usuario.clave)"
 								id="tbxClave" constraint="no empty" />
 							<space width="5px"/>
 							<button image="/imagenes/next.png" height="25px" 

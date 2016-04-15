@@ -59,6 +59,25 @@
 				  "PERSONAS"."NOMBRE_RAZON_SOCIAL" ASC
 	
 	</select>
+	
+	<select id="validarUsuario" parameterType="UsuarioAlias" resultMap="resMapUsuario"  > 
+	            SELECT
+					USUARIOS.SEC,
+					USUARIOS.SEC_PERSONA,
+					USUARIOS.CUENTA,
+					USUARIOS.CLAVE,
+					USUARIOS.TIPO,
+					USUARIOS.ESTADO,
+					PERSONAS.IDENTIFICACION,
+					PERSONAS.NOMBRES,
+					PERSONAS.APELLIDOS
+					FROM
+					USUARIOS
+					INNER JOIN PERSONAS ON PERSONAS.SEC = USUARIOS.SEC_PERSONA
+					WHERE USUARIOS.CUENTA=#{cuenta}
+					AND USUARIOS.CLAVE=#{clave}
+	
+	</select>
 </mapper>
 
 

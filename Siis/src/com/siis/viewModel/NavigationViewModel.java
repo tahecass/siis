@@ -53,6 +53,14 @@ public class NavigationViewModel extends Borderlayout {
 		agregarTab(targetPage.getTitle(), targetPage.getId(), targetPage.getIncludeUri());
 	}
 
+	@Command
+	public void salir(){
+		Executions.getCurrent().getDesktop().getSession()
+		.removeAttribute("usuario");
+		this.detach();
+		Executions.sendRedirect("/inicio.zul");
+	}
+	
 	private void agregarTab(String titulo, String id, String zul) {
 		System.out.println("agregarTab ==> id " + id);
 		Map<String, Object> arguments = new HashMap<String, Object>();
