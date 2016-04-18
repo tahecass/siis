@@ -1,7 +1,6 @@
 package com.siis.viewModel;
 
-import java.sql.Timestamp;
-import java.text.ParseException;
+import java.sql.Timestamp; 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,8 +27,7 @@ import org.zkoss.zul.Tabpanel;
 import org.zkoss.zul.Window;
 
 import com.siis.configuracion.Conexion;
-import com.siis.dto.Disponible;
-import com.siis.dto.DisponibleBanco;
+import com.siis.dto.Disponible; 
 import com.siis.dto.Usuario;
 import com.siis.viewModel.framework.BandboxBancos;
 import com.siis.viewModel.framework.BandboxCuentas;
@@ -240,7 +238,7 @@ public class FormularioDisponibleViewModel {
 	@Command
 	public void onNuevo() {
 		log.info("onNuevo");
-		SimpleDateFormat dt = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+		 
 		setDesactivarformulario(false);
 		disponibleSeleccionada = new Disponible();
 

@@ -13,7 +13,6 @@
 		viewModel="@id('vm') 
 		@init('com.siis.viewModel.FormularioCarteraViewModel')"
 		id="idWINFORMCARTERAZPrincipal">
-
 		<center>
 			<vlayout height="100%">
 				<groupbox mold="3d" hflex="true" vflex="true"
@@ -22,9 +21,7 @@
 					<tabbox hflex="true" vflex="true">
 						<tabs>
 							<tab label="Generalidades" />
-							<tab label="Detalle"
-								onClick="@command('onMostrarVentanaDetalle')"
-								disabled="@load(vm.desactivarTabDetalle)" />
+
 							<tab label="Consulta"
 								onClick="@command('onMostrarVentanaConsulta')" />
 						</tabs>
@@ -51,9 +48,14 @@
 												id="idFORMCARTERAZBbxCliente" />
 										</row>
 										<row>
-											<label
-												value="Fecha y Hora de Actualizacion:" />
+											<hlayout>
+												<label value="*"
+													style="color:transparent" />
+												<label
+													value="Fecha y Hora de Actualizacion:" />
+											</hlayout>
 											<datebox disabled="true"
+												format="dd-MM-yyyy hh:mm:ss"
 												value="@bind(vm.carteraSeleccionada.fechaHoraActualizacion)" />
 										</row>
 										<row>
@@ -65,7 +67,7 @@
 											</hlayout>
 											<datebox
 												constraint="no past,no empty"
-												disabled="@load(vm.desactivarformulario)"
+												disabled="@bind(vm.desactivarformulario)"
 												value="@bind(vm.carteraSeleccionada.fechaPago)" />
 										</row>
 									</rows>
@@ -95,9 +97,13 @@
 									<toolbarbutton label="Cargar"
 										onClick="@command('onCargaEmergente')" sclass="btn-info"
 										tooltiptext="" image="imagenes/subir.png" />
-										<toolbarbutton label="Refrescar"
+									<toolbarbutton label="Refrescar"
 										onClick="@command('listarCartera')" sclass="btn-info"
 										tooltiptext="" image="imagenes/refrescar.png" />
+									<toolbarbutton label="Detalle"
+										onClick="@command('onMostrarVentanaDetalle')"
+										disabled="@load(vm.desactivarTabDetalle)" sclass="btn-info"
+										image="imagenes/item.png" />
 								</toolbar>
 								<listbox id="idCARTERAZLbxCartera"
 									span="true" model="@bind(vm.listaCartera)"
@@ -121,7 +127,7 @@
 
 											<listcell>
 												<label
-													value="@bind(each.fechaHoraActualizacion) @converter('formatedDate', format='dd/MM/yyyy')" />
+													value="@bind(each.fechaHoraActualizacion) @converter('formatedDate', format='dd-MM-yyyy hh:mm:ss')" />
 											</listcell>
 											<listcell>
 												<label
@@ -131,8 +137,6 @@
 									</template>
 								</listbox>
 							</tabpanel>
-							<tabpanel id="idCARTERAZTpnDetalleCartera"
-								hflex="true" />
 							<tabpanel id="idCARTERAZTpnConsultaCartera"
 								hflex="true" />
 						</tabpanels>

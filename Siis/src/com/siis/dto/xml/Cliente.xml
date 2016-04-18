@@ -42,7 +42,15 @@
 			  CLIENTES.NOMBRE_RAZON_SOCIAL, 
 			  CLIENTES.SEC_PERSONA
 			FROM 
-			  CLIENTES;
+			  CLIENTES
+			  <trim prefix="WHERE" prefixOverrides="AND | OR ">
+				<if test="nit !=null and nit !=''">
+		           AND NIT  LIKE  (#{nit,jdbcType=VARCHAR})   
+		        </if>
+		        <if test="nombreRazonSocial !=null and nombreRazonSocial!=''">
+		           AND NOMBRE_RAZON_SOCIAL  LIKE  (#{nombreRazonSocial,jdbcType=VARCHAR})   
+		        </if>  
+	      </trim>
 	</select>
 		<select id="obtenerCliente" parameterType="ClienteAlias" resultMap="resMapCliente"  > 
 	          SELECT 

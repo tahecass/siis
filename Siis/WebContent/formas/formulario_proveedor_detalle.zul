@@ -9,196 +9,206 @@
 	xmlns:h="http://www.w3.org/1999/xhtml"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
-	<borderlayout apply="org.zkoss.bind.BindComposer"
+	<window title="Detalle 	Proveedor" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') 
 		@init('com.siis.viewModel.FormularioProveedorDetalleViewModel')"
-		id="idWINFORMDETPROVEEDORZPrincipal">
-		<center>
-			<vlayout height="100%">
-				<groupbox mold="3d" hflex="true" vflex="true"
-					contentStyle="padding:0px" open="true" closable="false">
-					<grid id="idWINFORMDETPROVEEDORZGRidFormulario">
-						<columns>
-							<column hflex="min" />
-							<column />
-						</columns>
-						<rows>
-							<row>
-								<hlayout>
-									<label value="*" style="color:red" />
-
-									<label value="Nro Factura" />
-								</hlayout>
-								<textbox constraint="no empty"
-									disabled="@load(vm.desactivarformulario)"
-									value="@bind(vm.detalleProveedorSeleccionada.nroFactura)" />
-							</row>
-							<row>
-								<hlayout>
-									<label value="*" style="color:red" />
-
-									<label value="Vence" />
-								</hlayout>
-								<datebox constraint="no empty"
-									disabled="@load(vm.desactivarformulario)"
-									value="@bind(vm.detalleProveedorSeleccionada.vencimiento)" />
-							</row>
-							<row>
-								<hlayout>
-									<label value="*" style="color:red" />
-
-									<label value="Referencia" />
-								</hlayout>
-								<textbox constraint="no empty"
-									disabled="@load(vm.desactivarformulario)"
-									value="@bind(vm.detalleProveedorSeleccionada.referencia)" />
-							</row>
-							<row>
-								<hlayout>
-									<label value="*"
-										style="color:transparent" />
-									<label value="Fecha de Creación" />
-								</hlayout>
-								<datebox
-									value="@bind(vm.detalleProveedorSeleccionada.fechaCreacion)"
-									disabled="true" />
-							</row>
-							<row>
-								<hlayout>
-									<label value="*"
-										style="color:transparent" />
-									<label
-										value="Fecha de Actualización" />
-								</hlayout>
-								<datebox
-									value="@bind(vm.detalleProveedorSeleccionada.fechaActualizacion)"
-									disabled="true" />
-							</row>
-						</rows>
-					</grid>
-					<groupbox mold="3d">
-						<caption label="Valores" />
-						<grid>
+		width="600px" height="600px" closable="true">
+		<borderlayout id="idWINFORMDETPROVEEDORZPrincipal">
+			<center>
+				<vlayout height="100%">
+					<groupbox mold="3d" hflex="true" vflex="true"
+						contentStyle="padding:0px" open="true" closable="false">
+						<grid
+							id="idWINFORMDETPROVEEDORZGRidFormulario">
 							<columns>
 								<column hflex="min" />
 								<column />
 							</columns>
 							<rows>
-
 								<row>
 									<hlayout>
 										<label value="*"
 											style="color:red" />
 
-										<label value="30 Dias" />
+										<label value="Nro Factura" />
 									</hlayout>
-									<doublebox constraint="no empty"
+									<textbox constraint="no empty"
 										disabled="@load(vm.desactivarformulario)"
-										value="@bind(vm.detalleProveedorSeleccionada.valor1)" />
-								</row>
-								<row>
-									<hlayout>
-										<label value="*"
-											style="color:red" />
-										<label value="60 Dias" />
-									</hlayout>
-									<doublebox
-										disabled="@load(vm.desactivarformulario)"
-										value="@bind(vm.detalleProveedorSeleccionada.valor2)"
-										constraint="no empty" />
+										value="@bind(vm.detalleProveedorSeleccionada.nroFactura)" />
 								</row>
 								<row>
 									<hlayout>
 										<label value="*"
 											style="color:red" />
 
-										<label value="90 Dias" />
+										<label value="Vence" />
 									</hlayout>
-									<doublebox constraint="no empty"
+									<datebox constraint="no empty"
 										disabled="@load(vm.desactivarformulario)"
-										value="@bind(vm.detalleProveedorSeleccionada.valor3)" />
+										value="@bind(vm.detalleProveedorSeleccionada.vencimiento)" />
 								</row>
 								<row>
 									<hlayout>
 										<label value="*"
 											style="color:red" />
-										<label value="Más de 90 Dias" />
+
+										<label value="Referencia" />
 									</hlayout>
-									<doublebox constraint="no empty"
+									<textbox constraint="no empty"
 										disabled="@load(vm.desactivarformulario)"
-										value="@bind(vm.detalleProveedorSeleccionada.valor4)" />
+										value="@bind(vm.detalleProveedorSeleccionada.referencia)" />
+								</row>
+								<row>
+									<hlayout>
+										<label value="*"
+											style="color:transparent" />
+										<label
+											value="Fecha de Creación" />
+									</hlayout>
+									<datebox
+										value="@bind(vm.detalleProveedorSeleccionada.fechaCreacion)"
+										disabled="true" />
+								</row>
+								<row>
+									<hlayout>
+										<label value="*"
+											style="color:transparent" />
+										<label
+											value="Fecha de Actualización" />
+									</hlayout>
+									<datebox
+										value="@bind(vm.detalleProveedorSeleccionada.fechaActualizacion)"
+										disabled="true" />
 								</row>
 							</rows>
 						</grid>
+						<groupbox mold="3d">
+							<caption label="Valores" />
+							<grid>
+								<columns>
+									<column hflex="min" />
+									<column />
+								</columns>
+								<rows>
+
+									<row>
+										<hlayout>
+											<label value="*"
+												style="color:red" />
+
+											<label value="30 Dias" />
+										</hlayout>
+										<doublebox constraint="no empty"
+											disabled="@load(vm.desactivarformulario)"
+											value="@bind(vm.detalleProveedorSeleccionada.valor1)" />
+									</row>
+									<row>
+										<hlayout>
+											<label value="*"
+												style="color:red" />
+											<label value="60 Dias" />
+										</hlayout>
+										<doublebox
+											disabled="@load(vm.desactivarformulario)"
+											value="@bind(vm.detalleProveedorSeleccionada.valor2)"
+											constraint="no empty" />
+									</row>
+									<row>
+										<hlayout>
+											<label value="*"
+												style="color:red" />
+
+											<label value="90 Dias" />
+										</hlayout>
+										<doublebox constraint="no empty"
+											disabled="@load(vm.desactivarformulario)"
+											value="@bind(vm.detalleProveedorSeleccionada.valor3)" />
+									</row>
+									<row>
+										<hlayout>
+											<label value="*"
+												style="color:red" />
+											<label
+												value="Más de 90 Dias" />
+										</hlayout>
+										<doublebox constraint="no empty"
+											disabled="@load(vm.desactivarformulario)"
+											value="@bind(vm.detalleProveedorSeleccionada.valor4)" />
+									</row>
+								</rows>
+							</grid>
+						</groupbox>
+						<separator />
+						<toolbar align="start">
+							<toolbarbutton label="Nuevo"
+								sclass="btn-info" tooltiptext="" image="imagenes/add.png"
+								onClick="@command('onNuevo')"
+								disabled="@load(vm.desactivarBtnNuevo)" />
+							<toolbarbutton label="Guardar"
+								sclass="btn-info" tooltiptext="" image="imagenes/guardar.png"
+								onClick="@command('guardarDetalleProveedor')"
+								disabled="@load(vm.desactivarBtnGuardar)" />
+							<toolbarbutton label="Editar"
+								onClick="@command('onEditar')" sclass="btn-info"
+								image="imagenes/edit.png"
+								disabled="@load(vm.desactivarBtnEditar)" />
+							<toolbarbutton label="Eliminar"
+								sclass="btn-info" image="imagenes/delete.png"
+								disabled="@load(vm.desactivarBtnEliminar)"
+								onClick="@command('onEliminar',seleccionado=vm.detalleProveedorSeleccionada)" />
+							<toolbarbutton label="Cancelar"
+								onClick="@command('onCancelar')"
+								disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
+								tooltiptext="" image="imagenes/cancelar.png" />
+						</toolbar>
+						<listbox id="idDETPROVEEDORZLbxDetalleProveedor"
+							sizedByContent="true" span="true" vflex="true"
+							model="@bind(vm.listaDetalleProveedor)"
+							onSelect="@command('onSeleccionar',seleccionado=vm.detalleProveedorSeleccionada)"
+							selectedItem="@bind(vm.detalleProveedorSeleccionada)">
+
+							<listhead sizable="true">
+
+								<listheader label="Nro Factura"
+									sort="auto" />
+
+								<listheader label="Vence" sort="auto" />
+
+								<listheader label="Referencia"
+									sort="auto" />
+
+							</listhead>
+							<template name="model">
+								<listitem>
+									<listcell>
+										<label
+											value="@bind(each.nroFactura)" />
+									</listcell>
+									<listcell>
+										<label
+											value="@bind(each.vencimiento) @converter('formatedDate', format='dd/MM/yyyy')" />
+									</listcell>
+									<listcell>
+										<label
+											value="@bind(each.referencia)" />
+									</listcell>
+
+								</listitem>
+							</template>
+						</listbox>
 					</groupbox>
-					<separator />
-					<toolbar align="start">
-						<toolbarbutton label="Nuevo" sclass="btn-info"
-							tooltiptext="" image="imagenes/add.png"
-							onClick="@command('onNuevo')"
-							disabled="@load(vm.desactivarBtnNuevo)" />
-						<toolbarbutton label="Guardar" sclass="btn-info"
-							tooltiptext="" image="imagenes/guardar.png"
-							onClick="@command('guardarDetalleProveedor')"
-							disabled="@load(vm.desactivarBtnGuardar)" />
-						<toolbarbutton label="Editar"
-							onClick="@command('onEditar')" sclass="btn-info"
-							image="imagenes/edit.png"
-							disabled="@load(vm.desactivarBtnEditar)" />
-						<toolbarbutton label="Eliminar"
-							sclass="btn-info" image="imagenes/delete.png"
-							disabled="@load(vm.desactivarBtnEliminar)"
-							onClick="@command('onEliminar',seleccionado=vm.detalleProveedorSeleccionada)" />
-						<toolbarbutton label="Cancelar"
-							onClick="@command('onCancelar')"
-							disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
-							tooltiptext="" image="imagenes/cancelar.png" />
-					</toolbar>
-					<listbox id="idDETPROVEEDORZLbxDetalleProveedor"
-						sizedByContent="true" span="true" vflex="true"
-						model="@bind(vm.listaDetalleProveedor)"
-						onSelect="@command('onSeleccionar',seleccionado=vm.detalleProveedorSeleccionada)"
-						selectedItem="@bind(vm.detalleProveedorSeleccionada)">
-
-						<listhead sizable="true">
-
-							<listheader label="Nro Factura" sort="auto" />
-
-							<listheader label="Vence" sort="auto" />
-
-							<listheader label="Referencia" sort="auto" />
-
-						</listhead>
-						<template name="model">
-							<listitem>
-								<listcell>
-									<label
-										value="@bind(each.nroFactura)" />
-								</listcell>
-								<listcell>
-									<label
-										value="@bind(each.vencimiento) @converter('formatedDate', format='dd/MM/yyyy')" />
-								</listcell>
-								<listcell>
-									<label
-										value="@bind(each.referencia)" />
-								</listcell>
-
-							</listitem>
-						</template>
-					</listbox>
-				</groupbox>
-			</vlayout>
-		</center>
-		<custom-attributes MSG_TITULO="Notificación" />
-		<custom-attributes
-			MSG_MENSAJE_GUARDAR="Se guardó correctamente la información" />
-		<custom-attributes
-			MSG_MENSAJE_ACTUALIZAR="Se actualizó correctamente la información" />
-		<custom-attributes
-			MSG_MENSAJE_ELIMINAR_OK="Se eliminó correctamente la información" />
-		<custom-attributes
-			MSG_MENSAJE_ELIMINAR="¿Desea eliminar la fila seleccionada?" />
-		<custom-attributes MSG_TITULO_ELIMINAR="Confirmación" />
-	</borderlayout>
+				</vlayout>
+			</center>
+			<custom-attributes MSG_TITULO="Notificación" />
+			<custom-attributes
+				MSG_MENSAJE_GUARDAR="Se guardó correctamente la información" />
+			<custom-attributes
+				MSG_MENSAJE_ACTUALIZAR="Se actualizó correctamente la información" />
+			<custom-attributes
+				MSG_MENSAJE_ELIMINAR_OK="Se eliminó correctamente la información" />
+			<custom-attributes
+				MSG_MENSAJE_ELIMINAR="¿Desea eliminar la fila seleccionada?" />
+			<custom-attributes MSG_TITULO_ELIMINAR="Confirmación" />
+		</borderlayout>
+	</window>
 </zk>

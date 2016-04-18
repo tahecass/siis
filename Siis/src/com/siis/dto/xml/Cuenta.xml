@@ -42,13 +42,13 @@
 			CUENTAS.FECHA_CREACION,
 			CUENTAS.FECHA_HORA_ACTUALIZACION
 	   FROM CUENTAS
-  <trim prefix="WHERE" prefixOverrides="AND | OR ">
-	<!-- 		<if test="codigo !=null !=null">
-	           AND CODIGO  LIKE  (#{codigo,jdbcType=VARCHAR})   
-	        </if>
-	        <if test="nombre !=null !=null">
-	         AND NOMBRE  LIKE  (#{nombre,jdbcType=VARCHAR})   
-	        </if> -->
+          <trim prefix="WHERE" prefixOverrides="AND | OR ">
+				<if test="responsable !=null and responsable!=''">
+		           AND RESPONSABLE  LIKE  (#{responsable,jdbcType=VARCHAR})   
+		        </if>
+		        <if test="numeroCuenta !=null and numeroCuenta!=''">
+		           AND NUMERO  LIKE  (#{numeroCuenta,jdbcType=VARCHAR})   
+		        </if>  
 	      </trim>
  </select>
 

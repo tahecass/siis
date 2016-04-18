@@ -1,7 +1,7 @@
 package com.siis.viewModel;
- 
-import java.util.ArrayList;
-import java.util.Date;
+
+import java.sql.Timestamp;
+import java.util.ArrayList; 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +26,7 @@ import org.zkoss.zul.Window;
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Cartera;
 import com.siis.dto.DetalleCartera;
+import com.siis.dto.Disponible;
 import com.siis.viewModel.framework.BandboxCliente;
 import com.siis.viewModel.framework.Utilidades;
 
@@ -45,7 +46,7 @@ public class FormularioCarteraViewModel {
 	@Wire
 	public Borderlayout idWINFORMCARTERAZPrincipal;
 	@Wire
-	private Tabpanel idCARTERAZTpnDetalleCartera, idCARTERAZTpnConsultaCartera;
+	private Tabpanel idCARTERAZTpnConsultaCartera;
 
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
@@ -100,6 +101,7 @@ public class FormularioCarteraViewModel {
 			log.info("accion=>> " + accion);
 
 			carteraSeleccionada.setCliente(idFORMCARTERAZBbxCliente.getValue());
+			// carteraSeleccionada.setUsuario();
 			if (esFormularioValido(carteraSeleccionada)) {
 
 				if (accion.equals("I")) {
@@ -119,7 +121,7 @@ public class FormularioCarteraViewModel {
 
 				} else if (accion.equals("U")) {
 					Conexion.getConexion().actualizar("actualizarCartera", carteraSeleccionada);
-					log.info("CarteraActualizada");
+					log.info("CarteraActualizada => " + carteraSeleccionada.getFechaHoraActualizacion());
 					Utilidades.mostrarNotificacion(idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
 							idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ACTUALIZAR").toString(), "INFO");
 				}
@@ -202,6 +204,8 @@ public class FormularioCarteraViewModel {
 		log.info("onEditar");
 		setDesactivarformulario(false);
 		accion = "U";
+		java.util.Date date = new java.util.Date();
+		carteraSeleccionada.setFechaHoraActualizacion(new Timestamp(date.getTime()));
 		setDesactivarBtnNuevo(true);
 		setDesactivarBtnEditar(true);
 		setDesactivarBtnGuardar(false);
@@ -235,7 +239,7 @@ public class FormularioCarteraViewModel {
 			Window wind = (Window) Utilidades.onCargarVentana(null, "//formas//carga_masiva_cartera.zul", parametros);
 			wind.setPosition("center");
 			wind.doModal();
-	
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -259,7 +263,8 @@ public class FormularioCarteraViewModel {
 		log.info("onNuevo");
 		setDesactivarformulario(false);
 		carteraSeleccionada = new Cartera();
-		carteraSeleccionada.setFechaHoraActualizacion(new Date());
+		java.util.Date date = new java.util.Date();
+		carteraSeleccionada.setFechaHoraActualizacion(new Timestamp(date.getTime()));
 		accion = "I";
 
 		setDesactivarBtnNuevo(true);
@@ -300,18 +305,12 @@ public class FormularioCarteraViewModel {
 		try {
 			Map<String, Object> parametros = new HashMap<String, Object>();
 			log.info("Carteta==> 1" + carteraSeleccionada.getSecuencia());
-			parametros.put("CARTERA", carteraSeleccionada);
-			if (idCARTERAZTpnDetalleCartera.getChildren().size() == 0) {
-				Utilidades.onCargarVentana(idCARTERAZTpnDetalleCartera, "//formas//formulario_cartera_detalle.zul",
-						parametros);
-			} else {
-				FormularioCarteraDetalleViewModel detalleCartera = new FormularioCarteraDetalleViewModel();
-
-				log.info("Carteta==> 2" + carteraSeleccionada.getSecuencia());
-				detalleCartera.setCartera(carteraSeleccionada);
-				detalleCartera.listarDetalleCartera();
-				log.info("1");
-			}
+			parametros.put("CARTERA", carteraSeleccionada); 
+			Window win = (Window) Utilidades.onCargarVentana(null, "//formas//formulario_cartera_detalle.zul",
+					parametros);
+//			win.setHeight("auto");
+			win.setPosition("center,top");
+			win.doModal();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -364,6 +363,7 @@ public class FormularioCarteraViewModel {
 
 	public void setCarteraSeleccionada(Cartera carteraSeleccionada) {
 		this.carteraSeleccionada = carteraSeleccionada;
+
 	}
 
 	public boolean isDesactivarformulario() {

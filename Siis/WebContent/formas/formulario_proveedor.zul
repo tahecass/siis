@@ -22,9 +22,7 @@
 					<tabbox hflex="true" vflex="true">
 						<tabs>
 							<tab label="Generalidades" />
-							<tab label="Detalle"
-								onClick="@command('onMostrarVentanaDetalle')"
-								disabled="@load(vm.desactivarTabDetalle)" />
+					 
 							<tab label="Consulta"
 								onClick="@command('onMostrarVentanaConsulta')" />
 						</tabs>
@@ -55,8 +53,8 @@
 											<hlayout>
 												<label value="*"
 													style="color:transparent" />
-													<label
-														value="Fecha y Hora de Actualizacion:" />
+												<label
+													value="Fecha y Hora de Actualizacion:" />
 											</hlayout>
 											<datebox disabled="true"
 												value="@bind(vm.proveedorSeleccionada.fechaHoraActualizacion)" />
@@ -103,6 +101,10 @@
 									<toolbarbutton label="Refrescar"
 										onClick="@command('listarProveedor')" sclass="btn-info"
 										tooltiptext="" image="imagenes/refrescar.png" />
+									<toolbarbutton label="Detalle"
+										onClick="@command('onMostrarVentanaDetalle')"
+										disabled="@load(vm.desactivarTabDetalle)" sclass="btn-info"
+										image="imagenes/item.png" />
 								</toolbar>
 								<listbox id="idPROVEEDORZLbxProveedor"
 									span="true" model="@bind(vm.listaProveedor)"
@@ -136,9 +138,7 @@
 									</template>
 								</listbox>
 							</tabpanel>
-							<tabpanel
-								id="idPROVEEDORZTpnDetalleProveedor" hflex="true" />
-							<tabpanel
+							 <tabpanel
 								id="idPROVEEDORZTpnConsultaProveedor" hflex="true" />
 						</tabpanels>
 

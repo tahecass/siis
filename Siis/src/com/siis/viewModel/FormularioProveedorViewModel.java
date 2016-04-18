@@ -45,7 +45,7 @@ public class FormularioProveedorViewModel {
 	@Wire
 	public Borderlayout idWINFORMPROVEEDORZPrincipal;
 	@Wire
-	private Tabpanel idPROVEEDORZTpnDetalleProveedor, idPROVEEDORZTpnConsultaProveedor;
+	private Tabpanel  idPROVEEDORZTpnConsultaProveedor;
 
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
@@ -303,17 +303,13 @@ public class FormularioProveedorViewModel {
 			Map<String, Object> parametros = new HashMap<String, Object>();
 			log.info("pROVEEDOR ==> " + proveedorSeleccionada.getSecuencia());
 			parametros.put("PROVEEDOR", proveedorSeleccionada);
-			if (idPROVEEDORZTpnDetalleProveedor.getChildren().size() == 0) {
-				Utilidades.onCargarVentana(idPROVEEDORZTpnDetalleProveedor,
-						"//formas//formulario_proveedor_detalle.zul", parametros);
-			} else {
-				FormularioProveedorDetalleViewModel detalleProveedor = new FormularioProveedorDetalleViewModel();
-
-				log.info("Carteta==> 2" + proveedorSeleccionada.getSecuencia());
-				detalleProveedor.setProveedor(proveedorSeleccionada);
-				detalleProveedor.listarDetalleProveedor();
-				log.info("1");
-			}
+		 
+			
+			Window win = (Window) Utilidades.onCargarVentana(null, "//formas//formulario_proveedor_detalle.zul",
+					parametros);
+//			win.setHeight("auto");
+			win.setPosition("center,top");
+			win.doModal();
 
 		} catch (Exception e) {
 			e.printStackTrace();

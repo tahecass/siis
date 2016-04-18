@@ -1,15 +1,16 @@
 package com.siis.viewModel;
 
-import java.io.ByteArrayInputStream; 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List; 
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.poi.util.IOUtils;
@@ -20,11 +21,11 @@ import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.util.media.Media;
-import org.zkoss.zk.ui.Component; 
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.select.Selectors;
-import org.zkoss.zk.ui.select.annotation.Wire; 
-import org.zkoss.zul.Grid; 
-import org.zkoss.zul.Messagebox; 
+import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Grid;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Cartera;
@@ -42,12 +43,11 @@ public class CargaMasivaCarteraViewModel extends Window {
 	protected static Logger log = Logger.getLogger(CargaMasivaCarteraViewModel.class);
 	public List<Efs> listaEfs;
 	public Efs EfSeleccionado;
-	 
+
 	Conexion con;
 	List<DetalleCartera> lista;
 	Cliente cliente = new Cliente();
 
-	 
 	@Wire
 	private Grid idWINFORMEFSZGridFormulario;
 	Cartera cartera;
@@ -59,10 +59,9 @@ public class CargaMasivaCarteraViewModel extends Window {
 
 		listaEfs = new ArrayList<Efs>();
 		EfSeleccionado = new Efs();
-		 
+
 		lista = new LinkedList<DetalleCartera>();
 	}
- 
 
 	private boolean validarSoloExtensio(String mimeType) {
 		log.debug("Ejecutando M�todo [ validarSoloExtensio ]");
@@ -101,7 +100,7 @@ public class CargaMasivaCarteraViewModel extends Window {
 			if (blob.length > 0) {
 
 				EfSeleccionado.setContenidoBinarioArchivo(blob);
- 
+
 				InputStream mediais = new ByteArrayInputStream(EfSeleccionado.getContenidoBinarioArchivo());
 				leerXls(mediais);
 
@@ -145,8 +144,11 @@ public class CargaMasivaCarteraViewModel extends Window {
 			if (!sheet.getCell(1, 6).getContents().isEmpty()) {
 				cartera.setFechaPago(simpleDateFormat.parse(sheet.getCell(1, 6).getContents()));
 			}
-			cartera.setFechaHoraActualizacion(new Date());
+
+			java.util.Date date = new java.util.Date();
+			cartera.setFechaHoraActualizacion(new Timestamp(date.getTime()));
 			cartera.setFechaCreacion(new Date());
+//			cartera.setUsuario(Utilidades.obtenerUsuarioSesion());
 
 			// GUARDAR CARTERA Y DETALLES
 
@@ -209,7 +211,7 @@ public class CargaMasivaCarteraViewModel extends Window {
 		}
 	}
 
-	 public Efs getEfSeleccionado() {
+	public Efs getEfSeleccionado() {
 		return EfSeleccionado;
 	}
 

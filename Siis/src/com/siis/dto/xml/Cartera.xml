@@ -23,7 +23,7 @@
 					   #{cliente.secuencia,jdbcType=NUMERIC},
 					   #{fechaPago,jdbcType=DATE},
 					   #{fechaCreacion,jdbcType=DATE},
-					   #{fechaHoraActualizacion,jdbcType=DATE}
+					   #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 					  ) 
 		       
 	</select>
@@ -32,7 +32,7 @@
 	     SET SEC_USUARIO = #{usuario.secuencia,jdbcType=NUMERIC},
 	         SEC_CLIENTE = #{cliente.secuencia,jdbcType=NUMERIC},
 	         FECHA_PAGO  = #{fechaPago,jdbcType=DATE},
-	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
 	</update>
 	<select id="listarCarteras" parameterType="CarteraAlias" resultMap="resMapCartera"  > 

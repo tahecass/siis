@@ -86,7 +86,7 @@ public class BandboxCliente extends HtmlMacroComponent implements IdSpace {
 		System.out.println("buscar");
 		try {
 			if (textboxBuscar.isValid()) {
-				parametros.put("OBJETO", setObjeto(new Cliente()));
+				clienteSeleccionado = (Cliente) setObjeto(new Cliente());
 
 				pintarItems();
 
@@ -118,7 +118,7 @@ public class BandboxCliente extends HtmlMacroComponent implements IdSpace {
 	/**
 	 * @throws Exception
 	 */
-	private void pintarItems() throws Exception { 
+	private void pintarItems() throws Exception {
 
 		listaCLientes = (List<Cliente>) Conexion.getConexion().listarClientes("listarClientes", clienteSeleccionado);
 
@@ -128,7 +128,7 @@ public class BandboxCliente extends HtmlMacroComponent implements IdSpace {
 			listitem.setValue(cliente);
 			listitem.appendChild(new Listcell(cliente.getNit()));
 			listitem.appendChild(new Listcell(cliente.getNombreRazonSocial()));
-	 			listitem.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
+			listitem.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
 
 				@Override
 				public void onEvent(Event event) throws Exception {
@@ -149,11 +149,11 @@ public class BandboxCliente extends HtmlMacroComponent implements IdSpace {
 		if (listboxCriterio.getSelectedItem() != null) {
 			String criterio = listboxCriterio.getSelectedItem().getValue();
 			String filtro = "%" + textboxBuscar.getValue() + "%";
-			// if (criterio.equals("identificacion")) {
-			// persona.setIdentificacion(filtro);
-			// } else if (criterio.equals("nombreRazonSocial")) {
-			// persona.setNombreRazonSocial(filtro);
-			// }
+			if (criterio.equals("nit")) {
+				persona.setNit(filtro);
+			} else if (criterio.equals("nombreRazonSocial")) {
+				persona.setNombreRazonSocial(filtro);
+			}
 		}
 		return persona;
 	}
@@ -163,11 +163,11 @@ public class BandboxCliente extends HtmlMacroComponent implements IdSpace {
 		if (listboxCriterio.getSelectedItem() != null) {
 			String criterio = listboxCriterio.getSelectedItem().getValue();
 			String filtro = "%" + bandboxClienteComponent.getValue() + "%";
-			// if (criterio.equals("identificacion")) {
-			// persona.setIdentificacion(filtro);
-			// } else if (criterio.equals("nombreRazonSocial")) {
-			// persona.setNombreRazonSocial(filtro);
-			// }
+			if (criterio.equals("nit")) {
+				persona.setNit(filtro);
+			} else if (criterio.equals("nombreRazonSocial")) {
+				persona.setNombreRazonSocial(filtro);
+			}
 		}
 		return persona;
 	}

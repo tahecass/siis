@@ -21,14 +21,19 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Window;
 
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Cartera;
 import com.siis.dto.DetalleCartera;
 import com.siis.viewModel.framework.Utilidades;
 
-public class FormularioCarteraDetalleViewModel {
+public class FormularioCarteraDetalleViewModel extends Window {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected static Logger log = Logger.getLogger(FormularioCarteraViewModel.class);
 	public List<DetalleCartera> listaDetalleCartera;
 	public DetalleCartera detalleCarteraSeleccionada;

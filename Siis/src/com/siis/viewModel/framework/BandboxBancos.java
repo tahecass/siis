@@ -47,6 +47,7 @@ public class BandboxBancos extends HtmlMacroComponent implements IdSpace {
 	private List<Banco> listaCLientes;
 	private Banco clienteSeleccionado;
 	private Map<String, Object> parametros = new HashMap<String, Object>();
+	String valorBusqueda;
 
 	/**
 	 * Constructor del componente
@@ -86,8 +87,7 @@ public class BandboxBancos extends HtmlMacroComponent implements IdSpace {
 		System.out.println("buscar");
 		try {
 			if (textboxBuscar.isValid()) {
-				parametros.put("OBJETO", setObjeto(new Banco()));
-
+				setObjeto(new Banco());
 				pintarItems();
 
 			}
@@ -118,17 +118,17 @@ public class BandboxBancos extends HtmlMacroComponent implements IdSpace {
 	/**
 	 * @throws Exception
 	 */
-	private void pintarItems() throws Exception { 
+	private void pintarItems() throws Exception {
 
-		listaCLientes = (List<Banco>) Conexion.getConexion().listarBancos("listarBancos", clienteSeleccionado);
- 
+		listaCLientes = (List<Banco>) Conexion.getConexion().listarBancos("listarBancos", valorBusqueda);
+
 		listboxBanco.getItems().clear();
 		for (Banco cliente : listaCLientes) {
 			final Listitem listitem = new Listitem();
 			listitem.setValue(cliente);
 			listitem.appendChild(new Listcell(cliente.getCodigo()));
 			listitem.appendChild(new Listcell(cliente.getNombre()));
-	 			listitem.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
+			listitem.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
 
 				@Override
 				public void onEvent(Event event) throws Exception {
@@ -147,13 +147,8 @@ public class BandboxBancos extends HtmlMacroComponent implements IdSpace {
 	private Object setObjeto(Banco persona) {
 		System.out.println("setObjeto");
 		if (listboxCriterio.getSelectedItem() != null) {
-			String criterio = listboxCriterio.getSelectedItem().getValue();
-			String filtro = "%" + textboxBuscar.getValue() + "%";
-			// if (criterio.equals("identificacion")) {
-			// persona.setIdentificacion(filtro);
-			// } else if (criterio.equals("nombreRazonSocial")) {
-			// persona.setNombreRazonSocial(filtro);
-			// }
+			valorBusqueda = "%" + textboxBuscar.getValue().toUpperCase() + "%";
+
 		}
 		return persona;
 	}

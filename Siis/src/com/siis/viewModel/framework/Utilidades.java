@@ -8,17 +8,22 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.jfree.util.Log;
 import org.zkoss.zk.ui.AbstractComponent;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Session;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.impl.InputElement;
- 
+
+import com.siis.dto.Usuario;
 
 import fi.jawsy.jawwa.zk.gritter.Gritter;
 
 public class Utilidades {
 	protected static Logger log = Logger.getLogger(Utilidades.class);
+	private static Usuario usuario;
+	private static Session session;
 
 	public static Component onCargarVentana(Component contenedor, String rutaForma, Map<String, Object> arg)
 			throws Exception {
@@ -134,5 +139,16 @@ public class Utilidades {
 		}
 
 		return "";
+	}
+
+	public static Usuario obtenerUsuarioSesion() {
+		log.info("obtenerUsuarioSesion");
+		session = Executions.getCurrent().getDesktop().getSession();
+
+		if (session.getAttribute("usuario") != null) {
+			usuario = (Usuario) session.getAttribute("usuario");
+			Log.info("uSUARIOOO NO ES NULL==>");
+		}
+		return usuario;
 	}
 }

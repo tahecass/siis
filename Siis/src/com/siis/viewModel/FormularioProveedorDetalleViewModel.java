@@ -22,6 +22,7 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Window;
 
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Proveedor;
@@ -29,8 +30,12 @@ import com.siis.dto.Cartera;
 import com.siis.dto.DetalleProveedor;
 import com.siis.viewModel.framework.Utilidades;
 
-public class FormularioProveedorDetalleViewModel {
+public class FormularioProveedorDetalleViewModel extends Window {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4125198133545825322L;
 	protected static Logger log = Logger.getLogger(FormularioProveedorViewModel.class);
 	public List<DetalleProveedor> listaDetalleProveedor;
 	public DetalleProveedor detalleProveedorSeleccionada;

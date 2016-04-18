@@ -17,6 +17,7 @@ import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Hlayout;
 import org.zkoss.zul.Image;
+import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
@@ -42,6 +43,8 @@ public class BandboxCuentas extends HtmlMacroComponent implements IdSpace {
 	private Listbox listboxCuenta;
 	@Wire
 	private Hlayout contenedor;
+	@Wire
+	private Label lblTipoCuenta,lblTipoCuentaLabel;
 	@Wire
 	private Image botonLimpiar;
 	private List<Cuenta> listaCLientes;
@@ -86,8 +89,7 @@ public class BandboxCuentas extends HtmlMacroComponent implements IdSpace {
 		System.out.println("buscar");
 		try {
 			if (textboxBuscar.isValid()) {
-				parametros.put("OBJETO", setObjeto(new Cuenta()));
-
+				clienteSeleccionado = (Cuenta) setObjeto(new Cuenta());
 				pintarItems();
 
 			}
@@ -118,17 +120,17 @@ public class BandboxCuentas extends HtmlMacroComponent implements IdSpace {
 	/**
 	 * @throws Exception
 	 */
-	private void pintarItems() throws Exception { 
+	private void pintarItems() throws Exception {
 
 		listaCLientes = (List<Cuenta>) Conexion.getConexion().listarCuentas("listarCuentas", clienteSeleccionado);
- 
+
 		listboxCuenta.getItems().clear();
 		for (Cuenta cliente : listaCLientes) {
 			final Listitem listitem = new Listitem();
 			listitem.setValue(cliente);
 			listitem.appendChild(new Listcell(cliente.getResponsable()));
 			listitem.appendChild(new Listcell(cliente.getNumeroCuenta()));
-	 			listitem.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
+			listitem.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
 
 				@Override
 				public void onEvent(Event event) throws Exception {
@@ -148,12 +150,12 @@ public class BandboxCuentas extends HtmlMacroComponent implements IdSpace {
 		System.out.println("setObjeto");
 		if (listboxCriterio.getSelectedItem() != null) {
 			String criterio = listboxCriterio.getSelectedItem().getValue();
-			String filtro = "%" + textboxBuscar.getValue() + "%";
-			// if (criterio.equals("identificacion")) {
-			// persona.setIdentificacion(filtro);
-			// } else if (criterio.equals("nombreRazonSocial")) {
-			// persona.setNombreRazonSocial(filtro);
-			// }
+			String filtro = "%" + textboxBuscar.getValue().toUpperCase() + "%";
+			if (criterio.equals("responsable")) {
+				persona.setResponsable(filtro);
+			} else if (criterio.equals("numero")) {
+				persona.setNumeroCuenta(filtro);
+			}
 		}
 		return persona;
 	}
@@ -203,9 +205,15 @@ public class BandboxCuentas extends HtmlMacroComponent implements IdSpace {
 			// buffer.append(persona.getSegundoApellido());
 			// }
 			bandboxCuentaComponent.setRawValue(buffer.toString());
+			lblTipoCuenta.setValue(persona.getTipo());
+			lblTipoCuenta.setVisible(true);
+			lblTipoCuentaLabel.setVisible(true);
 
 		} else {
 			bandboxCuentaComponent.setRawValue("");
+			lblTipoCuenta.setValue("");
+			lblTipoCuenta.setVisible(false);
+			lblTipoCuentaLabel.setVisible(false);
 		}
 
 	}
