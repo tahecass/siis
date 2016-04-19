@@ -22,13 +22,7 @@
 					<tabbox hflex="true" vflex="true">
 						<tabs>
 							<tab label="Generalidades" />
-							<tab label="Valores"
-								onClick="@command('onMostrarVentanaDetalle')"
-								disabled="@load(vm.desactivarTabDetalle)" />
-							<tab label="Contratos"
-								onClick="@command('onMostrarVentanaDetalleContratos')"
-								disabled="@load(vm.desactivarTabDetalle)" />
-							<tab label="Consulta"
+							 	<tab label="Consulta"
 								onClick="@command('onMostrarVentanaConsulta')" />
 						</tabs>
 						<tabpanels style="overflow:auto" vflex="true">
@@ -153,6 +147,14 @@
 										onClick="@command('onCancelar')"
 										disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
 										tooltiptext="" image="imagenes/cancelar.png" />
+									<toolbarbutton label="Valores"
+										onClick="@command('onMostrarVentanaDetalle')"
+										disabled="@load(vm.desactivarTabDetalle)" sclass="btn-info"
+										image="imagenes/item.png" />
+									<toolbarbutton label="Contratos"
+										onClick="@command('onMostrarVentanaDetalleContratos')"
+										disabled="@load(vm.desactivarTabDetalle)" sclass="btn-info"
+										image="imagenes/item.png" />
 								</toolbar>
 								<listbox id="idDISPONIBLEZLbxProyecto"
 									span="true" model="@bind(vm.listaProyecto)"
@@ -186,10 +188,6 @@
 									</template>
 								</listbox>
 							</tabpanel>
-							<tabpanel
-								id="idDISPONIBLEZTpnDetalleProyecto" hflex="true" />
-							<tabpanel
-								id="idDISPONIBLEZTpnDetalleContrartos" hflex="true" />
 							<tabpanel
 								id="idDISPONIBLEZTpnConsultaProyecto" hflex="true" />
 						</tabpanels>

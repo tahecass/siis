@@ -7,149 +7,157 @@
 	xmlns:h="http://www.w3.org/1999/xhtml"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
-	<borderlayout apply="org.zkoss.bind.BindComposer"
+	<window title="Contratos" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') 
 		@init('com.siis.viewModel.FormularioProyectoContratosDetalleViewModel')"
-		id="idWINFORMPROCONTZPrincipal">
-		<center>
-			<vlayout height="100%">
-				<groupbox mold="3d" hflex="true" vflex="true"
-					contentStyle="padding:0px" open="true" closable="false">
-					<grid id="idWINFORMPROVALORZGridFormulario">
-						<columns>
-							<column hflex="min" />
-							<column />
-						</columns>
-						<rows>
-							<row>
-								<hlayout>
-									<label value="*" style="color:red" />
-									<label value="Factura" />
-								</hlayout>
-								<hlayout>
-									<textbox constraint="no empty"
-										value="@bind(vm.detalleProyContSeleccionada.factura)"
+		width="600px" height="600px" closable="true">
+
+		<borderlayout id="idWINFORMPROCONTZPrincipal">
+			<center>
+				<vlayout height="100%">
+					<groupbox mold="3d" hflex="true" vflex="true"
+						contentStyle="padding:0px" open="true" closable="false">
+						<grid id="idWINFORMPROVALORZGridFormulario">
+							<columns>
+								<column hflex="min" />
+								<column />
+							</columns>
+							<rows>
+								<row>
+									<hlayout>
+										<label value="*"
+											style="color:red" />
+										<label value="Factura" />
+									</hlayout>
+									<hlayout>
+										<textbox constraint="no empty"
+											value="@bind(vm.detalleProyContSeleccionada.factura)"
+											disabled="@load(vm.desactivarformulario)" />
+
+									</hlayout>
+								</row>
+								<row>
+									<hlayout>
+										<label value="*"
+											style="color:red" />
+										<label value="Valor" />
+									</hlayout>
+									<doublebox constraint="no empty"
+										value="@bind(vm.detalleProyContSeleccionada.valor)"
 										disabled="@load(vm.desactivarformulario)" />
+								</row>
 
-								</hlayout>
-							</row>
-							<row>
-								<hlayout>
-									<label value="*" style="color:red" />
-									<label value="Valor" />
-								</hlayout>
-								<doublebox constraint="no empty"
-									value="@bind(vm.detalleProyContSeleccionada.valor)"
-									disabled="@load(vm.desactivarformulario)" />
-							</row>
-
-							<row>
-								<hlayout>
-									<label value="*"
-										style="color:transparent" />
-									<label value="Retegarantía" />
-								</hlayout>
-								<hlayout>
-									<doublebox
-										value="@bind(vm.detalleProyContSeleccionada.retegarantia)"
+								<row>
+									<hlayout>
+										<label value="*"
+											style="color:transparent" />
+										<label value="Retegarantía" />
+									</hlayout>
+									<hlayout>
+										<doublebox
+											value="@bind(vm.detalleProyContSeleccionada.retegarantia)"
+											disabled="@load(vm.desactivarformulario)" />
+										<label value="(Meses)" />
+									</hlayout>
+								</row>
+								<row>
+									<hlayout>
+										<label value="*"
+											style="color:red" />
+										<label value="Fecha" />
+									</hlayout>
+									<datebox constraint="no empty"
+										value="@bind(vm.detalleProyContSeleccionada.fecha)"
 										disabled="@load(vm.desactivarformulario)" />
-									<label value="(Meses)" />
-								</hlayout>
-							</row>
-							<row>
-								<hlayout>
-									<label value="*"
-										style="color:transparent" />
-									<label value="Fecha" />
-								</hlayout>
-								<datebox constraint="no empty"
-									value="@bind(vm.detalleProyContSeleccionada.fecha)"
-									disabled="@load(vm.desactivarformulario)" />
-							</row>
-							<row>
-								<hlayout>
-									<label value="*"
-										style="color:transparent" />
-									<label value="Fecha Creación" />
-								</hlayout>
-								<datebox
-									value="@bind(vm.detalleProyContSeleccionada.fechaCreacion)"
-									disabled="true" />
-							</row>
-							<row>
-								<hlayout>
-									<label value="*"
-										style="color:transparent" />
-									<label
-										value="Fecha de Actualización" />
-								</hlayout>
-								<datebox
-									value="@bind(vm.detalleProyContSeleccionada.fechaHoraActualizacion)"
-									disabled="true" />
-							</row>
-						</rows>
-					</grid>
-					<separator />
-					<toolbar align="start">
-						<toolbarbutton label="Nuevo" sclass="btn-info"
-							tooltiptext="" image="imagenes/add.png"
-							onClick="@command('onNuevo')"
-							disabled="@load(vm.desactivarBtnNuevo)" />
-						<toolbarbutton label="Guardar" sclass="btn-info"
-							tooltiptext="" image="imagenes/guardar.png"
-							onClick="@command('guardarProyectoContrato')"
-							disabled="@load(vm.desactivarBtnGuardar)" />
-						<toolbarbutton label="Editar"
-							onClick="@command('onEditar')" sclass="btn-info"
-							image="imagenes/edit.png"
-							disabled="@load(vm.desactivarBtnEditar)" />
-						<toolbarbutton label="Eliminar"
-							sclass="btn-info" image="imagenes/delete.png"
-							disabled="@load(vm.desactivarBtnEliminar)"
-							onClick="@command('onEliminar',seleccionado=vm.detalleProyContSeleccionada)" />
-						<toolbarbutton label="Cancelar"
-							onClick="@command('onCancelar')"
-							disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
-							tooltiptext="" image="imagenes/cancelar.png" />
-					</toolbar>
-					<listbox id="idCARTERAZLbxDetalleProyectoContrato"
-						span="true" vflex="true" model="@bind(vm.listaProyectoContrato)"
-						selectedItem="@bind(vm.detalleProyContSeleccionada)"
-						onSelect="@command('onSeleccionar',seleccionado=vm.detalleProyContSeleccionada)">
+								</row>
+								<row>
+									<hlayout>
+										<label value="*"
+											style="color:transparent" />
+										<label value="Fecha Creación" />
+									</hlayout>
+									<datebox
+										value="@bind(vm.detalleProyContSeleccionada.fechaCreacion)"
+										disabled="true" />
+								</row>
+								<row>
+									<hlayout>
+										<label value="*"
+											style="color:transparent" />
+										<label
+											value="Fecha de Actualización" />
+									</hlayout>
+									<datebox
+										value="@bind(vm.detalleProyContSeleccionada.fechaHoraActualizacion)"
+										disabled="true" />
+								</row>
+							</rows>
+						</grid>
+						<separator />
+						<toolbar align="start">
+							<toolbarbutton label="Nuevo"
+								sclass="btn-info" tooltiptext="" image="imagenes/add.png"
+								onClick="@command('onNuevo')"
+								disabled="@load(vm.desactivarBtnNuevo)" />
+							<toolbarbutton label="Guardar"
+								sclass="btn-info" tooltiptext="" image="imagenes/guardar.png"
+								onClick="@command('guardarProyectoContrato')"
+								disabled="@load(vm.desactivarBtnGuardar)" />
+							<toolbarbutton label="Editar"
+								onClick="@command('onEditar')" sclass="btn-info"
+								image="imagenes/edit.png"
+								disabled="@load(vm.desactivarBtnEditar)" />
+							<toolbarbutton label="Eliminar"
+								sclass="btn-info" image="imagenes/delete.png"
+								disabled="@load(vm.desactivarBtnEliminar)"
+								onClick="@command('onEliminar',seleccionado=vm.detalleProyContSeleccionada)" />
+							<toolbarbutton label="Cancelar"
+								onClick="@command('onCancelar')"
+								disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
+								tooltiptext="" image="imagenes/cancelar.png" />
+						</toolbar>
+						<listbox
+							id="idCARTERAZLbxDetalleProyectoContrato" span="true"
+							vflex="true" model="@bind(vm.listaProyectoContrato)"
+							selectedItem="@bind(vm.detalleProyContSeleccionada)"
+							onSelect="@command('onSeleccionar',seleccionado=vm.detalleProyContSeleccionada)">
 
-						<listhead sizable="true">
-							<listheader label="Factura" sort="auto" />
-							<listheader label="Valor" sort="auto" />
-							<listheader label="Retegarantía"
-								sort="auto" />
-						</listhead>
-						<template name="model">
-							<listitem>
-								<listcell>
-									<label value="@bind(each.factura)" />
-								</listcell>
-								<listcell>
-									<label value="@bind(each.valor)" />
-								</listcell>
-								<listcell>
-									<label
-										value="@bind(each.retegarantia)" />
-								</listcell>
-							</listitem>
-						</template>
-					</listbox>
-				</groupbox>
-			</vlayout>
-		</center>
-		<custom-attributes MSG_TITULO="Notificación" />
-		<custom-attributes
-			MSG_MENSAJE_GUARDAR="Se guardó correctamente la información" />
-		<custom-attributes
-			MSG_MENSAJE_ACTUALIZAR="Se actualizó correctamente la información" />
-		<custom-attributes
-			MSG_MENSAJE_ELIMINAR_OK="Se eliminó correctamente la información" />
-		<custom-attributes
-			MSG_MENSAJE_ELIMINAR="¿Desea eliminar la fila seleccionada?" />
-		<custom-attributes MSG_TITULO_ELIMINAR="Confirmación" />
-	</borderlayout>
+							<listhead sizable="true">
+								<listheader label="Factura" sort="auto" />
+								<listheader label="Valor" sort="auto" />
+								<listheader label="Retegarantía"
+									sort="auto" />
+							</listhead>
+							<template name="model">
+								<listitem>
+									<listcell>
+										<label
+											value="@bind(each.factura)" />
+									</listcell>
+									<listcell>
+										<label
+											value="@bind(each.valor) @converter('formatedNumber', format='###,##0.00')" />
+									</listcell>
+									<listcell>
+										<label
+											value="@bind(each.retegarantia)" />
+									</listcell>
+								</listitem>
+							</template>
+						</listbox>
+					</groupbox>
+				</vlayout>
+			</center>
+			<custom-attributes MSG_TITULO="Notificación" />
+			<custom-attributes
+				MSG_MENSAJE_GUARDAR="Se guardó correctamente la información" />
+			<custom-attributes
+				MSG_MENSAJE_ACTUALIZAR="Se actualizó correctamente la información" />
+			<custom-attributes
+				MSG_MENSAJE_ELIMINAR_OK="Se eliminó correctamente la información" />
+			<custom-attributes
+				MSG_MENSAJE_ELIMINAR="¿Desea eliminar la fila seleccionada?" />
+			<custom-attributes MSG_TITULO_ELIMINAR="Confirmación" />
+		</borderlayout>
+	</window>
 </zk>

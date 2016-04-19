@@ -275,18 +275,10 @@ public class FormularioCreditoViewModel {
 			Map<String, Object> parametros = new HashMap<String, Object>();
 			log.info("Disponoble==> 1" + creditoSeleccionada.getSecuencia());
 			parametros.put("CREDITO", creditoSeleccionada);
-			if (idDISPONIBLEZTpnDetalleCredito.getChildren().size() == 0) {
-				Utilidades.onCargarVentana(idDISPONIBLEZTpnDetalleCredito, "//formas//formulario_credito_detalle.zul",
-						parametros);
-			} else {
-				FormularioCreditoDetalleViewModel detalleCredito = new FormularioCreditoDetalleViewModel();
-
-				log.info("Disponoble==> 2" + creditoSeleccionada.getSecuencia());
-				detalleCredito.setCredito(creditoSeleccionada);
-				detalleCredito.listarAmortizacionCredito();
-				log.info("1");
-			}
-
+			Window win = (Window) Utilidades.onCargarVentana(null, "//formas//formulario_credito_detalle.zul",
+					parametros);
+			win.setPosition("center,top");
+			win.doModal();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

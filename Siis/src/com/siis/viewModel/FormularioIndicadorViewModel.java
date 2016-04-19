@@ -24,7 +24,7 @@ import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Tabpanel;
 import org.zkoss.zul.Window;
 
-import com.siis.configuracion.Conexion; 
+import com.siis.configuracion.Conexion;
 import com.siis.dto.Indicador;
 import com.siis.viewModel.framework.Utilidades;
 
@@ -40,7 +40,7 @@ public class FormularioIndicadorViewModel {
 	@Wire
 	public Borderlayout idWINFORMINDICADORZPrincipal;
 	@Wire
-	private Tabpanel idCARTERAZTpnDetalleIndicador, idCARTERAZTpnConsultaIndicador;
+	private Tabpanel idCARTERAZTpnConsultaIndicador;
 	@Wire
 	private Grid idWINFORMINDICADORZGridFormulario;
 
@@ -102,7 +102,7 @@ public class FormularioIndicadorViewModel {
 						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
 				return;
 			}
- 
+
 			if (accion.equals("I")) {
 
 				HashMap<String, Object> par = new HashMap<String, Object>();
@@ -168,7 +168,6 @@ public class FormularioIndicadorViewModel {
 				});
 	}
 
-	
 	@NotifyChange("*")
 	@Command
 	public void onCancelar() {
@@ -182,7 +181,7 @@ public class FormularioIndicadorViewModel {
 		}
 
 	}
-	
+
 	private Indicador obtener(Indicador form) {
 		log.info("Ejecutando el metodo [obtener]");
 		Indicador est = null;
@@ -194,6 +193,7 @@ public class FormularioIndicadorViewModel {
 		}
 		return est;
 	}
+
 	@NotifyChange("*")
 	@Command
 	public void onSeleccionar(@BindingParam("seleccionado") Indicador cartera) {
@@ -264,17 +264,11 @@ public class FormularioIndicadorViewModel {
 			Map<String, Object> parametros = new HashMap<String, Object>();
 			log.info("Carteta==> 1" + indicadorSeleccionado.getSecuencia());
 			parametros.put("INDICADOR", indicadorSeleccionado);
-			if (idCARTERAZTpnDetalleIndicador.getChildren().size() == 0) {
-				Utilidades.onCargarVentana(idCARTERAZTpnDetalleIndicador,
-						"//formas//formulario_indicador_formulacion.zul", parametros);
-			} else {
-				FormularioIndicadorFormulacionViewModel detalleIndicador = new FormularioIndicadorFormulacionViewModel();
+			Window win = (Window) Utilidades.onCargarVentana(null, "//formas//formulario_indicador_formulacion.zul",
+					parametros);
 
-				log.info("Carteta==> 2" + indicadorSeleccionado.getSecuencia());
-				detalleIndicador.setIndicador(indicadorSeleccionado);
-				detalleIndicador.listarFormulacion();
-				log.info("1");
-			}
+			win.setPosition("center,top");
+			win.doModal();
 
 		} catch (Exception e) {
 			e.printStackTrace();

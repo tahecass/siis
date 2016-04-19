@@ -22,14 +22,19 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Window;
 
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Proyecto;
 import com.siis.dto.ProyectoContrato;
 import com.siis.viewModel.framework.Utilidades;
 
-public class FormularioProyectoContratosDetalleViewModel {
+public class FormularioProyectoContratosDetalleViewModel  extends Window{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2445398935612184189L;
 	protected static Logger log = Logger.getLogger(FormularioCarteraViewModel.class);
 	public List<ProyectoContrato> listaProyectoContrato;
 	public ProyectoContrato detalleProyContSeleccionada;
@@ -219,17 +224,15 @@ public class FormularioProyectoContratosDetalleViewModel {
 	public void listarProyectoContrato() {
 		log.info(" listarProyectoContrato ");
 		listaProyectoContrato = new ArrayList<ProyectoContrato>();
-
-		log.info("SEC_CARTERA AL LISTAR ==>" + getProyecto().getSecuencia());
-		Map<String, Object> parametros = new HashMap<String, Object>();
-		parametros.put("SEC_PROYECTO", getProyecto().getSecuencia());
-
+  
+		ProyectoContrato proyCont = new ProyectoContrato();
+		proyCont.setProyecto(getProyecto());
 		listaProyectoContrato.clear();
 
 		setDesactivarformulario(true);
 		try {
 			setListaProyectoContrato((List<ProyectoContrato>) Conexion.getConexion()
-					.obtenerListado("listarProyectoContrato", parametros));
+					.obtenerListado("listarProyectoContrato", proyCont));
 		} catch (Exception e) {
 			e.printStackTrace();
 

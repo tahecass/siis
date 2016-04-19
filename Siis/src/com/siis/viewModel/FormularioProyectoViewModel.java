@@ -22,9 +22,10 @@ import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Tabpanel;
+import org.zkoss.zul.Window;
 
 import com.siis.configuracion.Conexion;
-import com.siis.dto.Proyecto; 
+import com.siis.dto.Proyecto;
 import com.siis.viewModel.framework.BandboxBancos;
 import com.siis.viewModel.framework.Utilidades;
 
@@ -43,10 +44,8 @@ public class FormularioProyectoViewModel {
 	public Borderlayout idWINFORMPROYECTOZPrincipal;
 	@Wire
 	private Grid idWINFORMPROYECTOZGridFormulario;
-	
 	@Wire
-	private Tabpanel idDISPONIBLEZTpnDetalleProyecto, idDISPONIBLEZTpnConsultaProyecto,
-			idDISPONIBLEZTpnDetalleContrartos;
+	private Tabpanel idDISPONIBLEZTpnConsultaProyecto;
 
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
@@ -70,7 +69,7 @@ public class FormularioProyectoViewModel {
 	public void guardarProyecto() {
 		try {
 			log.info("accion=>> " + accion);
-			
+
 			if (!Utilidades.validarFormulario(idWINFORMPROYECTOZGridFormulario)) {
 				Utilidades.mostrarNotificacion(idWINFORMPROYECTOZPrincipal.getAttribute("MSG_TITULO").toString(),
 						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
@@ -88,7 +87,7 @@ public class FormularioProyectoViewModel {
 					proyectoSeleccionada.setSecuencia(sigSec);
 				else
 					proyectoSeleccionada.setSecuencia(1);
- 
+
 				Conexion.getConexion().guardar("guardarProyecto", proyectoSeleccionada);
 				log.info("Proyectoguardada");
 				Utilidades.mostrarNotificacion(idWINFORMPROYECTOZPrincipal.getAttribute("MSG_TITULO").toString(),
@@ -155,7 +154,7 @@ public class FormularioProyectoViewModel {
 		}
 
 	}
-	
+
 	private Proyecto obtener(Proyecto form) {
 		log.info("Ejecutando el metodo [obtener]");
 		Proyecto est = null;
@@ -242,17 +241,11 @@ public class FormularioProyectoViewModel {
 			Map<String, Object> parametros = new HashMap<String, Object>();
 			log.info("Disponoble==> 1" + proyectoSeleccionada.getSecuencia());
 			parametros.put("PROYECTO", proyectoSeleccionada);
-			if (idDISPONIBLEZTpnDetalleProyecto.getChildren().size() == 0) {
-				Utilidades.onCargarVentana(idDISPONIBLEZTpnDetalleProyecto,
-						"//formas//formulario_proyecto_valores_detalle.zul", parametros);
-			} else {
-				FormularioProyectoValoresDetalleViewModel detalleProyecto = new FormularioProyectoValoresDetalleViewModel();
+			Window win = (Window) Utilidades.onCargarVentana(null, "//formas//formulario_proyecto_valores_detalle.zul",
+					parametros);
 
-				log.info("Disponoble==> 2" + proyectoSeleccionada.getSecuencia());
-				detalleProyecto.setProyecto(proyectoSeleccionada);
-				detalleProyecto.listarProyectoValor();
-				log.info("1");
-			}
+			win.setPosition("center,top");
+			win.doModal();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -266,19 +259,13 @@ public class FormularioProyectoViewModel {
 
 		try {
 			Map<String, Object> parametros = new HashMap<String, Object>();
-			log.info("proyecto==> 1" + proyectoSeleccionada.getSecuencia());
+			log.info("proyecto==> " + proyectoSeleccionada.getSecuencia());
 			parametros.put("PROYECTO", proyectoSeleccionada);
-			if (idDISPONIBLEZTpnDetalleContrartos.getChildren().size() == 0) {
-				Utilidades.onCargarVentana(idDISPONIBLEZTpnDetalleContrartos,
-						"//formas//formulario_proyecto_contratos_detalle.zul", parametros);
-			} else {
-				FormularioProyectoContratosDetalleViewModel detalleProyectoContratos = new FormularioProyectoContratosDetalleViewModel();
+			Window win = (Window) Utilidades.onCargarVentana(null,
+					"//formas//formulario_proyecto_contratos_detalle.zul", parametros);
 
-				log.info("proyecto==> 2" + proyectoSeleccionada.getSecuencia());
-				detalleProyectoContratos.setProyecto(proyectoSeleccionada);
-				detalleProyectoContratos.listarProyectoContrato();
-				log.info("1");
-			}
+			win.setPosition("center,top");
+			win.doModal();
 
 		} catch (Exception e) {
 			e.printStackTrace();

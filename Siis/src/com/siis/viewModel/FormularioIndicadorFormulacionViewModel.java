@@ -22,13 +22,19 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Window;
+
 import com.siis.configuracion.Conexion; 
 import com.siis.dto.Formulacion;
 import com.siis.dto.Indicador;
 import com.siis.viewModel.framework.Utilidades;
 
-public class FormularioIndicadorFormulacionViewModel {
+public class FormularioIndicadorFormulacionViewModel extends Window{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6583555197788981555L;
 	protected static Logger log = Logger.getLogger(FormularioDisponibleViewModel.class);
 	public List<Formulacion> listaFormulacion;
 	public Formulacion formulacionSeleccionado;

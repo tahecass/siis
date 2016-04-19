@@ -17,13 +17,9 @@
 			<vlayout height="100%">
 				<groupbox mold="3d" hflex="true" vflex="true"
 					contentStyle="padding:0px" open="true" closable="false">
-
 					<tabbox hflex="true" vflex="true">
 						<tabs>
 							<tab label="Generalidades" />
-							<tab label="Formulación"
-								onClick="@command('onMostrarVentanaDetalle')"
-								disabled="@load(vm.desactivarTabDetalle)" />
 							<tab label="Consulta"
 								onClick="@command('onMostrarVentanaConsulta')" />
 						</tabs>
@@ -150,6 +146,10 @@
 										onClick="@command('onCancelar')"
 										disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
 										tooltiptext="" image="imagenes/cancelar.png" />
+									<toolbarbutton label="Formulaciones"
+										onClick="@command('onMostrarVentanaDetalle')"
+										disabled="@load(vm.desactivarTabDetalle)" sclass="btn-info"
+										image="imagenes/item.png" />
 								</toolbar>
 								<listbox id="idCARTERAZLbxIndicador"
 									span="true" model="@bind(vm.listaIndicador)"
@@ -183,8 +183,6 @@
 									</template>
 								</listbox>
 							</tabpanel>
-							<tabpanel id="idCARTERAZTpnDetalleIndicador"
-								hflex="true" />
 							<tabpanel
 								id="idCARTERAZTpnConsultaIndicador" hflex="true" />
 						</tabpanels>

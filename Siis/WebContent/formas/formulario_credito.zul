@@ -22,9 +22,7 @@
 					<tabbox hflex="true" vflex="true">
 						<tabs>
 							<tab label="Generalidades" />
-							<tab label="Tabla de AMortización"
-								onClick="@command('onMostrarVentanaDetalle')"
-								disabled="@load(vm.desactivarTabDetalle)" />
+						 
 							<tab label="Consulta"
 								onClick="@command('onMostrarVentanaConsulta')" />
 						</tabs>
@@ -169,6 +167,10 @@
 										onClick="@command('onCancelar')"
 										disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
 										tooltiptext="" image="imagenes/cancelar.png" />
+									<toolbarbutton label="Tabla de Amortización"
+										onClick="@command('onMostrarVentanaDetalle')"
+										disabled="@load(vm.desactivarTabDetalle)" sclass="btn-info"
+										image="imagenes/item.png" />
 								</toolbar>
 								<listbox id="idDISPONIBLEZLbxCredito"
 									span="true" model="@bind(vm.listaCredito)"
@@ -202,8 +204,6 @@
 									</template>
 								</listbox>
 							</tabpanel>
-							<tabpanel
-								id="idDISPONIBLEZTpnDetalleCredito" hflex="true" />
 							<tabpanel
 								id="idDISPONIBLEZTpnConsultaCredito" hflex="true" />
 						</tabpanels>

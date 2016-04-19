@@ -9,158 +9,169 @@
 	xmlns:h="http://www.w3.org/1999/xhtml"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
-	<borderlayout apply="org.zkoss.bind.BindComposer"
+	<window title="Tabla de Amortización" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') 
 		@init('com.siis.viewModel.FormularioCreditoDetalleViewModel')"
-		id="idWINFORMDETDISPBCOZPrincipal">
-		<center>
-			<vlayout height="100%">
-				<groupbox mold="3d" hflex="true" vflex="true"
-					contentStyle="padding:0px" open="true" closable="false">
-					<grid id="idWINFORMDETDISPBCOZGridPrincipal">
-						<columns>
-							<column hflex="min" />
-							<column />
-						</columns>
-						<rows>
-							<row>
-								<hlayout>
-									<label value="*" style="color:red" />
+		width="600px" height="600px" closable="true">
+		<borderlayout id="idWINFORMDETDISPBCOZPrincipal">
+			<center>
+				<vlayout height="100%">
+					<groupbox mold="3d" hflex="true" vflex="true"
+						contentStyle="padding:0px" open="true" closable="false">
+						<grid id="idWINFORMDETDISPBCOZGridPrincipal">
+							<columns>
+								<column hflex="min" />
+								<column />
+							</columns>
+							<rows>
+								<row>
+									<hlayout>
+										<label value="*"
+											style="color:red" />
 
-									<label value="Interés" />
-								</hlayout>
-								<doublebox
-									value="@bind(vm.amortizacionCreditoSeleccionado.interes)"
-									disabled="@load(vm.desactivarformulario)"
-									constraint="no empty" />
-							</row>
-							<row>
-								<hlayout>
-									<label value="*" style="color:red" />
-									<label value="Capital" />
-								</hlayout>
-								<doublebox
-									value="@bind(vm.amortizacionCreditoSeleccionado.capital)"
-									disabled="@load(vm.desactivarformulario)"
-									constraint="no empty" />
-							</row>
-							<row>
-								<hlayout>
-									<label value="*" style="color:red" />
+										<label value="Interés" />
+									</hlayout>
+									<doublebox
+										value="@bind(vm.amortizacionCreditoSeleccionado.interes)"
+										disabled="@load(vm.desactivarformulario)"
+										constraint="no empty" />
+								</row>
+								<row>
+									<hlayout>
+										<label value="*"
+											style="color:red" />
+										<label value="Capital" />
+									</hlayout>
+									<doublebox
+										value="@bind(vm.amortizacionCreditoSeleccionado.capital)"
+										disabled="@load(vm.desactivarformulario)"
+										constraint="no empty" />
+								</row>
+								<row>
+									<hlayout>
+										<label value="*"
+											style="color:red" />
 
-									<label value="Saldo" />
-								</hlayout>
-								<doublebox
-									value="@bind(vm.amortizacionCreditoSeleccionado.saldo)"
-									disabled="@load(vm.desactivarformulario)"
-									constraint="no empty" />
-							</row>
-							<row>
-								<hlayout>
-									<label value="*" style="color:red" />
+										<label value="Saldo" />
+									</hlayout>
+									<doublebox
+										value="@bind(vm.amortizacionCreditoSeleccionado.saldo)"
+										disabled="@load(vm.desactivarformulario)"
+										constraint="no empty" />
+								</row>
+								<row>
+									<hlayout>
+										<label value="*"
+											style="color:red" />
 
-									<label value="Período" />
-								</hlayout>
-								<textbox
-									value="@bind(vm.amortizacionCreditoSeleccionado.periodo)"
-									disabled="@load(vm.desactivarformulario)"
-									constraint="no empty" />
-							</row>
-							<row>
-								<hlayout>
-									<label value="*" style="color:red" />
-									<label value="Cuota" />
-								</hlayout>
-								<doublebox constraint="no empty"
-									value="@bind(vm.amortizacionCreditoSeleccionado.cuota)"
-									disabled="@load(vm.desactivarformulario)" />
-							</row>
-							<row>
-								<hlayout>
-									<label value="*"
-										style="color:transparent" />
+										<label value="Período" />
+									</hlayout>
+									<textbox maxlength="6"
+										value="@bind(vm.amortizacionCreditoSeleccionado.periodo)"
+										disabled="@load(vm.desactivarformulario)"
+										constraint="no empty" />
+								</row>
+								<row>
+									<hlayout>
+										<label value="*"
+											style="color:red" />
+										<label value="Cuota" />
+									</hlayout>
+									<doublebox constraint="no empty"
+										value="@bind(vm.amortizacionCreditoSeleccionado.cuota)"
+										disabled="@load(vm.desactivarformulario)" />
+								</row>
+								<row>
+									<hlayout>
+										<label value="*"
+											style="color:transparent" />
 
-									<label value="Fecha de Creación" />
-								</hlayout>
-								<datebox
-									value="@bind(vm.amortizacionCreditoSeleccionado.fechaCreacion)"
-									disabled="true" />
-							</row>
-							<row>
-								<hlayout>
-									<label value="*"
-										style="color:transparent" />
+										<label
+											value="Fecha de Creación" />
+									</hlayout>
+									<datebox
+										value="@bind(vm.amortizacionCreditoSeleccionado.fechaCreacion)"
+										disabled="true" />
+								</row>
+								<row>
+									<hlayout>
+										<label value="*"
+											style="color:transparent" />
 
-									<label
-										value="Fecha de Actualización" />
-								</hlayout>
-								<datebox
-									value="@bind(vm.amortizacionCreditoSeleccionado.fechaHoraActualizacion)"
-									disabled="true" />
-							</row>
-						</rows>
-					</grid>
-					<separator />
-					<toolbar align="start">
-						<toolbarbutton label="Nuevo" sclass="btn-info"
-							tooltiptext="" image="imagenes/add.png"
-							onClick="@command('onNuevo')"
-							disabled="@load(vm.desactivarBtnNuevo)" />
-						<toolbarbutton label="Guardar" sclass="btn-info"
-							tooltiptext="" image="imagenes/guardar.png"
-							onClick="@command('guardarAmortizacionCredito')"
-							disabled="@load(vm.desactivarBtnGuardar)" />
-						<toolbarbutton label="Editar"
-							onClick="@command('onEditar')" sclass="btn-info"
-							image="imagenes/edit.png"
-							disabled="@load(vm.desactivarBtnEditar)" />
-						<toolbarbutton label="Eliminar"
-							sclass="btn-info" image="imagenes/delete.png"
-							disabled="@load(vm.desactivarBtnEliminar)"
-							onClick="@command('onEliminar',seleccionado=vm.amortizacionCreditoSeleccionado)" />
-						<toolbarbutton label="Cancelar"
-							onClick="@command('onCancelar')"
-							disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
-							tooltiptext="" image="imagenes/cancelar.png" />
-					</toolbar>
-					<listbox
-						id="idCARTERAZLbxDetalleAmortizacionCredito" span="true"
-						vflex="true" model="@bind(vm.listaAmortizacionCredito)"
-						selectedItem="@bind(vm.amortizacionCreditoSeleccionado)"
-						onSelect="@command('onSeleccionar',seleccionado=vm.amortizacionCreditoSeleccionado)">
+										<label
+											value="Fecha de Actualización" />
+									</hlayout>
+									<datebox
+										value="@bind(vm.amortizacionCreditoSeleccionado.fechaHoraActualizacion)"
+										disabled="true" />
+								</row>
+							</rows>
+						</grid>
+						<separator />
+						<toolbar align="start">
+							<toolbarbutton label="Nuevo"
+								sclass="btn-info" tooltiptext="" image="imagenes/add.png"
+								onClick="@command('onNuevo')"
+								disabled="@load(vm.desactivarBtnNuevo)" />
+							<toolbarbutton label="Guardar"
+								sclass="btn-info" tooltiptext="" image="imagenes/guardar.png"
+								onClick="@command('guardarAmortizacionCredito')"
+								disabled="@load(vm.desactivarBtnGuardar)" />
+							<toolbarbutton label="Editar"
+								onClick="@command('onEditar')" sclass="btn-info"
+								image="imagenes/edit.png"
+								disabled="@load(vm.desactivarBtnEditar)" />
+							<toolbarbutton label="Eliminar"
+								sclass="btn-info" image="imagenes/delete.png"
+								disabled="@load(vm.desactivarBtnEliminar)"
+								onClick="@command('onEliminar',seleccionado=vm.amortizacionCreditoSeleccionado)" />
+							<toolbarbutton label="Cancelar"
+								onClick="@command('onCancelar')"
+								disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
+								tooltiptext="" image="imagenes/cancelar.png" />
+						</toolbar>
+						<listbox
+							id="idCARTERAZLbxDetalleAmortizacionCredito" span="true"
+							vflex="true" model="@bind(vm.listaAmortizacionCredito)"
+							selectedItem="@bind(vm.amortizacionCreditoSeleccionado)"
+							onSelect="@command('onSeleccionar',seleccionado=vm.amortizacionCreditoSeleccionado)">
 
-						<listhead sizable="true">
-							<listheader label="Interés" sort="auto" />
-							<listheader label="Capital" sort="auto" />
-							<listheader label="Saldo" sort="auto" />
+							<listhead sizable="true">
+								<listheader label="Interés" sort="auto" />
+								<listheader label="Capital" sort="auto" />
+								<listheader label="Saldo" sort="auto" />
 
-						</listhead>
-						<template name="model">
-							<listitem>
-								<listcell>
-									<label value="@bind(each.interes)" />
-								</listcell>
-								<listcell>
-									<label value="@bind(each.capital)" />
-								</listcell>
-								<listcell>
-									<label value="@bind(each.saldo)" />
-								</listcell>
-							</listitem>
-						</template>
-					</listbox>
-				</groupbox>
-			</vlayout>
-		</center>
-		<custom-attributes MSG_TITULO="Notificación" />
-		<custom-attributes
-			MSG_MENSAJE_GUARDAR="Se guardó correctamente la información" />
-		<custom-attributes
-			MSG_MENSAJE_ACTUALIZAR="Se actualizó correctamente la información" />
-		<custom-attributes
-			MSG_MENSAJE_ELIMINAR_OK="Se eliminó correctamente la información" />
-		<custom-attributes
-			MSG_MENSAJE_ELIMINAR="¿Desea eliminar la fila seleccionada?" />
-		<custom-attributes MSG_TITULO_ELIMINAR="Confirmación" />
-	</borderlayout>
+							</listhead>
+							<template name="model">
+								<listitem>
+									<listcell>
+										<label
+											value="@bind(each.interes)" />
+									</listcell>
+									<listcell>
+										<label
+											value="@bind(each.capital) @converter('formatedNumber', format='###,##0.00')" />
+									</listcell>
+									<listcell>
+										<label
+											value="@bind(each.saldo)  @converter('formatedNumber', format='###,##0.00')"  />
+									</listcell>
+								</listitem>
+							</template>
+						</listbox>
+					</groupbox>
+				</vlayout>
+			</center>
+			<custom-attributes MSG_TITULO="Notificación" />
+			<custom-attributes
+				MSG_MENSAJE_GUARDAR="Se guardó correctamente la información" />
+			<custom-attributes
+				MSG_MENSAJE_ACTUALIZAR="Se actualizó correctamente la información" />
+			<custom-attributes
+				MSG_MENSAJE_ELIMINAR_OK="Se eliminó correctamente la información" />
+			<custom-attributes
+				MSG_MENSAJE_ELIMINAR="¿Desea eliminar la fila seleccionada?" />
+			<custom-attributes MSG_TITULO_ELIMINAR="Confirmación" />
+		</borderlayout>
+	</window>
 </zk>

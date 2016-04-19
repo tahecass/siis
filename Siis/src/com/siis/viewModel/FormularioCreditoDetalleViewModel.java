@@ -22,14 +22,19 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Window;
 
 import com.siis.configuracion.Conexion;
 import com.siis.dto.AmortizacionCredito;
 import com.siis.dto.Credito;
 import com.siis.viewModel.framework.Utilidades;
 
-public class FormularioCreditoDetalleViewModel {
+public class FormularioCreditoDetalleViewModel extends Window{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2557302777286924380L;
 	protected static Logger log = Logger.getLogger(FormularioDisponibleViewModel.class);
 	public List<AmortizacionCredito> listaAmortizacionCredito;
 	public AmortizacionCredito amortizacionCreditoSeleccionado;
