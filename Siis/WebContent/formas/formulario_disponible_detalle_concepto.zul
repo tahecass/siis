@@ -63,14 +63,21 @@
 									</hlayout>
 									<listbox mold="select"
 										disabled="@load(vm.desactivarformulario)"
-										selectedItem="@bind(vm.disponibleConceptoSeleccionado.tipoNota)"
-										onSelect="@command('onSeleccionar',seleccionado=vm.disponibleConceptoSeleccionado)">
+										selectedItem="@bind(vm.disponibleConceptoSeleccionado.tipoNota)">
 
 										<listitem label="Crédito"
 											value="C" checkable="true" />
-										<listitem label="Dédito"
+										<listitem label="Débito"
 											value="D" />
 									</listbox>
+								</row>
+								<row>
+									<label
+										value="Fecha y Hora de Actualización" />
+									<datebox
+										format="dd-MM-yyyy hh:mm:ss"
+										value="@bind(vm.disponibleConceptoSeleccionado.fechaHoraActualizacion)"
+										disabled="true" />
 								</row>
 							</rows>
 						</grid>
@@ -102,8 +109,7 @@
 							span="true" vflex="true"
 							model="@bind(vm.listaDisponibleConcepto)"
 							selectedItem="@bind(vm.disponibleConceptoSeleccionado)"
-							onSelect="@command('onSeleccionar',seleccionado=vm.disponibleConceptoSeleccionado)" 
-							>
+							onSelect="@command('onSeleccionar',seleccionado=vm.disponibleConceptoSeleccionado)">
 
 							<listhead sizable="true">
 								<listheader label="Concepto"
@@ -116,19 +122,19 @@
 								<listitem>
 									<listcell>
 										<label
-											value="@bind(each.concepto)" />
+											value="@load(each.concepto)" />
 									</listcell>
 									<listcell>
 										<label
-											value="@bind(each.fecha)  @converter('formatedDate', format='dd/MM/yyyy')" />
+											value="@load(each.fecha)  @converter('formatedDate', format='dd/MM/yyyy')" />
 									</listcell>
 									<listcell>
 										<label
-											value="@bind(each.valor)" />
+											value="@load(each.valor)" />
 									</listcell>
 									<listcell>
 										<label
-											value="@bind(each.tipoNota)" />
+											value="@load(each.tipoNota eq 'C' ? 'Crédito' :'Débito')" />
 									</listcell>
 								</listitem>
 							</template>

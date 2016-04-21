@@ -67,9 +67,10 @@
 										<label value="*"
 											style="color:transparent" />
 										<label
-											value="Fecha de Actualización" />
+											value="Fecha y Hora de Actualización" />
 									</hlayout>
 									<datebox
+										format="dd-MM-yyyy hh:mm:ss"
 										value="@bind(vm.formulacionSeleccionado.fechaHoraActualizacion)"
 										disabled="true" />
 								</row>

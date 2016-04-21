@@ -12,13 +12,13 @@
 	<window title="Detalle Cartera" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') 
 		@init('com.siis.viewModel.FormularioCarteraDetalleViewModel')"
-		width="600px" height="600px" closable="true"  >
+		width="600px" height="600px" closable="true">
 		<borderlayout id="idWINFORMDETCARTERAZPrincipal">
 			<center>
 				<vlayout height="100%">
 					<groupbox mold="3d" hflex="true" vflex="true"
 						contentStyle="padding:0px" open="true" closable="false">
-						<grid>
+						<grid id="idWINFORMCARTERADETZGRidFormulario">
 							<columns>
 								<column hflex="min" />
 								<column />
@@ -73,9 +73,10 @@
 										<label value="*"
 											style="color:transparent" />
 										<label
-											value="Fecha de Actualización" />
+											value="Fecha y Hora de Actualización" />
 									</hlayout>
 									<datebox
+										format="dd-MM-yyyy hh:mm:ss"
 										value="@bind(vm.detalleCarteraSeleccionada.fechaActualizacion)"
 										disabled="true" />
 								</row>

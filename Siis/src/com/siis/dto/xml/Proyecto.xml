@@ -27,7 +27,7 @@
 					   #{valorLegalizado,jdbcType=NUMERIC},
 					   #{fecha,jdbcType=DATE},
 					   #{fechaCreacion,jdbcType=DATE},
-					   #{fechaHoraActualizacion,jdbcType=DATE}
+					   #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 					  ) 
 		       
 	</select>
@@ -40,7 +40,7 @@
 	         PORCENTAJE_EJECUCION   =   #{porcentajeEjecucion,jdbcType=NUMERIC},
 	         VALOR_LEGALIZADO   =    #{valorLegalizado,jdbcType=NUMERIC},
 	         FECHA   =    #{fecha,jdbcType=DATE},
-			 FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+			 FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
 	</update>
 	<select id="listarProyectos" parameterType="ProyectoAlias" resultMap="resMapProyecto"  > 

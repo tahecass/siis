@@ -22,7 +22,7 @@
 				   INTO CREDITOS (SEC, SEC_BANCO, NUMERO_PRESTAMO,INTERES,CAPITAL,SALDO, FECHA,FECHA_VENCIMIENTO, PLAZO, FECHA_CREACION, FECHA_HORA_ACTUALIZACION)
 					  VALUES
 					  ( #{secuencia,jdbcType=NUMERIC}, 
-					   #{entidad.secuencia,jdbcType=NUMERIC},
+					   #{entidad.sec,jdbcType=NUMERIC},
 					   #{nroPrestamo,jdbcType=VARCHAR},
 					   #{interes,jdbcType=NUMERIC},
 					   #{capital,jdbcType=NUMERIC},
@@ -31,14 +31,14 @@
 					   #{fechaVencimiento,jdbcType=DATE},
 					   #{plazo,jdbcType=NUMERIC},
 					   #{fechaCreacion,jdbcType=DATE},
-					   #{fechaHoraActualizacion,jdbcType=DATE}
+					   #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 					  ) 
 		       
 	</select>
 	<update id="actualizarCredito" parameterType="CreditoAlias">
 	  UPDATE CREDITOS 
 	     SET 
-	         SEC_BANCO = #{entidad.secuencia,jdbcType=NUMERIC},
+	         SEC_BANCO = #{entidad.sec,jdbcType=NUMERIC},
 	         NUMERO_PRESTAMO  =   #{nroPrestamo,jdbcType=VARCHAR},
 	         INTERES   =   #{interes,jdbcType=NUMERIC},
 	         CAPITAL   =    #{capital,jdbcType=NUMERIC},
@@ -46,7 +46,7 @@
 	         FECHA   =    #{fecha,jdbcType=DATE},
 	         FECHA_VENCIMIENTO   =   #{fechaVencimiento,jdbcType=DATE},
 	         PLAZO =  #{plazo,jdbcType=NUMERIC},
-			 FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+			 FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
 	</update>
 	<select id="listarCreditos" parameterType="CreditoAlias" resultMap="resMapCredito"  > 
@@ -71,8 +71,8 @@
 
 		  
 		  <trim prefix="WHERE" prefixOverrides="AND | OR ">
-			<if test="entidad !=null and entidad.secuencia !=null">
-	         AND CREDITOS .SEC_BANCO =  #{entidad.secuencia,jdbcType=NUMERIC};
+			<if test="entidad !=null and entidad.sec !=null">
+	         AND CREDITOS .SEC_BANCO =  #{entidad.sec,jdbcType=NUMERIC};
 	        </if>
 	      </trim>
  </select>

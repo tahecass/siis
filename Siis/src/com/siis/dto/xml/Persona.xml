@@ -57,7 +57,7 @@ INTO
   #{telefono,jdbcType=VARCHAR},
   #{celular,jdbcType=VARCHAR},
   #{fechaCreacion,jdbcType=DATE},
-  #{fechaActualizacion,jdbcType=DATE}
+  #{fechaActualizacion,jdbcType=TIMESTAMP}
   )
 		
 		]]>

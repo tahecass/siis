@@ -22,7 +22,7 @@
 		   INDICADORES.NOMBRE , 
 		   INDICADORES.OBJETIVO_REAL , 
 		   INDICADORES.OBJETIVO_ESPERADO , 
-		   INDICADORES.FECHA_CREACION , 
+		   INDICADORES.FECHA_CREACION, 
 		   INDICADORES.NOMBRE , 
 		   INDICADORES.FECHA_HORA_ACTUALIZACION,
 		   INDICADORES.ANO_MES,
@@ -64,7 +64,7 @@
 					   #{anoMes,jdbcType=VARCHAR},
 					   #{objetivoEsperado,jdbcType=NUMERIC},
 					   #{fechaCreacion,jdbcType=DATE},
-					   #{fechaHoraActualizacion,jdbcType=DATE}
+					   #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 					  ) 
 		       
 	</select>
@@ -75,7 +75,7 @@
 	         OBJETIVO_REAL  =  #{objetivoReal,jdbcType=NUMERIC},
 	         OBJETIVO_ESPERADO = #{objetivoEsperado,jdbcType=NUMERIC},
 	         ANO_MES= #{anoMes,jdbcType=VARCHAR},
-	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
 	</update>
 	 <delete id="eliminarIndicador" parameterType="IndicadorAlias">

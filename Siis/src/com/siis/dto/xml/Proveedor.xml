@@ -20,7 +20,7 @@
 					   #{proveedor,jdbcType=VARCHAR},
 					   #{fechaPago,jdbcType=DATE},
 					   #{fechaCreacion,jdbcType=DATE},
-					   #{fechaHoraActualizacion,jdbcType=DATE}
+					   #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 					  ) 
 		       
 	</select>
@@ -29,7 +29,7 @@
 	     SET SEC_USUARIO = #{usuario.secuencia,jdbcType=NUMERIC},
 	         PROVEEDOR = #{proveedor,jdbcType=VARCHAR},
 	         FECHA_PAGO  = #{fechaPago,jdbcType=DATE},
-	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
 	</update>
 	<select id="listarProveedores" parameterType="ProveedorAlias" resultMap="resMapProveedor"  > 

@@ -22,7 +22,7 @@
 					   #{porcentaje,jdbcType=NUMERIC},
 					   #{plazo,jdbcType=NUMERIC},
 					   #{fechaCreacion,jdbcType=DATE},
-					   #{fechaHoraActualizacion,jdbcType=DATE}
+					   #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 					  ) 
 	</select>
 	<update id="actualizarProyectoValor" parameterType="ProyectoValorAlias">
@@ -32,7 +32,7 @@
 	         VALOR   =   #{valor,jdbcType=NUMERIC},
 	         PORCENTAJE = 	   #{porcentaje,jdbcType=NUMERIC},
 	         PLAZO   =    #{plazo,jdbcType=NUMERIC},
-			 FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+			 FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
 	</update>
 	<select id="listarProyectoValor" parameterType="ProyectoValorAlias" resultMap="resMapProyectoValor"  > 

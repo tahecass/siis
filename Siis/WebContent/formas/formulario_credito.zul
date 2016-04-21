@@ -22,7 +22,7 @@
 					<tabbox hflex="true" vflex="true">
 						<tabs>
 							<tab label="Generalidades" />
-						 
+
 							<tab label="Consulta"
 								onClick="@command('onMostrarVentanaConsulta')" />
 						</tabs>
@@ -141,6 +141,7 @@
 													value="Fecha y Hora de Actualizacion:" />
 											</hlayout>
 											<datebox disabled="true"
+												format="dd-MM-yyyy hh:mm:ss"
 												value="@bind(vm.creditoSeleccionada.fechaHoraActualizacion)" />
 										</row>
 									</rows>
@@ -167,7 +168,8 @@
 										onClick="@command('onCancelar')"
 										disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
 										tooltiptext="" image="imagenes/cancelar.png" />
-									<toolbarbutton label="Tabla de Amortización"
+									<toolbarbutton
+										label="Tabla de Amortización"
 										onClick="@command('onMostrarVentanaDetalle')"
 										disabled="@load(vm.desactivarTabDetalle)" sclass="btn-info"
 										image="imagenes/item.png" />

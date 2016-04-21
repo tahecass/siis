@@ -22,7 +22,7 @@
 					<tabbox hflex="true" vflex="true">
 						<tabs>
 							<tab label="Generalidades" />
-							 	<tab label="Consulta"
+							<tab label="Consulta"
 								onClick="@command('onMostrarVentanaConsulta')" />
 						</tabs>
 						<tabpanels style="overflow:auto" vflex="true">
@@ -121,6 +121,7 @@
 											<label
 												value="Fecha y Hora de Actualizacion:" />
 											<datebox disabled="true"
+												format="dd-MM-yyyy hh:mm:ss"
 												value="@bind(vm.proyectoSeleccionada.fechaHoraActualizacion)" />
 										</row>
 									</rows>

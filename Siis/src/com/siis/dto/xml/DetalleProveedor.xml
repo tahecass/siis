@@ -41,7 +41,7 @@
 			         #{valor3,jdbcType=NUMERIC},
 			         #{valor4,jdbcType=NUMERIC},
 			         #{fechaCreacion,jdbcType=DATE},
-			         #{fechaActualizacion,jdbcType=DATE}
+			         #{fechaActualizacion,jdbcType=TIMESTAMP}
 			         
 			         )
 		       
@@ -80,7 +80,7 @@
 		   DETALLE_PROVEEDOR . REFERENCIA , 
 		   DETALLE_PROVEEDOR . NRO_FACTURA,
 		   DETALLE_PROVEEDOR .VALOR_1,
-		   DETALLE_PROVEEDOR .VALOR_4,
+		   DETALLE_PROVEEDOR .VALOR_2,
 		   DETALLE_PROVEEDOR .VALOR_3,
 		   DETALLE_PROVEEDOR .VALOR_4,
 		   DETALLE_PROVEEDOR .FECHA_CREACION,
@@ -135,7 +135,7 @@
 	         VALOR_2  =   #{valor2,jdbcType=NUMERIC},
 	         VALOR_3  =   #{valor3,jdbcType=NUMERIC},
 	         VALOR_4  =   #{valor4,jdbcType=NUMERIC}, 
-	         FECHA_ACTUALIZACION =  #{fechaActualizacion,jdbcType=DATE}
+	         FECHA_ACTUALIZACION =  #{fechaActualizacion,jdbcType=TIMESTAMP}
 	   WHERE SEC = #{secuencia,jdbcType=NUMERIC} 
 	     AND SEC_PROVEEDOR = #{proveedor.secuencia,jdbcType=NUMERIC};
 </update>

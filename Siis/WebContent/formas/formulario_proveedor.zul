@@ -128,7 +128,7 @@
 
 											<listcell>
 												<label
-													value="@bind(each.fechaHoraActualizacion) @converter('formatedDate', format='dd/MM/yyyy')" />
+													value="@bind(each.fechaHoraActualizacion) @converter('formatedDate', format='dd-MM-yyyy hh:mm:ss')" />
 											</listcell>
 											<listcell>
 												<label

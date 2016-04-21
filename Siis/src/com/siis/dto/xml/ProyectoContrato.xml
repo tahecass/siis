@@ -24,7 +24,7 @@
 					   #{factura,jdbcType=VARCHAR},
 					   #{fecha,jdbcType=DATE},
 					   #{fechaCreacion,jdbcType=DATE},
-					   #{fechaHoraActualizacion,jdbcType=DATE}
+					   #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 					  ) 
 	</select>
 	<update id="actualizarProyectoContrato" parameterType="ProyectoContratoAlias">
@@ -35,7 +35,7 @@
 	         RETEGARANTIA = #{retegarantia,jdbcType=NUMERIC},
 	         FACTURA   =    #{factura,jdbcType=VARCHAR},
 	         FECHA=  #{fecha,jdbcType=DATE},
-			 FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+			 FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
 	</update>
 	<select id="listarProyectoContrato" parameterType="ProyectoContratoAlias" resultMap="resMapProyectoContrato"  > 

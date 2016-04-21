@@ -9,7 +9,8 @@
 	xmlns:h="http://www.w3.org/1999/xhtml"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
-	<window title="Detalle 	Proveedor" apply="org.zkoss.bind.BindComposer"
+	<window title="Detalle 	Proveedor"
+		apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') 
 		@init('com.siis.viewModel.FormularioProveedorDetalleViewModel')"
 		width="600px" height="600px" closable="true">
@@ -74,9 +75,10 @@
 										<label value="*"
 											style="color:transparent" />
 										<label
-											value="Fecha de Actualización" />
+											value="Fecha y Hora de Actualización" />
 									</hlayout>
 									<datebox
+										format="dd-MM-yyyy hh:mm:ss"
 										value="@bind(vm.detalleProveedorSeleccionada.fechaActualizacion)"
 										disabled="true" />
 								</row>

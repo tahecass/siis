@@ -39,6 +39,8 @@ public class InicioViewModel extends Borderlayout {
 			}
 		}
 		usuario = new Usuario();
+		usuario.setClave("DEMO");
+		usuario.setCuenta("DEMO");
 	}
 
 	@Command

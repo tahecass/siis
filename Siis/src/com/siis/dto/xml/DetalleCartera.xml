@@ -44,7 +44,7 @@
 			         #{valor3,jdbcType=NUMERIC},
 			         #{valor4,jdbcType=NUMERIC},
 			         #{fechaCreacion,jdbcType=DATE},
-			         #{fechaActualizacion,jdbcType=DATE}
+			         #{fechaActualizacion,jdbcType=TIMESTAMP}
 			         
 			         )
 		       
@@ -62,7 +62,7 @@
 			         #{item.valor3,jdbcType=NUMERIC},
 			         #{item.valor4,jdbcType=NUMERIC},
 			         SYSDATE,
-			         SYSDATE
+			         #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 			         );
 			</foreach>
 		 
@@ -106,7 +106,7 @@
 		   DETALLE_CARTERA . REFERENCIA , 
 		   DETALLE_CARTERA . NRO_FACTURA,
 		   DETALLE_CARTERA .VALOR_1,
-		   DETALLE_CARTERA .VALOR_4,
+		   DETALLE_CARTERA .VALOR_2,
 		   DETALLE_CARTERA .VALOR_3,
 		   DETALLE_CARTERA .VALOR_4,
 		   DETALLE_CARTERA .FECHA_CREACION,
@@ -164,7 +164,7 @@
 	         VALOR_2  =   #{valor2,jdbcType=NUMERIC},
 	         VALOR_3  =   #{valor3,jdbcType=NUMERIC},
 	         VALOR_4  =   #{valor4,jdbcType=NUMERIC}, 
-	         FECHA_ACTUALIZACION =  #{fechaActualizacion,jdbcType=DATE}
+	         FECHA_ACTUALIZACION =  #{fechaActualizacion,jdbcType=TIMESTAMP}
 	   WHERE SEC = #{secuencia,jdbcType=NUMERIC} 
 	     AND SEC_CARTERA = #{cartera.secuencia,jdbcType=NUMERIC};
 </update>

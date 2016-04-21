@@ -24,7 +24,7 @@
 		#{nombre,jdbcType=VARCHAR},
 		#{descripcion,jdbcType=VARCHAR},
 		#{fechaCreacion,jdbcType=DATE},
-		#{fechaActualizacion,jdbcType=DATE}
+		#{fechaActualizacion,jdbcType=TIMESTAMP}
 		)
 
 	</select>
@@ -34,7 +34,7 @@
 		NOMBRE = #{nombre,jdbcType=NUMERIC},
 		DESCRIPCION = #{descripcion,jdbcType=VARCHAR},
 		FECHA_CREACION = #{fechaCreacion,jdbcType=DATE},
-		FECHA_ACTUALIZACION = #{fechaActualizacion,jdbcType=DATE}
+		FECHA_ACTUALIZACION = #{fechaActualizacion,jdbcType=TIMESTAMP}
 		WHERE SEC = #{sec,jdbcType=NUMERIC};
 	</update>
 	<select id="listarBancos" parameterType="java.lang.String"

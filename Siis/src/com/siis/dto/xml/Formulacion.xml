@@ -41,7 +41,7 @@
 					   #{indicador.secuencia,jdbcType=NUMERIC},
 					   #{formulacion,jdbcType=VARCHAR}, 
 					   #{fechaCreacion,jdbcType=DATE},
-					   #{fechaHoraActualizacion,jdbcType=DATE}
+					   #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 					  ) 
 		       
 	</select>
@@ -49,7 +49,7 @@
 	  UPDATE FORMULACIONES 
 	     SET SEC_INDICADOR = #{indicador.secuencia,jdbcType=NUMERIC},
 	         FORMULACION = #{formulacion,jdbcType=VARCHAR},
-	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
 	</update>
 	 <delete id="eliminarFormulacion" parameterType="FormulacionAlias">

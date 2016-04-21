@@ -1,5 +1,6 @@
 package com.siis.viewModel;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -194,6 +195,9 @@ public class FormularioProyectoContratosDetalleViewModel  extends Window{
 	public void onEditar() {
 		log.info("onEditar");
 		setDesactivarformulario(false);
+		java.util.Date date = new java.util.Date();
+		detalleProyContSeleccionada.setFechaHoraActualizacion(new Timestamp(date.getTime()));
+		
 		accion = "U";
 		setDesactivarBtnNuevo(true);
 		setDesactivarBtnEditar(true);
@@ -207,7 +211,9 @@ public class FormularioProyectoContratosDetalleViewModel  extends Window{
 		log.info("onNuevo");
 		setDesactivarformulario(false);
 		detalleProyContSeleccionada = new ProyectoContrato();
-		detalleProyContSeleccionada.setFechaHoraActualizacion(new Date());
+		java.util.Date date = new java.util.Date();
+		detalleProyContSeleccionada.setFechaHoraActualizacion(new Timestamp(date.getTime()));
+		
 		detalleProyContSeleccionada.setFechaCreacion(new Date());
 		accion = "I";
 

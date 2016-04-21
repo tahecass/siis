@@ -24,7 +24,7 @@
 					   #{fechaGiro,jdbcType=DATE},
 					   #{valor,jdbcType=NUMERIC},
 					   #{fechaCreacion,jdbcType=DATE},
-					   #{fechaHoraActualizacion,jdbcType=DATE}
+					   #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 					  ) 
 		       
 	</select>
@@ -34,7 +34,7 @@
 	         NUMERO_CHEQUE = #{nroCheque,jdbcType=VARCHAR},
 	         FECHA_GIRO  = #{fechaGiro,jdbcType=DATE},
 	         VALOR = #{valor,jdbcType=NUMERIC},
-	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
 	</update>
 	<select id="listarDisponibleBancos" parameterType="DisponibleBancoAlias" resultMap="resMapDisponibleBanco"  > 

@@ -119,6 +119,7 @@
 													value="Fecha y Hora de Actualizacion:" />
 											</hlayout>
 											<datebox disabled="true"
+												format="dd-MM-yyyy hh:mm:ss"
 												value="@bind(vm.indicadorSeleccionado.fechaHoraActualizacion)" />
 										</row>
 

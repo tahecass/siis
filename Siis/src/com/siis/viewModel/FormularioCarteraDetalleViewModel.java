@@ -1,5 +1,6 @@
 package com.siis.viewModel;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public class FormularioCarteraDetalleViewModel extends Window {
 	@Wire
 	public Borderlayout idWINFORMDETCARTERAZPrincipal;
 	@Wire
-	public Grid idWINFORMCARTERAZGRidFormulario;
+	public Grid idWINFORMCARTERADETZGRidFormulario;
 
 	@SuppressWarnings("unchecked")
 	@AfterCompose
@@ -76,7 +77,7 @@ public class FormularioCarteraDetalleViewModel extends Window {
 			log.info("accion=>> " + accion);
 
 			detalleCarteraSeleccionada.setCartera(cartera);
-			if (!Utilidades.validarFormulario(idWINFORMCARTERAZGRidFormulario)) {
+			if (!Utilidades.validarFormulario(idWINFORMCARTERADETZGRidFormulario)) {
 				Utilidades.mostrarNotificacion(idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
 						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
 				return;
@@ -182,6 +183,8 @@ public class FormularioCarteraDetalleViewModel extends Window {
 	public void onEditar() {
 		log.info("onEditar");
 		setDesactivarformulario(false);
+		java.util.Date date = new java.util.Date();
+		detalleCarteraSeleccionada.setFechaActualizacion(new Timestamp(date.getTime()));
 		accion = "U";
 		setDesactivarBtnNuevo(true);
 		setDesactivarBtnEditar(true);
@@ -195,7 +198,8 @@ public class FormularioCarteraDetalleViewModel extends Window {
 		log.info("onNuevo");
 		setDesactivarformulario(false);
 		detalleCarteraSeleccionada = new DetalleCartera();
-		detalleCarteraSeleccionada.setFechaActualizacion(new Date());
+		java.util.Date date = new java.util.Date();
+		detalleCarteraSeleccionada.setFechaActualizacion(new Timestamp(date.getTime()));
 		detalleCarteraSeleccionada.setFechaCreacion(new Date());
 		accion = "I";
 

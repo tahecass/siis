@@ -24,7 +24,7 @@
 					   #{valor,jdbcType=NUMERIC},
 					   #{tipoNota,jdbcType=VARCHAR}, 
 					   #{fechaCreacion,jdbcType=DATE},
-					   #{fechaHoraActualizacion,jdbcType=DATE}
+					   #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 					  ) 
 		       
 	</select>
@@ -33,7 +33,8 @@
 	     SET CONCEPTO = #{concepto,jdbcType=VARCHAR}, 
 	         FECHA  = #{fecha,jdbcType=DATE},
 	         VALOR = #{valor,jdbcType=NUMERIC},
-	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=DATE}
+	         TIPO_NOTA = #{tipoNota,jdbcType=VARCHAR}, 
+	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
 	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
 	</update>
 	<select id="listarDisponibleConceptos" parameterType="DisponibleConceptoAlias" resultMap="resMapDisponibleConcepto"  > 

@@ -12,8 +12,7 @@
 	<window apply="org.zkoss.bind.BindComposer" title="Detalle Bancos"
 		viewModel="@id('vm') 
 		@init('com.siis.viewModel.FormularioDisponibleDetalleViewModel')"
-		 width="500px" height="500px"
-		closable="true">
+		width="500px" height="500px" closable="true">
 
 		<borderlayout id="idWINFORMDETDISPBCOZPrincipal">
 			<center>
@@ -34,7 +33,7 @@
 									</hlayout>
 									<textbox constraint="no empty"
 										value="@bind(vm.disponibleBancoSeleccionado.beneficiario)"
-										disabled="@load(vm.desactivarformulario)"  hflex="true" />
+										disabled="@load(vm.desactivarformulario)" hflex="true" />
 								</row>
 								<row>
 									<hlayout>
@@ -74,8 +73,9 @@
 								</row>
 								<row>
 									<label
-										value="Fecha de Actualización" />
+										value="Fecha y Hora de Actualización" />
 									<datebox
+										format="dd-MM-yyyy hh:mm:ss"
 										value="@bind(vm.disponibleBancoSeleccionado.fechaHoraActualizacion)"
 										disabled="true" />
 								</row>

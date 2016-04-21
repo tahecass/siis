@@ -59,8 +59,9 @@
 									disabled="true" />
 							</row>
 							<row>
-								<label value="Fecha de Actualización" />
-								<datebox
+								<label
+									value="Fecha y Hora de Actualización" />
+								<datebox format="dd-MM-yyyy hh:mm:ss"
 									value="@bind(vm.detalleProyContSeleccionada.fechaHoraActualizacion)"
 									disabled="true" />
 							</row>
@@ -91,9 +92,9 @@
 						span="true" vflex="true" model="@bind(vm.listaProyectoContrato)"
 						selectedItem="@bind(vm.detalleProyContSeleccionada)"
 						onSelect="@command('onSeleccionar',seleccionado=vm.detalleProyContSeleccionada)"
-						itemRenderer="com.siis.viewModel.ProyectoContratoRenderer"
-						>
-	<custom-attributes org.zkoss.zul.listbox.groupSelect="true" />
+						itemRenderer="com.siis.viewModel.ProyectoContratoRenderer">
+						<custom-attributes
+							org.zkoss.zul.listbox.groupSelect="true" />
 						<listhead sizable="true">
 							<listheader label="Factura" sort="auto" />
 							<listheader label="Valor" sort="auto" />
