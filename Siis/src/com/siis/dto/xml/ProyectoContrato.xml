@@ -71,7 +71,14 @@
 			PROYECTO_CONTRATO   
 			where PROYECTO_CONTRATO.SEC =  #{secuencia,jdbcType=NUMERIC};
  </select>
-
+   <select id="contarContratosPorProy" parameterType="Integer" resultType="Integer"  > 
+		SELECT
+		   COUNT(*)
+		  FROM
+	      PROYECTO_CONTRATO
+		  where PROYECTO_CONTRATO.SEC_PROYECTO=  #{secuencia,jdbcType=NUMERIC};
+	      
+ </select>
  <delete id="eliminarProyectoContrato" parameterType="ProyectoContratoAlias">
 		 DELETE FROM PROYECTO_CONTRATO WHERE PROYECTO_CONTRATO.SEC=  #{secuencia,jdbcType=NUMERIC};
  </delete>

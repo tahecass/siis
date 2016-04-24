@@ -115,31 +115,52 @@ public class FormularioProyectoViewModel {
 	@Command
 	public void onEliminar(@BindingParam("seleccionado") final Proyecto proyecto) {
 		log.info("onEliminar => " + proyecto.getSecuencia());
+		try {
+			Integer valoresAsociados = (Integer) Conexion.getConexion().obtenerRegistro("contarValoresPorProy",
+					proyecto.getSecuencia());
 
-		Messagebox.show(idWINFORMPROYECTOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
-				idWINFORMPROYECTOZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
-				Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-				new org.zkoss.zk.ui.event.EventListener<Event>() {
-					@Override
-					public void onEvent(Event e) throws Exception {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			if (valoresAsociados > 0) {
+				Utilidades.mostrarNotificacion(idWINFORMPROYECTOZPrincipal.getAttribute("MSG_TITULO").toString(),
+						"El registro que desea eliminar tiene valores dependientes", "INFO");
+				return;
+			}
 
-							log.info("Messagebox.YES => " + proyecto.getSecuencia());
-							Conexion.getConexion().eliminar("eliminarProyecto", proyecto);
-							Utilidades.mostrarNotificacion(
-									idWINFORMPROYECTOZPrincipal.getAttribute("MSG_TITULO").toString(),
-									idWINFORMPROYECTOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
-									"INFO");
-							BindUtils.postNotifyChange(null, null, FormularioProyectoViewModel.this, "*");
-							listarProyecto();
-							setDesactivarBtnNuevo(false);
-							setDesactivarBtnEditar(true);
-							setDesactivarBtnGuardar(true);
-							setDesactivarBtnEliminar(true);
-							setDesactivarTabDetalle(true);
+			Integer contratosAsociados = (Integer) Conexion.getConexion().obtenerRegistro("contarContratosPorProy",
+					proyecto.getSecuencia());
+
+			if (contratosAsociados > 0) {
+				Utilidades.mostrarNotificacion(idWINFORMPROYECTOZPrincipal.getAttribute("MSG_TITULO").toString(),
+						"El registro que desea eliminar tiene contratos dependientes", "INFO");
+				return;
+			}
+			Messagebox.show(idWINFORMPROYECTOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+					idWINFORMPROYECTOZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+					Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+					new org.zkoss.zk.ui.event.EventListener<Event>() {
+						@Override
+						public void onEvent(Event e) throws Exception {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+
+								log.info("Messagebox.YES => " + proyecto.getSecuencia());
+								Conexion.getConexion().eliminar("eliminarProyecto", proyecto);
+								Utilidades.mostrarNotificacion(
+										idWINFORMPROYECTOZPrincipal.getAttribute("MSG_TITULO").toString(),
+										idWINFORMPROYECTOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+										"INFO");
+								BindUtils.postNotifyChange(null, null, FormularioProyectoViewModel.this, "*");
+								listarProyecto();
+								proyectoSeleccionada = new Proyecto();
+								setDesactivarBtnNuevo(false);
+								setDesactivarBtnEditar(true);
+								setDesactivarBtnGuardar(true);
+								setDesactivarBtnEliminar(true);
+								setDesactivarTabDetalle(true);
+							}
 						}
-					}
-				});
+					});
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	@NotifyChange("*")
@@ -189,7 +210,7 @@ public class FormularioProyectoViewModel {
 		setDesactivarformulario(false);
 		java.util.Date date = new java.util.Date();
 		proyectoSeleccionada.setFechaHoraActualizacion(new Timestamp(date.getTime()));
-		
+
 		accion = "U";
 		setDesactivarBtnNuevo(true);
 		setDesactivarBtnEditar(true);
@@ -206,7 +227,7 @@ public class FormularioProyectoViewModel {
 		proyectoSeleccionada = new Proyecto();
 		java.util.Date date = new java.util.Date();
 		proyectoSeleccionada.setFechaHoraActualizacion(new Timestamp(date.getTime()));
-		
+
 		proyectoSeleccionada.setFechaCreacion(new Date());
 		proyectoSeleccionada.setFecha(new Date());
 		accion = "I";

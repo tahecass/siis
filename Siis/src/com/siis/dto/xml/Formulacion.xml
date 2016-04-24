@@ -4,56 +4,69 @@
 	<resultMap id="resMapFormulacion" type="FormulacionAlias">
 		<result property="formulacion" column="FORMULACION" />
 		<result property="secuencia" column="SEC" />
-		<result property="indicador.secuencia" column="SEC_INDICADOR" /> 
+		<result property="indicador.secuencia" column="SEC_INDICADOR" />
 		<result property="fechaCreacion" column="FECHA_CREACION" />
-		<result property="fechaHoraActualizacion" column="FECHA_HORA_ACTUALIZACION" /> 
+		<result property="fechaHoraActualizacion" column="FECHA_HORA_ACTUALIZACION" />
 	</resultMap>
 
 	<select id="listarFormulaciones" resultMap="resMapFormulacion"
 		resultType="FormulacionAlias">
 		SELECT
-			FORMULACIONES.SEC,
-			FORMULACIONES.SEC_INDICADOR,
-			FORMULACIONES.FORMULACION,
-			FORMULACIONES.FECHA_CREACION,
-			FORMULACIONES.FECHA_HORA_ACTUALIZACION
-			FROM
-	   FORMULACIONES
+		FORMULACIONES.SEC,
+		FORMULACIONES.SEC_INDICADOR,
+		FORMULACIONES.FORMULACION,
+		FORMULACIONES.FECHA_CREACION,
+		FORMULACIONES.FECHA_HORA_ACTUALIZACION
+		FROM
+		FORMULACIONES
+		where FORMULACIONES.SEC_INDICADOR= #{indicador.secuencia,jdbcType=NUMERIC}
 	</select>
 	<select id="obtenerFormulacion" resultMap="resMapFormulacion"
 		resultType="FormulacionAlias">
 		SELECT
-			FORMULACIONES.SEC,
-			FORMULACIONES.SEC_INDICADOR,
-			FORMULACIONES.FORMULACION,
-			FORMULACIONES.FECHA_CREACION,
-			FORMULACIONES.FECHA_HORA_ACTUALIZACION
-			FROM
-	   FORMULACIONES
-	   WHERE 	FORMULACIONES.SEC= #{secuencia,jdbcType=NUMERIC}
+		FORMULACIONES.SEC,
+		FORMULACIONES.SEC_INDICADOR,
+		FORMULACIONES.FORMULACION,
+		FORMULACIONES.FECHA_CREACION,
+		FORMULACIONES.FECHA_HORA_ACTUALIZACION
+		FROM
+		FORMULACIONES
+		WHERE FORMULACIONES.SEC= #{secuencia,jdbcType=NUMERIC}
 	</select>
 
-<select id="guardarFormulacion" parameterType="FormulacionAlias" resultMap="resMapFormulacion" statementType="CALLABLE" >   
-		  INSERT
-				   INTO FORMULACIONES (SEC, SEC_INDICADOR, FORMULACION,FECHA_CREACION, FECHA_HORA_ACTUALIZACION)
-					  VALUES
-					  ( #{secuencia,jdbcType=NUMERIC},
-					   #{indicador.secuencia,jdbcType=NUMERIC},
-					   #{formulacion,jdbcType=VARCHAR}, 
-					   #{fechaCreacion,jdbcType=DATE},
-					   #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
-					  ) 
-		       
+	<select id="guardarFormulacion" parameterType="FormulacionAlias"
+		resultMap="resMapFormulacion" statementType="CALLABLE">
+		INSERT
+		INTO FORMULACIONES (SEC, SEC_INDICADOR, FORMULACION,FECHA_CREACION,
+		FECHA_HORA_ACTUALIZACION)
+		VALUES
+		( #{secuencia,jdbcType=NUMERIC},
+		#{indicador.secuencia,jdbcType=NUMERIC},
+		#{formulacion,jdbcType=VARCHAR},
+		#{fechaCreacion,jdbcType=DATE},
+		#{fechaHoraActualizacion,jdbcType=TIMESTAMP}
+		)
+
 	</select>
 	<update id="actualizarFormulacion" parameterType="FormulacionAlias">
-	  UPDATE FORMULACIONES 
-	     SET SEC_INDICADOR = #{indicador.secuencia,jdbcType=NUMERIC},
-	         FORMULACION = #{formulacion,jdbcType=VARCHAR},
-	         FECHA_HORA_ACTUALIZACION =  #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
-	   WHERE SEC = #{secuencia,jdbcType=NUMERIC};
+		UPDATE FORMULACIONES
+		SET SEC_INDICADOR = #{indicador.secuencia,jdbcType=NUMERIC},
+		FORMULACION = #{formulacion,jdbcType=VARCHAR},
+		FECHA_HORA_ACTUALIZACION = #{fechaHoraActualizacion,jdbcType=TIMESTAMP}
+		WHERE SEC = #{secuencia,jdbcType=NUMERIC};
 	</update>
-	 <delete id="eliminarFormulacion" parameterType="FormulacionAlias">
-		 DELETE FROM FORMULACIONES WHERE FORMULACIONES.SEC=  #{secuencia,jdbcType=NUMERIC};
- </delete>
+	<select id="contarFormulaionesPorIndicador" parameterType="Integer"
+		resultType="Integer">
+		SELECT
+		COUNT(*)
+		FROM
+		FORMULACIONES
+		where FORMULACIONES.SEC_INDICADOR= #{secuencia,jdbcType=NUMERIC};
+
+	</select>
+	<delete id="eliminarFormulacion" parameterType="FormulacionAlias">
+		DELETE FROM FORMULACIONES WHERE FORMULACIONES.SEC=
+		#{secuencia,jdbcType=NUMERIC};
+	</delete>
 </mapper>
 	

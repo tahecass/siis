@@ -27,9 +27,7 @@ import org.zkoss.zul.Messagebox;
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Disponible;
 import com.siis.dto.DisponibleBanco;
-import com.siis.dto.DisponibleConcepto;
 import com.siis.viewModel.framework.Utilidades;
-import com.sun.org.apache.xerces.internal.dom.PSVIElementNSImpl;
 
 public class FormularioDisponibleDetalleViewModel {
 
@@ -58,15 +56,13 @@ public class FormularioDisponibleDetalleViewModel {
 		listarDisponibleBanco();
 	}
 
-	@SuppressWarnings("unchecked")
+	 
 	public void init() {
 		log.info("INIT()");
-		
-		
+
 		listaDisponibleBanco = new ArrayList<DisponibleBanco>();
 		disponibleBancoSeleccionado = new DisponibleBanco();
 		setDesactivarformulario(true);
-		
 
 		accion = new String();
 
@@ -145,6 +141,7 @@ public class FormularioDisponibleDetalleViewModel {
 									"INFO");
 							BindUtils.postNotifyChange(null, null, FormularioDisponibleDetalleViewModel.this, "*");
 							listarDisponibleBanco();
+							disponibleBancoSeleccionado = new DisponibleBanco();
 							setDesactivarBtnNuevo(false);
 							setDesactivarBtnEditar(true);
 							setDesactivarBtnGuardar(true);
@@ -175,7 +172,7 @@ public class FormularioDisponibleDetalleViewModel {
 		setDesactivarformulario(false);
 		java.util.Date date = new java.util.Date();
 		disponibleBancoSeleccionado.setFechaHoraActualizacion(new Timestamp(date.getTime()));
-		
+
 		accion = "U";
 		setDesactivarBtnNuevo(true);
 		setDesactivarBtnEditar(true);
@@ -217,7 +214,7 @@ public class FormularioDisponibleDetalleViewModel {
 		disponibleBancoSeleccionado = new DisponibleBanco();
 		java.util.Date date = new java.util.Date();
 		disponibleBancoSeleccionado.setFechaHoraActualizacion(new Timestamp(date.getTime()));
-		
+
 		disponibleBancoSeleccionado.setFechaCreacion(new Date());
 		accion = "I";
 
@@ -232,20 +229,19 @@ public class FormularioDisponibleDetalleViewModel {
 	@NotifyChange
 	@Command
 	public void listarDisponibleBanco() {
- 
+
 		log.info(" listarDisponibleBanco " + disponible.getSecuencia());
 		listaDisponibleBanco = new ArrayList<DisponibleBanco>();
 
 		DisponibleBanco dispoBan = new DisponibleBanco();
 		dispoBan.setDisponible(disponible);
- 
 
 		setDesactivarformulario(true);
 
 		try {
 			setListaDisponibleBanco(
 					(List<DisponibleBanco>) Conexion.getConexion().obtenerListado("listarDisponibleBancos", dispoBan));
-			log.info("==> "+getListaDisponibleBanco().get(0).getBeneficiario());
+			log.info("==> " + getListaDisponibleBanco().get(0).getBeneficiario());
 			BindUtils.postNotifyChange(null, null, FormularioDisponibleDetalleViewModel.this, "*");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -310,11 +306,9 @@ public class FormularioDisponibleDetalleViewModel {
 		this.disponibleBancoSeleccionado = disponibleBancoSeleccionado;
 	}
 
-	 
-
 	public void setDisponible(Disponible disponible) {
 		this.disponible = disponible;
-	log.info("disponible.getSecuencia() ==> "+disponible.getSecuencia());
+		log.info("disponible.getSecuencia() ==> " + disponible.getSecuencia());
 
 	}
 

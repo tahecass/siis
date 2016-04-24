@@ -1,7 +1,6 @@
 package com.siis.viewModel;
 
-import java.sql.Timestamp; 
-import java.text.SimpleDateFormat;
+import java.sql.Timestamp;  
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -154,9 +153,9 @@ public class FormularioDisponibleViewModel {
 	public void onEliminar(@BindingParam("seleccionado") final Disponible disponible) {
 		log.info("onEliminar => " + disponible.getSecuencia());
 
-		Integer bancosAsociados;
+		
 		try {
-			bancosAsociados = (Integer) Conexion.getConexion().obtenerRegistro("contarDisponibleBancoPorDisponible",
+			Integer bancosAsociados = (Integer) Conexion.getConexion().obtenerRegistro("contarDisponibleBancoPorDisponible",
 					disponible.getSecuencia());
 
 			if (bancosAsociados > 0) {
@@ -189,6 +188,7 @@ public class FormularioDisponibleViewModel {
 												.toString(),
 										"INFO");
 								BindUtils.postNotifyChange(null, null, FormularioDisponibleViewModel.this, "*");
+								 disponibleSeleccionada = new Disponible();
 								listarDisponible();
 								setDesactivarBtnNuevo(false);
 								setDesactivarBtnEditar(true);

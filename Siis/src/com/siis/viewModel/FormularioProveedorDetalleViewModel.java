@@ -27,7 +27,6 @@ import org.zkoss.zul.Window;
 
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Proveedor;
-import com.siis.dto.Cartera;
 import com.siis.dto.DetalleProveedor;
 import com.siis.viewModel.framework.Utilidades;
 
@@ -86,7 +85,7 @@ public class FormularioProveedorDetalleViewModel extends Window {
 			}
 
 			if (accion.equals("I")) {
-				
+
 				HashMap<String, Object> par = new HashMap<String, Object>();
 				par.put("NOMBRE_TABLA", "DETALLE_PROVEEDOR");
 				Integer sigSec = (Integer) Conexion.getConexion().obtenerRegistro("obtenerSeigSecuencia", par);
@@ -95,7 +94,7 @@ public class FormularioProveedorDetalleViewModel extends Window {
 					detalleProveedorSeleccionada.setSecuencia(sigSec);
 				else
 					detalleProveedorSeleccionada.setSecuencia(1);
- 
+
 				Conexion.getConexion().guardar("guardarDetalleProveedor", detalleProveedorSeleccionada);
 				log.info("Proveedorguardada");
 				Utilidades.mostrarNotificacion(idWINFORMDETPROVEEDORZPrincipal.getAttribute("MSG_TITULO").toString(),
@@ -140,12 +139,13 @@ public class FormularioProveedorDetalleViewModel extends Window {
 									idWINFORMDETPROVEEDORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
 									"INFO");
 							BindUtils.postNotifyChange(null, null, FormularioProveedorDetalleViewModel.this, "*");
-							listarDetalleProveedor();;
+							listarDetalleProveedor();
+							detalleProveedorSeleccionada = new DetalleProveedor();
 							setDesactivarBtnNuevo(false);
 							setDesactivarBtnEditar(true);
 							setDesactivarBtnGuardar(true);
 							setDesactivarBtnEliminar(true);
-						
+
 						}
 					}
 
@@ -173,8 +173,8 @@ public class FormularioProveedorDetalleViewModel extends Window {
 		if (!accion.equals("I")) {
 			detalleProveedorSeleccionada = obtener(detalleProveedorSeleccionada);
 			onSeleccionar(detalleProveedorSeleccionada);
-			desactivarformulario=true;
-		}else{
+			desactivarformulario = true;
+		} else {
 			onNuevo();
 		}
 
@@ -199,7 +199,7 @@ public class FormularioProveedorDetalleViewModel extends Window {
 		setDesactivarformulario(false);
 		java.util.Date date = new java.util.Date();
 		detalleProveedorSeleccionada.setFechaActualizacion(new Timestamp(date.getTime()));
-		
+
 		accion = "U";
 		setDesactivarBtnNuevo(true);
 		setDesactivarBtnEditar(true);
@@ -215,7 +215,7 @@ public class FormularioProveedorDetalleViewModel extends Window {
 		detalleProveedorSeleccionada = new DetalleProveedor();
 		java.util.Date date = new java.util.Date();
 		detalleProveedorSeleccionada.setFechaActualizacion(new Timestamp(date.getTime()));
-		
+
 		detalleProveedorSeleccionada.setFechaCreacion(new Date());
 		accion = "I";
 

@@ -30,7 +30,7 @@ import com.siis.dto.Proyecto;
 import com.siis.dto.ProyectoContrato;
 import com.siis.viewModel.framework.Utilidades;
 
-public class FormularioProyectoContratosDetalleViewModel  extends Window{
+public class FormularioProyectoContratosDetalleViewModel extends Window {
 
 	/**
 	 * 
@@ -142,6 +142,7 @@ public class FormularioProyectoContratosDetalleViewModel  extends Window{
 							BindUtils.postNotifyChange(null, null, FormularioProyectoContratosDetalleViewModel.this,
 									"*");
 							listarProyectoContrato();
+							detalleProyContSeleccionada = new ProyectoContrato();
 							setDesactivarBtnNuevo(false);
 							setDesactivarBtnEditar(true);
 							setDesactivarBtnGuardar(true);
@@ -197,7 +198,7 @@ public class FormularioProyectoContratosDetalleViewModel  extends Window{
 		setDesactivarformulario(false);
 		java.util.Date date = new java.util.Date();
 		detalleProyContSeleccionada.setFechaHoraActualizacion(new Timestamp(date.getTime()));
-		
+
 		accion = "U";
 		setDesactivarBtnNuevo(true);
 		setDesactivarBtnEditar(true);
@@ -213,7 +214,7 @@ public class FormularioProyectoContratosDetalleViewModel  extends Window{
 		detalleProyContSeleccionada = new ProyectoContrato();
 		java.util.Date date = new java.util.Date();
 		detalleProyContSeleccionada.setFechaHoraActualizacion(new Timestamp(date.getTime()));
-		
+
 		detalleProyContSeleccionada.setFechaCreacion(new Date());
 		accion = "I";
 
@@ -230,15 +231,15 @@ public class FormularioProyectoContratosDetalleViewModel  extends Window{
 	public void listarProyectoContrato() {
 		log.info(" listarProyectoContrato ");
 		listaProyectoContrato = new ArrayList<ProyectoContrato>();
-  
+
 		ProyectoContrato proyCont = new ProyectoContrato();
 		proyCont.setProyecto(getProyecto());
 		listaProyectoContrato.clear();
 
 		setDesactivarformulario(true);
 		try {
-			setListaProyectoContrato((List<ProyectoContrato>) Conexion.getConexion()
-					.obtenerListado("listarProyectoContrato", proyCont));
+			setListaProyectoContrato(
+					(List<ProyectoContrato>) Conexion.getConexion().obtenerListado("listarProyectoContrato", proyCont));
 		} catch (Exception e) {
 			e.printStackTrace();
 

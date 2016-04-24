@@ -225,5 +225,7 @@
 		<custom-attributes
 			MSG_ELIMINAR_CREDITO="¿Desea eliminar la fila seleccionada?" />
 		<custom-attributes MSG_TITULO_ELIMINAR="Confirmación" />
+		<custom-attributes
+			MSG_MENSAJE_ELIMINAR_OK="Se eliminó correctamente la información" />
 	</borderlayout>
 </zk>

@@ -26,8 +26,7 @@ import org.zkoss.zul.Tabpanel;
 import org.zkoss.zul.Window;
 
 import com.siis.configuracion.Conexion;
-import com.siis.dto.Credito;
-import com.siis.dto.DetalleCartera;
+import com.siis.dto.Credito; 
 import com.siis.viewModel.framework.BandboxBancos;
 import com.siis.viewModel.framework.BandboxCuentas;
 import com.siis.viewModel.framework.Utilidades;
@@ -146,33 +145,45 @@ public class FormularioCreditoViewModel {
 	@Command
 	public void onEliminar(@BindingParam("seleccionado") final Credito credito) {
 		log.info("onEliminar => " + credito.getSecuencia());
+		try {
+			Integer detalleAsociados = (Integer) Conexion.getConexion().obtenerRegistro("contarDetallesPorCredito",
+					credito.getSecuencia());
 
-		Messagebox.show(idWINFORMCREDITOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
-				idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
-				Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-				new org.zkoss.zk.ui.event.EventListener<Event>() {
+			if (detalleAsociados > 0) {
+				Utilidades.mostrarNotificacion(idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO").toString(),
+						"El registro que desea eliminar tiene detalles dependientes", "INFO");
+				return;
+			}
+			Messagebox.show(idWINFORMCREDITOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+					idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+					Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+					new org.zkoss.zk.ui.event.EventListener<Event>() {
 
-					@Override
-					public void onEvent(Event e) throws Exception {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							log.info("CLICK on OK");
-							log.info("Messagebox.YES => " + credito.getSecuencia());
-							Conexion.getConexion().eliminar("eliminarCredito", credito);
-							Utilidades.mostrarNotificacion(
-									idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO").toString(),
-									idWINFORMCREDITOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
-									"INFO");
-							BindUtils.postNotifyChange(null, null, FormularioCreditoViewModel.this, "*");
-							listarCredito();
-							setDesactivarBtnNuevo(false);
-							setDesactivarBtnEditar(true);
-							setDesactivarBtnGuardar(true);
-							setDesactivarBtnEliminar(true);
-							setDesactivarTabDetalle(true);
+						@Override
+						public void onEvent(Event e) throws Exception {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								log.info("CLICK on OK");
+								log.info("Messagebox.YES => " + credito.getSecuencia());
+								Conexion.getConexion().eliminar("eliminarCredito", credito);
+								Utilidades.mostrarNotificacion(
+										idWINFORMCREDITOZPrincipal.getAttribute("MSG_TITULO").toString(),
+										idWINFORMCREDITOZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
+										"INFO");
+								BindUtils.postNotifyChange(null, null, FormularioCreditoViewModel.this, "*");
+								listarCredito();
+								creditoSeleccionada = new Credito();
+								setDesactivarBtnNuevo(false);
+								setDesactivarBtnEditar(true);
+								setDesactivarBtnGuardar(true);
+								setDesactivarBtnEliminar(true);
+								setDesactivarTabDetalle(true);
+							}
 						}
-					}
 
-				});
+					});
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 
 	}
 
@@ -239,7 +250,7 @@ public class FormularioCreditoViewModel {
 		creditoSeleccionada = new Credito();
 		java.util.Date date = new java.util.Date();
 		creditoSeleccionada.setFechaHoraActualizacion(new Timestamp(date.getTime()));
-		
+
 		creditoSeleccionada.setFechaCreacion(new Date());
 		creditoSeleccionada.setFecha(new Date());
 		accion = "I";

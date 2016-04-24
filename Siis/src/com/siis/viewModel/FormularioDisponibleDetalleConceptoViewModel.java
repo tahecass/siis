@@ -26,12 +26,11 @@ import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
 import com.siis.configuracion.Conexion;
-import com.siis.dto.Credito;
 import com.siis.dto.Disponible;
 import com.siis.dto.DisponibleConcepto;
 import com.siis.viewModel.framework.Utilidades;
 
-public class FormularioDisponibleDetalleConceptoViewModel extends Window{
+public class FormularioDisponibleDetalleConceptoViewModel extends Window {
 
 	/**
 	 * 
@@ -88,7 +87,7 @@ public class FormularioDisponibleDetalleConceptoViewModel extends Window{
 			disponibleConceptoSeleccionado.setDisponible(disponible);
 
 			if (accion.equals("I")) {
-				
+
 				HashMap<String, Object> par = new HashMap<String, Object>();
 				par.put("NOMBRE_TABLA", "DISPONIBLE_CONCEPTO");
 				Integer sigSec = (Integer) Conexion.getConexion().obtenerRegistro("obtenerSeigSecuencia", par);
@@ -97,7 +96,7 @@ public class FormularioDisponibleDetalleConceptoViewModel extends Window{
 					disponibleConceptoSeleccionado.setSecuencia(sigSec);
 				else
 					disponibleConceptoSeleccionado.setSecuencia(1);
-				 
+
 				Conexion.getConexion().guardar("guardarDisponibleConcepto", disponibleConceptoSeleccionado);
 				log.info("Disponibleguardada");
 				Utilidades.mostrarNotificacion(idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_TITULO").toString(),
@@ -151,35 +150,34 @@ public class FormularioDisponibleDetalleConceptoViewModel extends Window{
 	@Command
 	public void onEliminar(@BindingParam("seleccionado") final DisponibleConcepto disponible) {
 		log.info("onEliminar => " + disponible.getSecuencia());
- 
-			 
-			Messagebox.show(idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
-					idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
-					Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-					new org.zkoss.zk.ui.event.EventListener<Event>() {
 
-						@Override
-						public void onEvent(Event e) throws Exception {
-							if (Messagebox.ON_OK.equals(e.getName())) {
+		Messagebox.show(idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+				idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+				Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+				new org.zkoss.zk.ui.event.EventListener<Event>() {
 
-								Conexion.getConexion().eliminar("eliminarDisponibleConcepto", disponible);
-								Utilidades.mostrarNotificacion(
-										idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_TITULO").toString(),
-										idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK")
-												.toString(),
-										"INFO");
-								BindUtils.postNotifyChange(null, null, FormularioDisponibleDetalleConceptoViewModel.this, "*");
-								listarDisponibleConcepto();
-								setDesactivarBtnNuevo(false);
-								setDesactivarBtnEditar(true);
-								setDesactivarBtnGuardar(true);
-								setDesactivarBtnEliminar(true);
-								 
-							}
+					@Override
+					public void onEvent(Event e) throws Exception {
+						if (Messagebox.ON_OK.equals(e.getName())) {
+
+							Conexion.getConexion().eliminar("eliminarDisponibleConcepto", disponible);
+							Utilidades.mostrarNotificacion(
+									idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_TITULO").toString(),
+									idWINFORMDETDISPCONZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
+									"INFO");
+							BindUtils.postNotifyChange(null, null, FormularioDisponibleDetalleConceptoViewModel.this,
+									"*");
+							listarDisponibleConcepto();
+							disponibleConceptoSeleccionado = new DisponibleConcepto();
+							setDesactivarBtnNuevo(false);
+							setDesactivarBtnEditar(true);
+							setDesactivarBtnGuardar(true);
+							setDesactivarBtnEliminar(true);
+
 						}
+					}
 
-					});
-	 
+				});
 
 	}
 
@@ -203,7 +201,7 @@ public class FormularioDisponibleDetalleConceptoViewModel extends Window{
 		setDesactivarformulario(false);
 		java.util.Date date = new java.util.Date();
 		disponibleConceptoSeleccionado.setFechaHoraActualizacion(new Timestamp(date.getTime()));
-		
+
 		accion = "U";
 		setDesactivarBtnNuevo(true);
 		setDesactivarBtnEditar(true);
@@ -219,7 +217,7 @@ public class FormularioDisponibleDetalleConceptoViewModel extends Window{
 		disponibleConceptoSeleccionado = new DisponibleConcepto();
 		java.util.Date date = new java.util.Date();
 		disponibleConceptoSeleccionado.setFechaHoraActualizacion(new Timestamp(date.getTime()));
-		
+
 		disponibleConceptoSeleccionado.setFechaCreacion(new Date());
 		disponibleConceptoSeleccionado.setTipoNota("C");
 		accion = "I";

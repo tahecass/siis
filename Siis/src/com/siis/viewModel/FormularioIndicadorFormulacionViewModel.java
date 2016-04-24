@@ -25,12 +25,12 @@ import org.zkoss.zul.Grid;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
-import com.siis.configuracion.Conexion; 
+import com.siis.configuracion.Conexion;
 import com.siis.dto.Formulacion;
 import com.siis.dto.Indicador;
 import com.siis.viewModel.framework.Utilidades;
 
-public class FormularioIndicadorFormulacionViewModel extends Window{
+public class FormularioIndicadorFormulacionViewModel extends Window {
 
 	/**
 	 * 
@@ -95,7 +95,7 @@ public class FormularioIndicadorFormulacionViewModel extends Window{
 					formulacionSeleccionado.setSecuencia(sigSec);
 				else
 					formulacionSeleccionado.setSecuencia(1);
- 
+
 				Conexion.getConexion().guardar("guardarFormulacion", formulacionSeleccionado);
 				log.info("Disponibleguardada");
 				Utilidades.mostrarNotificacion(idWINFORMFORMULACIONZPrincipal.getAttribute("MSG_TITULO").toString(),
@@ -123,31 +123,38 @@ public class FormularioIndicadorFormulacionViewModel extends Window{
 	@Command
 	public void onEliminar(@BindingParam("seleccionado") final Formulacion detalleDisponible) {
 		log.info("onEliminar => " + detalleDisponible.getSecuencia());
+		try {
 
-		Messagebox.show(idWINFORMFORMULACIONZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
-				idWINFORMFORMULACIONZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
-				Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-				new org.zkoss.zk.ui.event.EventListener<Event>() {
+			Messagebox.show(idWINFORMFORMULACIONZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+					idWINFORMFORMULACIONZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+					Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+					new org.zkoss.zk.ui.event.EventListener<Event>() {
 
-					@Override
-					public void onEvent(Event e) throws Exception {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+						@Override
+						public void onEvent(Event e) throws Exception {
+							if (Messagebox.ON_OK.equals(e.getName())) {
 
-							log.info("Messagebox.YES => " + detalleDisponible.getSecuencia());
-							Conexion.getConexion().eliminar("eliminarFormulacion", detalleDisponible);
-							Utilidades.mostrarNotificacion(
-									idWINFORMFORMULACIONZPrincipal.getAttribute("MSG_TITULO").toString(),
-									idWINFORMFORMULACIONZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
-									"INFO");
-							BindUtils.postNotifyChange(null, null, FormularioIndicadorFormulacionViewModel.this, "*");
-							listarFormulacion();
-							setDesactivarBtnNuevo(false);
-							setDesactivarBtnEditar(true);
-							setDesactivarBtnGuardar(true);
-							setDesactivarBtnEliminar(true);
+								log.info("Messagebox.YES => " + detalleDisponible.getSecuencia());
+								Conexion.getConexion().eliminar("eliminarFormulacion", detalleDisponible);
+								Utilidades.mostrarNotificacion(
+										idWINFORMFORMULACIONZPrincipal.getAttribute("MSG_TITULO").toString(),
+										idWINFORMFORMULACIONZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK")
+												.toString(),
+										"INFO");
+								BindUtils.postNotifyChange(null, null, FormularioIndicadorFormulacionViewModel.this,
+										"*");
+								listarFormulacion();
+								formulacionSeleccionado = new Formulacion();
+								setDesactivarBtnNuevo(false);
+								setDesactivarBtnEditar(true);
+								setDesactivarBtnGuardar(true);
+								setDesactivarBtnEliminar(true);
+							}
 						}
-					}
-				});
+					});
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	@NotifyChange("*")
@@ -162,7 +169,7 @@ public class FormularioIndicadorFormulacionViewModel extends Window{
 		setDesactivarBtnEliminar(false);
 		setDesactivarformulario(true);
 	}
-	
+
 	@NotifyChange("*")
 	@Command
 	public void onCancelar() {
@@ -176,7 +183,7 @@ public class FormularioIndicadorFormulacionViewModel extends Window{
 		}
 
 	}
-	
+
 	private Formulacion obtener(Formulacion form) {
 		log.info("Ejecutando el metodo [obtener]");
 		Formulacion est = null;
@@ -188,6 +195,7 @@ public class FormularioIndicadorFormulacionViewModel extends Window{
 		}
 		return est;
 	}
+
 	@NotifyChange("*")
 	@Command
 	public void onEditar() {
@@ -195,7 +203,7 @@ public class FormularioIndicadorFormulacionViewModel extends Window{
 		setDesactivarformulario(false);
 		java.util.Date date = new java.util.Date();
 		formulacionSeleccionado.setFechaHoraActualizacion(new Timestamp(date.getTime()));
-		
+
 		accion = "U";
 		setDesactivarBtnNuevo(true);
 		setDesactivarBtnEditar(true);
@@ -211,7 +219,7 @@ public class FormularioIndicadorFormulacionViewModel extends Window{
 		formulacionSeleccionado = new Formulacion();
 		java.util.Date date = new java.util.Date();
 		formulacionSeleccionado.setFechaHoraActualizacion(new Timestamp(date.getTime()));
-		
+
 		formulacionSeleccionado.setFechaCreacion(new Date());
 		accion = "I";
 

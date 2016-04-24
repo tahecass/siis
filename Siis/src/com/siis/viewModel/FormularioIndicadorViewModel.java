@@ -141,32 +141,45 @@ public class FormularioIndicadorViewModel {
 	@Command
 	public void onEliminar(@BindingParam("seleccionado") final Indicador cartera) {
 		log.info("onEliminar => " + cartera.getSecuencia());
+		try {
 
-		Messagebox.show(idWINFORMINDICADORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
-				idWINFORMINDICADORZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
-				Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-				new org.zkoss.zk.ui.event.EventListener<Event>() {
+			Integer formulaionesAsociados = (Integer) Conexion.getConexion()
+					.obtenerRegistro("contarFormulaionesPorIndicador", cartera.getSecuencia());
 
-					@Override
-					public void onEvent(Event e) throws Exception {
-						if (Messagebox.ON_OK.equals(e.getName())) {
+			if (formulaionesAsociados > 0) {
+				Utilidades.mostrarNotificacion(idWINFORMINDICADORZPrincipal.getAttribute("MSG_TITULO").toString(),
+						"El registro que desea eliminar tiene formulaciones dependientes", "INFO");
+				return;
+			}
+			Messagebox.show(idWINFORMINDICADORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+					idWINFORMINDICADORZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+					Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+					new org.zkoss.zk.ui.event.EventListener<Event>() {
 
-							log.info("Messagebox.YES => " + cartera.getSecuencia());
-							Conexion.getConexion().eliminar("eliminarIndicador", cartera);
-							Utilidades.mostrarNotificacion(
-									idWINFORMINDICADORZPrincipal.getAttribute("MSG_TITULO").toString(),
-									idWINFORMINDICADORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
-									"INFO");
-							BindUtils.postNotifyChange(null, null, FormularioIndicadorViewModel.this, "*");
-							listarIndicador();
-							setDesactivarBtnNuevo(false);
-							setDesactivarBtnEditar(true);
-							setDesactivarBtnGuardar(true);
-							setDesactivarBtnEliminar(true);
-							setDesactivarTabDetalle(true);
+						@Override
+						public void onEvent(Event e) throws Exception {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+
+								log.info("Messagebox.YES => " + cartera.getSecuencia());
+								Conexion.getConexion().eliminar("eliminarIndicador", cartera);
+								Utilidades.mostrarNotificacion(
+										idWINFORMINDICADORZPrincipal.getAttribute("MSG_TITULO").toString(),
+										idWINFORMINDICADORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
+										"INFO");
+								BindUtils.postNotifyChange(null, null, FormularioIndicadorViewModel.this, "*");
+								listarIndicador();
+								indicadorSeleccionado = new Indicador();
+								setDesactivarBtnNuevo(false);
+								setDesactivarBtnEditar(true);
+								setDesactivarBtnGuardar(true);
+								setDesactivarBtnEliminar(true);
+								setDesactivarTabDetalle(true);
+							}
 						}
-					}
-				});
+					});
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	@NotifyChange("*")
@@ -216,7 +229,7 @@ public class FormularioIndicadorViewModel {
 		setDesactivarformulario(false);
 		java.util.Date date = new java.util.Date();
 		indicadorSeleccionado.setFechaHoraActualizacion(new Timestamp(date.getTime()));
-		
+
 		accion = "U";
 		setDesactivarBtnNuevo(true);
 		setDesactivarBtnEditar(true);

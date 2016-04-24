@@ -1,7 +1,7 @@
 package com.siis.viewModel;
 
 import java.sql.Timestamp;
-import java.util.ArrayList; 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +25,7 @@ import org.zkoss.zul.Window;
 
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Cartera;
-import com.siis.dto.DetalleCartera;
-import com.siis.dto.Disponible;
+import com.siis.dto.DetalleCartera; 
 import com.siis.viewModel.framework.BandboxCliente;
 import com.siis.viewModel.framework.Utilidades;
 
@@ -156,31 +155,45 @@ public class FormularioCarteraViewModel {
 	public void onEliminar(@BindingParam("seleccionado") final Cartera cartera) {
 		log.info("onEliminar => " + cartera.getSecuencia());
 
-		Messagebox.show(idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
-				idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
-				Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-				new org.zkoss.zk.ui.event.EventListener<Event>() {
+		try {
+			Integer detalleAsociados = (Integer) Conexion.getConexion().obtenerRegistro("contarDetallesPorCartera",
+					cartera.getSecuencia());
 
-					@Override
-					public void onEvent(Event e) throws Exception {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							log.info("CLICK on OK");
-							Conexion.getConexion().eliminar("eliminarCartera", cartera);
-							Utilidades.mostrarNotificacion(
-									idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
-									idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
-									"INFO");
-							BindUtils.postNotifyChange(null, null, FormularioCarteraViewModel.this, "*");
-							listarCartera();
-							setDesactivarBtnNuevo(false);
-							setDesactivarBtnEditar(true);
-							setDesactivarBtnGuardar(true);
-							setDesactivarBtnEliminar(true);
-							setDesactivarTabDetalle(true);
+			if (detalleAsociados > 0) {
+				Utilidades.mostrarNotificacion(idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
+						"El registro que desea eliminar tiene detalles dependientes", "INFO");
+				return;
+			}
+
+			Messagebox.show(idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+					idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+					Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+					new org.zkoss.zk.ui.event.EventListener<Event>() {
+
+						@Override
+						public void onEvent(Event e) throws Exception {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								log.info("CLICK on OK");
+								Conexion.getConexion().eliminar("eliminarCartera", cartera);
+								Utilidades.mostrarNotificacion(
+										idWINFORMCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
+										idWINFORMCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
+										"INFO");
+								BindUtils.postNotifyChange(null, null, FormularioCarteraViewModel.this, "*");
+								carteraSeleccionada = new Cartera();
+								listarCartera();
+								setDesactivarBtnNuevo(false);
+								setDesactivarBtnEditar(true);
+								setDesactivarBtnGuardar(true);
+								setDesactivarBtnEliminar(true);
+								setDesactivarTabDetalle(true);
+							}
 						}
-					}
 
-				});
+					});
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 
 	}
 
@@ -305,10 +318,10 @@ public class FormularioCarteraViewModel {
 		try {
 			Map<String, Object> parametros = new HashMap<String, Object>();
 			log.info("Carteta==> 1" + carteraSeleccionada.getSecuencia());
-			parametros.put("CARTERA", carteraSeleccionada); 
+			parametros.put("CARTERA", carteraSeleccionada);
 			Window win = (Window) Utilidades.onCargarVentana(null, "//formas//formulario_cartera_detalle.zul",
 					parametros);
-//			win.setHeight("auto");
+			// win.setHeight("auto");
 			win.setPosition("center,top");
 			win.doModal();
 

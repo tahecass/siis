@@ -84,7 +84,7 @@ public class FormularioCarteraDetalleViewModel extends Window {
 			}
 
 			if (accion.equals("I")) {
-				
+
 				HashMap<String, Object> par = new HashMap<String, Object>();
 				par.put("NOMBRE_TABLA", "DETALLE_CARTERA");
 				Integer sigSec = (Integer) Conexion.getConexion().obtenerRegistro("obtenerSeigSecuencia", par);
@@ -93,7 +93,7 @@ public class FormularioCarteraDetalleViewModel extends Window {
 					detalleCarteraSeleccionada.setSecuencia(sigSec);
 				else
 					detalleCarteraSeleccionada.setSecuencia(1);
- 
+
 				Conexion.getConexion().guardar("guardarDetalleCartera", detalleCarteraSeleccionada);
 				log.info("Carteraguardada");
 				Utilidades.mostrarNotificacion(idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_TITULO").toString(),
@@ -132,6 +132,7 @@ public class FormularioCarteraDetalleViewModel extends Window {
 					idWINFORMDETCARTERAZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(), "INFO");
 			BindUtils.postNotifyChange(null, null, FormularioCarteraDetalleViewModel.this, "*");
 			listarDetalleCartera();
+			detalleCarteraSeleccionada = new DetalleCartera();
 			setDesactivarBtnNuevo(false);
 			setDesactivarBtnEditar(true);
 			setDesactivarBtnGuardar(true);
@@ -159,8 +160,8 @@ public class FormularioCarteraDetalleViewModel extends Window {
 		if (!accion.equals("I")) {
 			detalleCarteraSeleccionada = obtener(detalleCarteraSeleccionada);
 			onSeleccionar(detalleCarteraSeleccionada);
-			desactivarformulario=true;
-		}else{
+			desactivarformulario = true;
+		} else {
 			onNuevo();
 		}
 

@@ -153,7 +153,7 @@ public class FormularioEfsViewModel {
 						"Por favor diligencie todos los campos requeridos (*)", "ADVERTENCIA");
 				return;
 			}
- 
+
 			EfSeleccionado.setNombreArchivo(labelNombreArchivo.getValue());
 
 			if (accion.equals("I")) {
@@ -165,7 +165,7 @@ public class FormularioEfsViewModel {
 					EfSeleccionado.setSecuencia(sigSec);
 				else
 					EfSeleccionado.setSecuencia(1);
-				
+
 				Conexion.getConexion().guardar("guardarEfs", EfSeleccionado);
 				log.info("Efsguardada");
 				Utilidades.mostrarNotificacion(idWINFORMEFSZPrincipal.getAttribute("MSG_TITULO").toString(),
@@ -208,6 +208,7 @@ public class FormularioEfsViewModel {
 									idWINFORMEFSZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(), "INFO");
 							BindUtils.postNotifyChange(null, null, FormularioEfsViewModel.this, "*");
 							listarEfs();
+							EfSeleccionado = new Efs();
 							setDesactivarBtnNuevo(false);
 							setDesactivarBtnEditar(true);
 							setDesactivarBtnGuardar(true);

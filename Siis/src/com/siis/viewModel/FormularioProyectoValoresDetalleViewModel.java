@@ -141,6 +141,7 @@ public class FormularioProyectoValoresDetalleViewModel extends Window {
 									"INFO");
 							BindUtils.postNotifyChange(null, null, FormularioProyectoValoresDetalleViewModel.this, "*");
 							listarProyectoValor();
+							detalleCarteraSeleccionada =new  ProyectoValor();
 							setDesactivarBtnNuevo(false);
 							setDesactivarBtnEditar(true);
 							setDesactivarBtnGuardar(true);

@@ -69,7 +69,14 @@
 	           PROYECTO_VALOR.SEC =  #{secuencia,jdbcType=NUMERIC};
 	      
   </select>
-
+   <select id="contarValoresPorProy" parameterType="Integer" resultType="Integer"  > 
+		SELECT
+		   COUNT(*)
+		  FROM
+	      PROYECTO_VALOR
+		  where PROYECTO_VALOR.SEC_PROYECTO=  #{secuencia,jdbcType=NUMERIC};
+	      
+ </select>
  <delete id="eliminarProyectoValor" parameterType="ProyectoValorAlias">
 		 DELETE FROM PROYECTO_VALOR WHERE PROYECTO_VALOR.SEC=  #{secuencia,jdbcType=NUMERIC};
  </delete>

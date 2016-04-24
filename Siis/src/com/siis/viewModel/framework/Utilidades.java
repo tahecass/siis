@@ -13,7 +13,6 @@ import org.zkoss.zk.ui.AbstractComponent;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
-import org.zkoss.zul.Bandbox;
 import org.zkoss.zul.Window;
 import org.zkoss.zul.impl.InputElement;
 
@@ -141,33 +140,7 @@ public class Utilidades {
 
 		return "";
 	}
-	public static void limpiarCampos(Component componentePadre) {
 
-		if (componentePadre instanceof Bandbox) {
-			Bandbox componenteOriginal = (Bandbox) componentePadre;
-			componenteOriginal.setRawValue("");
-		} else {
-			List<Component> listaComponentes = componentePadre.getChildren();
-
-			for (Component componente : listaComponentes) {
-				if (componente.getChildren().size() > 0) {
-					limpiarCampos(componente);
-				} else {
-					if (componente instanceof InputElement) {
-						InputElement componenteOriginal = (InputElement) componente;
-						componenteOriginal.setRawValue(null);
-//						if (componenteOriginal.getAttribute("valorAsumido") == null) {
-//							componenteOriginal.setRawValue(null);
-//						} else {
-//							componenteOriginal.setRawValue(componenteOriginal
-//									.getAttribute("valorAsumido"));
-//						}
-					} 
-
-				}
-			}
-		}
-	}
 	public static Usuario obtenerUsuarioSesion() {
 		log.info("obtenerUsuarioSesion");
 		session = Executions.getCurrent().getDesktop().getSession();
@@ -178,4 +151,8 @@ public class Utilidades {
 		}
 		return usuario;
 	}
+	
+
+ 
+
 }

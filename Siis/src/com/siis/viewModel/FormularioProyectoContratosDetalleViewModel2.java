@@ -118,6 +118,7 @@ public class FormularioProyectoContratosDetalleViewModel2 {
 									idWINFORMPROVALORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
 									"INFO");
 							listarProyectoContrato();
+							detalleProyContSeleccionada = new ProyectoContrato();
 							setDesactivarBtnNuevo(false);
 							setDesactivarBtnEditar(true);
 							setDesactivarBtnGuardar(true);
@@ -146,7 +147,7 @@ public class FormularioProyectoContratosDetalleViewModel2 {
 		setDesactivarformulario(false);
 		java.util.Date date = new java.util.Date();
 		detalleProyContSeleccionada.setFechaHoraActualizacion(new Timestamp(date.getTime()));
-		
+
 		accion = "U";
 		setDesactivarBtnNuevo(true);
 		setDesactivarBtnEditar(true);

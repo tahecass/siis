@@ -81,6 +81,14 @@
 		        </if>
 	      </trim>
  </select>
+   <select id="contarDetallesPorCredito" parameterType="Integer" resultType="Integer"  > 
+		SELECT
+		   COUNT(*)
+		  FROM
+	      AMORTIZACION_CREDITOS
+		  where AMORTIZACION_CREDITOS.SEC_CREDITO=  #{secuencia,jdbcType=NUMERIC};
+	      
+ </select>
 <select id="obtenerAmortizacionCredito" parameterType="AmortizacionCreditoAlias" resultMap="resMapAmortizacionCredito"  > 
 		SELECT AMORTIZACION_CREDITOS.SEC, 
 			AMORTIZACION_CREDITOS.SEC_CREDITO, 

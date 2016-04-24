@@ -154,6 +154,14 @@
          WHERE VENCIMIENTO > SYSDATE() AND CLIENTES.SEC= #{SEC_CLIENTE,jdbcType=NUMERIC};
         ]]>
  </select>
+  <select id="contarDetallesPorCartera" parameterType="Integer" resultType="Integer"  > 
+		SELECT
+		   COUNT(*)
+		  FROM
+	      DETALLE_CARTERA
+		  where DETALLE_CARTERA.SEC_CARTERA=  #{secuencia,jdbcType=NUMERIC};
+	      
+ </select>
  <update id="actualizarDetalleCartera" parameterType="DetalleCarteraAlias">
 	  UPDATE DETALLE_CARTERA 
 	     SET 

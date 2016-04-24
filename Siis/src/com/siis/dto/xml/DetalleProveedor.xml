@@ -100,6 +100,14 @@
 	</trim>
 		 
  </select>
+   <select id="contarDetallesPorProveedor" parameterType="Integer" resultType="Integer"  > 
+		SELECT
+		   COUNT(*)
+		  FROM
+	      DETALLE_PROVEEDOR
+		  where DETALLE_PROVEEDOR.SEC_PROVEEDOR=  #{secuencia,jdbcType=NUMERIC};
+	      
+ </select>
  <select id="obtenerTotalProveedor" parameterType="java.lang.Integer"  resultType="java.lang.Double"> 
 			SELECT 
 		        SUM(DETALLE_PROVEEDOR .VALOR_1) as TOTAL_PROVEEDOR

@@ -1,8 +1,7 @@
 package com.siis.viewModel;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.ArrayList; 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +26,7 @@ import org.zkoss.zul.Window;
 
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Proveedor;
-import com.siis.dto.DetalleProveedor; 
+import com.siis.dto.DetalleProveedor;
 import com.siis.viewModel.framework.Utilidades;
 
 public class FormularioProveedorViewModel {
@@ -46,7 +45,7 @@ public class FormularioProveedorViewModel {
 	@Wire
 	public Borderlayout idWINFORMPROVEEDORZPrincipal;
 	@Wire
-	private Tabpanel  idPROVEEDORZTpnConsultaProveedor;
+	private Tabpanel idPROVEEDORZTpnConsultaProveedor;
 
 	@AfterCompose
 	public void afterCompose(@ContextParam(ContextType.VIEW) Component view) {
@@ -156,33 +155,44 @@ public class FormularioProveedorViewModel {
 	@Command
 	public void onEliminar(@BindingParam("seleccionado") final Proveedor proveedor) {
 		log.info("onEliminar => " + proveedor.getSecuencia());
+		try {
+			Integer detalleAsociados = (Integer) Conexion.getConexion().obtenerRegistro("contarDetallesPorProveedor",
+					proveedor.getSecuencia());
 
-		Messagebox.show(idWINFORMPROVEEDORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
-				idWINFORMPROVEEDORZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
-				Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
-				new org.zkoss.zk.ui.event.EventListener<Event>() {
+			if (detalleAsociados > 0) {
+				Utilidades.mostrarNotificacion(idWINFORMPROVEEDORZPrincipal.getAttribute("MSG_TITULO").toString(),
+						"El registro que desea eliminar tiene detalles dependientes", "INFO");
+				return;
+			}
+			Messagebox.show(idWINFORMPROVEEDORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR").toString(),
+					idWINFORMPROVEEDORZPrincipal.getAttribute("MSG_TITULO_ELIMINAR").toString(),
+					Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION,
+					new org.zkoss.zk.ui.event.EventListener<Event>() {
 
-					@Override
-					public void onEvent(Event e) throws Exception {
-						if (Messagebox.ON_OK.equals(e.getName())) {
-							log.info("CLICK on OK");
-							Conexion.getConexion().eliminar("eliminarProveedor", proveedor);
-							Utilidades.mostrarNotificacion(
-									idWINFORMPROVEEDORZPrincipal.getAttribute("MSG_TITULO").toString(),
-									idWINFORMPROVEEDORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
-									"INFO");
-							BindUtils.postNotifyChange(null, null, FormularioProveedorViewModel.this, "*");
-							listarProveedor();
-							setDesactivarBtnNuevo(false);
-							setDesactivarBtnEditar(true);
-							setDesactivarBtnGuardar(true);
-							setDesactivarBtnEliminar(true);
-							setDesactivarTabDetalle(true);
+						@Override
+						public void onEvent(Event e) throws Exception {
+							if (Messagebox.ON_OK.equals(e.getName())) {
+								log.info("CLICK on OK");
+								Conexion.getConexion().eliminar("eliminarProveedor", proveedor);
+								Utilidades.mostrarNotificacion(
+										idWINFORMPROVEEDORZPrincipal.getAttribute("MSG_TITULO").toString(),
+										idWINFORMPROVEEDORZPrincipal.getAttribute("MSG_MENSAJE_ELIMINAR_OK").toString(),
+										"INFO");
+								BindUtils.postNotifyChange(null, null, FormularioProveedorViewModel.this, "*");
+								listarProveedor();
+								proveedorSeleccionada = new Proveedor();
+								setDesactivarBtnNuevo(false);
+								setDesactivarBtnEditar(true);
+								setDesactivarBtnGuardar(true);
+								setDesactivarBtnEliminar(true);
+								setDesactivarTabDetalle(true);
+							}
 						}
-					}
 
-				});
-
+					});
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	@NotifyChange("*")
@@ -206,7 +216,7 @@ public class FormularioProveedorViewModel {
 		setDesactivarformulario(false);
 		java.util.Date date = new java.util.Date();
 		proveedorSeleccionada.setFechaHoraActualizacion(new Timestamp(date.getTime()));
-		
+
 		accion = "U";
 		setDesactivarBtnNuevo(true);
 		setDesactivarBtnEditar(true);
@@ -308,11 +318,10 @@ public class FormularioProveedorViewModel {
 			Map<String, Object> parametros = new HashMap<String, Object>();
 			log.info("pROVEEDOR ==> " + proveedorSeleccionada.getSecuencia());
 			parametros.put("PROVEEDOR", proveedorSeleccionada);
-		 
-			
+
 			Window win = (Window) Utilidades.onCargarVentana(null, "//formas//formulario_proveedor_detalle.zul",
 					parametros);
-//			win.setHeight("auto");
+			// win.setHeight("auto");
 			win.setPosition("center,top");
 			win.doModal();
 

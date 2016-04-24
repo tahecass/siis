@@ -30,7 +30,7 @@ import com.siis.dto.AmortizacionCredito;
 import com.siis.dto.Credito;
 import com.siis.viewModel.framework.Utilidades;
 
-public class FormularioCreditoDetalleViewModel extends Window{
+public class FormularioCreditoDetalleViewModel extends Window {
 
 	/**
 	 * 
@@ -141,6 +141,7 @@ public class FormularioCreditoDetalleViewModel extends Window{
 									"INFO");
 							BindUtils.postNotifyChange(null, null, FormularioCreditoDetalleViewModel.this, "*");
 							listarAmortizacionCredito();
+							amortizacionCreditoSeleccionado = new AmortizacionCredito();
 							setDesactivarBtnNuevo(false);
 							setDesactivarBtnEditar(true);
 							setDesactivarBtnGuardar(true);
@@ -172,7 +173,7 @@ public class FormularioCreditoDetalleViewModel extends Window{
 		setDesactivarformulario(false);
 		java.util.Date date = new java.util.Date();
 		amortizacionCreditoSeleccionado.setFechaHoraActualizacion(new Timestamp(date.getTime()));
-		
+
 		accion = "U";
 		setDesactivarBtnNuevo(true);
 		setDesactivarBtnEditar(true);
@@ -212,11 +213,11 @@ public class FormularioCreditoDetalleViewModel extends Window{
 	public void onNuevo() {
 		log.info("onNuevo");
 		setDesactivarformulario(false);
-		amortizacionCreditoSeleccionado = new AmortizacionCredito(); 
+		amortizacionCreditoSeleccionado = new AmortizacionCredito();
 		amortizacionCreditoSeleccionado.setFechaCreacion(new Date());
 		java.util.Date date = new java.util.Date();
 		amortizacionCreditoSeleccionado.setFechaHoraActualizacion(new Timestamp(date.getTime()));
-		
+
 		accion = "I";
 
 		setDesactivarBtnNuevo(true);
