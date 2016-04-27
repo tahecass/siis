@@ -56,6 +56,33 @@
 		</trim>
 	</select>
 	
+	
+	<select id="listarBancosNotIn" parameterType="Map"
+		resultMap="resMapBanco">
+		SELECT
+		BANCOS.SEC,
+		BANCOS.CODIGO,
+		BANCOS.NOMBRE,
+		BANCOS.ESTADO,
+		BANCOS.DESCRIPCION,
+		BANCOS.FECHA_CREACION,
+		BANCOS.FECHA_ACTUALIZACION
+		FROM BANCOS
+		<trim prefix="WHERE" prefixOverrides="AND | OR ">
+		
+		 <if test="tabla == 'disponibles'">
+		     AND BANCOS.SEC not in (SELECT SEC_BANCO FROM DISPONIBLES)
+		 </if>
+		 <if test=" tabla == 'creditos' ">
+		     AND BANCOS.SEC not in (SELECT SEC_BANCO FROM CREDITOS)
+		 </if>
+		 <if test=" valorBusqueda =! 'null' ">
+			 (UPPER(CODIGO) LIKE UPPER(#{valorBusqueda})
+					or UPPER(NOMBRE) LIKE UPPER(#{valorBusqueda})
+					)
+		 </if>
+		</trim>
+	</select>
 	<select id="buscarBancos" parameterType="java.lang.String"
 		resultMap="resMapBanco">
 		SELECT

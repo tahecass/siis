@@ -63,6 +63,7 @@ public class FormularioDisponibleViewModel {
 		listarDisponible();
 		accion = new String();
 
+		idFORMDISPONIBLEZBbxBanco.setTabla("disponibles");
 		setDesactivarBtnNuevo(false);
 		setDesactivarBtnEditar(true);
 		setDesactivarBtnGuardar(true);

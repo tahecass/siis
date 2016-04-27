@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.zkoss.zk.ui.HtmlMacroComponent;
 import org.zkoss.zk.ui.IdSpace;
 import org.zkoss.zk.ui.event.Event;
@@ -26,6 +27,7 @@ import com.siis.configuracion.Conexion;
 import com.siis.dto.Banco;
 
 public class BandboxBancos extends HtmlMacroComponent implements IdSpace {
+	protected static Logger log = Logger.getLogger(BandboxBancos.class);
 	/**
 	 * Serial de la Clase
 	 */
@@ -44,6 +46,8 @@ public class BandboxBancos extends HtmlMacroComponent implements IdSpace {
 	private Hlayout contenedor;
 	@Wire
 	private Image botonLimpiar;
+
+	String tabla, tipo;
 	private List<Banco> listaCLientes;
 	private Banco clienteSeleccionado;
 	private Map<String, Object> parametros = new HashMap<String, Object>();
@@ -63,19 +67,19 @@ public class BandboxBancos extends HtmlMacroComponent implements IdSpace {
 
 	@Listen("onClick = image#botonLimpiar")
 	public void limpiarSeleccion() {
-		System.out.println("limpiarSeleccion");
+		log.info("limpiarSeleccion");
 		try {
 			this.setValue(null);
 
 		} catch (Exception e) {
-			System.out.println(e);
+			log.info(e);
 
 		}
 	}
 
 	@Listen("onOpen = #bandboxBancoComponent")
 	public void open() {
-		System.out.println("open");
+		log.info("open");
 		listboxBanco.getItems().clear();
 		textboxBuscar.setRawValue("");
 		textboxBuscar.setFocus(true);
@@ -84,21 +88,19 @@ public class BandboxBancos extends HtmlMacroComponent implements IdSpace {
 
 	@Listen("onClick = button#botonConsultar;  onOK = textbox#textboxBuscar")
 	public void buscar() {
-		System.out.println("buscar");
+		log.info("buscar");
 		try {
-			if (textboxBuscar.isValid()) {
-				setObjeto(new Banco());
-				pintarItems();
+			setObjeto(new Banco());
+			pintarItems();
 
-			}
 		} catch (Exception e) {
-			System.out.println(e);
+			log.info(e);
 		}
 	}
 
 	@Listen("onOK = bandbox#bandboxBancoComponent")
 	public void buscarAtajo() {
-		System.out.println("buscarAtajo");
+		log.info("buscarAtajo");
 		try {
 			if (bandboxBancoComponent.isValid()) {
 				parametros.put("OBJETO", setObjetoAtajo(new Banco()));
@@ -111,7 +113,7 @@ public class BandboxBancos extends HtmlMacroComponent implements IdSpace {
 
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			log.info(e);
 		}
 	}
 
@@ -120,7 +122,11 @@ public class BandboxBancos extends HtmlMacroComponent implements IdSpace {
 	 */
 	private void pintarItems() throws Exception {
 
-		listaCLientes = (List<Banco>) Conexion.getConexion().listarBancos("listarBancos", valorBusqueda);
+		parametros.put("valorBusqueda", valorBusqueda);
+		parametros.put("tabla", getTabla());
+		parametros.put("tipo", getTipo());
+		log.info("TABLA ==> " + getTabla() + " valorBusqueda " + valorBusqueda);
+		listaCLientes = (List<Banco>) Conexion.getConexion().listarBancos("listarBancosNotIn", parametros);
 
 		listboxBanco.getItems().clear();
 		for (Banco cliente : listaCLientes) {
@@ -145,16 +151,18 @@ public class BandboxBancos extends HtmlMacroComponent implements IdSpace {
 	 * @return
 	 */
 	private Object setObjeto(Banco persona) {
-		System.out.println("setObjeto");
-		if (listboxCriterio.getSelectedItem() != null) {
+		log.info("setObjeto");
+		if (textboxBuscar.getValue() != null && !textboxBuscar.getValue().isEmpty()) {
 			valorBusqueda = "%" + textboxBuscar.getValue().toUpperCase() + "%";
-
+			log.info("SETEANDO::::");
+		} else {
+			valorBusqueda = null;
 		}
 		return persona;
 	}
 
 	private Object setObjetoAtajo(Banco persona) {
-		System.out.println("setObjetoAtajo");
+		log.info("setObjetoAtajo");
 		if (listboxCriterio.getSelectedItem() != null) {
 			String criterio = listboxCriterio.getSelectedItem().getValue();
 			String filtro = "%" + bandboxBancoComponent.getValue() + "%";
@@ -168,35 +176,20 @@ public class BandboxBancos extends HtmlMacroComponent implements IdSpace {
 	}
 
 	public Banco getValue() {
-		System.out.println("getValue");
+		log.info("getValue");
 		return clienteSeleccionado;
 	}
 
 	public void setValue(Banco persona) {
-		System.out.println("setValue");
+		log.info("setValue");
 		this.clienteSeleccionado = persona;
 		if (persona != null) {
 			StringBuffer buffer = new StringBuffer();
-			// if (persona.getIdentificacion() != null
-			// && !persona.getIdentificacion().isEmpty()) {
-			// buffer.append("[").append(persona.getIdentificacion())
-			// .append("]");
-			// }
+
 			if (persona.getNombre() != null && !persona.getNombre().isEmpty()) {
 				buffer.append(" ");
 				buffer.append(persona.getNombre());
 			}
-
-			// if (persona.getPrimerApellido() != null
-			// && !persona.getPrimerApellido().isEmpty()) {
-			// buffer.append(" ");
-			// buffer.append(persona.getPrimerApellido());
-			// }
-			// if (persona.getSegundoApellido() != null
-			// && !persona.getSegundoApellido().isEmpty()) {
-			// buffer.append(" ");
-			// buffer.append(persona.getSegundoApellido());
-			// }
 			bandboxBancoComponent.setRawValue(buffer.toString());
 
 		} else {
@@ -226,16 +219,26 @@ public class BandboxBancos extends HtmlMacroComponent implements IdSpace {
 	 * @param disabled
 	 */
 	public void setDisabled(Boolean disabled) {
-		System.out.println("setDisabled");
-
-		// if (!disabled)
-		// Utilidades.habilitarCampos(contenedor);
-		// else
-		// Utilidades.deshabilitarCampos(contenedor);
-
+		log.info("setDisabled");
 		botonLimpiar.setVisible(!disabled);
 		bandboxBancoComponent.setButtonVisible(!disabled);
 
+	}
+
+	public String getTabla() {
+		return tabla;
+	}
+
+	public void setTabla(String tabla) {
+		this.tabla = tabla;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 }

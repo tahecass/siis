@@ -28,6 +28,10 @@
 							<textbox hflex="true" id="textboxBuscar"
 								style="text-transform:uppercase;" />
 						</row>
+						<row >
+							<textbox id="tabla" value="${arg.tabla}" />
+							<textbox id="tipo" value="${arg.tipo}" />
+						</row>
 						<row>
 							<hlayout />
 							<button label="Buscar" id="botonConsultar" />
