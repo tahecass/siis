@@ -1,7 +1,7 @@
 package com.siis.dto;
 
 public class Usuario extends Bean {
-	private Integer secuencia;
+	private Long sec;
 	private String cuenta;
 	private String clave;
 	private String tipo;
@@ -12,12 +12,12 @@ public class Usuario extends Bean {
 
 	}
 
-	public Usuario(Integer secuencia) {
-		this.secuencia = secuencia;
+	public Long getSec() {
+		return sec;
 	}
 
-	public Integer getSecuencia() {
-		return secuencia;
+	public void setSec(Long sec) {
+		this.sec = sec;
 	}
 
 	public String getEstado() {
@@ -34,10 +34,6 @@ public class Usuario extends Bean {
 
 	public void setPersona(Persona persona) {
 		this.persona = persona;
-	}
-
-	public void setSecuencia(Integer secuencia) {
-		this.secuencia = secuencia;
 	}
 
 	public String getCuenta() {
