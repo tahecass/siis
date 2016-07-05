@@ -1,0 +1,64 @@
+<?component name="pagingControl" macroURI="/WEB-INF/components/pagingControl.zul"?>
+<bandbox width="300px" style="text-transform:uppercase;"
+	onCreate="bandboxFindPaging.cargarComponentesVista()"
+	use="com.siis.framework.macros.BandboxFindPaging"
+	id="bandboxFindPaging">
+	<bandpopup width="400px" hflex="min" height="auto">
+		<groupbox closable="false" hflex="min">
+			<caption label="${arg.buscar}" />
+			<grid sizedByContent="true" span="true">
+				<columns>
+					<column hflex="min" />
+					<column />
+				</columns>
+				<rows>
+					<row>
+						<label value="${arg.criterio}: " />
+						<radiogroup id="idMCRZRgrCriterio">
+							<radio label="${arg.codigo}" value="codigo"
+								checked="true" />
+							<space />
+							<radio label="${arg.nombre}" value="nombre" />
+						</radiogroup>
+					</row>
+					<row>
+						<label value="${arg.buscar}: " />
+						<hbox hflex="true">
+							<textbox style="text-transform:uppercase;"
+								hflex="true" id="idMCRZTbxCriterio"
+								onOK="bandboxFindPaging.onConsultarEvent()" />
+							<button image="imagenes/buscar.gif"
+								onClick="bandboxFindPaging.onConsultarEvent()" />
+						</hbox>
+					</row>
+				</rows>
+			</grid>
+
+
+			<!-- ***************************** -->
+			<!--  Resultado Consulta Maestros  -->
+			<!-- ***************************** -->
+			<groupbox closable="false" hflex="max">
+				<caption label="${arg.caption}" id="idMCRZCptEtiqueta" />
+				<listbox id="idMCRZLbxlista" hflex="true"
+					emptyMessage="No se encontraron registros">
+					<listhead id="idMCRZListHead">
+						<listheader label="${arg.codigo}"
+							id="idMCRZLhdCodigo" />
+						<listheader label="${arg.nombre}"
+							id="idMCRZLhdNombre" />
+					</listhead>
+					<listfoot visible="true" id="idMCRZLftPaging">
+						<listfooter span="1">
+							<pagingControl id="idMCRZPGCTRLMaestro"
+								filasPagina="5" width="100%" />
+						</listfooter>
+						<listfooter id="idMCRZListFooter" span="1"
+							visible="false" />
+					</listfoot>
+				</listbox>
+
+			</groupbox>
+		</groupbox>
+	</bandpopup>
+</bandbox>
