@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="IceEDMapper">
+
+
+	<select id="ICE_ED_validar_sentencia_SQL" parameterType="java.util.Map"  statementType="CALLABLE">
+		{call
+			DECLARE
+			  RESULTADO BOOLEAN DEFAULT FALSE;
+			BEGIN
+			  RESULTADO := ICE_ED.Validar_Sentencia_SQL(#{SENTENECIA,mode=IN,jdbcType=VARCHAR});			  			  
+			  IF RESULTADO THEN 			   
+			   	#{VALIDA,mode=INOUT,jdbcType=VARCHAR,javaType=java.lang.String} := 'true';
+			  END IF;
+			END
+			
+		}	
+	</select>
+	
+	
+	<select id="ICE_ED_extraer_columnas" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT * 
+		FROM 
+			TABLE(
+					ICE_ED.EXTRAER_COLUMNAS( #{OBJETO.primaryKey} )
+				)
+	</select>
+	
+	<update id="ICE_generar_documento" parameterType="java.util.Map" statementType="CALLABLE" >
+		{call
+			DECLARE
+			SEC_PLANTILLA 			NUMERIC 			:= #{PLANTILLA.secPlantilla,jdbcType=NUMERIC,mode=IN};
+				SEC_VISTA				NUMERIC				:= #{PLANTILLA.vista.secVista,jdbcType=NUMERIC,mode=IN};
+				LIST_PARAMETRO_VALOR 	ICE_ED.T_PARAMETRO_VALOR;
+				v_ReturnValue  CLOB;
+				
+			BEGIN
+			
+				<foreach collection="LISTA_PARAMETRO" index="index" item="item">
+					  LIST_PARAMETRO_VALOR(#{item.parametro.parametro.parametro,jdbcType=VARCHAR,mode=IN}) := #{item.parametro.parametro.valorAsumido,jdbcType=VARCHAR,mode=IN};
+				</foreach>
+								
+				v_ReturnValue := ICE_ED.Generar_Documento(SEC_PLANTILLA,SEC_VISTA,LIST_PARAMETRO_VALOR);
+
+				#{SECUENCIAS_CONTRATO_DOCUMENTO,mode=INOUT,jdbcType=VARCHAR,javaType=java.lang.String} := v_ReturnValue;
+			
+			END
+			
+		}	
+	</update>
+	
+	<update id="agregar_Firmas_a_documento" parameterType="java.util.Map" statementType="CALLABLE">
+		{call
+			DECLARE
+				firma			CLOB 			:= #{FIRMAS,jdbcType=CLOB,javaType=java.lang.String};
+				un_registro EDP_CONTRATO_DOCUMENTO.DTOMD5;
+
+			BEGIN
+				<foreach collection="SECUENCIAS" index="index" item="item">
+					 un_registro := EDP_CONTRATO_DOCUMENTO.get_RegistroReservadoWEB(#{item,jdbcType=NUMERIC});
+					 un_registro.Registro.texto := un_registro.Registro.texto || firma;
+					 EDP_CONTRATO_DOCUMENTO.ActualizarWEB(un_registro);
+				</foreach>
+			END
+
+		}
+
+	</update>
+
+
+</mapper>
+

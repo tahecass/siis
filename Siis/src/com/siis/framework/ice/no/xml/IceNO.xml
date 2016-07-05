@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="IceNOMapper">
+
+
+	<select id="ICE_NO_cargue_novedades_masivas" parameterType="java.util.Map"  statementType="CALLABLE">
+		{call
+			DECLARE
+				SECUENCIAS_CONTRATO 	SECUENCIAS_TBL 	:= #{SECUENCIAS_CONTRATO,mode=IN,jdbcType=ARRAY,typeHandler=ArrayTypeHandler};				
+				FECHA_GENERACION 		DATE 			:= #{FECHA_GENERACION,mode=IN,jdbcType=DATE};
+				FECHA_FINAL_GENERACION	DATE 			:= #{FECHA_FINAL_GENERACION,mode=IN,jdbcType=DATE};
+				SEC_GRUPO_CONCEPTO		NUMERIC			:= #{SEC_GRUPO_CONCEPTO,mode=IN,jdbcType=NUMERIC};
+				RETURN_CLOB_HTML 		CLOB			DEFAULT NULL;
+			BEGIN
+			
+				RETURN_CLOB_HTML 						:= ICE_NO.CARGUE_NOVEDADES_MASIVAS_2(FECHA_GENERACION, SEC_GRUPO_CONCEPTO, SECUENCIAS_CONTRATO, FECHA_FINAL_GENERACION);
+				#{RETURN_CLOB_HTML,mode=OUT,jdbcType=CLOB,javaType=java.lang.String}			:= RETURN_CLOB_HTML;
+			END
+		}	
+	</select>
+	
+	<select id="NO_PARAMETRO_get_valor" parameterType="java.util.Map" statementType="CALLABLE">
+		{call		
+			DECLARE
+			  UN_PARAMETRO  VARCHAR2(200);
+			  v_ReturnValue VARCHAR2(200);
+			BEGIN
+			  	UN_PARAMETRO  								:= #{PARAMETRO,mode=IN,jdbcType=VARCHAR};
+			  	v_ReturnValue 								:= NOP_PARAMETRO.get_Valor(UN_PARAMETRO);
+				#{VALOR,mode=INOUT,jdbcType=VARCHAR}		:= v_ReturnValue;
+			END
+		}
+	</select>
+	
+	
+	<insert id="NOP_PARAMETRO_TIPO_NOM_CN_validar_bandera" parameterType="java.util.Map" statementType="CALLABLE" >
+		{ call 
+			DECLARE
+			  UN_SEC_PARAMETRO   NUMBER;
+			  UN_SEC_TIPO_NOMINA NUMBER;
+			  UN_SEC_CALENDARIO  NUMBER;		
+			  UN_SEC_CUENTA_ICEBERG NUMBER;	  
+			  v_ReturnValue      VARCHAR2(2);
+			  
+			  
+			BEGIN
+			  UN_SEC_PARAMETRO   := nop_parametro.get_pk(#{CODIGO_NOT_PARAMETRO,mode=IN,jdbcType=VARCHAR});
+			  UN_SEC_TIPO_NOMINA := #{SEC_TIPO_NOMINA_SESION,mode=IN,jdbcType=NUMERIC};
+			  UN_SEC_CALENDARIO  := #{SEC_CALENDARIO_NOMINA_ABIERTO,mode=IN,jdbcType=NUMERIC};
+			  UN_SEC_CUENTA_ICEBERG := #{SEC_CUENTA_ICEBERG,mode=IN,jdbcType=NUMERIC};
+			  #{VALOR_RETORNO,mode=INOUT,jdbcType=VARCHAR} := NOP_PARAMETRO_TIPO_NOM_CN.Validar_Bandera( UN_SEC_PARAMETRO,  UN_SEC_TIPO_NOMINA, UN_SEC_CALENDARIO, UN_SEC_CUENTA_ICEBERG);
+			
+			  
+			 EXCEPTION
+				WHEN OTHERS THEN
+				  IF (nop_parametro_tipo_nom_cn.get_actualizo_bandera(#{CODIGO_NOT_PARAMETRO,mode=IN,jdbcType=VARCHAR}) ='S' ) THEN
+				    nop_parametro_tipo_nom_cn.set_valor( nop_parametro.get_pk(#{CODIGO_NOT_PARAMETRO,mode=IN,jdbcType=VARCHAR}), UN_SEC_TIPO_NOMINA, UN_SEC_CALENDARIO, 'N' );
+				  END IF;
+			END
+		}
+	</insert>
+
+	<delete id="NO_BORRAR_PERSONA"  parameterType="java.util.Map" statementType="CALLABLE" >
+		{ call 
+		  BEGIN
+		  	ICE_NO.Borrar_Persona (#{SEC_PERSONA,mode=IN,jdbcType=NUMERIC});
+		  END
+		}
+	</delete>
+
+</mapper>
+

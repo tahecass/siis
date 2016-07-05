@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!--<mapper namespace="com.casewaresa.iceberg_co.dto.mapper.AutenticacionMapper">-->
+<mapper namespace="AutenticacionMapper">
+	
+ <select  id="getAutenticacionUsuario" resultType="aliasAutenticacion" parameterType="aliasAutenticacion">
+    <![CDATA[
+    	   Select GEN_AUTENTICACION_WRAPPER( #{usuario}, #{contrasena} ) as autenticado From Dual
+    ]]> 
+    </select >
+    
+   <select  id="getTipoAutenticacion" resultType="java.lang.String" >
+  
+    	   
+    	     Select ICE_AA_CONF.get_Tipo_Autenticacion_ICEBERG as tipoAutenticacion From Dual
+    	 <!--  Select ICE_AA_CONF.get_TipoAutenticacionICEBERG as tipoAutenticacion From Dual-->
+   
+    </select >
+    
+    
+   <insert id="AAP_CRYPT_UTIL_decrypt_data_unassignedkey" parameterType="java.util.Map" statementType="CALLABLE">
+    {call 
+		BEGIN
+		  
+		  #{VALOR_CRYPT,mode=OUT,jdbcType=VARCHAR} := AAP_CRYPT_UTIL.decrypt_data_unassignedkey(#{VALOR_CRYPT,mode=IN,jdbcType=VARCHAR});		  
+		END
+	}
+   </insert>
+   
+    <insert id="AAP_CRYPT_UTIL_crypt_data_unassignedkey" parameterType="java.util.Map" statementType="CALLABLE">
+    {call 
+        BEGIN          
+          #{VALOR,mode=OUT,jdbcType=VARCHAR} := AAP_CRYPT_UTIL.crypt_data_unassignedkey(#{VALOR,mode=IN,jdbcType=VARCHAR});         
+        END
+    }
+   </insert>
+
+   <select id="AAP_setAtributoContexto" parameterType="java.util.Map" >
+ 	{call 
+		BEGIN
+			GEP_Contexto.set_Valor( GEP_Contexto.CONS_CONTEXTO_LOCAL, #{ATRIBUTO,mode=IN,jdbcType=VARCHAR}, #{VALOR,mode=IN,jdbcType=VARCHAR} );
+		EXCEPTION
+			WHEN OTHERS THEN
+		  		GEP_CONTEXTO.Limpiar_Contexto(GEP_Contexto.CONS_CONTEXTO_LOCAL);
+		  		ICE_Excepcion.Error;
+		END
+	}
+   </select>
+   
+   <select id="AAP_subirContextoAuditoria" parameterType="java.util.Map" >
+ 	{call 
+		BEGIN
+		  GEP_Contexto.set_Valor( GEP_Contexto.CONS_CONTEXTO_LOCAL, GEP_Contexto.CONS_SEC_CUENTA_ICEBERG, #{CONS_SEC_CUENTA_ICEBERG,mode=IN,jdbcType=VARCHAR} ); 
+		  GEP_Contexto.set_Valor( GEP_Contexto.CONS_CONTEXTO_LOCAL, GEP_Contexto.CONS_SEC_EJECUTABLE, #{CONS_SEC_EJECUTABLE,mode=IN,jdbcType=VARCHAR});     
+		  GEP_Contexto.set_Valor( GEP_Contexto.CONS_CONTEXTO_LOCAL, GEP_Contexto.CONS_AUDITORIA_NUEVO, #{CONS_AUDITORIA_NUEVO,mode=IN,jdbcType=VARCHAR} );      
+		  GEP_Contexto.set_Valor( GEP_Contexto.CONS_CONTEXTO_LOCAL, GEP_Contexto.CONS_AUDITORIA_ACTUALIZADO, #{CONS_AUDITORIA_ACTUALIZADO,mode=IN,jdbcType=VARCHAR} );
+		  GEP_Contexto.set_Valor( GEP_Contexto.CONS_CONTEXTO_LOCAL, GEP_Contexto.CONS_AUDITORIA_ELIMINADO, #{CONS_AUDITORIA_ELIMINADO,mode=IN,jdbcType=VARCHAR} ); 
+		EXCEPTION
+		WHEN OTHERS THEN
+		  GEP_CONTEXTO.Limpiar_Contexto(GEP_Contexto.CONS_CONTEXTO_LOCAL);
+		  ICE_Excepcion.Error;
+		END
+	}
+   </select>
+
+   <select id="AAP_limpiarContextoAuditoria">
+   	{call
+   		BEGIN
+   			GEP_CONTEXTO.Limpiar_Contexto(GEP_Contexto.CONS_CONTEXTO_LOCAL);
+   		END
+   	}
+   </select>
+    
+ 
+</mapper>

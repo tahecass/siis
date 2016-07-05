@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="IceEDMapper">
+
+
+	<select id="ICE_LN_obtener_calendario_nomina_abierto" statementType="CALLABLE" 	parameterType="java.util.Map">
+		{call		
+			DECLARE
+				vDTO lnp_calendario_nomina.DTO;
+				 TIPO_CALENDARIO VARCHAR2(4000) DEFAULT NULL ;
+			BEGIN			
+				<if test="NOP_PARAMETRO_VALOR !=null ">
+					TIPO_CALENDARIO := nop_parametro.get_valor(#{NOP_PARAMETRO_VALOR,jdbcType=VARCHAR,mode=INOUT});
+				</if>
+				vDTO := lnp_calendario_nomina.get_Calendario_Abierto(#{SEC_TIPO_NOMINA,jdbcType=NUMERIC,mode=INOUT},
+									TIPO_CALENDARIO);
+				
+ 				#{CALENDARIO_NOMINA.secCalendarioNomina,mode=OUT,jdbcType=NUMERIC,javaType=java.lang.Long} := vDTO.SEC_CALENDARIO_NOMINA; 
+				#{CALENDARIO_NOMINA.tipoNomina.secTipoNomina,mode=OUT,jdbcType=NUMERIC,javaType=java.lang.Long} := vDTO.SEC_TIPO_NOMINA;
+				#{CALENDARIO_NOMINA.tipoCalendario.secTipoCalendario,mode=OUT,jdbcType=NUMERIC,javaType=java.lang.Long} := vDTO.SEC_TIPO_CALENDARIO;
+				#{CALENDARIO_NOMINA.ano,mode=OUT,jdbcType=NUMERIC,javaType=java.lang.Long} := vDTO.ANO;
+				#{CALENDARIO_NOMINA.mes,mode=OUT,jdbcType=NUMERIC,javaType=java.lang.Long} := vDTO.MES;
+				#{CALENDARIO_NOMINA.ordenPeriodo,mode=OUT,jdbcType=NUMERIC,javaType=java.lang.Long} := vDTO.ORDEN_PERIODO;
+				#{CALENDARIO_NOMINA.periodicidadContrato.secPeriodicidad,mode=OUT,jdbcType=NUMERIC,javaType=java.lang.Long} := vDTO.SEC_PERIODICIDAD_CONTRATO;
+				#{CALENDARIO_NOMINA.periodicidadConcepto.secPeriodicidad,mode=OUT,jdbcType=NUMERIC,javaType=java.lang.Long} := vDTO.SEC_PERIODICIDAD_CONCEPTO;
+				#{CALENDARIO_NOMINA.periodicidadVolante.secPeriodicidad,mode=OUT,jdbcType=NUMERIC,javaType=java.lang.Long} := vDTO.SEC_PERIODICIDAD_VOLANTE;
+				#{CALENDARIO_NOMINA.nombre,mode=OUT,jdbcType=VARCHAR,javaType=java.lang.String} := vDTO.NOMBRE;
+				#{CALENDARIO_NOMINA.fechaInicia,mode=OUT,jdbcType=DATE,javaType=java.util.Date} := vDTO.FECHA_INICIA;
+				#{CALENDARIO_NOMINA.fechaFin,mode=OUT,jdbcType=DATE,javaType=java.util.Date} := vDTO.FECHA_FIN;				
+				#{CALENDARIO_NOMINA.fechaMonedaCambio,mode=OUT,jdbcType=DATE,javaType=java.util.Date} := vDTO.FECHA_MONEDA_CAMBIO;
+				#{CALENDARIO_NOMINA.diasHabiles,mode=OUT,jdbcType=NUMERIC,javaType=java.lang.Long} := vDTO.DIAS_HABILES;
+				#{CALENDARIO_NOMINA.diasFestivos,mode=OUT,jdbcType=NUMERIC,javaType=java.lang.Long} := vDTO.DIAS_FESTIVOS;
+				#{CALENDARIO_NOMINA.diasProyeccion,mode=OUT,jdbcType=NUMERIC,javaType=java.lang.Long} := vDTO.DIAS_PROYECCION;
+				#{CALENDARIO_NOMINA.grupoConcepto.secGrupoConcepto,mode=OUT,jdbcType=NUMERIC,javaType=java.lang.Long} := vDTO.SEC_GRUPO_CONCEPTO;
+			    #{CALENDARIO_NOMINA.liquidado,mode=OUT,jdbcType=VARCHAR,javaType=java.lang.String} := vDTO.LIQUIDADO;
+				#{CALENDARIO_NOMINA.acumulado,mode=OUT,jdbcType=VARCHAR,javaType=java.lang.String} := vDTO.ACUMULADO;
+				#{CALENDARIO_NOMINA.planillaUnica,mode=OUT,jdbcType=VARCHAR,javaType=java.lang.String} := vDTO.PLANILLA_UNICA;
+				#{CALENDARIO_NOMINA.aplicadoFinancieramente,mode=OUT,jdbcType=VARCHAR,javaType=java.lang.String} := vDTO.APLICADO_FINANCIERAMENTE;
+				#{CALENDARIO_NOMINA.estado,mode=OUT,jdbcType=VARCHAR,javaType=java.lang.String} := vDTO.ESTADO;
+				#{CALENDARIO_NOMINA.fechaPago,mode=OUT,jdbcType=DATE,javaType=java.util.Date} := vDTO.FECHA_PAGO;
+				#{CALENDARIO_NOMINA.fechaCierreNovedad,mode=OUT,jdbcType=DATE,javaType=java.util.Date} := vDTO.FECHA_CIERRE_NOVEDAD;
+				#{CALENDARIO_NOMINA.descripcion,mode=OUT,jdbcType=CLOB,javaType=java.lang.String} := vDTO.DESCRIPCION;
+				#{CALENDARIO_NOMINA.fechaAperturaNovedad,mode=OUT,jdbcType=DATE,javaType=java.util.Date} := vDTO.FECHA_APERTURA_NOVEDAD;
+				#{CALENDARIO_NOMINA.fechaAplicacionFinanciera,mode=OUT,jdbcType=DATE,javaType=java.util.Date} := vDTO.FECHA_APLICACION_FINANCIERA;					
+			END		
+		}	
+	</select>
+
+	<delete id="ICE_LN_borrar_liq_x_calendario" parameterType="java.util.Map" statementType="CALLABLE">		
+		{call
+			DECLARE
+		  		UN_TABLA_SEC_CALENDARIO SECUENCIAS_TBL := #{SECUENCIAS_CALENDARIO_NOMINA,mode=IN,jdbcType=ARRAY,typeHandler=ArrayTypeHandler};
+			BEGIN		  
+		  		LNP_CALENDARIO_NOMINA.borrar_liq_x_calendario(UN_TABLA_SEC_CALENDARIO);
+			END
+		}	
+	</delete>
+</mapper>
+
