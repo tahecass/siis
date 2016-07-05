@@ -1,12 +1,17 @@
 package com.siis.dto;
 
 import java.util.Date;
+import java.util.List;
 
-public class Persona {
+import com.siis.framework.dto.BeanAbstracto;
+import com.siis.framework.dto.IBeanAbstracto;
+import com.siis.framework.dto.impl.LlaveNatural;
 
-	private Integer sec;
+public class Persona extends BeanAbstracto implements IBeanAbstracto {
+
+	private Long sec;
 	private TipoIdentificacion tipoIdentificacion;
-	
+
 	private String identificacion;
 	private String nombres;
 	private String apellidos;
@@ -20,11 +25,11 @@ public class Persona {
 	private Date fechaCreacion;
 	private Date fechaActualizacion;
 
-	public Integer getSec() {
+	public Long getSec() {
 		return sec;
 	}
 
-	public void setSec(Integer sec) {
+	public void setSec(Long sec) {
 		this.sec = sec;
 	}
 
@@ -131,5 +136,61 @@ public class Persona {
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
+
+	@Override
+	public String getCodigo() {
+		// TODO Auto-generated method stub
+		return identificacion;
+	}
+
+	@Override
+	public String getNombre() {
+		// TODO Auto-generated method stub
+		return nombres;
+	}
+
+	@Override
+	public String getEstado() {
+		// TODO Auto-generated method stub
+		return estadoCivil;
+	}
+
+	@Override
+	public Long getPrimaryKey() {
+		// TODO Auto-generated method stub
+		return sec;
+	}
+
+	@Override
+	public void setCodigo(String codigo) {
+		// TODO Auto-generated method stub
+		identificacion=codigo;
+	}
+
+	@Override
+	public void setNombre(String nombre) {
+		this.nombres=nombre;
+
+	}
+
+	@Override
+	public void setPrimaryKey(Long sec) {
+	this.sec=sec;
+
+	}
+
+	@Override
+	public List<LlaveNatural> getLlaveNatural() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	 @Override
+	    public String toString() {
+		return "[" + identificacion + "] " + " "
+			+ (nombres != null ? nombres : "") + " "
+			+ (apellidos != null ? apellidos : "") + " "
+			+ identificacion;
+	    }
 
 }
