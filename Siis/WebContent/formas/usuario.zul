@@ -1,0 +1,51 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<?component name="bandboxFindPaging" macroURI="/WEB-INF/components/bandboxFindPaging.zul"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<borderlayout apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') 
+		@init('com.siis.viewModel.VistaUsuarioViewModel')">
+
+		<center>
+			<vlayout height="100%">
+
+				<grid>
+					<columns>
+						<column hflex="min" />
+						<column />
+					</columns>
+					<rows>
+						<row>
+							<label value="Cliente:" />
+
+							<hlayout>
+								<bandboxFindPaging 
+								onCreate="@command('cargarIDIUSUpersona',IDIUSUpersona=self)"
+									caption="Tarifario" codigo="Código" nombre="Nombre"
+									buscar="Buscar" criterio="Criterio" />
+								<textbox id="IDIUSUTXTpersonaSec"
+									visible="false" />
+								<button id="IDIUSUBTNpersona"
+									visible="false" tooltiptext=" "
+									image="imagenes/delete-icon.png" />
+							</hlayout>
+						</row>
+					</rows>
+				</grid>
+				<toolbar align="start">
+					<toolbarbutton label="Consultar" sclass="btn-info"
+						tooltiptext="" image="imagenes/search.png" />
+					<toolbarbutton label="Exportar" sclass="btn-info"
+						tooltiptext="" image="imagenes/add.png" />
+					<toolbarbutton label="Graficas" sclass="btn-info"
+						tooltiptext="" image="imagenes/guardar.png" />
+
+				</toolbar>
+
+
+			</vlayout>
+		</center>
+	</borderlayout>
+</zk>
