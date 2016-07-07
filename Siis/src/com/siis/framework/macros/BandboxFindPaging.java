@@ -669,7 +669,7 @@ public class BandboxFindPaging extends Bandbox implements
 		}
 
 		Radio element = null;
-
+		log.info("Ejecutando el mEtodo [onConsultar()]...");
 		if (action instanceof IBandboxAditionalEventBanboxFind)
 			interfaz = (IBandboxAditionalEventBanboxFind) action;
 
@@ -678,16 +678,18 @@ public class BandboxFindPaging extends Bandbox implements
 				.toString() : null;
 
 		List<IBeanAbstracto> listaDatos = null;
-
+		log.info("Ejecutando el mEtodo [onConsultar()]...");
 		if (!isDinamic) {
 			if (parametros == null) {
-
+				log.info("Ejecutando el mEtodo [onConsultar()]...");
 				if (!isToLowerCase()) {
+					log.info("Ejecutando el mEtodo [onConsultar()]...");
+					log.info("Ejecutando el mEtodo [onConsultar()]..."+campo+"-"+"criterio"+"-"+getObjetoClase());
 					listaDatos = idMCRZPGCTRLMaestro.listar(setObjeto(campo,
 							criterio, getObjetoClase()));
 
 				} else {
-
+					log.info("Ejecutando el mEtodo [onConsultar()]...");
 					listaDatos = idMCRZPGCTRLMaestro.listar(setObjeto(
 							getObjetoClase(), campo, criterio));
 				}
@@ -708,6 +710,7 @@ public class BandboxFindPaging extends Bandbox implements
 				}
 			}
 		} else {
+			log.info("Ejecutando el mEtodo [onConsultar()]...");
 			if (parametros == null) {
 				parametros = new HashMap<String, Object>();
 			}
@@ -725,6 +728,7 @@ public class BandboxFindPaging extends Bandbox implements
 		}
 
 		if (listaDatos != null && !listaDatos.isEmpty()) {
+			log.info("Ejecutando el mEtodo [onConsultar()]...");
 			getIdMCRZLbxlista().setVisible(true);
 			if (enterBandbox) {
 				if (listaDatos.size() == 1) {

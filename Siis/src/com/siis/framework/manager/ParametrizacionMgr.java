@@ -1,10 +1,10 @@
-package com.casewaresa.framework.manager;
+package com.siis.framework.manager;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import com.casewaresa.framework.dao.ParametrizacionDao;
+import com.siis.framework.dao.ParametrizacionDao;
 
 public class ParametrizacionMgr extends ManagerStandard {
 

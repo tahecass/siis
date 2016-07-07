@@ -1,4 +1,4 @@
-package com.casewaresa.framework.dao;
+package com.siis.framework.dao;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -21,14 +21,14 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.jdom.JDOMException;
 
-import com.casewaresa.framework.Filter.anottations.Column;
-import com.casewaresa.framework.Filter.anottations.Mapper;
-import com.casewaresa.framework.Filter.anottations.Relation;
-import com.casewaresa.framework.Filter.anottations.RelationFilter;
-import com.casewaresa.framework.Filter.dto.ColumnsMapper;
-import com.casewaresa.framework.Filter.manager.DTOMapper;
-import com.casewaresa.framework.dao.impl.DaoStandard;
-import com.casewaresa.framework.dto.IBeanAbstracto;
+import com.siis.framework.Filter.anottations.Column;
+import com.siis.framework.Filter.anottations.Mapper;
+import com.siis.framework.Filter.anottations.Relation;
+import com.siis.framework.Filter.anottations.RelationFilter;
+import com.siis.framework.Filter.dto.ColumnsMapper;
+import com.siis.framework.Filter.manager.DTOMapper;
+import com.siis.framework.dao.impl.DaoStandard;
+import com.siis.framework.dto.IBeanAbstracto;
 
 @SuppressWarnings("unchecked")
 public class ParametrizacionDao extends DaoStandard {

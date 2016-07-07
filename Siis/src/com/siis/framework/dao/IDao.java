@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.casewaresa.framework.dao;
+package com.siis.framework.dao;
 
 import java.util.Collection;
 

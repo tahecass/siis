@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.casewaresa.framework.Filter.manager;
+package com.siis.framework.Filter.manager;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -16,12 +16,12 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
-import com.casewaresa.framework.Filter.anottations.Column;
-import com.casewaresa.framework.Filter.anottations.Mapper;
-import com.casewaresa.framework.Filter.anottations.Relation;
-import com.casewaresa.framework.Filter.anottations.RelationFilter;
-import com.casewaresa.framework.Filter.dto.ColumnsMapper;
-import com.casewaresa.framework.Filter.dto.MapperReport;
+import com.siis.framework.Filter.anottations.Column;
+import com.siis.framework.Filter.anottations.Mapper;
+import com.siis.framework.Filter.anottations.Relation;
+import com.siis.framework.Filter.anottations.RelationFilter;
+import com.siis.framework.Filter.dto.ColumnsMapper;
+import com.siis.framework.Filter.dto.MapperReport;
 
 /**
  * @author jhoanseve2

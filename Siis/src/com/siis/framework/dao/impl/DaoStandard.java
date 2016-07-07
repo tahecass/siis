@@ -1,15 +1,15 @@
 /**
  * 
  */
-package com.casewaresa.framework.dao.impl;
+package com.siis.framework.dao.impl;
 
 import java.util.Collection;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.log4j.Logger;
 
-import com.casewaresa.framework.dao.IDao;
-import com.casewaresa.framework.util.ConfiguradorIbatis;
+import com.siis.framework.dao.IDao;
+import com.siis.framework.util.ConfiguradorIbatis;
 
 public abstract class DaoStandard implements IDao {
 

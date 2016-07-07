@@ -283,17 +283,23 @@ public class PagingControl extends Paging implements EventListener<PagingEvent> 
 	String sqlTotalFilas = "";
 
 	if (_esConsultaDinamica) {
+		logger.info("[info] --> ejecutando el metodo @ejecutarConsultaTotalFilas");
 	    if (_sqlConsultaDinamica != null && !_sqlConsultaDinamica.isEmpty()) {
+	    	logger.info("[info] --> ejecutando el metodo @ejecutarConsultaTotalFilas");
 		sqlTotalFilas = crearConsultaDinamicaTotalFilas(_sqlConsultaDinamica);
+		logger.info("[info] --> ejecutando el metodo @ejecutarConsultaTotalFilas");
 	    } else {
 		throw new Exception(
 			"[PagingControl] Error : No se han inicializado las variables para hacer la consulta del total de filas (Es Dinamica)");
 	    }
 	} else {
 	    if (_statementCP != null && !_statementCP.isEmpty()) {
+	    	logger.info("[info] --> ejecutando el metodo @ejecutarConsultaTotalFilas"+_statementCP);
+	    	logger.info("[info] --> ejecutando el metodo @ejecutarConsultaTotalFilas"+_parametros);
 		sqlTotalFilas = crearConsultaDinamicaTotalFilas(ParametrizacionFac
 			.getFacade()
 			.obtenerSqlMapper(_statementCP, _parametros));
+		logger.info("[info] --> ejecutando el metodo @ejecutarConsultaTotalFilas");
 	    } else {
 		throw new Exception(
 			"[PagingControl] Error : No se han inicializado las variables para hacer la consulta del total de filas (Es Dinamica)");

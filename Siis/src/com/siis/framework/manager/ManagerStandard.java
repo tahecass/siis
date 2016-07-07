@@ -1,7 +1,7 @@
 /**
  * DaoFactory.java
  */
-package com.casewaresa.framework.manager;
+package com.siis.framework.manager;
 
 import java.util.Collection;
 

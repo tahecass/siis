@@ -1,11 +1,11 @@
-package com.casewaresa.framework.facade;
+package com.siis.framework.facade;
 
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.casewaresa.framework.manager.ParametrizacionMgr;
+import com.siis.framework.manager.ParametrizacionMgr;
 
 public class ParametrizacionFac {
 
@@ -95,18 +95,18 @@ public class ParametrizacionFac {
 
     public <T> List<T> listadoDinamico(Object objeto, String sql)
 	    throws Exception {
-	com.casewaresa.framework.manager.ParametrizacionMgr parametrizacionMgr = new com.casewaresa.framework.manager.ParametrizacionMgr();
+	com.siis.framework.manager.ParametrizacionMgr parametrizacionMgr = new com.siis.framework.manager.ParametrizacionMgr();
 	return parametrizacionMgr.listadoDinamico(objeto, sql);
     }
 
     public <T> List<T> listadoDinamico(Object objeto, String sql,
 	    Map<String, Object> parametros) throws Exception {
-	com.casewaresa.framework.manager.ParametrizacionMgr parametrizacionMgr = new com.casewaresa.framework.manager.ParametrizacionMgr();
+	com.siis.framework.manager.ParametrizacionMgr parametrizacionMgr = new com.siis.framework.manager.ParametrizacionMgr();
 	return parametrizacionMgr.listadoDinamico(objeto, sql, parametros);
     }
 
     public Object obtenerDinamico(Object objeto, String sql) throws Exception {
-	com.casewaresa.framework.manager.ParametrizacionMgr parametrizacionMgr = new com.casewaresa.framework.manager.ParametrizacionMgr();
+	com.siis.framework.manager.ParametrizacionMgr parametrizacionMgr = new com.siis.framework.manager.ParametrizacionMgr();
 	return parametrizacionMgr.obtenerDinamico(objeto, sql);
     }
 
@@ -125,18 +125,18 @@ public class ParametrizacionFac {
     
     public <T> List<T> listadoDinamico(Object objeto, String sql,
 	    final int omitir,final int maximo)throws Exception {
-	com.casewaresa.framework.manager.ParametrizacionMgr parametrizacionMgr = new com.casewaresa.framework.manager.ParametrizacionMgr();
+	com.siis.framework.manager.ParametrizacionMgr parametrizacionMgr = new com.siis.framework.manager.ParametrizacionMgr();
 	return parametrizacionMgr.listadoDinamico(objeto, sql,omitir,maximo);
     }
 
     public <T> List<T> listadoDinamico(Object objeto, String sql,Map<String, Object> parametros,
 	    final int omitir,final int maximo) throws Exception {
-	com.casewaresa.framework.manager.ParametrizacionMgr parametrizacionMgr = new com.casewaresa.framework.manager.ParametrizacionMgr();
+	com.siis.framework.manager.ParametrizacionMgr parametrizacionMgr = new com.siis.framework.manager.ParametrizacionMgr();
 	return parametrizacionMgr.listadoDinamico(objeto, sql, parametros,omitir,maximo);
     }
     
     public Object obtenerDinamico(String sql, Map<String, Object> parametros)throws Exception{
-	com.casewaresa.framework.manager.ParametrizacionMgr parametrizacionMgr = new com.casewaresa.framework.manager.ParametrizacionMgr();
+	com.siis.framework.manager.ParametrizacionMgr parametrizacionMgr = new com.siis.framework.manager.ParametrizacionMgr();
 	return parametrizacionMgr.obtenerDinamico(sql, parametros);
     }
     
@@ -148,7 +148,7 @@ public class ParametrizacionFac {
      * @throws Exception
      */
     public String obtenerSqlMapper(String sqlName, Object objeto)throws Exception{
-	com.casewaresa.framework.manager.ParametrizacionMgr parametrizacionMgr = new com.casewaresa.framework.manager.ParametrizacionMgr();
+	com.siis.framework.manager.ParametrizacionMgr parametrizacionMgr = new com.siis.framework.manager.ParametrizacionMgr();
 	return parametrizacionMgr.obtenerSqlMapper(sqlName, objeto);
     }
 
