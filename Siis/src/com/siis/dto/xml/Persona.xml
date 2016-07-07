@@ -108,6 +108,16 @@ INTO
 		FECHA_ACTUALIZACION FROM PERSONAS
 	     
 	</select>
+	<select id="obtenerPersonas" parameterType="java.lang.Long" 
+		resultMap="resMapPersona">
+		SELECT SEC,SEC_TIPO_IDENTIFICACION,IDENTIFICACION,
+		NOMBRES,APELLIDOS,FECHA_NACIMIENTO,SEXO,ESTADO_CIVIL,
+		EMAIL,DIRECCION,TELEFONO,CELULAR,ESTADO,FECHA_CREACION,
+		FECHA_ACTUALIZACION FROM PERSONAS
+		WHERE
+			SEC = #{primaryKey,jdbcType=NUMERIC}
+	     
+	</select>
 	<select id="eliminarPersonas" parameterType="PersonaAlias"
 		resultMap="resMapPersona">
 		DELETE FROM PERSONAS WHERE SEC=#{sec,jdbcType=NUMERIC}
