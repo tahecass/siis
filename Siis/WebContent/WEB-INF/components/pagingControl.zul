@@ -1,0 +1,3 @@
+<!-- Zul del marcocomponente pagingControl -->
+<paging detailed="false" id="idPagingControl" use="com.siis.framework.macros.PagingControl" 
+	onCreate="idPagingControl.inicializarPagingControl()" visible="true"  />
