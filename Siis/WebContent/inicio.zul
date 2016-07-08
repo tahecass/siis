@@ -4,40 +4,52 @@
 	xmlns:h="http://www.w3.org/1999/xhtml"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+	<script type="text/javascript">
+		function capturar(){
+		document.getElementsByName("tbxUsuario")[0].focus();
+		document.getElementsByName("tbxClave")[0].focus();
+		document.getElementsByName("tbxClave")[0].blur(); }
+	</script>
+
 	<borderlayout apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm') 
-		@init('com.siis.viewModel.InicioViewModel')">
-		<north >
+		@init('com.siis.viewModel.InicioViewModel')"
+		id="idWINFORMINICIOZPrincipal">
+		<north>
 			<h:table width="100%">
 				<h:tr bgcolor="#D7F0FB">
-				
+
 					<h:td width="25%">
-						<image src="/imagenes/logoCliente.png"
-							width="264px" height="60px" align="left" />
+						<!-- <image src="/imagenes/logoCliente.png"
+							width="264px" height="60px" align="left" /> -->
 					</h:td>
 					<h:td width="45%">
-						<label value="Sistema Integrado De Información Financiero - SIIS"
-							style="font-size:20px;font-weight:bold;" />
+						<!-- <label value="Sistema Integrado De Información Financiero - SIIS"
+							style="font-size:20px;font-weight:bold;" /> -->
 					</h:td>
 					<h:td width="30%">
 						<hbox>
-							<textbox placeholder="Usuario" value="@bind(vm.usuario.cuenta)"
-								id="tbxUsuario" constraint="no empty" />
-								<space width="2px"/>
-							<textbox type="password" placeholder="Clave" value="@bind(vm.usuario.clave)"
-								id="tbxClave" constraint="no empty" />
-							<space width="5px"/>
-							<button image="/imagenes/next.png" height="25px" 
-								sclass="btn-info" style="cursor:pointer;padding:0px;padding-right:3px" label="Iniciar Sesiòn"
-								onClick="@command('iniciar')">
+							<textbox placeholder="Usuario"
+								id="tbxUsuario" name="tbxUsuario"  constraint="no empty"
+								style="text-transform:uppercase;" />
+							<space width="2px" />
+							<textbox type="password" placeholder="Clave"
+								id="tbxClave" name="tbxClave" constraint="no empty"
+								style="text-transform:uppercase;" />
+							<space width="5px" />
+							<button image="/imagenes/next.png"
+								id="btnIniciar" height="25px" sclass="btn-info"
+								style="cursor:pointer;padding:0px;padding-right:3px"
+								label="Iniciar Sesión" onClick="@command('iniciar')">
 							</button>
-							<space width="5px"/>
+							<space width="5px" />
 						</hbox>
 					</h:td>
 				</h:tr>
 			</h:table>
 		</north>
-		<center>
-		</center>
+		<center></center>
+		<custom-attributes MSG_TITULO="Error de Autenticación" />
 	</borderlayout>
 </zk>

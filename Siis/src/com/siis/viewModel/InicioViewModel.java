@@ -1,5 +1,4 @@
 package com.siis.viewModel;
- 
 
 import org.apache.log4j.Logger;
 import org.zkoss.bind.annotation.AfterCompose;
@@ -10,10 +9,14 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.select.Selectors;
+import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Borderlayout;
+import org.zkoss.zul.Button;
+import org.zkoss.zul.Textbox;
 
 import com.siis.configuracion.Conexion;
 import com.siis.dto.Usuario;
+import com.siis.viewModel.framework.Utilidades;
 
 public class InicioViewModel extends Borderlayout {
 	/**
@@ -22,40 +25,62 @@ public class InicioViewModel extends Borderlayout {
 	private static final long serialVersionUID = 3304889284731306698L;
 	protected static Logger log = Logger.getLogger(InicioViewModel.class);
 
-	private Usuario usuario;
 	private Session session;
+
+	@Wire
+	private Borderlayout idWINFORMINICIOZPrincipal;
+	@Wire
+	private Textbox tbxUsuario;
+	@Wire
+	private Textbox tbxClave;
+	@Wire
+	private Button btnIniciar;
 
 	@AfterCompose
 	public void AfterCompose(@ContextParam(ContextType.VIEW) Component view) {
-		System.out.println("AfterCompose");
+		log.info("AfterCompose");
 		session = Executions.getCurrent().getDesktop().getSession();
 		Selectors.wireComponents(view, this, false);
-		if (session.getAttribute("usuario")!=null) {
-			usuario = (Usuario) session
-					.getAttribute("usuario");
-			if (usuario != null) {
-				cargarSiguientePagina();
-			}
-		}
-		usuario = new Usuario();
-		usuario.setClave("DEMO");
-		usuario.setCuenta("DEMO");
+
+		btnIniciar.setWidgetListener("onClick", "capturar();");
+		tbxClave.setWidgetListener(
+				"onOK", "capturar();");
 	}
 
 	@Command
 	public void iniciar() {
-		log.info("Ejecutando metodo iniciar");
+		log.info("Ejecutando metodo iniciar CLAVE==> " + tbxClave.getRawValue()
+				+ " USUARIO ==> " + tbxUsuario.getRawValue());
 		try {
+			Usuario usuario = new Usuario();
+			usuario.setClave(Utilidades.getMD5(tbxClave.getRawValue()
+					.toString()));
+			log.info(usuario.getClave());
+
+			usuario.setCuenta(tbxUsuario.getRawValue().toString());
+
 			usuario = (Usuario) Conexion.getConexion().obtenerRegistro(
 					"validarUsuario", usuario);
+			if (usuario != null) {
+				cargarSiguientePagina(usuario);
+
+			} else {
+				Utilidades
+						.mostrarNotificacion(
+								idWINFORMINICIOZPrincipal.getAttribute(
+										"MSG_TITULO").toString(),
+								"Por favor verifique las credenciales suministradas, si el error persiste contacte al administrador del sistema",
+								"ERROR");
+				return;
+			}
+
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		cargarSiguientePagina();
+
 	}
 
-	public void cargarSiguientePagina() {
+	public void cargarSiguientePagina(Usuario usuario) {
 		log.info("Ejecutando metodo cargarSiguientePagina..."
 				+ usuario.getCuenta());
 		try {
@@ -78,18 +103,9 @@ public class InicioViewModel extends Borderlayout {
 				Executions.sendRedirect(urlPagina);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
 	}
 
 }

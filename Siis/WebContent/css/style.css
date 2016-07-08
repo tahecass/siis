@@ -1,10 +1,10 @@
 .horizontal, .vertical {
 	min-height: 300px;
-	background-color: #EAE7E7;
+	background-color: #e7f6fd;
 }
 .z-navbar {
 	position: absolute;
-	background-color: white;
+	background-color: #e7f6fd;
 }
 .z-navbar-horizontal li {
  	min-width: 300px;
@@ -38,13 +38,13 @@
 	margin: 0;
 }
 .z-navbar-vertical>ul .z-nav-content, .z-navbar-vertical>ul .z-navitem-content, .z-navbar-vertical>ul .z-navseparator {
-    background: #D7F0FB;
+    background: #5bc1de;
 }
 .z-nav-content, .z-navitem-content {
     color: #333;
     display: block;
     height: 32px;
-    border: 1px solid #8FB9D0;
+    border: 1px solid #e7f6fd;
     padding: 0 8px;
     position: relative;
     overflow: hidden;

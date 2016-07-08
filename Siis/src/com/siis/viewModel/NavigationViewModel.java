@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.zkoss.bind.annotation.AfterCompose;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -13,7 +14,7 @@ import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.Selectors;
 import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zul.Borderlayout; 
+import org.zkoss.zul.Borderlayout;
 import org.zkoss.zul.Tab;
 import org.zkoss.zul.Tabbox;
 import org.zkoss.zul.Tabpanel;
@@ -29,7 +30,7 @@ public class NavigationViewModel extends Borderlayout {
 	private static final long serialVersionUID = -8557985725089774850L;
 	NavigationPage currentPage;
 	private Map<String, Map<String, NavigationPage>> pageMap;
-
+	protected static Logger log = Logger.getLogger(NavigationViewModel.class);
 	@Wire
 	Tabbox tb_tabbox;
 
@@ -39,35 +40,39 @@ public class NavigationViewModel extends Borderlayout {
 	// }
 	@AfterCompose
 	public void AfterCompose(@ContextParam(ContextType.VIEW) Component view) {
-		System.out.println("AfterCompose");
+		log.info("Ejecutando AfterCompose...");
 		initPageMap();
-		currentPage = pageMap.get("Cartera").get("Cartera");
+		currentPage = pageMap.get("Dashboard").get("Dashboard");
 		Selectors.wireComponents(view, this, false);
 
 	}
 
 	@Command
 	public void navigatePage(@BindingParam("target") NavigationPage targetPage) {
-		System.out.println("navigatePage ");
+		log.info("Ejecutando navigatePage... ");
 
-		agregarTab(targetPage.getTitle(), targetPage.getId(), targetPage.getIncludeUri());
+		agregarTab(targetPage.getTitle(), targetPage.getId(),
+				targetPage.getIncludeUri());
 	}
 
 	@Command
-	public void salir(){
+	public void salir() {
+		log.info("Ejecutando Salir");
 		Executions.getCurrent().getDesktop().getSession()
-		.removeAttribute("usuario");
+				.removeAttribute("usuario");
 		this.detach();
 		Executions.sendRedirect("/inicio.zul");
 	}
-	
+
 	private void agregarTab(String titulo, String id, String zul) {
-		System.out.println("agregarTab ==> id " + id);
+		log.info("Ejecutando agregarTab Forma==> " + id);
 		Map<String, Object> arguments = new HashMap<String, Object>();
 		Tabpanel tabpanel = new Tabpanel();
 		Tab tab = new Tab(titulo);
 		tab.setId(id);
 		if (tb_tabbox.hasFellow(id)) {
+			
+//			tb_tabbox.setSelectedTab(tab);
 			return;
 		}
 
@@ -85,8 +90,7 @@ public class NavigationViewModel extends Borderlayout {
 
 		tb_tabbox.getTabpanels().appendChild(tabpanel);
 
-		tb_tabbox.invalidate();
-
+		tb_tabbox.invalidate(); 
 		tb_tabbox.setVisible(true);
 
 		Executions.createComponents(zul, tabpanel, arguments);
@@ -105,35 +109,42 @@ public class NavigationViewModel extends Borderlayout {
 
 		addPage("Cartera", "Cartera", "/formulario_cartera.zul", "form1");
 
-		addPage("Proveedores", "Proveedores", "/formulario_proveedor.zul", "form2");
+		addPage("Proveedores", "Proveedores", "/formulario_proveedor.zul",
+				"form2");
 
-		addPage("Disponible", "Disponible", "/formulario_disponible.zul", "form3");
+		addPage("Disponible", "Disponible", "/formulario_disponible.zul",
+				"form3");
 
 		addPage("Créditos", "Créditos", "/formulario_credito.zul", "form4");
 
 		addPage("Proyectos", "Proyectos", "/formulario_proyecto.zul", "form5");
 
-		addPage("Indicadores", "Indicadores", "/formulario_indicador.zul", "form6"); 
+		addPage("Indicadores", "Indicadores", "/formulario_indicador.zul",
+				"form6");
 		addPage("EFS", "EFS", "/formulario_efs.zul", "form7");
 
 		addPage("Calendario", "Calendario", "/zk_calendar.zul", "form8");
- 
-		addPage("General", "Banco", "/banco.zul", "form10");
+
+		addPage("Bancos", "Banco", "/banco.zul", "form10");
+		addPage("Dashboard", "Dashboard", "/dashboard.zul", "form11");
 
 	}
 
-	private void addPage(String title, String subTitle, String includeUri, String id) {
+	private void addPage(String title, String subTitle, String includeUri,
+			String id) {
 		addPage(title, subTitle, includeUri, null, id);
 	}
 
-	private void addPage(String title, String subTitle, String includeUri, String data, String id) {
+	private void addPage(String title, String subTitle, String includeUri,
+			String data, String id) {
 		String folder = "/formas";
 		Map<String, NavigationPage> subPageMap = pageMap.get(title);
 		if (subPageMap == null) {
 			subPageMap = new LinkedHashMap<String, NavigationPage>();
 			pageMap.put(title, subPageMap);
 		}
-		NavigationPage navigationPage = new NavigationPage(title, subTitle, folder + includeUri, data, id) {
+		NavigationPage navigationPage = new NavigationPage(title, subTitle,
+				folder + includeUri, data, id) {
 			@Override
 			public boolean isSelected() {
 				return currentPage == this;
@@ -143,8 +154,10 @@ public class NavigationViewModel extends Borderlayout {
 	}
 
 	@Command
-	public void onSeleccionarItem(@BindingParam("target") NavigationPage targetPage) {
-		System.out.println("onSeleccionarItem " + targetPage.getIncludeUri());
-		agregarTab(targetPage.getSubTitle(), targetPage.getId(), targetPage.getIncludeUri());
+	public void onSeleccionarItem(
+			@BindingParam("target") NavigationPage targetPage) {
+		log.info("Ejecutando onSeleccionarItem " + targetPage.getIncludeUri());
+		agregarTab(targetPage.getSubTitle(), targetPage.getId(),
+				targetPage.getIncludeUri());
 	}
 }

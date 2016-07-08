@@ -1,119 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?component name="bandboxSeeker" macroURI="/componentes/bandbox.zul"?>
+
 <zk xmlns="http://www.zkoss.org/2005/zul"
 	xmlns:h="http://www.w3.org/1999/xhtml"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
-	<style src="/css/style.css"/>
-	<borderlayout apply="org.zkoss.bind.BindComposer"
+	<style src="/css/style.css" />
+	<borderlayout apply="org.zkoss.bind.BindComposer" 
 		viewModel="@id('vm') 
 		@init('com.siis.viewModel.NavigationViewModel')">
 		<north id="idMENUZNthNorte">
-		<h:table width="100%">
+			<h:table width="100%">
 				<h:tr bgcolor="#D7F0FB">
-				
+
 					<h:td width="25%">
-						<image src="/imagenes/logoCliente.png"
-							width="264px" height="60px" align="left" />
+						<!-- <image src="/imagenes/logoCliente.png"
+							width="264px" height="60px" align="left" /> -->
 					</h:td>
 					<h:td width="45%">
-						<label value="Sistema Integrado De Información Financiero - SIIS"
-							style="font-size:20px;font-weight:bold;" />
+						<!-- 	<label value="Sistema Integrado De Información Financiero - SIIS"
+							style="font-size:20px;font-weight:bold;" /> -->
 					</h:td>
 					<h:td width="5%" align="right">
-							<hbox style="cursor:pointer;" hflex="true"
-								align="right">
-								<toolbarbutton id="idMENUZTbnFoto"
-									style="color:gray;font-size:12px;text-align: center;"
-									onClick="idMENUZPupPerfil.open(idMENUZTbnFoto)" />
-								<hlayout id="idMENUZHBXFoto" width="50px"
-									height="50px"
-									style="border:double gray;border-style: solid;"
-									visible="false">
-									<image id="idMENUZImgFoto" src="/imagenes/user.png"
-										onClick="idMENUZPupPerfil.open(idMENUZImgFoto)" />
-								</hlayout>
-								<hlayout visible="true" width="55px" 
-									height="55px" id="idMENUZHBXFotoPorDefecto"
-									style="background-color:#8FB9D0;border:double white;border-style: solid;">
-									<image id="idMENUZImgFotoPorDefecto"
-										src="/imagenes/fotouser.png"
-										onClick="idMENUZPupPerfil.open(idMENUZImgFotoPorDefecto)" />
-								</hlayout>
+						<hbox style="cursor:pointer;" hflex="true"
+							align="right">
+							<toolbarbutton id="idMENUZTbnFoto"
+								style="color:gray;font-size:12px;text-align: center;"
+								onClick="idMENUZPupPerfil.open(idMENUZTbnFoto)" />
+							<hlayout id="idMENUZHBXFoto" width="50px"
+								style="border:double gray;border-style: solid;"
+								visible="false">
+								<image id="idMENUZImgFoto"
+									src="/imagenes/profile.png"
+									onClick="idMENUZPupPerfil.open(idMENUZImgFoto)" />
+							</hlayout>
+							<hlayout visible="true"
+								id="idMENUZHBXFotoPorDefecto"
+								style="background-color:#8FB9D0;border:double white;border-style: solid;">
 
-							</hbox>
-								<menupopup id="idMENUZPupPerfil">
-									<menuitem label="Editar Perfil"
-										image="/imagenes/editar.gif" id="idMENUZMItemPerfil"
-										onClick="idMENUZWinMenu.onEditarPerfil()" />
-									<menuseparator />
-									<menu id="idMENUZMENUGrupo"
-										label="Cambiar de Grupo" image="/imagenes/group.png">
-										<menupopup id="idMENUZPUPGrupo" />
-									</menu>
-									<menuseparator
-										id="idMENUZMENUTipoNominaSeparador" />
-									<menu id="idMENUZMENUTipoNomina"
-										label="Tipo de Nómina" image="/imagenes/tipo_nomina.png">
-										<menupopup
-											id="idMENUZPUPTipoNomina" />
-									</menu>
-									<menuseparator />
+								<button id="idMENUZBTnConfiguracion"
+									label="Configuración" image="/imagenes/configuration.png"
+									sclass="btn-info" />
+								<button id="idMENUZBTnFotoPorDefecto"
+									label="Perfil" image="/imagenes/profile.png" sclass="btn-info"
+									onClick="idMENUZPupPerfil.open(idMENUZBTnFotoPorDefecto)" />
+							</hlayout>
 
-									<menuitem label="Salir"
-										image="/imagenes/exit2.png" onClick="@command('salir')" />
-								</menupopup>
+						</hbox>
+						<menupopup id="idMENUZPupPerfil">
+							<menuitem label="Editar Perfil"
+								image="/imagenes/editar.gif" id="idMENUZMItemPerfil"
+								onClick="idMENUZWinMenu.onEditarPerfil()" />
+							<menuseparator />
+							<menu id="idMENUZMENUGrupo"
+								label="Cambiar de Grupo" image="/imagenes/group.png">
+								<menupopup id="idMENUZPUPGrupo" />
+							</menu>
+							<menuseparator
+								id="idMENUZMENUTipoNominaSeparador" />
+							<menu id="idMENUZMENUTipoNomina"
+								label="Tipo de Nómina" image="/imagenes/tipo_nomina.png">
+								<menupopup id="idMENUZPUPTipoNomina" />
+							</menu>
+							<menuseparator />
+
+							<menuitem label="Salir"
+								image="/imagenes/exit2.png" onClick="@command('salir')" />
+						</menupopup>
 					</h:td>
 				</h:tr>
 			</h:table>
 		</north>
 		<west width="20%">
-				<navbar id="navbar" orient="vertical"
-					collapsed="false">
-					<nav label="General" iconSclass="z-icon-home"  style="background-color: white;"
-						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+			<navbar id="navbar" orient="vertical" collapsed="false">
+				<nav label="Dashboard" iconSclass="z-icon-home"
+					style="background-color: white;"
+					children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
 
-					<nav label="Disponible" iconSclass="z-icon-th-list"  
-						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+				<nav label="Bancos" iconSclass="z-icon-th-list"
+					children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
 
-					<nav label="Cartera" iconSclass="z-icon-th-list"
-						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+				<nav label="Disponible" iconSclass="z-icon-th-list"
+					children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
 
-
-					<nav label="Proveedores" iconSclass="z-icon-th-list"
-						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
-
-					<nav label="Créditos" iconSclass="z-icon-th-list"
-						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+				<nav label="Cartera" iconSclass="z-icon-th-list"
+					children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
 
 
-					<nav label="Proyectos" iconSclass="z-icon-th-list"
-						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+				<nav label="Proveedores" iconSclass="z-icon-th-list"
+					children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+				<nav label="Créditos" iconSclass="z-icon-th-list"
+					children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
 
 
-					<nav label="Indicadores" iconSclass="z-icon-th-list"
-						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+				<nav label="Proyectos" iconSclass="z-icon-th-list"
+					children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
 
 
-					<nav label="EFS" iconSclass="z-icon-th-list"
-						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+				<nav label="Indicadores" iconSclass="z-icon-th-list"
+					children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
 
-					<nav label="Calendario" iconSclass="z-icon-th-list"
-						children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
 
-					 
-					<template name="navitem" var="navigationPage">
-						<navitem label="@load(navigationPage.subTitle)"
-							src="@load(navigationPage.includeUri)"
-							selected="@load(navigationPage.selected)"
-							onClick="@command('onSeleccionarItem',target= navigationPage)" />
-					</template>
-				</navbar>
+				<nav label="EFS" iconSclass="z-icon-th-list"
+					children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+				<nav label="Calendario" iconSclass="z-icon-th-list"
+					children="@load(vm.pageMap[self.label].values()) @template('navitem')" />
+
+
+				<template name="navitem" var="navigationPage">
+					<navitem label="@load(navigationPage.subTitle)"
+						src="@load(navigationPage.includeUri)"
+						selected="@load(navigationPage.selected)"
+						onClick="@command('onSeleccionarItem',target= navigationPage)" />
+				</template>
+			</navbar>
 
 		</west>
-		<center>
-			<tabbox id="tb_tabbox" orient="top" visible="false"
-				hflex="true" vflex="true" />
+		<center border="none">
+			<tabbox id="tb_tabbox" orient="top" visible="false" 
+				sclass="rtab" hflex="true" vflex="true" />
 		</center>
 	</borderlayout>
+	<style>.rtab.z-tabbox { .z-tab { float: right; } }</style>
 </zk>
