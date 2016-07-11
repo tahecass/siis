@@ -57,8 +57,7 @@ public class InicioViewModel extends Borderlayout {
 					.toString()));
 			log.info(usuario.getClave());
 
-			usuario.setCuenta(tbxUsuario.getRawValue().toString());
-
+			usuario.setCuenta(tbxUsuario.getRawValue().toString().toUpperCase());
 			usuario = (Usuario) Conexion.getConexion().obtenerRegistro(
 					"validarUsuario", usuario);
 			if (usuario != null) {

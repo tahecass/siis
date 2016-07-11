@@ -29,6 +29,43 @@
 							<tabpanel style="overflow:auto"
 								vflex="true">
 								<groupbox mold="3d" closable="false">
+									<caption label="Titulo" />
+								<toolbar>
+										<toolbarbutton sclass="btn-info"
+											tooltiptext="Nuevo" image="imagenes/add.png"
+											onClick="@command('onNuevo')"  
+											disabled="@load(vm.desactivarBtnNuevo)" />
+										<toolbarbutton sclass="btn-info"
+											tooltiptext="Guardar" image="imagenes/guardar.png"
+											onClick="@command('guardarCartera')" 
+											disabled="@load(vm.desactivarBtnGuardar)" />
+										<toolbarbutton 
+											onClick="@command('onEditar')" sclass="btn-info"
+											image="imagenes/edit.png"
+											disabled="@load(vm.desactivarBtnEditar)"
+											tooltiptext="Editar" />
+										<toolbarbutton label=""
+											sclass="btn-info" image="imagenes/delete.png"  
+											disabled="@load(vm.desactivarBtnEliminar)"
+											onClick="@command('onEliminar',seleccionado=vm.carteraSeleccionada)"
+											tooltiptext="Eliminar" />
+										<toolbarbutton label=""
+											  onClick="@command('onCancelar')"
+											disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
+											tooltiptext="Cancelar" image="imagenes/cancelar.png" />
+										<toolbarbutton label=""
+											  onClick="@command('onCargaEmergente')"
+											sclass="btn-info" tooltiptext="Cargar"
+											image="imagenes/subir.png" />
+										<toolbarbutton label=""
+											  onClick="@command('listarCartera')"
+											sclass="btn-info" tooltiptext="Refrescar"
+											image="imagenes/refrescar.png" />
+										<toolbarbutton label=""
+											  onClick="@command('onMostrarVentanaDetalle')"
+											disabled="@load(vm.desactivarTabDetalle)" sclass="btn-info"
+											image="imagenes/item.png" tooltiptext="Detalle" />
+									</toolbar>
 									<grid
 										id="idWINFORMCARTERAZGRidFormulario">
 										<columns>
@@ -76,38 +113,6 @@
 									</grid>
 								</groupbox>
 								<separator />
-								<toolbar align="start">
-									<toolbarbutton label="Nuevo"
-										sclass="btn-info" tooltiptext="" image="imagenes/add.png"
-										onClick="@command('onNuevo')"
-										disabled="@load(vm.desactivarBtnNuevo)" />
-									<toolbarbutton label="Guardar"
-										sclass="btn-info" tooltiptext="" image="imagenes/guardar.png"
-										onClick="@command('guardarCartera')"
-										disabled="@load(vm.desactivarBtnGuardar)" />
-									<toolbarbutton label="Editar"
-										onClick="@command('onEditar')" sclass="btn-info"
-										image="imagenes/edit.png"
-										disabled="@load(vm.desactivarBtnEditar)" />
-									<toolbarbutton label="Eliminar"
-										sclass="btn-info" image="imagenes/delete.png"
-										disabled="@load(vm.desactivarBtnEliminar)"
-										onClick="@command('onEliminar',seleccionado=vm.carteraSeleccionada)" />
-									<toolbarbutton label="Cancelar"
-										onClick="@command('onCancelar')"
-										disabled="@load(vm.desactivarBtnGuardar)" sclass="btn-info"
-										tooltiptext="" image="imagenes/cancelar.png" />
-									<toolbarbutton label="Cargar"
-										onClick="@command('onCargaEmergente')" sclass="btn-info"
-										tooltiptext="" image="imagenes/subir.png" />
-									<toolbarbutton label="Refrescar"
-										onClick="@command('listarCartera')" sclass="btn-info"
-										tooltiptext="" image="imagenes/refrescar.png" />
-									<toolbarbutton label="Detalle"
-										onClick="@command('onMostrarVentanaDetalle')"
-										disabled="@load(vm.desactivarTabDetalle)" sclass="btn-info"
-										image="imagenes/item.png" />
-								</toolbar>
 								<listbox id="idCARTERAZLbxCartera"
 									span="true" model="@bind(vm.listaCartera)"
 									selectedItem="@bind(vm.carteraSeleccionada)"
@@ -145,10 +150,15 @@
 						</tabpanels>
 
 					</tabbox>
-
 				</groupbox>
 			</vlayout>
 		</center>
+		<east collapsible="true" splittable="true" hflex="true">
+			<vlayout>
+
+
+			</vlayout>
+		</east>
 		<custom-attributes MSG_TITULO="Notificación" />
 		<custom-attributes
 			MSG_MENSAJE_GUARDAR="Se guardó correctamente la información" />
